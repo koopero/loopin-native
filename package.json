@@ -1,0 +1,19 @@
+{
+  "name": "loopin-builder",
+  "version": "0.0.0",
+  "description": "Builder for native Loopin apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "decompress": "^3.0.0",
+    "fs-extra": "^0.26.7",
+    "js-yaml": "^3.5.5",
+    "lodash": "^4.6.1",
+    "string-substitute": "^1.0.2"
+  }
+}

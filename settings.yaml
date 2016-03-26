@@ -1,0 +1,4 @@
+
+openframeworks:
+  version: 0.9.3
+  release_url: http://openframeworks.cc/versions/v{0}/of_v{0}_{1}_release.zip
