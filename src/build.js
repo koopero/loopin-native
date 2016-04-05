@@ -12,14 +12,16 @@ const _ = require('lodash')
 
 function build( opt ) {
 
+  opt = opt || {}
+
+  opt.root = opt.root || path.resolve( __dirname, '../build' )
+
   opt.addons = _.merge( _.clone( settings['addons'] ), opt.addons )
 
   return ensureLibs( opt )
     .then( () => ensureProject( opt ) )
     .then( () => makeApp( opt ) )
     .then( () => runApp( opt ) )
-
-
 }
 
 function log( opt, data ) {
@@ -209,7 +211,7 @@ function runApp( opt ) {
   const execPath = path.resolve( opt.app, settings['app']['executable'][ require('os').platform() ] )
       , spawn = require('child_process').spawn
 
-  console.log('Running app', execPath )
+  log('Running app', execPath )
 
-  return spawn( execPath, [], { detached: true } )
+  return spawn( execPath, [], { } )
 }
