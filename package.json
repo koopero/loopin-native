@@ -1,8 +1,8 @@
 {
   "name": "loopin-builder",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Builder for native Loopin apps",
-  "main": "index.js",
+  "main": "src/build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,7 +10,13 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.3.4",
+    "bluebird-extra": "^1.0.1",
+    "boptions": "^0.2.1",
+    "child-process-promise": "^1.1.0",
     "decompress": "^3.0.0",
+    "download": "^4.4.3",
+    "download-progress": "0.0.1",
+    "download-status": "^2.2.1",
     "fs-extra": "^0.26.7",
     "js-yaml": "^3.5.5",
     "lodash": "^4.6.1",

@@ -1,4 +1,20 @@
 
 openframeworks:
   version: 0.9.3
+  zip_name: of_v{0}_{1}_release.zip
   release_url: http://openframeworks.cc/versions/v{0}/of_v{0}_{1}_release.zip
+  projectGenerator:
+    darwin: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
+
+app:
+  executable:
+    darwin: bin/app.app/Contents/MacOS/app
+
+addons:
+  ofxKinect: true
+
+  ofxLoopin:
+    git: https://github.com/koopero/ofxLoopin.git
+
+  ofxJSON:
+    git: https://github.com/jefftimesten/ofxJSON.git
