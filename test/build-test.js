@@ -4,6 +4,6 @@ const build = require('../src/build')
 build( {
   root: util.scratch(''),
   addons: {
-    ofxLoopin: util.root('../ofxLoopin')
+    // ofxLoopin: util.root('../ofxLoopin')
   }
 })

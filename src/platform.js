@@ -6,6 +6,7 @@
 */
 
 const os = require('os')
+    , _ = require('lodash')
 
 const NOT_SUPPORTED = [ 'win32', 'freebsd', 'sunos' ]
 
@@ -20,7 +21,17 @@ if ( os.platform() == 'darwin') {
 }
 
 // Linux at this point, but what architecture?
-const command = require('./command')
-const architecture = command( 'uname -m' )
+const architecture = _.trim( command( 'uname -m' ) )
 
-// TODO
+switch( architecture ) {
+  case 'x86_64':
+    module.exports = 'linux64'
+    return
+
+  default:
+    throw new Error( 'Your architecture is not supported at this time.' )
+}
+
+function command( cmd ) {
+  return require('child_process').execSync( cmd, { encoding: 'ascii' } )
+}

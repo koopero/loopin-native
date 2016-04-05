@@ -7,6 +7,7 @@ const _ = require('lodash')
     , boptions = require('boptions')
     , fs = Promise.promisifyAll( require('fs-extra'))
     , path = require('path')
+    , os = require('os')
     , Download = require('download')
     , downloadStatus = require('download-status')
 
@@ -64,12 +65,13 @@ function ensureLibs( opt ) {
       const version  = settings['openframeworks']['version']
           , platform = require('./platform')
           , stringsub = require('string-substitute')
-          , zip_name = stringsub( settings['openframeworks']['zip_name'], version, platform )
-          , release_url = stringsub( settings['openframeworks']['release_url'], version, platform )
+          , zip_name = stringsub( settings['openframeworks']['zip_name'][ require('os').platform() ], version, platform )
+          , release_url = stringsub( settings['openframeworks']['release_url'], version, platform ) + zip_name
           , tmp = path.resolve( opt.root, 'tmp/' )
 
-
       opt.openframeworksZip = opt.openframeworksZip || path.resolve( tmp, zip_name )
+
+      log( opt, release_url )
 
       if ( fs.existsSync( opt.openframeworksZip ) )
         return Promise.resolve( true )
@@ -83,10 +85,21 @@ function ensureLibs( opt ) {
 
     function unpack() {
       const Decompress = require('decompress');
-      const decompress = new Decompress({mode: '755'})
+      var decompress = new Decompress({mode: '755'})
       	.src(opt.openframeworksZip)
       	.dest(opt.openframeworks)
-      	.use(Decompress.zip({strip: 1}))
+
+
+      switch ( os.platform() ) {
+        case 'darwin':
+          decompress = decompress.use(Decompress.zip({strip: 1}))
+        break
+
+        case 'linux':
+          decompress = decompress.use(Decompress.targz({strip: 1}))
+        break
+      }
+
 
       return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
     }
@@ -179,7 +192,7 @@ function ensureProject( opt ) {
   }
 
   function generate() {
-    const generator = path.resolve( opt.openframeworks, settings['openframeworks']['projectGenerator'][ require('os').platform() ] )
+    const generator = path.resolve( opt.openframeworks, settings['openframeworks']['projectGenerator'][ require('./platform') ] )
         , addons = _.keys( opt.addons )
         , args = [
           '-a'+addons.join(','),
