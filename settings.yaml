@@ -15,6 +15,7 @@ openframeworks:
 app:
   executable:
     darwin: bin/app.app/Contents/MacOS/app
+    linux: bin/app
 
 addons:
   ofxKinect: true
