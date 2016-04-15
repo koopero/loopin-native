@@ -1,9 +1,14 @@
-const build = require('../src/build')
+const builder = require('../src/builder')
     , util = require('./util')
 
-build( {
+builder( {
   root: util.scratch(''),
+  quiet: false,
+  verbose: 1,
+  run: true,
   addons: {
-    // ofxLoopin: util.root('../ofxLoopin')
+    ofxLoopin: util.root('../ofxLoopin')
   }
 })
+  .then( function ( build ) {
+  })

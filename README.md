@@ -1,3 +1,5 @@
-There are big plans for this. So big that eventually, they'll be in another repo.
+# Status
+This is a work in progress. Stay tuned.
 
-Stay tuned.
+# Projects
+* [loopin](https://github.com/koopero/loopin#README) 

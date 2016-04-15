@@ -1,27 +1,31 @@
+common:
+  app:
+    name: Loopin
+    dir: '{appName}/'
+    ofxLoopinData: bin/data/ofxLoopin
 
-openframeworks:
-  version: 0.9.3
-  zip_name:
-    darwin: of_v{0}_{1}_release.zip
-    linux: of_v{0}_{1}_release.tar.gz
+  openframeworks:
+    dir: lib/openframeworks
+    version: 0.9.3
+    release_url: http://openframeworks.cc/versions/v{openframeworks.version}/
 
-  release_url: http://openframeworks.cc/versions/v{0}/
+  addons:
+    ofxKinect: true
+    ofxLoopin:
+      git: https://github.com/koopero/ofxLoopin.git
+    ofxJSON:
+      git: https://github.com/jefftimesten/ofxJSON.git
 
+linux:
+  openframeworks:
+    zip_name: of_v{openframeworks.version}_{platform}_release.tar.gz
+    projectGenerator: apps/projectGenerator/commandLine/bin/projectGenerator
+  app:
+    executable: bin/{appName}
 
-  projectGenerator:
-    osx: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
-    linux64: apps/projectGenerator/commandLine/bin/projectGenerator
-
-app:
-  executable:
-    darwin: bin/app.app/Contents/MacOS/app
-    linux: bin/app
-
-addons:
-  ofxKinect: true
-
-  ofxLoopin:
-    git: https://github.com/koopero/ofxLoopin.git
-
-  ofxJSON:
-    git: https://github.com/jefftimesten/ofxJSON.git
+darwin:
+  openframeworks:
+    zip_name: of_v{openframeworks.version}_{platform}_release.zip
+    projectGenerator: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
+  app:
+    executable: bin/{appName}.app/Contents/MacOS/{appName}

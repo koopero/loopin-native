@@ -1,8 +1,8 @@
 {
   "name": "loopin-builder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Builder for native Loopin apps",
-  "main": "src/build.js",
+  "main": "src/builder.js",
   "scripts": {},
   "author": "Samm Cooper <koopero@gmail.com>",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "download-progress": "0.0.1",
     "download-status": "^2.2.1",
     "fs-extra": "^0.26.7",
+    "glob": "^7.0.3",
     "js-yaml": "^3.5.5",
     "lodash": "^4.6.1",
     "string-substitute": "^1.0.2"
