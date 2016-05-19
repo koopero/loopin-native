@@ -88,7 +88,7 @@ function builder( opt ) {
     })
 
   if ( build.run )
-    promise = promise.then( require('./run').bind( build ) )
+    promise = promise.then( require('./run').bind( build, opt ) )
 
   promise = promise
     .then( () => build )
