@@ -15,6 +15,9 @@ common:
       git: https://github.com/koopero/ofxLoopin.git
     ofxJSON:
       git: https://github.com/jefftimesten/ofxJSON.git
+    ofxSyphon:
+      git: https://github.com/astellato/ofxSyphon.git
+    
 
 linux:
   openframeworks:

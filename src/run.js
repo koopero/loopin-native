@@ -8,6 +8,6 @@ function run( opt ) {
       , spawn = require('child_process').spawn
 
   build.log( execPath )
-  const process = spawn( execPath, [], { cwd: opt.cwd } )
+  const process = spawn( execPath, [], { cwd: opt.runCwd } )
   build.process = process
 }

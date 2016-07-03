@@ -5,10 +5,7 @@ builder( {
   root: util.scratch(''),
   quiet: false,
   verbose: 1,
-  run: true,
-  addons: {
-    ofxLoopin: util.root('../ofxLoopin')
-  }
+  run: true
 })
   .then( function ( build ) {
   })

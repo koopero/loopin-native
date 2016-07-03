@@ -1,12 +1,16 @@
 {
-  "name": "loopin-builder",
-  "version": "0.3.1",
+  "name": "loopin-native",
+  "version": "0.4.0",
   "description": "Builder for native Loopin apps",
   "main": "src/builder.js",
+  "bin": {
+    "loopin-native": "cli/loopin-native"
+  },
   "scripts": {},
-  "author": "Samm Cooper <koopero@gmail.com>",
+  "author": "Samm Cooper <samm@sublight.ca>",
   "license": "MIT",
   "dependencies": {
+    "arg-parse": "^1.0.0",
     "bluebird": "^3.3.4",
     "bluebird-extra": "^1.0.1",
     "boptions": "^0.2.1",
@@ -16,9 +20,10 @@
     "download-status": "^2.2.1",
     "fs-extra": "^0.26.7",
     "glob": "^7.0.3",
-    "js-yaml": "^3.5.5",
+    "js-yaml": "^3.6.1",
     "lodash": "^4.6.1",
-    "string-substitute": "^1.0.2"
+    "string-substitute": "^1.0.2",
+    "userhome": "^1.0.0"
   },
   "directories": {
     "test": "test"

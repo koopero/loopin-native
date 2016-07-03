@@ -12,14 +12,15 @@ const _ = require('lodash')
     , os = require('os')
     , Download = require('download')
     , downloadStatus = require('download-status')
+    , userhome = require('userhome')
 
 builder.options = require('boptions')({
   'quiet': true,
   'verbose': false,
+  'quick': true,
   'run': false,
-  'root': {
-    '#default': path.resolve( __dirname, '../build' )
-  },
+  'runCwd': '',
+  'root': '',
   'openframeworks': {
     '#default': process.env['OF_ROOT']
   },
@@ -30,9 +31,13 @@ function builder( opt ) {
   const build = Object.create( builder.prototype )
   _.extend( build, builder.options( arguments ) )
 
+  if ( !build.root ) {
+    build.root = userhome('_loopin','native')
+  }
+
   build.settings = settings
   build.platform = require('./platform')
-  build.addons = _.merge( _.clone( settings['addons'] ), opt.addons )
+  build.addons = _.merge( _.clone( settings['addons'] ), build.addons )
   build.resolve = function () {
     return path.resolve.apply( path, _.concat( [build.root], arguments ) )
   }
@@ -89,6 +94,7 @@ function builder( opt ) {
 
   if ( build.run )
     promise = promise.then( require('./run').bind( build, opt ) )
+
 
   promise = promise
     .then( () => build )

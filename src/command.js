@@ -14,8 +14,7 @@ function command( cmd, args, opt ) {
 
     process.stderr.on('data', (d) => build.warn( String( d ) ) )
 
-    if ( build.verbose )
-      process.stdout.on('data', (d) => build.log( String( d ) ) )
+    process.stdout.on('data', (d) => build.verbose && build.log( String( d ) ) )
 
     process.on('close', function ( code ) {
       if ( code ) {

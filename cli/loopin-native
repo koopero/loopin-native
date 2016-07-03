@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+const native = require('../src/builder')
+    , yaml = require('js-yaml')
+    , argparse = require('argparse')
+    , pkg = require('../package.json')
+    , parser = new argparse.ArgumentParser({
+        version: pkg.version,
+        addHelp: true,
+      })
+
+addArgparseArguments( parser )
+
+
+const opt = parser.parseArgs()
+
+native( opt )
+.then( function ( build ) {
+
+} )
+
+
+function addArgparseArguments( parser ) {
+  parser.addArgument(
+    ['-r', '--run'],
+    {
+      help: 'Run the Loopin exec',
+      action: 'storeTrue'
+    }
+  )
+
+  parser.addArgument(
+    ['--verbose'],
+    {
+      help: 'Log everything',
+      action: 'storeTrue'
+    }
+  )
+
+  parser.addArgument(
+    ['-q', '--quiet'],
+    {
+      help: 'Do not log anything',
+      action: 'storeTrue'
+    }
+  )
+
+}
