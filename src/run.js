@@ -13,6 +13,6 @@ function run( opt ) {
     env['DISPLAY'] = ':0'
 
   build.log( execPath )
-  const process = spawn( execPath, [], { cwd: opt.runCwd, env: env } )
-  build.process = process
+  const proc = spawn( execPath, [], { cwd: opt.runCwd, env: env } )
+  build.process = proc
 }
