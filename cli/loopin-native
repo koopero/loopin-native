@@ -17,7 +17,12 @@ const opt = parser.parseArgs()
 
 native( opt )
 .then( function ( build ) {
-
+  console.log( build.process )
+  if ( build.process ) {
+    build.process.stdout.pipe( process.stdout )
+    build.process.stderr.pipe( process.stderr )
+    process.stdin.pipe( build.process.stdin )
+  }
 } )
 
 
