@@ -15,15 +15,23 @@ addArgparseArguments( parser )
 
 const opt = parser.parseArgs()
 
+var _process
+
 native( opt )
 .then( function ( build ) {
-  console.log( build.process )
-  if ( build.process ) {
-    build.process.stdout.pipe( process.stdout )
-    build.process.stderr.pipe( process.stderr )
-    process.stdin.pipe( build.process.stdin )
+  _process = build.process
+
+  if ( _process ) {
+    _process.stdout.pipe( process.stdout )
+    _process.stderr.pipe( process.stderr )
+    process.stdin.pipe( _process.stdin )
   }
 } )
+
+process.on('exit', function () {
+  if ( _process )
+    _process.kill()
+})
 
 
 function addArgparseArguments( parser ) {
