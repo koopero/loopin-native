@@ -1,6 +1,6 @@
 {
   "name": "loopin-native",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Builder for native Loopin apps",
   "main": "src/builder.js",
   "bin": {
