@@ -18,7 +18,8 @@ function project() {
   if ( exists() )
     return Promise.resolve( build )
 
-  return generate()
+  return buildGenerator()
+    .then( generate )
     .then( replaceMain )
     // .then( copyData )
     .then( symlinkData )
@@ -27,6 +28,23 @@ function project() {
   function exists() {
     const testfile = build.resolve( build.app, 'Makefile' )
     return fs.existsSync( testfile )
+  }
+
+  function buildGenerator() {
+    const generator =
+          build.resolve( build.openframeworks,
+            build.settings['openframeworks']['projectGenerator']
+          )
+
+    if ( fs.existsSync( generator ))
+      return Promise.resolve()
+
+    const cwd =
+      build.resolve( build.openframeworks,
+        build.settings['openframeworks']['projectGeneratorPath']
+      )
+
+    return build.command( 'make', [], { cwd: cwd } )
   }
 
   function generate() {
