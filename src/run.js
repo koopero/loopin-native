@@ -1,6 +1,7 @@
 module.exports = run
 
 const _ = require('lodash')
+    , os = require('os')
 
 function run( opt ) {
   const build = this
