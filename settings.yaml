@@ -5,7 +5,7 @@ common:
     ofxLoopinData: bin/data/ofxLoopin
 
   openframeworks:
-    dir: lib/openframeworks
+    dir: openFrameworks
     version: 0.9.3
     release_url: http://openframeworks.cc/versions/v{openframeworks.version}/
 

@@ -13,22 +13,43 @@ addArgparseArguments( parser )
 
 const opt = parser.parseArgs()
 
+if ( opt.clean ) {
+  const fs = require('fs-extra')
+      , userhome = require('userhome')
+      , del = userhome('_loopin','native' )
+
+  console.log( 'rm -rf '+del )
+  fs.removeSync( del )
+}
 
 var presets = require('./presets')( opt.preset )
+var presetData = presets.load()
+
+if ( opt.test ) {
+  presetData += '{"text":{"test":"Loopin Lives!"},"show":"test"}\n'
+}
+
+var _process
 
 native( opt )
 .then( function ( build ) {
   _process = build.process
 
+  const write = ( str ) => _process && _process.stdin.write( str )
+  write( presetData )
+
+  if ( opt.watch )
+    presets.watch( write )
+
   if ( _process ) {
+
     _process.stdout.pipe( process.stdout )
     _process.stderr.pipe( process.stderr )
     process.stdin.pipe( _process.stdin )
 
-    if ( presets ) {
-      console.log('writing preset', presets )
-      _process.stdin.write( presets )
-    }
+    _process.on('exit', function () {
+      process.exit()
+    })
   }
 } )
 
@@ -39,16 +60,25 @@ process.on('exit', function () {
 
 
 function addArgparseArguments( parser ) {
+  // parser.addArgument(
+  //   ['-d', '--dir'],
+  //   {
+  //     help: 'Working directory',
+  //     action: 'storeTrue'
+  //   }
+  // )
+
   parser.addArgument(
-    ['-r', '--run'],
+    ['-n', '--no-run'],
     {
-      help: 'Run the Loopin exec',
-      action: 'storeTrue'
+      dest: 'run',
+      help: "Don't run the exec after building.",
+      action: 'storeFalse'
     }
   )
 
   parser.addArgument(
-    ['--verbose'],
+    ['-V', '--verbose'],
     {
       help: 'Log everything',
       action: 'storeTrue'
@@ -63,13 +93,39 @@ function addArgparseArguments( parser ) {
     }
   )
 
+  // parser.addArgument(
+  //   ['-i', '--ignore-frame'],
+  //   {
+  //     help: 'Squelch frame events from output',
+  //     action: 'storeTrue'
+  //   }
+  // )
+
   parser.addArgument(
-    ['-d', '--dir'],
+    ['-w', '--watch'],
     {
-      help: 'Working directory',
+      help: 'Watch preset files',
       action: 'storeTrue'
     }
   )
+
+  parser.addArgument(
+    ['-T', '--test'],
+    {
+      help: 'Run a really simple test preset',
+      action: 'storeTrue'
+    }
+  )
+
+  parser.addArgument(
+    ['--clean'],
+    {
+      help: 'Clean ~/_loopin',
+      action: 'storeTrue'
+    }
+  )
+
+
 
   parser.addArgument([ 'preset' ], {
     nargs: '*',

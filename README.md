@@ -7,48 +7,60 @@
 * Compile the binary using `make`.
 * Optionally run the binary and return the process.
 
-
 Currently, the root for all builds is `~/_loopin`. Although `~/.loopin` would be preferred, the dot seems to give OF's build process some grief.
 
-# Requirements
+# Installation
 
-For this module to work, you need a build environment capable of compiling
-[openframeworks](http://openframeworks.cc/).
-
-*TODO*
+Please remember that since **loopin-native** downloads and compiles a good amount of code, these procedures may take a few minutes.
 
 ## OSX
 
-[Homebrew](http://brew.sh/) is highly recommended.  [MacPorts](https://www.macports.org/) may also work, but it's not as slick.
+First, you need to install [Homebrew](http://brew.sh/). Next, go to your terminal and run the following:
 
-*TODO: I need to run this on a fresh, unprepared Mac to see if I'm missing anything.*
+``` sh
 
-## General Dev
+# Install node.js & git via homebrew
+brew install node git
 
-Obviously, you're going to need [node](https://nodejs.org/en/) and [npm](https://docs.npmjs.com/getting-started/installing-node).
+# Install loopin-native
+npm install -g loopin-native
 
-On linux systems, you'll need to install [build-essential](http://packages.ubuntu.com/trusty/build-essential), or your distribution's equivalent.
+# Build and run the Loopin binary.
+loopin-native -V -T
+```
 
-Finally, you'll need [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). This should be easy to install using your system's package manager.
+If everything goes well, you should see a window with the text 'Loopin Lives!'
 
 ## Linux
 
 *Tested on Linux Mint 18 Sarah*.
 
-### openframeworks Dependencies
-
-To install openframeworks dependencies, first attempt to build `loopin-native` using the command `loopin-native --verbose`. This will likely fail, but will first download and unpack openframeworks. Next, run the following:
-
 ``` sh
-# You may need to replace 'ubuntu' with your distribution.
+# Install prerequisites using apt-get. This may be yum on your machine.
+sudo apt-get install build-essential git nodejs npm
+
+# Install the loopin-native module
+sudo npm install -g loopin-native
+
+# Try to build the Loopin binary. This will fail, but it will first
+# download and unpack openFrameworks.
+loopin-native -V -n
+
+# Next, we'll need to install some openFrameworks dependencies.
+# ( You may need to replace 'ubuntu' with your distribution )
 cd ~/_loopin/native/lib/openframeworks/scripts/linux/ubuntu
 
 # openframeworks scripts to auto-install dependencies
 sudo ./install_dependencies.sh
 sudo ./install_codecs.sh
+
+# Finally, re-run loopin-native with a simple test program.  
+loopin-native -T
+
+# If everything goes well, you should see a window with the
+# text 'Loopin Lives!'
 ```
 
-Hopefully, this will set up everything required to build openframeworks. Re-run `loopin-native --verbose` to attempt the build again.
 
 ## Windows
 
@@ -56,14 +68,10 @@ Sorry, at this point there is no support for Windows. Although running on Window
 
 If you would like to help getting Loopin running on Windows, please contact me and we'll figure it out.
 
-# Usage
+# Sister Projects
+* [loopin](https://github.com/koopero/loopin#README) - **JS** Hub project.
+* [ofxLoopin](https://github.com/koopero/ofxLoopin#README) - **C++** Loopin openframeworks plugin.
 
-``` sh
-npm install -g loopin-native
-
-# Builds Loopin native binary under ~/_loopin
-loopin-native --verbose
-```
 
 # ofxLoopin Development
 
@@ -77,10 +85,10 @@ cd ~/PROJECTHOME
 git clone --recursive https://github.com/koopero/ofxLoopin.git ofxLoopin
 
 # Delete the previously downloaded version of the ofxLoopin library
-rm -rf ~/_loopin/native/lib/openframeworks/addons/ofxLoopin/
+rm -rf ~/_loopin/native/openFrameworks/addons/ofxLoopin/
 
 # Link your copy
-ln -s ~/PROJECTHOME/ofxLoopin ~/_loopin/native/lib/openframeworks/addons/ofxLoopin
+ln -s ~/PROJECTHOME/ofxLoopin ~/_loopin/native/openFrameworks/addons/ofxLoopin
 ```
 
 You should now be set up to make changes to the ofxLoopin library. For easier development, make the following change in your project:
@@ -95,9 +103,3 @@ loopin.plugin('bootstrap', {
   verbose: true
 })
 ```
-
-
-
-# Sister Projects
-* [loopin](https://github.com/koopero/loopin#README) - **JS** Hub project.
-* [ofxLoopin](https://github.com/koopero/ofxLoopin#README) - **C++** Loopin openframeworks plugin.
