@@ -14,7 +14,7 @@ function openframeworks() {
   const build = this
 
   if ( !build.openframeworks )
-    build.openframeworks = build.resolve( build.settings.openframeworks.dir )
+    build.openframeworks = build.resolve( build.substitute( build.settings.openframeworks.dir ) )
 
   return ensure()
 
@@ -31,7 +31,7 @@ function openframeworks() {
     // Random file in the openFrameworks directory
     const file = './CODE_OF_CONDUCT.md'
 
-    return fs.existsSync( build.resolve( build.settings.openframeworks.dir, file ) )
+    return fs.existsSync( build.resolve( build.openframeworks, file ) )
   }
 
   function ensureZip( ) {
@@ -40,7 +40,7 @@ function openframeworks() {
         , stringsub = require('string-substitute')
         , zip_name = build.substitute( build.settings['openframeworks']['zip_name'] )
         , release_url = build.substitute( build.settings['openframeworks']['release_url'] ) + zip_name
-        , tmp = build.resolve( 'tmp' )
+        , tmp = build.resolve( build.settings.download.dir )
 
     if ( !build['openframeworksZip'] )
       build['openframeworksZip'] = build.resolve( tmp, zip_name )

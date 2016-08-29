@@ -1,0 +1,21 @@
+app:
+  name: Loopin
+  dir: '{version}/{appName}/'
+  ofxLoopinData: bin/data/ofxLoopin
+
+download:
+  dir: download/
+
+openframeworks:
+  dir: '{version}/openFrameworks'
+  version: 0.9.3
+  release_url: http://openframeworks.cc/versions/v{openframeworks.version}/
+
+addons:
+  ofxKinect: true
+  ofxLoopin:
+    git: https://github.com/koopero/ofxLoopin.git
+  ofxJSON:
+    git: https://github.com/jefftimesten/ofxJSON.git
+  ofxTrueTypeFontUC:
+    git: https://github.com/hironishihara/ofxTrueTypeFontUC.git

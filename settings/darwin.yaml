@@ -1,0 +1,10 @@
+openframeworks:
+  zip_name: of_v{openframeworks.version}_{platform}_release.zip
+  projectGenerator: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
+
+app:
+  executable: bin/{appName}.app/Contents/MacOS/{appName}
+
+addons:
+  ofxSyphon:
+    git: https://github.com/astellato/ofxSyphon.git

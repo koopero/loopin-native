@@ -21,9 +21,6 @@ builder.options = require('boptions')({
   'run': false,
   'runCwd': '',
   'root': '',
-  'openframeworks': {
-    '#default': process.env['OF_ROOT']
-  },
   'addons': {}
 })
 
