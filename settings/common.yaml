@@ -15,6 +15,7 @@ addons:
   ofxKinect: true
   ofxLoopin:
     git: https://github.com/koopero/ofxLoopin.git
+    commit: '5f3e406'
   ofxJSON:
     git: https://github.com/jefftimesten/ofxJSON.git
   ofxTrueTypeFontUC:

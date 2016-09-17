@@ -25,6 +25,7 @@ function addons() {
       return
     } else if ( addon['git'] ){
       return gitClone()
+      .then( gitCheckout )
     } else if ( addon['path'] ){
       return link()
     }
@@ -44,6 +45,19 @@ function addons() {
           ]
 
       return build.command( cmd, args )
+    }
+
+    function gitCheckout() {
+      if ( !addon['commit'] )
+        return
+
+      const cmd = 'git'
+          , args = [
+            'checkout',
+            addon['commit']
+          ]
+
+      return build.command( cmd, args, { cwd: addon['dest'] } )
     }
 
     function exists() {
