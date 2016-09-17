@@ -8,17 +8,22 @@ function command( cmd, args, opt ) {
 
   opt = opt || {}
 
+  if ( build.verbose ) {
+    opt.stdio = [ 'pipe', process.stdout, process.stderr ]
+  }
+
   return Promise.fromCallback( function ( cb ) {
     const process = spawn( cmd, args, opt )
     build.log( cmd, args.join(' ') )
 
-    process.stderr.on('data', (d) => build.warn( String( d ) ) )
-
-    process.stdout.on('data', (d) => build.verbose && build.log( String( d ) ) )
+    if ( !build.verbose ) {
+      process.stderr.on('data', (d) => build.warn( String( d ) ) )
+      process.stdout.on('data', (d) => build.log( String( d ) ) )
+    }
 
     process.on('close', function ( code ) {
       if ( code ) {
-        cb( 'non zero code' )
+        cb( 'Called utility returned non-zero exit code' )
       } else {
         cb();
       }
