@@ -71,7 +71,7 @@ function project() {
   }
 
   function copyData() {
-    const dataSrc = build.resolve( build.addons.ofxLoopin.dest, 'data' )
+    const dataSrc = path.resolve( __dirname, '..', 'data' )
         , dataDest = build.resolve( build.app, build.settings['app']['ofxLoopinData'] )
 
     build.log( '#copyData', src, dest )
@@ -89,7 +89,7 @@ function project() {
   }
 
   function symlinkData() {
-    const dataSrc = build.resolve( build.addons.ofxLoopin.dest, 'data' )
+    const dataSrc = path.resolve( __dirname, '..', 'data' )
         , dataDest = build.resolve( build.app, build.settings['app']['ofxLoopinData'] )
 
     build.log( '# project data symlink')

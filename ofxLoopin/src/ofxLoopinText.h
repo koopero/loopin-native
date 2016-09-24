@@ -1,0 +1,22 @@
+#pragma once
+
+#include "ofxLoopinRender.h"
+
+#include "ofGraphics.h"
+
+class ofxLoopinText : public ofxLoopinRender {
+public:
+  string text = "hello, world";
+
+  void draw( const ofRectangle & area );
+  ofRectangle getBounds();
+
+protected:
+  void addSubControls() {
+    addSubControl( "text", new ofxLoopinControlValue( &text ) );
+  }
+
+  void patchString( const string & value ) {
+    text = value;
+  };
+};

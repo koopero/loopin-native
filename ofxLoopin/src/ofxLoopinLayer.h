@@ -1,0 +1,74 @@
+#pragma once
+
+#include "ofxLoopinCamera.h"
+#include "ofxLoopinMesh.h"
+#include "ofxLoopinRender.h"
+#include "ofxLoopinTexture.h"
+#include "ofxLoopinTransform2D.h"
+
+#include "ofxLoopinControlNumber.h"
+
+#include "ofAppRunner.h"
+#include "ofMatrix4x4.h"
+
+class ofxLoopinLayer : public ofxLoopinRender {
+public:
+  int passes = 1;
+  ofxLoopinControlNumber pointSize;
+  bool clear = true;
+
+  ofxLoopinTexture * src;
+  ofxLoopinTransform2D transform;
+
+  ofxLoopinControlNumber aspect;
+
+  ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
+  ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
+
+  ofxLoopinRenders<ofxLoopinLayer> layers;
+  ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
+  ofxLoopinControlEnum<GLenum,0> face;
+
+
+  void render( ofxLoopinBuffer * buffer );
+
+protected:
+  void addSubControls() {
+    ofxLoopinRender::addSubControls();
+
+    addSubControl( "shader", &shader );
+    addSubControl( "mesh", &mesh );
+
+    addSubControl( "camera", &camera );
+    addSubControl( "transform", &transform );
+
+    src = uniforms.tex.getByKey("src", true );
+    addSubControl( "src", src );
+
+    addSubControl( "layer", &layers );
+
+    face.setEnumKey("both", 0 );
+    face.setEnumKey("front", GL_FRONT );
+    face.setEnumKey("back", GL_BACK );
+    addSubControl( "face", &face );
+
+    addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
+    addSubControl( "pointSize", &pointSize );
+    addSubControl( "clear", new ofxLoopinControlValue( &clear ) );
+
+    blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
+    blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
+    blend.setEnumKey("add", OF_BLENDMODE_ADD );
+    blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
+    blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
+    blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
+
+    addSubControl( "blend", &blend );
+
+    addSubControl( "aspect", &aspect );
+
+  }
+
+private:
+  void renderSelf( ofxLoopinBuffer * buffer, bool isRoot );
+};

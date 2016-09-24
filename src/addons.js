@@ -19,6 +19,7 @@ function addons() {
 
     addon['dest'] = build.resolve( build.openframeworks, 'addons/'+key )
 
+
     build.log('#addon', key )
 
     if ( exists() ) {
@@ -27,12 +28,15 @@ function addons() {
       return gitClone()
       .then( gitCheckout )
     } else if ( addon['path'] ){
+      // If path is specified, then the addon is probably
+      // ofxLoopin, which is included locally.
       return link()
     }
 
     function link () {
-      build.log( 'ln -s', addon['path'], addon['dest'] )
-      return fs.ensureSymlinkAsync( addon['path'], addon['dest'] )
+      var addonPath = path.resolve( __dirname, '..', addon['path'] )
+      build.log( 'ln -s', addonPath, addon['dest'] )
+      return fs.ensureSymlinkAsync( addonPath, addon['dest'] )
     }
 
     function gitClone() {
