@@ -5,6 +5,18 @@
 
 #include "ofMatrix4x4.h"
 
+/** loopin/type/transform2D/sub:
+  x/type: float
+  y/type: float
+  aspect/type: float
+  scale/type: float
+  rotate/type: float
+  mode/options:
+    - cover
+    - contain
+
+*/
+
 enum ofxLoopinTransform2DMode {
   COVER, CONTAIN
  };
@@ -24,10 +36,6 @@ public:
 
     ofMatrix4x4 mat;
     float ourAspect = aspect;
-    // layerAspect *= ourAspect;
-
-
-
     float scale = ofxLoopinTransform2D::scale;
 
     switch ( mode.getEnumValue() ) {
@@ -51,7 +59,7 @@ public:
     mat.rotate( rotate, 0, 0, 1 );
     mat.scale( 1/bufferAspect, 1, 1 );
 
-    // mat.translate( x, y, 0 );
+    mat.translate( x, y, 0 );
 
     return mat;
   };
@@ -60,15 +68,13 @@ protected:
   void addSubControls() {
     mode.setEnumKey( "cover", ofxLoopinTransform2DMode::COVER );
     mode.setEnumKey( "contain", ofxLoopinTransform2DMode::CONTAIN );
-    addSubControl( "mode", &mode );
 
+    addSubControl( "mode", &mode );
     addSubControl( "x", &x );
     addSubControl( "y", &y );
     addSubControl( "aspect", &aspect );
-
     addSubControl( "scale", &scale );
-
-
     addSubControl( "rotate", &rotate );
+
   };
 };

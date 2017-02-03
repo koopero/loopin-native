@@ -11,7 +11,7 @@ public:
   operator double() const { return value; };
   double operator()() const { return value; };
 
-  /**
+  /*
    * Gets the current value of the property as an integer.
    */
   int getValueInt() {

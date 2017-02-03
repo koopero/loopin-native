@@ -2,6 +2,9 @@
 
 #include "ofxLoopinTexture.h"
 
+/** loopin/type/show:
+  type: texture
+*/
 class ofxLoopinShow : public ofxLoopinTexture {
 public:
   void draw() {

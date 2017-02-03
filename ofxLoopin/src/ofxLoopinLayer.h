@@ -11,6 +11,28 @@
 #include "ofAppRunner.h"
 #include "ofMatrix4x4.h"
 
+/** loopin/type/layer/sub
+shader:
+  ref: shader
+
+mesh:
+  ref: mesh
+
+camera :
+  ref: camera
+
+# src:
+#   link: ../tex/src
+
+transform:
+  type: transform2D
+
+aspect:
+  type: float
+  min: 0.1
+  max: 2
+*/
+
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
   int passes = 1;
@@ -37,16 +59,27 @@ protected:
     ofxLoopinRender::addSubControls();
 
     addSubControl( "shader", &shader );
+
     addSubControl( "mesh", &mesh );
 
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
 
+
     src = uniforms.tex.getByKey("src", true );
     addSubControl( "src", src );
 
+    /** loopin/type/layer/sub/layer
+      map: layer
+    */
     addSubControl( "layer", &layers );
 
+    /** loopin/type/layer/sub/face
+      options:
+        - both
+        - front
+        - back
+    */
     face.setEnumKey("both", 0 );
     face.setEnumKey("front", GL_FRONT );
     face.setEnumKey("back", GL_BACK );
@@ -56,13 +89,21 @@ protected:
     addSubControl( "pointSize", &pointSize );
     addSubControl( "clear", new ofxLoopinControlValue( &clear ) );
 
+    /** loopin/type/layer/sub/blend
+      options:
+        - none
+        - alpha
+        - add
+        - subtract
+        - multiply
+        - screen
+    */
     blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
     blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
     blend.setEnumKey("add", OF_BLENDMODE_ADD );
     blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
     blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
     blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
-
     addSubControl( "blend", &blend );
 
     addSubControl( "aspect", &aspect );

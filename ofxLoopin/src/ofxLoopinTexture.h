@@ -7,6 +7,23 @@
 #include "ofxLoopinShader.h"
 #include "ofxLoopinUniform.h"
 
+/** loopin/type/texture/sub/:
+  buffer:
+    ref: buffer/
+
+  minFilter:
+    type: textureFilter
+
+  magFilter:
+    type: textureFilter
+
+  wrapH:
+    type: textureWrap
+
+  wrapV:
+    type: textureWrap
+*/
+
 
 class ofxLoopinTexture : public ofxLoopinControl, public ofxLoopinUniform {
 public:
@@ -56,14 +73,28 @@ protected:
   void addSubControls() {
     addSubControl("buffer", &buffer );
 
+
+    /** loopin/type/textureFilter:
+      type: options
+      options:
+        - linear
+        - nearest
+    */
     minFilter.setEnumKey( "nearest", GL_NEAREST );
     minFilter.setEnumKey( "linear", GL_LINEAR );
     addSubControl("minFilter", &minFilter );
 
-
     magFilter.setEnumKey( "nearest", GL_NEAREST );
     magFilter.setEnumKey( "linear", GL_LINEAR );
     addSubControl("magFilter", &magFilter );
+
+    /** loopin/type/textureWrap:
+      type: options
+      options:
+        - repeat
+        - none
+        - clamp
+    */
 
     wrapH.setEnumKey("repeat", GL_REPEAT );
     wrapH.setEnumKey("none", GL_CLAMP_TO_BORDER );

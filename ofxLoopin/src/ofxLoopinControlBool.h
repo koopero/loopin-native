@@ -8,7 +8,7 @@ public:
 
   operator bool() const { return value; };
 
-  /**
+  /*
    * Gets the current value of the property as an integer.
    */
   bool getValue() {

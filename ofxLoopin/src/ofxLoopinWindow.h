@@ -4,6 +4,31 @@
 
 #include "ofxLoopinControl.h"
 
+/** loopin/type/window
+
+sub/fullscreen:
+  type: bool
+
+sub/title:
+  type: string
+
+sub/width:
+  type: number
+  step: 1
+  min: 16
+  max: 8192
+  markers: [ 16, 32, 64, 128, 256, 512, 1024, 1280, 1920, 2048 ]
+
+sub/height:
+  type: number
+  step: 1
+  min: 16
+  max: 8192
+  markers: [ 16, 32, 64, 128, 256, 512, 720, 1080, 2048 ]
+
+
+*/
+
 class ofxLoopinWindow : public ofxLoopinControl {
 public:
   int width = 0;

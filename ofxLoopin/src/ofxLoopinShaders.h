@@ -3,6 +3,9 @@
 #include "ofxLoopinShaderWithUniforms.h"
 #include "ofxLoopinMap.h"
 
+/** loopin/root/shader:
+map: shader
+*/
 
 class ofxLoopinShaders : public ofxLoopinMap<ofxLoopinShaderWithUniforms> {};
 

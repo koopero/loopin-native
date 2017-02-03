@@ -4,6 +4,10 @@
 #include "ofxLoopinMap.h"
 #include "ofxLoopinControlValue.h"
 
+/** loopin/type/shaderElement
+type: source
+sourceType: glsl
+*/
 
 class ofxLoopinShaderElement : public ofxLoopinLoader {
 public:

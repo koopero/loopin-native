@@ -9,7 +9,7 @@ public:
   static ofxLoopinControlVector VEC4( ofVec4f init ) {
 
   };
-  
+
   static ofxLoopinControlVector VEC4( ofVec4f init ) {
 
   };
@@ -19,7 +19,7 @@ public:
   operator ofVec4f() const { return value; };
   double operator()() const { return value; };
 
-  /**
+  /*
    * Gets the current value of the property as an integer.
    */
   int getValueInt() {

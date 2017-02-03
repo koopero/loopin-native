@@ -1,5 +1,4 @@
-/**
-  ofxLoopinInput
+/** loopin/type/input:
 */
 
 #pragma once

@@ -8,6 +8,50 @@
 
 #include "ofMesh.h"
 
+/** loopin/root/mesh:
+  map: mesh
+*/
+
+/** loopin/type/mesh/sub:
+plane:
+  type: trigger
+  args:
+    rows:
+      type: int
+      min: 1
+      max: 256
+      default: 1
+    cols:
+      type: int
+      min: 1
+      max: 256
+      default: 1
+    split/type: bool
+    weave/type: bool
+
+cube:
+  type: trigger
+  args:
+    count:
+      type: int
+      min: 1
+      max: 256
+      default: 1
+
+scatter:
+  type: trigger
+  args:
+    count:
+      type: int
+      min: 1
+      max: 256
+      default: 1
+    seed:
+      type: int
+      min: -1
+      default: -1
+*/
+
 class ofxLoopinMesh : public ofxLoopinControl {
 public:
   ofxLoopinControlNumber aspect;

@@ -4,7 +4,34 @@
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumeric.h"
 
+/** loopin/type/clock/sub
 
+speed/:
+  type: float
+  min: -8
+  max: 8
+  pow: 2
+  default: 1
+  markers: [ -1, 0, 1 ]
+
+rate/:
+  type: float
+  min: 0
+  max: 120
+  default: 60
+  markers: [ 8, 12, 24, 30, 48, 60, 75, 120 ]
+
+mode/:
+  type: options
+  options:
+    - sync
+    - async
+    - step
+
+advance/:
+  type: trigger
+
+*/
 
 class ofxLoopinClock : public ofxLoopinControl {
 public:

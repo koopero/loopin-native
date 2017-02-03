@@ -7,6 +7,15 @@
 
 #include "ofShader.h"
 
+/** loopin/type/shader 
+sub:
+  vert:
+    type: shaderElement
+
+  frag:
+    type: shaderElement
+*/
+
 class ofxLoopinShader : public ofxLoopinControl {
 public:
 

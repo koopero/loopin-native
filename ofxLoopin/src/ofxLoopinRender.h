@@ -10,6 +10,9 @@
 #include "ofxLoopinShaders.h"
 #include "ofxLoopinUniforms.h"
 
+/** loopin/root/render/:
+  map: layer
+*/
 
 class ofxLoopinRender : public ofxLoopinControl {
 public:

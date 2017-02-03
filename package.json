@@ -1,6 +1,6 @@
 {
   "name": "loopin-native",
-  "version": "0.7.0-rc4",
+  "version": "0.7.0",
   "description": "Builder for native Loopin apps",
   "main": "src/builder.js",
   "bin": {
@@ -29,7 +29,9 @@
   "directories": {
     "test": "test"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "byline": "^5.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/koopero/loopin-native.git"

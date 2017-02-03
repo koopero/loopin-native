@@ -8,6 +8,15 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinMap.h"
 
+/** loopin/type/image:
+  trigger: true
+  sub:
+    src:
+      file:
+        - image/jpeg
+        - image/png
+*/
+
 class ofxLoopinImage : public ofxLoopinRender {
 public:
   string src;

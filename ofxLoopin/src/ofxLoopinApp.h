@@ -47,39 +47,72 @@ public:
   //
 
   // show/ ( string ) - Which buffer to show on screen
+  /** loopin/root/show
+    type: show
+  */
   ofxLoopinShow show;
 
   // clock/ - Clock parameters
+  /** loopin/root/clock
+    type: clock
+  */
   ofxLoopinClock clock;
 
   // camera/ - Virtual cameras for 3D transforms
   // ofxLoopinCameras cameras; // defined in ofxLoopinCamera
 
   // input/ - Input parameters
+  /** loopin/root/input
+    type: input
+  */
   ofxLoopinInput input;
 
   // window/ - Window parameters such as fullscreen
+  /** loopin/root/window
+    type: window
+  */
   ofxLoopinWindow window;
 
   // image/:buffer - Load image files
+  /** loopin/root/image
+    map: image
+  */
   ofxLoopinRenders<ofxLoopinImage> images;
 
   // kinect/:buffer - Kinect 1
+  /** loopin/root/kinect
+    map: kinect
+  */
   ofxLoopinRenders<ofxLoopinKinect> kinects;
 
-  // test/:buffer - title generator
+  // text/:buffer
+  /** loopin/root/text
+    map: text
+  */
   ofxLoopinRenders<ofxLoopinText> texts;
 
   // save/:buffer - saves buffers to image files
+  /** loopin/root/save
+    map: save
+  */
   ofxLoopinRenders<ofxLoopinSaver> savers;
 
   // render/:buffer - renders
+  /** loopin/root/kinect
+    map: kinect
+  */
   ofxLoopinRenders<ofxLoopinLayer> renders;
 
   // video/:buffer - video file input
+  /** loopin/root/video
+    map: video
+  */
   ofxLoopinRenders<ofxLoopinVideo> videos;
 
   // osd/ - on-screen display
+  /** loopin/root/osd
+    type: osd
+  */
   ofxLoopinOSD osd;
 
   // openFrameWorks master overrides.

@@ -12,6 +12,48 @@
 #include "ofMatrix4x4.h"
 #include "ofCamera.h"
 
+/** loopin/type/camera/sub
+zoom:
+  type: float
+  min: -2
+  max: 2
+
+distance:
+  type: float
+  min: -1
+  max: 4
+  markers:
+    - 0
+    - 1
+
+fov:
+  type: float
+  min: 0
+  max: 180
+  markers:
+    - 1
+    - 5
+    - 15
+    - 45
+    - 90
+
+dof:
+  type: float
+  min: 0
+  max: 64
+
+focus:
+  type: float
+
+roll:
+  type: angle
+
+pitch:
+  type: angle
+
+yaw:
+  type: angle
+*/
 
 class ofxLoopinCamera : public ofxLoopinControl {
 public:

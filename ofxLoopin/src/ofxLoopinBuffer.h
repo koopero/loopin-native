@@ -12,26 +12,24 @@
 #include "ofTexture.h"
 #include "ofGraphics.h"
 
-// Experimental metadata for extraction.
-/** loopin/meta
 
-/buffer/$/:
-  type: buffer
+/** loopin/type/buffer/sub
 
-/buffer/$/width/:
+width:
   type: integer
   min: 0
   max: 8192
 
-/buffer/$/height/:
+height:
   type: integer
   min: 0
   max: 8192
 
-/buffer/$/format/:
+format:
   type: options
+*/
 
-  # Note that these are for the full OpenGL version
+/** platform/GL/loopin/type/buffer/sub/format
   options:
     - rgba8
     - rgba16
@@ -39,6 +37,13 @@
     - rgb8
     - rgb16
     - rgb32f
+**/
+
+
+/** platform/ES/loopin/type/buffer/sub/format:
+  options:
+    - rgba
+    - rgb
 **/
 
 

@@ -9,6 +9,13 @@
 
 #include <unistd.h>
 
+/** loopin/type/osd:
+  sub/enabled/type: bool
+  sub/text/type: string
+  sub/client/type: string
+
+*/
+
 class ofxLoopinOSD : public ofxLoopinControl {
 public:
   bool enabled = true;

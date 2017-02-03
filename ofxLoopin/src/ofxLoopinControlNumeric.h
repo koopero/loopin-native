@@ -11,7 +11,7 @@ public:
   void setTarget( float  * target );
   void setTarget( double * target );
 
-  /**
+  /*
    * Sets the value of the property, and ceases all tweening and other
    * effects.
    * @param value The new value.
@@ -21,7 +21,7 @@ public:
     stopAll();
   }
 
-  /**
+  /*
    * Gets the current value of the property as an integer.
    */
   int getValueInt() {
@@ -31,7 +31,7 @@ public:
     return value;
   };
 
-  /**
+  /*
    * Stop all effects, including noise, oscillator & tweening.
    */
   void stopAll () {

@@ -42,7 +42,7 @@ void ofxLoopinSaver::render( ofxLoopinBuffer * buffer ) {
 
   if ( !buffer || !buffer->isAllocated() ) {
     event.type = "error";
-    event.data["msg"] = "buffer not allocated";
+    event.data["error"] = "buffer not allocated";
     dispatch( event );
     return;
   }

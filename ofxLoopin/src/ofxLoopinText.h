@@ -3,7 +3,10 @@
 #include "ofxLoopinRender.h"
 
 #include "ofGraphics.h"
-
+/** loopin/type/text/sub:
+  text:
+    type: string
+*/
 class ofxLoopinText : public ofxLoopinRender {
 public:
   string text = "hello, world";

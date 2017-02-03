@@ -5,16 +5,13 @@
 
 #include "ofxKinect.h"
 
-/** loopin/meta
-/kinect/$/:
-  type: kinect
-
-/kinect/$/tilt/:
+/** loopin/type/kinect
+sub/tilt:
   type: number
   min: -30
   max: 30
 
-/kinect/$/output/:
+sub/output:
   type: options
   options:
     - both
@@ -22,7 +19,7 @@
     - video
     - alpha
 
-/kinect/$/led/
+sub/led:
   type: options
   options:
     - default
@@ -33,7 +30,7 @@
     - blinkGreen
     - blinkYellowRed
 
-/kinect/$/infrared/:
+sub/infrared:
   type: bool
 
 **/

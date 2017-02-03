@@ -24,15 +24,16 @@ void ofxLoopinImage::load( string filePath ) {
   }
 
 
-  event.data["src"] = absolutePath;
+  event.data["file"] = absolutePath;
 
   bool status = ofLoadImage( texture, absolutePath );
 
   if ( status ) {
-    event.type = "loaded";
+    event.type = "done";
+    event.data["loaded"] = true;
+    event.data["error"] = Json::Value::null;
     event.data["width"] = texture.getWidth();
     event.data["height"] = texture.getHeight();
-
   } else {
     event.type = "error";
   }
