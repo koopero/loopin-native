@@ -12,4 +12,13 @@ public:
   float speed = 1.0;
 
   ofxLoopinEvent asEvent();
+
+  bool operator==(const ofxLoopinFrame &other) const {
+    return index == other.index;
+  };
+
+  bool operator!=(const ofxLoopinFrame &other) const {
+    return !(*this == other);
+  };
+
 };

@@ -28,12 +28,9 @@ void ofxLoopinSaver::updateLocal( ) {
   }
 }
 
-void ofxLoopinSaver::render( ofxLoopinBuffer * buffer ) {
+void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( !iterations )
     return;
-
-  if ( !buffer )
-    buffer = getBuffer();
 
   iterations --;
 
@@ -67,13 +64,9 @@ void ofxLoopinSaver::render( ofxLoopinBuffer * buffer ) {
     break;
   }
 
-  event.data["frame"] = frame_.index;
+  event.data["frame"] = renderingFrame.index;
   event.data["format"] = format.getKey();
   event.data["quality"] = quality.getKey();
-
-
-  // event.type = "start";
-  // dispatch( event );
 
   thread->save( destAbs, pixels, event, format.getEnumValue(), quality.getEnumValue() );
 

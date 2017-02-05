@@ -44,7 +44,7 @@ public:
   ofxLoopinControlEnum<ofImageFormat, OF_IMAGE_FORMAT_PNG> format;
   ofxLoopinControlEnum<ofImageQualityType, OF_IMAGE_QUALITY_BEST> quality;
 
-  void render( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopinBuffer * buffer );
 
 protected:
   void updateLocal();
@@ -73,6 +73,4 @@ protected:
 
   ofxLoopinSaverThread * thread;
 
-private:
-  ofxLoopinFrame frame_;
 };

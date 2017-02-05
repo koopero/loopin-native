@@ -4,9 +4,7 @@
 
 void ofxLoopinImage::updateLocal() {
   // TODO
-  if ( src != _loaded || reload ) {
-    load( src );
-  }
+
 }
 
 void ofxLoopinImage::load( string filePath ) {
@@ -42,12 +40,15 @@ void ofxLoopinImage::load( string filePath ) {
 }
 
 
-void ofxLoopinImage::render( ofxLoopinBuffer * buffer ) {
-
-  if ( !buffer )
-    buffer = getBuffer( true );
+void ofxLoopinImage::renderBuffer( ofxLoopinBuffer * buffer ) {
+  if ( src != _loaded || reload ) {
+    load( src );
+  }
 
   if ( texture.isAllocated() ) {
+    if ( !buffer )
+      buffer = getBuffer( true );
+
     buffer->setTexture( texture, opt_resize );
     texture.clear();
   }

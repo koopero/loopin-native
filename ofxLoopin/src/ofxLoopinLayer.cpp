@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-void ofxLoopinLayer::render( ofxLoopinBuffer * buffer )  {
+void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
   bool isRender = false;
   if ( !buffer ) {
     isRender = true;
@@ -25,7 +25,7 @@ void ofxLoopinLayer::render( ofxLoopinBuffer * buffer )  {
 
   renderSelf( buffer, isRender );
 
-  layers.render( buffer );
+  layers.render( renderingFrame, buffer );
 
 }
 

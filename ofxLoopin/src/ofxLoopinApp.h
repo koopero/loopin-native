@@ -18,6 +18,7 @@
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinOSD.h"
 #include "ofxLoopinRender.h"
+#include "ofxLoopinPixels.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
 #include "ofxLoopinShow.h"
@@ -103,6 +104,13 @@ public:
   */
   ofxLoopinRenders<ofxLoopinLayer> renders;
 
+  // pixels/:buffer - pixels
+  /** loopin/root/pixels
+    map: pixels
+  */
+  ofxLoopinRenders<ofxLoopinPixels> pixels;
+
+
   // video/:buffer - video file input
   /** loopin/root/video
     map: video
@@ -160,6 +168,8 @@ protected:
     addSubControl( "kinect", &kinects );
     addSubControl( "video", &videos );
     addSubControl( "render", &renders );
+    addSubControl( "pixels", &pixels );
+
 
     addSubControl( "save", &savers );
     addSubControl( "show", &show );
@@ -170,6 +180,7 @@ protected:
   }
 
   void addRenderLists () {
+    renderLists.push_back( &pixels );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );

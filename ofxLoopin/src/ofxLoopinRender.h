@@ -16,27 +16,36 @@
 
 class ofxLoopinRender : public ofxLoopinControl {
 public:
+  ofxLoopinRef<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
+
   int iterations = 1;
   bool clear = true;
 
-  virtual void render( ofxLoopinBuffer * buffer = nullptr ) {
+  virtual void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
+    if ( frame == lastFrame )
+      return;
 
-    if ( !buffer )
-      buffer = getBuffer( true );
+    renderingFrame = frame;
+    renderingBuffer = _buffer != nullptr ? _buffer : getBuffer( _createBuffer );
 
-    buffer->defaultSize( getBounds() );
+    renderBuffer( renderingBuffer );
 
-    if ( buffer->begin() ) {
-      // ofxLoopinEvent e = ofxLoopinEvent("rendering");
-      // dispatch( e );
+    renderingBuffer = nullptr;
+  };
+
+  virtual void renderBuffer( ofxLoopinBuffer * buffer ) {
+    if ( buffer && buffer->begin() ) {
+      buffer->defaultSize( getBounds() );
 
       if ( clear ) {
         ofClear( 0, 0, 0, 0 );
       }
+
       draw( buffer->getArea() );
       buffer->end();
     }
-  };
+  }
+
   virtual void draw( const ofRectangle & area ) {};
 
   virtual ofRectangle getBounds() {
@@ -44,6 +53,15 @@ public:
   };
 
 protected:
+
+  bool _createBuffer = true;
+
+
+  ofxLoopinFrame renderingFrame;
+  ofxLoopinBuffer * renderingBuffer;
+  ofxLoopinFrame lastFrame;
+
+
   void addSubControls() {
     addSubControl( &uniforms );
     addSubControl( "shader", &shader );
@@ -53,6 +71,9 @@ protected:
   ofxLoopinRef<ofxLoopinShaderWithUniforms,ofxLoopinHasShaders> shader;
 
   virtual ofxLoopinBuffer * getBuffer( bool create = false ) {
+    if ( buffer.key.size() )
+      return getBuffer( buffer.key, create );
+      
     return getBuffer( key, create );
   }
 
@@ -61,18 +82,18 @@ protected:
 
 class ofxLoopinRenderList {
 public:
-  virtual void render( ofxLoopinBuffer * buffer = nullptr ) {};
+  virtual void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {};
 };
 
 
 template <class Render>
 class ofxLoopinRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
 public:
-  void render( ofxLoopinBuffer * buffer = nullptr ) {
+  void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
     for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {
       Render &render = it->second;
       string key = it->first;
-      render.render( buffer );
+      render.render( frame, _buffer );
     }
   }
 };

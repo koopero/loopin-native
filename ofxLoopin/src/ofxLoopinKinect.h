@@ -69,7 +69,7 @@ public:
     }
   }
 
-  void render( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopinBuffer * buffer );
 
 
 protected:

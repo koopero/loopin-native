@@ -1,14 +1,16 @@
 app:
   name: Loopin
-  dir: '{version}/{appName}/'
+  dir: '0.7/{appName}/'
   ofxLoopinData: bin/data/ofxLoopin
 
 download:
   dir: download/
 
+# http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
+
 openframeworks:
-  dir: '{version}/openFrameworks'
-  version: 0.9.3
+  dir: 'openFrameworks/{openframeworks.version}'
+  version: 0.9.8
   release_url: http://openframeworks.cc/versions/v{openframeworks.version}/
 
 addons:

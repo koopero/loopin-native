@@ -19,15 +19,17 @@
 
 class ofxLoopinImage : public ofxLoopinRender {
 public:
+  ofxLoopinImage() {
+    _createBuffer = false;
+  }
   string src;
-  bool reload;
+  bool reload = false;
 
-
-  void render( ofxLoopinBuffer * buffer );
-
+  void renderBuffer( ofxLoopinBuffer * buffer );
   void load( string filePath );
 
   bool opt_resize = true;
+
 protected:
   void updateLocal();
 
@@ -36,6 +38,7 @@ protected:
   }
 
   void addSubControls() {
+    addSubControl("buffer", &buffer );
     addSubControl("src", new ofxLoopinControlValue( &src ) );
   };
 

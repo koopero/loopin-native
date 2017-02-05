@@ -52,7 +52,7 @@ public:
   ofxLoopinControlEnum<GLenum,0> face;
 
 
-  void render( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopinBuffer * buffer );
 
 protected:
   void addSubControls() {

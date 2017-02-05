@@ -66,7 +66,7 @@ child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
 
   if ( !_map.count( key ) ) {
     if ( !create ) {
-      cerr << "keyNotFound! (" << key << ")" << endl;
+      // cerr << "keyNotFound! (" << key << ")" << endl;
       return NULL;
     }
 

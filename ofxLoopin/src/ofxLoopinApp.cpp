@@ -47,16 +47,14 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
-  ofClear( 0.05,0,0.1,0);
   render();
+
+  ofClear( 0.05,0,0.1,0);
 
   show.draw();
 
   osd.show = show.getBufferDescription();
   osd.draw();
-
-  ofxLoopinEvent frameEvent = frame.asEvent();
-  dispatch( frameEvent );
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {
@@ -66,7 +64,10 @@ void ofxLoopinApp::draw() {
 
 
 void ofxLoopinApp::render() {
+  ofxLoopinEvent frameEvent = frame.asEvent();
+  dispatch( frameEvent );
+
   for( auto it = renderLists.begin(); it != renderLists.end(); it ++ ) {
-    (*it)->render();
+    (*it)->render( frame );
   }
 }

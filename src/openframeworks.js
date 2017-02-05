@@ -40,20 +40,20 @@ function openframeworks() {
         , stringsub = require('string-substitute')
         , zip_name = build.substitute( build.settings['openframeworks']['zip_name'] )
         , release_url = build.substitute( build.settings['openframeworks']['release_url'] ) + zip_name
-        , tmp = build.resolve( build.settings.download.dir )
+        , downloadDir = build.resolve( build.settings.download.dir )
 
     if ( !build['openframeworksZip'] )
-      build['openframeworksZip'] = build.resolve( tmp, zip_name )
+      build['openframeworksZip'] = build.resolve( downloadDir, zip_name )
 
     if ( fs.existsSync( build['openframeworksZip'] ) )
       return Promise.resolve( true )
 
 
-    build.log('cd', tmp )
+    build.log('cd', downloadDir )
     build.log('wget', release_url )
 
     var download = new Download({strip: 1})
-        .get( release_url, tmp )
+        .get( release_url, downloadDir )
 
     if ( !build.quiet )
         download = download.use(downloadStatus())

@@ -88,7 +88,7 @@ ofxLoopinBuffer * ofxLoopinKinect::renderDepth() {
 }
 
 
-void ofxLoopinKinect::render( ofxLoopinBuffer * buffer ) {
+void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( !kinect )
     return;
 
