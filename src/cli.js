@@ -38,6 +38,8 @@ native( opt )
   const write = ( str ) => _process && _process.stdin.write( str )
   write( presetData )
 
+  console.log(presetData)
+
   if ( opt.watch )
     presets.watch( write )
 

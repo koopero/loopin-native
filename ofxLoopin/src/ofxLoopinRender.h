@@ -34,16 +34,20 @@ public:
   };
 
   virtual void renderBuffer( ofxLoopinBuffer * buffer ) {
-    if ( buffer && buffer->begin() ) {
-      buffer->defaultSize( getBounds() );
+    if ( !buffer )
+      return;
 
-      if ( clear ) {
-        ofClear( 0, 0, 0, 0 );
-      }
+    buffer->defaultSize( getBounds() );
 
-      draw( buffer->getArea() );
-      buffer->end();
+    if ( !buffer->begin() )
+      return;
+
+    if ( clear ) {
+      ofClear( 0, 0, 0, 0 );
     }
+
+    draw( buffer->getArea() );
+    buffer->end();
   }
 
   virtual void draw( const ofRectangle & area ) {};
@@ -73,7 +77,7 @@ protected:
   virtual ofxLoopinBuffer * getBuffer( bool create = false ) {
     if ( buffer.key.size() )
       return getBuffer( buffer.key, create );
-      
+
     return getBuffer( key, create );
   }
 
