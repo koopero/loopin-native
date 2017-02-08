@@ -28,6 +28,11 @@ switch( architecture ) {
     module.exports = 'linux64'
     return
 
+  case 'armv7l':
+    // ! Bad hack !
+    // Substituting architectures here!!
+    module.exports = 'linuxarmv6l'
+
   default:
     throw new Error( 'Your architecture is not supported at this time.' )
 }
