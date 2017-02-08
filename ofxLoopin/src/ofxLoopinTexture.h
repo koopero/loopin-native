@@ -7,7 +7,7 @@
 #include "ofxLoopinShader.h"
 #include "ofxLoopinUniform.h"
 
-/** loopin/type/texture/sub/:
+/** loopin/type/texture/subs/:
   buffer:
     ref: buffer/
 
@@ -97,14 +97,19 @@ protected:
     */
 
     wrapH.setEnumKey("repeat", GL_REPEAT );
-    wrapH.setEnumKey("none", GL_CLAMP_TO_BORDER );
+    wrapV.setEnumKey("repeat", GL_REPEAT );
+
+    wrapV.setEnumKey("clamp", GL_CLAMP_TO_EDGE );
     wrapH.setEnumKey("clamp", GL_CLAMP_TO_EDGE );
+
+    #ifndef TARGET_OPENGLES
+      wrapH.setEnumKey("none", GL_CLAMP_TO_BORDER );
+      wrapV.setEnumKey("none", GL_CLAMP_TO_BORDER );
+    #endif
+
 
     addSubControl("wrapH", &wrapH );
 
-    wrapV.setEnumKey("repeat", GL_REPEAT );
-    wrapV.setEnumKey("none", GL_CLAMP_TO_BORDER );
-    wrapV.setEnumKey("clamp", GL_CLAMP_TO_EDGE );
     addSubControl("wrapV", &wrapV );
   };
 
