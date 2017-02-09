@@ -56,7 +56,11 @@ public:
   ofxLoopinControlNumber aspect = 1;
 
   // Format of buffer ( not implemented )
-  ofxLoopinControlEnum<int,GL_RGBA8> format;
+  #ifndef TARGET_OPENGLES
+    ofxLoopinControlEnum<int,GL_RGBA8> format;
+  #else
+    ofxLoopinControlEnum<int,GL_RGBA> format;
+  #endif
 
   bool ready() {
     return allocate( getWriteIndex() );

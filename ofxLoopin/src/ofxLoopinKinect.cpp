@@ -161,27 +161,40 @@ void ofxLoopinKinect::drawDepth( const ofRectangle & crop, const ofRectangle & a
 };
 
 void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
+  #ifndef TARGET_OPENGLES
+    // Use some 16-bit buffers for real GL
+    GLint formatRGBDeep  = GL_RGB16;
+    GLint formatRGB      = GL_RGB8;
+    GLint formatRGBADeep = GL_RGBA16;
+  #else
+    // Standard formats for ES
+    GLint formatRGBDeep  = GL_RGB16;
+    GLint formatRGB      = GL_RGB8;
+    GLint formatRGBADeep = GL_RGBA16;
+  #endif
+
   switch ( output.getEnumValue() ) {
     case OUTPUT_BOTH:
-      buffer->setSize( 1280, 480, GL_RGB16 );
+      buffer->setSize( 1280, 480, formatRGBDeep );
     break;
 
     case OUTPUT_VIDEO:
       if ( infrared ) {
-        buffer->setSize( 640, 488, GL_RGB8 );
+        buffer->setSize( 640, 488, formatRGB );
       } else {
-        buffer->setSize( 640, 488, GL_RGB8 );
+        buffer->setSize( 640, 488, formatRGB );
       }
     break;
 
     case OUTPUT_DEPTH:
-      buffer->setSize( 1280, 480, GL_RGB16 );
+      buffer->setSize( 1280, 480, formatRGBDeep );
     break;
 
     case OUTPUT_ALPHA:
-      buffer->setSize( 1280, 480, GL_RGBA16 );
+      buffer->setSize( 1280, 480, formatRGBADeep );
     break;
   }
+
 };
 
 void ofxLoopinKinect::readLocal( Json::Value & value ) {
