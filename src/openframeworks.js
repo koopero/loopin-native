@@ -24,6 +24,7 @@ function openframeworks() {
 
     return ensureZip()
       .then( unpack )
+      .then( patchOF )
   }
 
   function exists() {
@@ -84,5 +85,18 @@ function openframeworks() {
     }
 
     return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
+  }
+
+  function patchOF() {
+    if ( os.platform() != 'linux' )
+      return
+
+    build.log('# patching openFrameworks' )
+    return Promise.map( [ 'linuxarmv6l','linuxarmv7l' ], function ( arch ) {
+      let src  = build.resolve( build['openframeworks'], 'scripts','templates','linux','qtcreator.qbs' )
+      let dest = build.resolve( build['openframeworks'], 'scripts','templates', arch,'qtcreator.qbs' )
+      build.log('cp', src, dest )
+      return fs.copyAsync( src, dest )
+    } )
   }
 }
