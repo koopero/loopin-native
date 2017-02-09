@@ -27,6 +27,8 @@ function addons() {
     } else if ( addon['git'] ){
       return gitClone()
       .then( gitCheckout )
+      .then( gitPatch )
+
     } else if ( addon['path'] ){
       // If path is specified, then the addon is probably
       // ofxLoopin, which is included locally.
@@ -49,6 +51,21 @@ function addons() {
           ]
 
       return build.command( cmd, args )
+    }
+
+    function gitPatch() {
+      if ( !addon['patch'] )
+        return
+
+      return
+
+      const cmd = 'git'
+          , args = [
+            'apply',
+            addon['commit']
+          ]
+
+      return build.command( cmd, args, { cwd: addon['dest'] } )
     }
 
     function gitCheckout() {

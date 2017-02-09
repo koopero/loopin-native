@@ -11,8 +11,10 @@
 #include "ofxLoopinReader.h"
 #include "ofxLoopinStdio.h"
 
+// #include "ofxLoopinAudioAnalyzer.h"
 #include "ofxLoopinImage.h"
 #include "ofxLoopinCamera.h"
+#include "ofxLoopinFFT.h"
 #include "ofxLoopinKinect.h"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
@@ -24,7 +26,9 @@
 #include "ofxLoopinShow.h"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
+#include "ofxLoopinWaveform.h"
 #include "ofxLoopinWindow.h"
+
 
 #include "ofMain.h"
 
@@ -117,6 +121,25 @@ public:
   */
   ofxLoopinRenders<ofxLoopinVideo> videos;
 
+  // waveform/:buffer - waveform input ( experimental )
+  /** loopin/root/waveform
+    map: waveform
+  */
+  ofxLoopinRenders<ofxLoopinWaveform> waveforms;
+
+
+  // // audio/:buffer - ofxAudioAnalyzer wrapper.
+  // /** loopin/root/audio
+  //   map: audio
+  // */
+  // ofxLoopinRenders<ofxLoopinAudioAnalyzer> AudioAnalyzer;
+
+  // audio/:buffer - ofxFFT wrapper.
+  /** loopin/root/audio
+    map: audio
+  */
+  ofxLoopinRenders<ofxLoopinFFT> audio;
+
   // osd/ - on-screen display
   /** loopin/root/osd
     type: osd
@@ -169,6 +192,10 @@ protected:
     addSubControl( "video", &videos );
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
+    addSubControl( "waveform", &waveforms );
+    addSubControl( "audio", &audio );
+
+
 
 
     addSubControl( "save", &savers );
@@ -180,13 +207,15 @@ protected:
   }
 
   void addRenderLists () {
-    renderLists.push_back( &pixels );
+    renderLists.push_back( &waveforms );
+    renderLists.push_back( &audio );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
     renderLists.push_back( &videos );
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
+    renderLists.push_back( &pixels );
   }
 
   // Utility for reading from stdio
