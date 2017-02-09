@@ -168,9 +168,9 @@ void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
     GLint formatRGBADeep = GL_RGBA16;
   #else
     // Standard formats for ES
-    GLint formatRGBDeep  = GL_RGB16;
-    GLint formatRGB      = GL_RGB8;
-    GLint formatRGBADeep = GL_RGBA16;
+    GLint formatRGBDeep  = GL_RGB;
+    GLint formatRGB      = GL_RGB;
+    GLint formatRGBADeep = GL_RGBA;
   #endif
 
   switch ( output.getEnumValue() ) {
