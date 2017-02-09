@@ -56,6 +56,7 @@ function project() {
         , args = [
           '-a'+addons.join(','),
           '-o'+build.openframeworks,
+          '-p'+build.platform,
           build.app
         ]
 
