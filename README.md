@@ -2,7 +2,7 @@
 applications using a share, natively compiled binary. It includes the following:
 
 * C++/[openFrameworks](http://openframeworks.cc) source code for the reference Loopin server implementation (ofxLoopin)
-* node.js functions to automatically build and run the The Binary.  *src/\*)
+* node.js functions to automatically build and run the The Binary.  *src/\**
 * Command-line utility `loopin-native` to manually build The Binary. *src/cli.js*  
 
 # Globals
@@ -53,12 +53,17 @@ loopin-native -V -n
 
 # Next, we'll need to install some openFrameworks dependencies.
 # ( You may need to replace 'ubuntu' with your distribution )
-cd ~/_loopin/native/lib/openframeworks/scripts/linux/ubuntu
+cd ~/_loopin/native/openFrameworks/0.9.8/scripts/linux/ubuntu
 
 # openframeworks scripts to auto-install dependencies
 # You will need to hit 'Y' a number of times.
 sudo ./install_dependencies.sh
 sudo ./install_codecs.sh
+
+# Note that while most of these deps will be installed globally,
+# install_dependencies can also recompile Poco within the
+# downloaded OF directory. If OF is reinstalled, you may need to
+# re-run the previous step.
 
 # Finally, re-run loopin-native with a simple test program.  
 loopin-native -T
@@ -67,6 +72,17 @@ loopin-native -T
 # text 'Loopin Lives!'
 ```
 
+## Raspberry PI
+
+*Currently testing with Raspbian Jessie Lite*
+
+The procedure for installation on generic Linux should work. A few PI-specific notes:
+
+* Use [raspbian lite](https://www.raspberrypi.org/downloads/raspbian/) image.
+* Don't install desktop!
+* Installer currently forces armv6 architecture.
+* Installation and compiling can take *hours*, even on a PI 3. Deploy early and often!
+* GL ES shader support still needs a lot of work.
 
 ## Windows
 
@@ -78,14 +94,13 @@ If you would like to help getting Loopin running on Windows, please contact me a
 
 Internally, the file `src/builder.js` implements the following procedure:
 
-* Download the latest [openFrameworks](http://openframeworks.cc) release.
-* Use `git` to download the following addons.
+* Download the latest [openFrameworks](http://openframeworks.cc) release. OF is installed
+into unpacked into `~/_loopin/native/openFrameworks/{version}`.
+* Use `git` to download the following addons into the addons folder of the OF installation.
   * [ofxJSON](https://github.com/jefftimesten/ofxJSON)
-  * [ofxSyphon](https://github.com/astellato/ofxSyphon)
-  * [ofxTrueTypeFontUC](https://github.com/hironishihara/ofxTrueTypeFontUC)
-* Creates a new openFrameworks project named 'Loopin', using openFrameworks' project generator.
+  * [ofxSyphon](https://github.com/astellato/ofxSyphon) ( mac only )
+  * [ofxTrueTypeFontUC](https://github.com/hironishihara/ofxTrueTypeFontUC) ( experimental )
+* Creates a new openFrameworks project named 'Loopin', using openFrameworks' project generator. The project is stored in `~/_loopin/native/0.7/Loopin`.
 * Overwrite `main.cpp` and add some default files.
 * Compile the binary using `make`.
 * Optionally run the binary and return the process.
-
-Currently, the root for all builds is `~/_loopin`.
