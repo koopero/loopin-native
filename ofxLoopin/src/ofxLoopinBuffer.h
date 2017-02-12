@@ -95,7 +95,7 @@ public:
   ofVec2f getSize();
   float getAspect() { return getWidth() / (float) getHeight(); };
 
-  void draw( int width, int height );
+  void draw( int width, int height, int x = 0, int y = 0 );
 
   void defaultSize() {
     defaultSize(

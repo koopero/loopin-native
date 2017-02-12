@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ofxFFTLive.h"
+#include "ofxEasyFft.h"
 
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinRender.h"
 
-class ofxLoopinFFT : public ofxLoopinRender {
+class ofxLoopinFft : public ofxLoopinRender {
 public:
   void renderBuffer( ofxLoopinBuffer * buffer );
 
@@ -13,11 +13,10 @@ public:
 
 protected:
   void refresh();
-  bool fftIsOpen = false;
-  ofxFFTLive fftLive;
+  ofxEasyFft * fftLive = NULL;
 
 
   void addSubControls() {
-    addSubControl("buffer", &buffer );
+    ofxLoopinRender::addSubControls();
   };
 };

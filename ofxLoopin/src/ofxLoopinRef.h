@@ -12,7 +12,7 @@ public:
   TYPE * getPointer( bool create = true ) {
 
     if ( root == nullptr ){
-      ofxLoopinEvent event("rooFuckup");
+      ofxLoopinEvent event("rootFuckup");
       dispatch(event);
     };
 
@@ -32,6 +32,10 @@ public:
 
     return map->getByKey( key, create );
   };
+
+  void next() {};
+  void prev() {};
+
 
 protected:
   void patchString( const string & value ) {

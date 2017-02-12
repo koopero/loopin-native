@@ -46,7 +46,7 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
 
   int i = 0;
   for ( int pixelIndex = 0; pixelIndex < numPixels; pixelIndex ++ ) {
-    ofColor pixel = pixels.getColor( pixelIndex );
+    ofColor pixel = pixels.getColor( pixelIndex * pixels.getNumChannels() );
 
     for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
       switch ( channels[channelIndex] ) {

@@ -7,7 +7,7 @@
 
 #include "ofShader.h"
 
-/** loopin/type/shader 
+/** loopin/type/shader
 sub:
   vert:
     type: shaderElement
@@ -39,7 +39,8 @@ public:
 
   void applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
     shader.setUniform1f( "bufferAspect", buffer->getAspect() );
-
+    shader.setUniform1f( "bufferWidth", buffer->getWidth() );
+    shader.setUniform1f( "bufferHeight", buffer->getHeight() );
   }
 
   void applyUniformsFrame() {
@@ -73,12 +74,14 @@ protected:
         "uniform sampler2D srcSampler;\n"
         "in vec4 position;\n"
         "in vec2 texcoord;\n"
+        "in vec4 color;\n"
         "out vec2 srcCoord;\n"
+        "out vec4 vertColour;\n"
         "void main()\n"
         "{\n"
         "    srcCoord = vec2(texcoord.x, texcoord.y);\n"
         "    srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy;\n"
-        // "    srcCoord *= textureSize( srcSampler );\n"
+        "    vertColour = color;\n"
         "    gl_Position = modelViewProjectionMatrix * position;\n"
         "}\n";
     }
@@ -91,11 +94,12 @@ protected:
         "#version 150\n"
         "uniform sampler2D srcSampler;\n"
         "in vec2 srcCoord;\n"
+        "in vec4 vertColour;\n"
         "out vec4 outputColour;\n"
         "void main()\n"
         "{\n"
-        "  vec4 c = texture(srcSampler, srcCoord);\n"
-        "  outputColour = vec4( c.r, c.g, c.b, c.a );\n"
+        "  vec4 srcSample = texture(srcSampler, srcCoord);\n"
+        "  outputColour = srcSample * vertColour;\n"
         "}\n";
     }
     frag.dataIsNew = true;

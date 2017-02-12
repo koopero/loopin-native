@@ -18,7 +18,12 @@ addons:
   ofxLoopin: ./ofxLoopin
   ofxJSON:
     git: https://github.com/jefftimesten/ofxJSON.git
-  ofxFFT:
-    git: https://github.com/julapy/ofxFFT.git
+  ofxFft:
+    git: https://github.com/kylemcdonald/ofxFft.git
+    # patch: ofxAudioAnalyzer.patch
+
+  # ofxFFT:
+  #   git: https://github.com/julapy/ofxFFT.git
+  #   # patch: ofxAudioAnalyzer.patch
   ofxTrueTypeFontUC:
     git: https://github.com/hironishihara/ofxTrueTypeFontUC.git

@@ -14,7 +14,7 @@
 // #include "ofxLoopinAudioAnalyzer.h"
 #include "ofxLoopinImage.h"
 #include "ofxLoopinCamera.h"
-#include "ofxLoopinFFT.h"
+#include "ofxLoopinFft.h"
 #include "ofxLoopinKinect.h"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
@@ -127,18 +127,11 @@ public:
   */
   ofxLoopinRenders<ofxLoopinWaveform> waveforms;
 
-
-  // // audio/:buffer - ofxAudioAnalyzer wrapper.
-  // /** loopin/root/audio
-  //   map: audio
-  // */
-  // ofxLoopinRenders<ofxLoopinAudioAnalyzer> AudioAnalyzer;
-
-  // audio/:buffer - ofxFFT wrapper.
-  /** loopin/root/audio
-    map: audio
+  // fft/:buffer - ofxFft wrapper.
+  /** loopin/root/fft
+    map: fft
   */
-  ofxLoopinRenders<ofxLoopinFFT> audio;
+  ofxLoopinRenders<ofxLoopinFft> fft;
 
   // osd/ - on-screen display
   /** loopin/root/osd
@@ -193,10 +186,7 @@ protected:
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
-    addSubControl( "audio", &audio );
-
-
-
+    addSubControl( "fft", &fft );
 
     addSubControl( "save", &savers );
     addSubControl( "show", &show );
@@ -208,7 +198,7 @@ protected:
 
   void addRenderLists () {
     renderLists.push_back( &waveforms );
-    renderLists.push_back( &audio );
+    renderLists.push_back( &fft );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
@@ -223,6 +213,20 @@ protected:
 
   // Utility for reading to stdio
   ofxLoopinReader reader;
+
+  void keyPressed(int key) {
+    cerr << "keyPressed " << key << endl;
+
+    switch ( key ) {
+      case OF_KEY_LEFT:
+        show.buffer.prev();
+      break;
+
+      case OF_KEY_RIGHT:
+        show.buffer.next();
+      break;
+    }
+  }
 
 private:
   int exitAfterFrames = 0;
