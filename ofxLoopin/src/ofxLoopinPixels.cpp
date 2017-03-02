@@ -45,8 +45,10 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
   data.resize( dataSize );
 
   int i = 0;
-  for ( int pixelIndex = 0; pixelIndex < numPixels; pixelIndex ++ ) {
-    ofColor pixel = pixels.getColor( pixelIndex );
+  for ( int y = 0; y < pixels.getHeight(); y++ )
+  for ( int x = 0; x < pixels.getWidth(); x++ )
+  {
+    ofColor pixel = pixels.getColor( x, y );
 
     for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
       switch ( channels[channelIndex] ) {
@@ -60,13 +62,18 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
     }
   }
 
+
   data = base64_encode( (const unsigned char *)data.c_str(), data.size() );
   ofxLoopinEvent event;
   event.type = "pixels";
   event.data["pixels"] = data;
+  event.data["width"] = pixels.getWidth();
+  event.data["height"] = pixels.getHeight();
   event.data["frame"] = renderingFrame.index;
 
   dispatch( event );
+  pixels.clear();
+
 }
 
 ofRectangle ofxLoopinPixels::getBounds() {

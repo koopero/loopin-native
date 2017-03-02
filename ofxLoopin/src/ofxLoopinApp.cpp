@@ -34,7 +34,7 @@ void ofxLoopinApp::setup () {
 
   stdio.start();
 
-  ofSetFrameRate(60);
+  ofSetFrameRate( 60 );
 }
 
 void ofxLoopinApp::updateLocal() {

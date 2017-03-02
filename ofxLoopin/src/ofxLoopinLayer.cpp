@@ -30,7 +30,6 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
 }
 
 void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
-
   ofxLoopinShader * shader = ofxLoopinLayer::shader.getPointer();
   ofxLoopinMesh * mesh = ofxLoopinLayer::mesh.getPointer();
   ofxLoopinCamera * camera = ofxLoopinLayer::camera.getPointer();
@@ -51,15 +50,13 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
   uniforms.bindToShader( shader );
 
-
-
   if ( pointSize > 0.0 ) {
     ofEnablePointSprites();
   } else {
     ofDisablePointSprites();
   }
 
-  ofEnableBlendMode( blend.getEnumValue() );
+  // ofEnableBlendMode( blend.getEnumValue() );
   ofSetDepthTest( false );
 
   //
@@ -80,13 +77,13 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
   GLenum face_ = face.getEnumValue();
 
-  if ( face_ ) {
-    glEnable( GL_CULL_FACE );
-    glCullFace( face_ );
-    glFrontFace( GL_CW );
-  } else {
-    glDisable( GL_CULL_FACE );
-  }
+  // if ( face_ ) {
+  //   glEnable( GL_CULL_FACE );
+  //   glCullFace( face_ );
+  //   glFrontFace( GL_CW );
+  // } else {
+  //   glDisable( GL_CULL_FACE );
+  // }
 
 
   for ( int pass = 0; pass < passes; pass ++ ) {
@@ -94,7 +91,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
     if ( !pass ) {
       if ( isRoot && clear ) {
-        ofClear( 0, 0, 0, 0 );
+        // ofClear( 0, 0, 0, 0 );
       }
 
       camera->loadMatrixes();
@@ -105,7 +102,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
     buffer->end();
   }
-  glDisable( GL_CULL_FACE );
+  // glDisable( GL_CULL_FACE );
 
 
   buffer->end();
