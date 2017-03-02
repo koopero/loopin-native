@@ -215,7 +215,7 @@ protected:
   ofxLoopinReader reader;
 
   void keyPressed(int key) {
-    cerr << "keyPressed " << key << endl;
+    // cerr << "keyPressed " << key << endl;
 
     switch ( key ) {
       case OF_KEY_LEFT:

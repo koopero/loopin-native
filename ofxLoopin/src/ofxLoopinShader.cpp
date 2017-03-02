@@ -12,7 +12,6 @@ void ofxLoopinShader::refresh() {
       vert.dataIsNew = false;
       frag.dataIsNew = false;
 
-
       event.type = "captureStart";
       dispatch( event );
 

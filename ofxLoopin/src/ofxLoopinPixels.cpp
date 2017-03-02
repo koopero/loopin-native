@@ -65,6 +65,9 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
   event.type = "pixels";
   event.data["pixels"] = data;
   event.data["frame"] = renderingFrame.index;
+  event.data["width"] = buffer->getWidth();
+  event.data["height"] = buffer->getHeight();
+
 
   dispatch( event );
 }

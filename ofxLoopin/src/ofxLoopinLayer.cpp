@@ -18,6 +18,9 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
 
   assert( buffer != nullptr );
 
+  clockControl.advance( renderingFrame );
+  renderingFrame = clockControl.frame;
+
   if ( isTop ) {
     buffer->flip();
   }
@@ -39,7 +42,6 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
 
 
 void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
-
   ofxLoopinShader * shader = ofxLoopinLayer::shader.getPointer();
   ofxLoopinMesh * mesh = ofxLoopinLayer::mesh.getPointer();
   ofxLoopinCamera * camera = ofxLoopinLayer::camera.getPointer();
@@ -54,9 +56,11 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
   shader->begin();
   shader->applyUniformsDefaults();
-  shader->applyUniformsFrame();
+  shader->applyUniformsGlobalClock();
   shader->applyUniformPointSize( pointSize );
   shader->applyUniformsBuffer( buffer );
+
+  clockControl.applyUniforms( shader->shader );
 
   uniforms.bindToShader( shader );
 
@@ -86,6 +90,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   //
   // Set Matrixs
   //
+
 
   GLenum face_ = face.getEnumValue();
 

@@ -43,11 +43,11 @@ public:
     shader.setUniform1f( "bufferHeight", buffer->getHeight() );
   }
 
-  void applyUniformsFrame() {
+  void applyUniformsGlobalClock() {
     ofxLoopinFrame frame = root->frame;
-    shader.setUniform1i( "clockIndex", frame.index );
-    shader.setUniform1f( "clockTime", frame.time );
-    shader.setUniform1f( "clockDelta", frame.delta );
+    shader.setUniform1i( "clockGlobalIndex", frame.index );
+    shader.setUniform1f( "clockGlobalTime", frame.time );
+    shader.setUniform1f( "clockGlobalDelta", frame.delta );
   }
 
   void applyUniformPointSize( float pointSize ) {
@@ -81,7 +81,8 @@ protected:
         "{\n"
         "    srcCoord = vec2(texcoord.x, texcoord.y);\n"
         "    srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy;\n"
-        "    vertColour = color;\n"
+        "    // vertColour = color;\n"
+        "    vertColour = vec4(1,1,1,1);\n"
         "    gl_Position = modelViewProjectionMatrix * position;\n"
         "}\n";
     }
