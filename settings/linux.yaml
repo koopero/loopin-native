@@ -4,3 +4,8 @@ openframeworks:
   projectGeneratorPath: apps/projectGenerator/commandLine
 app:
   executable: bin/{appName}
+
+# addons:
+#   ofxAudioAnalyzer:
+#     git: https://github.com/leozimmerman/ofxAudioAnalyzer.git
+#     patch: ofxAudioAnalyzer.patch

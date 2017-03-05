@@ -74,7 +74,7 @@ loopin-native -T
 
 ## Raspberry PI
 
-*Currently testing with Raspbian Jessie Lite*
+*Currently testing with Raspbian Jessie Lite on both Pi 1 & Pi 3*
 
 The procedure for installation on generic Linux should work. A few PI-specific notes:
 

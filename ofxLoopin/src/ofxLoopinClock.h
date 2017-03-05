@@ -1,8 +1,12 @@
 #pragma once
 
+#include "ofShader.h"
+
 #include "ofxLoopinControl.h"
 #include "ofxLoopinControlEnum.h"
-#include "ofxLoopinControlNumeric.h"
+#include "ofxLoopinControlNumber.h"
+#include "ofxLoopinFrame.h"
+
 
 /** loopin/type/clock/sub
 
@@ -40,57 +44,23 @@ public:
   static ofxLoopinFrame globalFrame;
 
   enum Mode {
-    ASYNC,
-    SYNC,
-    STEP
+    TIME,
+    FRAME,
+    STEP,
+    WALL
   };
 
-  ofxLoopinControlEnum<Mode,ASYNC> mode;
-  ofxLoopinControlNumeric rate;
-  ofxLoopinControlNumeric speed;
+  ofxLoopinControlEnum<Mode,TIME> mode;
+  ofxLoopinControlNumber rate = 60.0;
+  ofxLoopinControlNumber speed = 1.0;
 
   bool running = true;
-
   double lastTime;
 
-  ofxLoopinFrame getFrame() {
-    double delta = nextDelta;
-    double now = ofGetSystemTimeMicros() / 1000000.0;
+  void advance();
+  void advance( const ofxLoopinFrame & parentFrame );
+  void reset();
 
-    if ( frame.index < 0 ) {
-      frame.index = 0;
-      frame.time = 0;
-      delta *= 0;
-    } else if ( running ) {
-      frame.index ++;
-    } else {
-      delta *= 0;
-    }
-
-    switch ( mode.getEnumValue() ) {
-      case SYNC:
-        delta *= now - lastTime;
-      break;
-
-      case STEP:
-        running = false;
-      case ASYNC:
-        delta *= 1.0 / rate.getValueFloat();
-      break;
-    }
-
-    float _speed = speed.getValueFloat();
-    delta *= _speed;
-
-    frame.delta = delta;
-    frame.time += delta;
-    frame.speed = _speed;
-
-    lastTime = now;
-    nextDelta = 1;
-
-    return frame;
-  };
 
   void seek( double time ) {
     frame.time = time;
@@ -98,23 +68,25 @@ public:
   };
 
   bool shouldRender();
+  void advanceDelta( double speed );
 
+  void applyUniforms( ofShader & shader ) {
+    shader.setUniform1i( "clockIndex", frame.index );
+    shader.setUniform1f( "clockTime", frame.time );
+    shader.setUniform1f( "clockDelta", frame.delta );
+  }
 
 protected:
-
-  float nextDelta = 1.0;
+  float nextDelta = 0;
 
   void addSubControls() {
-    mode.setEnumKey("async", ASYNC );
-    mode.setEnumKey("sync", SYNC );
-    mode.setEnumKey("step", STEP );
+    mode.setEnumKey("time",   TIME );
+    mode.setEnumKey("frame",  FRAME );
+    mode.setEnumKey("step",   STEP );
+    mode.setEnumKey("wall",   WALL );
 
     addSubControl("mode", &mode );
-
-    rate.setValueHard( 60.0 );
     addSubControl("rate", &rate );
-
-    speed.setValueHard( 1.0 );
     addSubControl("speed", &speed );
   };
 
@@ -126,6 +98,10 @@ protected:
     if ( value.isObject() ) {
       if ( value.isMember("advance") && value["advance"].asBool() ) {
         running = true;
+      }
+
+      if ( value.isMember("reset") && value["reset"].asBool() ) {
+        reset();
       }
     }
   }

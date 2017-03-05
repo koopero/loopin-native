@@ -35,7 +35,8 @@ public:
   void applyUniformsBuffer( ofxLoopinBuffer * buffer );
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );
-
+  void applyUniformsGlobalClock();
+  
 protected:
   void refresh();
 

@@ -38,10 +38,12 @@ void ofxLoopinApp::setup () {
 }
 
 void ofxLoopinApp::updateLocal() {
-  frame = clock.getFrame();
-
   // Take inputs.
   patch( stdio.getValue() );
+
+  clock.advance();
+  frame = clock.frame;
+
   osd.setFrame( frame );
 }
 

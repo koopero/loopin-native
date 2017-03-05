@@ -347,10 +347,10 @@ int ofxLoopinMesh::vertexKeyToAxis( const string &key ) {
   if ( key == "z" || key == "2" ) return 2;
   if ( key == "u" || key == "3" ) return 3;
   if ( key == "v" || key == "4" ) return 4;
-  if ( key == "r" || key == "5" ) return 5;
-  if ( key == "g" || key == "6" ) return 6;
-  if ( key == "b" || key == "7" ) return 7;
-  if ( key == "a" || key == "8" ) return 8;
+  if ( key == "r" || key == "red" || key == "5" ) return 5;
+  if ( key == "g" || key == "green" || key == "6" ) return 6;
+  if ( key == "b" || key == "blue" || key == "7" ) return 7;
+  if ( key == "a" || key == "alpha" || key == "8" ) return 8;
   if ( key == "nx" || key == "9" ) return 9;
   if ( key == "ny" || key == "10" ) return 10;
   if ( key == "nz" || key == "11" ) return 11;

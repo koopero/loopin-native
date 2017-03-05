@@ -1,0 +1,28 @@
+From ac1c9cdd83074a3f342651a394c8e10c0d3563bb Mon Sep 17 00:00:00 2001
+From: koopero <koopero@gmail.com>
+Date: Wed, 8 Feb 2017 00:43:52 -0800
+Subject: [PATCH] Exclude ofSoundPlayerExtended.cpp from compilation
+
+---
+ addon_config.mk | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/addon_config.mk b/addon_config.mk
+index 4561841..0268d76 100644
+--- a/addon_config.mk
++++ b/addon_config.mk
+@@ -62,7 +62,10 @@ common:
+ 
+ 	# when parsing the file system looking for sources exclude this for all or
+ 	# a specific platform
+-	# ADDON_SOURCES_EXCLUDE =
++
++	# Remove ofSoundPlayerExtended, since it is not needed for
++	# ofxLoopin's purposes, but has difficult dependencies.
++	ADDON_SOURCES_EXCLUDE = src/ofSoundPlayerExtended.cpp
+ 
+ 	# when parsing the file system looking for include paths exclude this for all or
+ 	# a specific platform
+-- 
+2.1.2
+

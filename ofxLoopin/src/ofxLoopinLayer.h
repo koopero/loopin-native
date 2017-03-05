@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofxLoopinCamera.h"
+#include "ofxLoopinClock.h"
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinTexture.h"
@@ -35,6 +36,7 @@ aspect:
 
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
+  ofxLoopinClock clockControl;
   int passes = 1;
   ofxLoopinControlNumber pointSize;
   bool clear = true;
@@ -59,6 +61,8 @@ protected:
     ofxLoopinRender::addSubControls();
 
     addSubControl( "shader", &shader );
+    addSubControl( "clock", &clockControl );
+
 
     addSubControl( "mesh", &mesh );
 

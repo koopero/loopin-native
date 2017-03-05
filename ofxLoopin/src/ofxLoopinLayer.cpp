@@ -3,15 +3,25 @@
 #include <assert.h>
 
 void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
-  bool isRender = false;
+  bool isTop = true;
+
+
   if ( !buffer ) {
-    isRender = true;
     buffer = getBuffer( true );
   }
 
+  // Find if we're the top layer by checking
+  // path length
+  // 7 == strlen('render/')
+  if ( path.size() > key.size() + 7 )
+    isTop = false;
+
   assert( buffer != nullptr );
 
-  if ( isRender ) {
+  clockControl.advance( renderingFrame );
+  renderingFrame = clockControl.frame;
+
+  if ( isTop ) {
     buffer->flip();
   }
 
@@ -23,7 +33,7 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
     return;
   }
 
-  renderSelf( buffer, isRender );
+  renderSelf( buffer, isTop );
 
   layers.render( renderingFrame, buffer );
 
@@ -44,9 +54,11 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
   shader->begin();
   shader->applyUniformsDefaults();
-  shader->applyUniformsFrame();
+  shader->applyUniformsGlobalClock();
   shader->applyUniformPointSize( pointSize );
   shader->applyUniformsBuffer( buffer );
+
+  clockControl.applyUniforms( shader->shader );
 
   uniforms.bindToShader( shader );
 
@@ -56,7 +68,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
     ofDisablePointSprites();
   }
 
-  // ofEnableBlendMode( blend.getEnumValue() );
+  ofEnableBlendMode( blend.getEnumValue() );
   ofSetDepthTest( false );
 
   //
@@ -75,6 +87,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   // Set Matrixs
   //
 
+
   GLenum face_ = face.getEnumValue();
 
   // if ( face_ ) {
@@ -89,7 +102,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   for ( int pass = 0; pass < passes; pass ++ ) {
     buffer->begin();
 
-    if ( !pass ) {
+    if ( true || !pass ) {
       if ( isRoot && clear ) {
         // ofClear( 0, 0, 0, 0 );
       }

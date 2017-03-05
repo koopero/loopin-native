@@ -78,7 +78,7 @@ size_t ofxLoopinBuffer::getReadIndex() {
     return lastWroteIndex;
   }
 
-  int readIndex = boundIndex < 0 ? curIndex : curIndex ? 0 : 1;
+  int readIndex = boundIndex < 0 ? curIndex : boundIndex ? 0 : 1;
   return readIndex;
 }
 
@@ -105,19 +105,24 @@ bool ofxLoopinBuffer::allocate( int index ) {
     || _bufferFormats[index] != format
   ) {
     buffer.allocate( width, height, format );
+
+    // buffer.begin();
+    // ofClear( 0, 0 );
+    // buffer.end();
+
     _bufferFormats[index] = format;
   }
 
   return width && height && buffer.isAllocated();
 }
 
-void ofxLoopinBuffer::draw( int width, int height ) {
+void ofxLoopinBuffer::draw( int width, int height, int x, int y ) {
   int index = getReadIndex();
   ofFbo & buffer = buffers[index];
 
   if ( buffer.isAllocated() ) {
     ofTexture &texture = buffer.getTexture();
-    texture.draw( 0,0, width, height );
+    texture.draw( x,y, width, height );
   }
 }
 

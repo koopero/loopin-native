@@ -45,6 +45,7 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
   data.resize( dataSize );
 
   int i = 0;
+
   for ( int y = 0; y < pixels.getHeight(); y++ )
   for ( int x = 0; x < pixels.getWidth(); x++ )
   {
@@ -70,6 +71,9 @@ void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
   event.data["width"] = pixels.getWidth();
   event.data["height"] = pixels.getHeight();
   event.data["frame"] = renderingFrame.index;
+  event.data["width"] = buffer->getWidth();
+  event.data["height"] = buffer->getHeight();
+
 
   dispatch( event );
   pixels.clear();

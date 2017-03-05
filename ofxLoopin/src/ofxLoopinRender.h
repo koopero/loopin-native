@@ -67,6 +67,7 @@ protected:
 
 
   void addSubControls() {
+    addSubControl("buffer", &buffer );
     addSubControl( &uniforms );
     addSubControl( "shader", &shader );
   };

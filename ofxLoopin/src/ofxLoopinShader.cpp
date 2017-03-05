@@ -8,14 +8,22 @@ void ofxLoopinShader::addSubControls() {
   if ( vertDefaultFile.size() ) {
     vert.file = vertDefaultFile;
   } else {
-    vert.data = ofxLoopinShaderDefaults::GLES_VERT;
+    #ifdef TARGET_OPENGLES
+      vert.data = ofxLoopinShaderDefaults::GLES_VERT;
+    #else
+      vert.data = ofxLoopinShaderDefaults::GL_VERT;
+    #endif
   }
   vert.dataIsNew = true;
 
   if ( fragDefaultFile.size() ) {
     frag.file = fragDefaultFile;
   } else {
-    frag.data = ofxLoopinShaderDefaults::GLES_FRAG;
+    #ifdef TARGET_OPENGLES
+      frag.data = ofxLoopinShaderDefaults::GLES_FRAG;
+    #else
+      frag.data = ofxLoopinShaderDefaults::GL_FRAG;
+    #endif
   }
   frag.dataIsNew = true;
 
@@ -34,7 +42,6 @@ void ofxLoopinShader::refresh() {
 
       vert.dataIsNew = false;
       frag.dataIsNew = false;
-
 
       event.type = "captureStart";
       dispatch( event );
@@ -68,6 +75,7 @@ void ofxLoopinShader::end() {
 }
 
 void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
+  // cerr << "applyUniformsPass " << passIndex << " " << passTotal << endl;
   shader.setUniform1i( "passIndex", passIndex );
   shader.setUniform1i( "passTotal", passTotal );
   shader.setUniform1f( "passDensity", 1.0 / (float) passTotal );
@@ -78,6 +86,14 @@ void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   shader.setUniform1f( "bufferAspect", buffer->getAspect() );
 
 }
+
+void ofxLoopinShader::applyUniformsGlobalClock() {
+  ofxLoopinFrame frame = root->frame;
+  shader.setUniform1i( "clockGlobalIndex", frame.index );
+  shader.setUniform1f( "clockGlobalTime", frame.time );
+  shader.setUniform1f( "clockGlobalDelta", frame.delta );
+}
+
 
 void ofxLoopinShader::applyUniformsFrame() {
   ofxLoopinFrame frame = root->frame;

@@ -11,8 +11,10 @@
 #include "ofxLoopinReader.h"
 #include "ofxLoopinStdio.h"
 
+// #include "ofxLoopinAudioAnalyzer.h"
 #include "ofxLoopinImage.h"
 #include "ofxLoopinCamera.h"
+// #include "ofxLoopinFft.h"
 #include "ofxLoopinKinect.h"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
@@ -24,7 +26,9 @@
 #include "ofxLoopinShow.h"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
+#include "ofxLoopinWaveform.h"
 #include "ofxLoopinWindow.h"
+
 
 #include "ofMain.h"
 
@@ -117,6 +121,18 @@ public:
   */
   ofxLoopinRenders<ofxLoopinVideo> videos;
 
+  // waveform/:buffer - waveform input ( experimental )
+  /** loopin/root/waveform
+    map: waveform
+  */
+  ofxLoopinRenders<ofxLoopinWaveform> waveforms;
+
+  // fft/:buffer - ofxFft wrapper.
+  /** loopin/root/fft
+    map: fft
+  */
+  // ofxLoopinRenders<ofxLoopinFft> fft;
+
   // osd/ - on-screen display
   /** loopin/root/osd
     type: osd
@@ -169,7 +185,8 @@ protected:
     addSubControl( "video", &videos );
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
-
+    addSubControl( "waveform", &waveforms );
+    // addSubControl( "fft", &fft );
 
     addSubControl( "save", &savers );
     addSubControl( "show", &show );
@@ -180,13 +197,15 @@ protected:
   }
 
   void addRenderLists () {
-    renderLists.push_back( &pixels );
+    renderLists.push_back( &waveforms );
+    // renderLists.push_back( &fft );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
     renderLists.push_back( &videos );
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
+    renderLists.push_back( &pixels );
   }
 
   // Utility for reading from stdio
@@ -194,6 +213,20 @@ protected:
 
   // Utility for reading to stdio
   ofxLoopinReader reader;
+
+  void keyPressed(int key) {
+    // cerr << "keyPressed " << key << endl;
+
+    switch ( key ) {
+      case OF_KEY_LEFT:
+        show.buffer.prev();
+      break;
+
+      case OF_KEY_RIGHT:
+        show.buffer.next();
+      break;
+    }
+  }
 
 private:
   int exitAfterFrames = 0;
