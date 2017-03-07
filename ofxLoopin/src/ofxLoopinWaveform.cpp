@@ -2,9 +2,18 @@
 
 void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
   // Ensure the soundstream is running
+  int channels = (int) ofxLoopinWaveform::channels;
+
+  if ( channels < 1 )
+    return;
+
   if ( !streamIsOpen ) {
     soundStream.setInput( *this );
-    streamIsOpen = soundStream.setup( 0, 1, 44100, 256, 1 );
+    streamIsOpen = true;
+  }
+
+  if ( soundStream.getNumInputChannels() != channels ) {
+    streamIsOpen = soundStream.setup( 0, channels, 44100, 256, 1 );
   }
 
   if ( !buffer )
@@ -16,6 +25,8 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
     return;
 
   int bufferWidth = buffer->getWidth();
+  int bufferHeight = buffer->getHeight();
+
   float _duration = ofxLoopinWaveform::duration;
   float _samplesDuration = (float) samples.getDurationMicros() / 1000000.0;
   int size = floor( bufferWidth * _samplesDuration / _duration );
@@ -26,29 +37,28 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( size < bufferWidth ) {
     buffer->flip();
     buffer->begin();
-    buffer->draw( bufferWidth, 1, size );
+    buffer->draw( bufferWidth, bufferHeight, size );
   } else {
     buffer->begin();
   }
 
-
   ofFloatImage output;
-  output.allocate( size, 1, OF_IMAGE_COLOR );
+  output.allocate( size, channels, OF_IMAGE_COLOR );
   output.setColor( ofColor(0,0,0,255) );
 
   ofFloatPixels & pixels = output.getPixels();
 
-  int k = samples.size();
-  int channels = 1;
+  int k = samples.getNumFrames();
 
   if ( k > size ) {
     for ( int i = 0; i < k; i ++ ) {
       int x = floor( ( (float) i / (float) (k-1) ) * size );
-      ofFloatColor pixel = pixels.getColor( x, 0 );
-      int channel = 0;
-      float sample;
-      for ( ; channel < channels && channel < 4; channel++ ) {
-        sample = samples.getSample( i, channel );
+      if ( x >= size )
+        break;
+
+      for ( int channel = 0; channel < channels; channel++ ) {
+        ofFloatColor pixel = pixels.getColor( x, channel );
+        float sample = samples.getSample( i, channel );
         float sampleSign;
 
         computeSample( sample, sampleSign );
@@ -58,35 +68,26 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
         float lastSign = last == 0 ? 1 : last / lastAbs;
 
         sample = max( lastAbs, sample );
-        pixel[channel] = sample * sampleSign;
+
+        pixel.setHsb( 0,0,sample);
+        pixels.setColor( x, channel, pixel );
       }
-
-      for ( ; channel < 3; channel ++ )
-        pixel[channel] = sample;
-
-      pixels.setColor( x, 0, pixel );
     }
   } else {
     for ( int x = 0; x < size && x < bufferWidth; x ++ ) {
-      ofFloatColor pixel;
-      pixel.a = 1.0;
 
       float i = ( (float) x / (float) size ) * k;
-      float sample = 1.0;
-      int channel = 0;
-      for ( ; channel < channels && channel < 4; channel++ ) {
-        sample = samples.getSample( i, channel );
+      for ( int channel = 0; channel < channels; channel++ ) {
+        ofFloatColor pixel;
+        pixel.a = 1.0;
+        float sample = samples.getSample( i, channel );
         float sampleSign;
 
         computeSample( sample, sampleSign );
 
-        pixel[channel] = sample * sampleSign;
+        pixel.setHsb( 0,0,sample);
+        pixels.setColor( x, channel, pixel );
       }
-
-      for ( ; channel < 3; channel ++ )
-        pixel[channel] = sample;
-
-      pixels.setColor( x, 0, pixel );
     }
   }
 
@@ -94,7 +95,7 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
 
 
   output.update();
-  output.draw(0,0);
+  output.draw(0,0,size,max(channels,bufferHeight));
   output.clear();
 
   buffer->end();
@@ -138,5 +139,6 @@ ofRectangle ofxLoopinWaveform::getBounds() {
 }
 
 void ofxLoopinWaveform::audioIn(ofSoundBuffer &buffer) {
+  samples.setNumChannels( buffer.getNumChannels() );
   samples.append( buffer );
 }
