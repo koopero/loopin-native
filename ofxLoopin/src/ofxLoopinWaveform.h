@@ -52,6 +52,8 @@ public:
   ofxLoopinControlNumber duration = 1;
   ofxLoopinControlNumber squelch = 0;
   ofxLoopinControlNumber gain = 1;
+  ofxLoopinControlInt channels = 2;
+
 
 
   void renderBuffer( ofxLoopinBuffer * buffer );
@@ -80,6 +82,6 @@ protected:
     addSubControl("squelch", &squelch );
     addSubControl("gain", &gain);
     addSubControl("duration", &duration );
-
+    addSubControl("channels", &channels );
   };
 };
