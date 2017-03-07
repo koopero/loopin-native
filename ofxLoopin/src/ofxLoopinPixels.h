@@ -11,7 +11,8 @@
 class ofxLoopinPixels : public ofxLoopinRender {
 public:
   enum Format {
-    FORMAT_BASE64
+    FORMAT_BASE64,
+    FORMAT_HEX
   };
 
   ofxLoopinControlEnum<ofxLoopinPixels::Format, FORMAT_BASE64> format;
@@ -32,11 +33,12 @@ public:
   ofxLoopinControlEnum<ofxLoopinPixels::Output, OUTPUT_NONE> output;
 
   string channels = "rgb";
+
   string pixels;
 
   ofRectangle getBounds();
   void renderBuffer( ofxLoopinBuffer * buffer );
-  void renderPixels( ofxLoopinBuffer * buffer, const string & pixels );
+  void renderPixels( ofxLoopinBuffer * buffer );
   void outputPixels( ofxLoopinBuffer * buffer );
 
 protected:
@@ -48,10 +50,13 @@ protected:
 
   void patchLocal( const Json::Value & value );
   void patchString( const string & value );
+  string decodeHex( const string & input, int digits = 2 );
 
   void addSubControls() {
     addSubControl("buffer", &buffer );
+
     format.setEnumKey( "base64", FORMAT_BASE64 );
+    format.setEnumKey( "hex", FORMAT_HEX );
     addSubControl("format", &format );
 
     input.setEnumKey( "change", INPUT_CHANGE );
