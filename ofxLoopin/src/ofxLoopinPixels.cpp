@@ -15,9 +15,8 @@ void ofxLoopinPixels::updateLocal( ) {
 }
 
 void ofxLoopinPixels::renderBuffer( ofxLoopinBuffer * buffer ) {
-
   outputPixels( buffer );
-  renderPixels( buffer, pixels );
+  renderPixels( buffer );
 }
 
 void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
@@ -90,16 +89,22 @@ string ofxLoopinPixels::decodeInput() {
     case FORMAT_BASE64:
       return base64_decode( pixels );
     break;
+
+    case FORMAT_HEX:
+      return decodeHex( pixels );
+    break;
   }
 
   return "";
 }
 
-void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer, const string & pixels ) {
+void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
   if ( !pixels.size() )
     return;
 
-  if ( input.getEnumValue() == INPUT_CHANGE && pixels == _lastPixels )
+  string data = decodeInput();
+
+  if ( input.getEnumValue() == INPUT_CHANGE && data == _lastPixels )
     return;
 
   if ( !buffer )
@@ -112,14 +117,8 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer, const string & pix
     return;
   }
 
-  _lastPixels = pixels;
+  _lastPixels = data;
 
-  string data;
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
-      data = base64_decode( pixels );
-    break;
-  }
 
   int numChannels = channels.size();
   int numPixels = data.size() / numChannels;
@@ -157,4 +156,40 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer, const string & pix
 
   // cerr << "pixels::renderPixels " << data  << endl;
   buffer->end();
+}
+
+string ofxLoopinPixels::decodeHex( const string & input, int digits ) {
+  string result;
+
+  int i = 0;
+  int value = 0;
+  int digit = 0;
+  for ( int inputIndex = 0; inputIndex < input.size(); ++inputIndex ) {
+    value *= 0xF;
+    char inputChar = input[inputIndex];
+    bool valid = false;
+    if ( inputChar >= '0' && inputChar <= '9' ) {
+      value += inputChar - '0';
+      valid = true;
+    } else if ( inputChar >= 'a' && inputChar <= 'f' ) {
+      value += inputChar - 'a' + 10;
+      valid = true;
+    } else if ( inputChar >= 'A' && inputChar <= 'F' ) {
+      value += inputChar - 'A' + 10;
+      valid = true;
+    }
+
+    if ( !valid )
+      continue;
+
+    digit ++;
+    if ( digit == digits ) {
+      digit = 0;
+
+      result.append(1,(unsigned char) value);
+      value = 0;
+    }
+  }
+
+  return result;
 }
