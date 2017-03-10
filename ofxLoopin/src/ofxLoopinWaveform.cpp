@@ -12,8 +12,12 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
     streamIsOpen = true;
   }
 
-  if ( soundStream.getNumInputChannels() != channels ) {
+  int deviceID = ofxLoopinWaveform::deviceID;
+
+  if ( soundStream.getNumInputChannels() != channels || deviceID != _deviceID ) {
     streamIsOpen = soundStream.setup( 0, channels, 44100, 256, 1 );
+    soundStream.setDeviceID( deviceID );
+    _deviceID = deviceID;
   }
 
   if ( !buffer )
@@ -141,4 +145,22 @@ ofRectangle ofxLoopinWaveform::getBounds() {
 void ofxLoopinWaveform::audioIn(ofSoundBuffer &buffer) {
   samples.setNumChannels( buffer.getNumChannels() );
   samples.append( buffer );
+}
+
+Json::Value ofxLoopinWaveform::getInfo() {
+  Json::Value result;
+
+  ofSoundStream stream;
+  vector<ofSoundDevice> devices = stream.getDeviceList();
+  int ji = 0;
+  for ( int i = 0; i < devices.size(); i ++ ) {
+    if ( !devices[i].inputChannels )
+      continue;
+    result["devices"][ji]["deviceID"] = devices[i].deviceID;
+    result["devices"][ji]["inputChannels"] = devices[i].inputChannels;
+    result["devices"][ji]["name"] = devices[i].name;
+    ji++;
+  }
+
+  return result;
 }

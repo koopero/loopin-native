@@ -55,8 +55,8 @@ protected:
   void addSubControls() {
     addSubControl("buffer", &buffer );
 
-    format.setEnumKey( "base64", FORMAT_BASE64 );
     format.setEnumKey( "hex", FORMAT_HEX );
+    format.setEnumKey( "base64", FORMAT_BASE64 );
     addSubControl("format", &format );
 
     input.setEnumKey( "change", INPUT_CHANGE );

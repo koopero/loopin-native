@@ -27,6 +27,8 @@ var presetData = presets.load()
 
 if ( opt.test ) {
   presetData += '{"text":{"test":"Loopin Lives!"},"show":"test"}\n'
+  presetData += '{"read":"info"}\n'
+
 }
 
 var _process

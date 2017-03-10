@@ -14,7 +14,7 @@
 // #include "ofxLoopinAudioAnalyzer.h"
 #include "ofxLoopinImage.h"
 #include "ofxLoopinCamera.h"
-// #include "ofxLoopinFft.h"
+#include "ofxLoopinInfo.h"
 #include "ofxLoopinKinect.h"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
@@ -139,6 +139,7 @@ public:
   */
   ofxLoopinOSD osd;
 
+  ofxLoopinInfo info;
   // openFrameWorks master overrides.
   void setup ();
   void draw ();
@@ -178,6 +179,8 @@ protected:
     cameras.defaultKey = "front";
 
     addSubControl( "read", &reader );
+
+    addSubControl( "info", &info );
 
     addSubControl( "image", &images );
     addSubControl( "text", &texts );

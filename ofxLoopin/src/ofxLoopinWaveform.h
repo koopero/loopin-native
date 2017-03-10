@@ -53,6 +53,8 @@ public:
   ofxLoopinControlNumber squelch = 0;
   ofxLoopinControlNumber gain = 1;
   ofxLoopinControlInt channels = 2;
+  ofxLoopinControlInt deviceID = 0;
+
 
 
 
@@ -61,8 +63,11 @@ public:
 
   ofRectangle getBounds();
 
+  static Json::Value getInfo();
+
 protected:
   bool streamIsOpen = false;
+  int _deviceID = -1;
   ofSoundStream soundStream;
   ofSoundBuffer samples;
 

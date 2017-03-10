@@ -31,27 +31,35 @@ const string ofxLoopinShaderDefaults::GLES_FRAG = "\
 ";
 
 const string ofxLoopinShaderDefaults::GL_VERT = "\
-  #version 150 \n\
-  uniform mat4 modelViewProjectionMatrix; \
-  varying vec4 position; \
-  varying vec2 texcoord; \
-  varying vec2 srcCoord; \
-  void main() \
-  { \
-      gl_Position = modelViewProjectionMatrix * position; \
-  } \
+#version 150\n\
+uniform mat4 modelViewProjectionMatrix;\n\
+uniform mat4 srcMatrix;\n\
+uniform sampler2D srcSampler;\n\
+in vec4 position;\n\
+in vec2 texcoord;\n\
+in vec4 color;\n\
+out vec2 srcCoord;\n\
+out vec4 vertColour;\n\
+void main()\n\
+{\n\
+    srcCoord = vec2(texcoord.x, texcoord.y);\n\
+    srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy;\n\
+    // vertColour = color;\n\
+    vertColour = vec4(1,1,1,1);\n\
+    gl_Position = modelViewProjectionMatrix * position;\n\
+}\n\
 ";
 
 
 
 const string ofxLoopinShaderDefaults::GL_FRAG = "\
   #version 150 \n\
-  uniform sampler2D srcSampler; \
-  in vec2 srcCoord; \
-  out vec4 outputColour; \
-  void main() \
-  { \
-    vec4 c = texture(srcSampler, srcCoord); \
-    outputColour = vec4( c.r, c.g, c.b, c.a ); \
-  } \
+  uniform sampler2D srcSampler; \n\
+  in vec2 srcCoord; \n\
+  out vec4 outputColour; \n\
+  void main() \n\
+  { \n\
+    vec4 c = texture(srcSampler, srcCoord); \n\
+    outputColour = vec4( c.r, c.g, c.b, c.a ); \n\
+  } \n\
 ";
