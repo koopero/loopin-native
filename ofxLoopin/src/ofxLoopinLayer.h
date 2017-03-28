@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofxLoopinCamera.h"
+#include "ofxLoopinControlBool.h"
 #include "ofxLoopinClock.h"
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinRender.h"
@@ -39,12 +40,14 @@ public:
   ofxLoopinClock clockControl;
   int passes = 1;
   ofxLoopinControlNumber pointSize;
-  bool clear = true;
+  ofxLoopinControlBool clear = true;
+  ofxLoopinControlBool depthTest = false;
 
   ofxLoopinTexture * src;
   ofxLoopinTransform2D transform;
 
   ofxLoopinControlNumber aspect;
+
 
   ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
@@ -91,7 +94,9 @@ protected:
 
     addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
     addSubControl( "pointSize", &pointSize );
-    addSubControl( "clear", new ofxLoopinControlValue( &clear ) );
+    addSubControl( "clear", &clear );
+    addSubControl( "depthTest", &depthTest );
+
 
     /** loopin/type/layer/sub/blend
       options:

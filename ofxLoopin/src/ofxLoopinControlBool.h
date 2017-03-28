@@ -4,6 +4,7 @@
 
 class ofxLoopinControlBool : public ofxLoopinControl {
 public:
+  ofxLoopinControlBool( bool value ) : value( value ) {};
   ofxLoopinControlBool() {};
 
   operator bool() const { return value; };
@@ -23,8 +24,8 @@ protected:
   bool  value         = false;
 
   void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric() ) {
-      value = jsonValue.asFloat() != 0 && isnan( jsonValue.asFloat() );
+    if ( jsonValue.isNumeric()  ) {
+      value = jsonValue.asFloat() != 0 && !isnan( jsonValue.asFloat() );
     } else {
       value = jsonValue.asBool();
     }

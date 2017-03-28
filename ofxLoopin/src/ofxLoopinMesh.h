@@ -95,6 +95,12 @@ public:
 protected:
   ofMesh _mesh;
 
+  int _planeCols = 4;
+  int _planeRows = 3;
+  bool _planeSplit = false;
+  bool _planeWeave = false;
+
+
   void addSubControls() {
     addSubControl("aspect", &aspect );
 

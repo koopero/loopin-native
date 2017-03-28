@@ -69,7 +69,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   }
 
   ofEnableBlendMode( blend.getEnumValue() );
-  ofSetDepthTest( false );
+  ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
 
   //
   // Set Aspects
@@ -98,25 +98,25 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   //   glDisable( GL_CULL_FACE );
   // }
 
-
   for ( int pass = 0; pass < passes; pass ++ ) {
     buffer->begin();
 
-    if ( true || !pass ) {
-      if ( isRoot && clear ) {
-        // ofClear( 0, 0, 0, 0 );
+    if ( !pass ) {
+      if ( (bool) ofxLoopinLayer::clear ) {
+        ofClear( 0, 0, 0, 0 );
+        glClearDepth(1000);
       }
-
-      camera->loadMatrixes();
     }
+    camera->loadMatrixes();
 
     shader->applyUniformsPass( pass, passes );
     mesh->draw();
 
     buffer->end();
   }
-  // glDisable( GL_CULL_FACE );
 
+  glDisable( GL_CULL_FACE );
+  ofSetDepthTest( false );
 
   buffer->end();
   shader->end();

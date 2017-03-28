@@ -86,6 +86,16 @@ size_t ofxLoopinBuffer::getWriteIndex() {
   return curIndex;
 }
 
+// Replace ofFbo::Settings operator!=, since it's noisy.
+bool ofxLoopinBufferCompareSettings( const ofFbo::Settings &a, const ofFbo::Settings &b ) {
+  if ( a.width != b.width ) return false;
+  if ( a.height != b.height ) return false;
+  if ( a.useDepth != b.useDepth ) return false;
+  if ( a.internalformat != b.internalformat ) return false;
+
+  return true;
+}
+
 bool ofxLoopinBuffer::allocate( int index ) {
   int width = getWidth();
   int height = getHeight();
@@ -99,18 +109,22 @@ bool ofxLoopinBuffer::allocate( int index ) {
 
   ofFbo & buffer = buffers[index];
 
+  ofFbo::Settings settings;
+  settings.width = width;
+  settings.height = height;
+  settings.internalformat = format;
+  settings.useDepth = useDepth.getValue();
+
   if ( !buffer.isAllocated()
-    || width != buffer.getWidth()
-    || height != buffer.getHeight()
-    || _bufferFormats[index] != format
+    || !ofxLoopinBufferCompareSettings( settings, _bufferSettings[index] )
   ) {
-    buffer.allocate( width, height, format );
+    buffer.allocate( settings );
 
     // buffer.begin();
     // ofClear( 0, 0 );
     // buffer.end();
 
-    _bufferFormats[index] = format;
+    _bufferSettings[index] = settings;
   }
 
   return width && height && buffer.isAllocated();

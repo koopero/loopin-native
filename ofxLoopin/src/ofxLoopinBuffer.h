@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofxLoopinControl.h"
+#include "ofxLoopinControlBool.h"
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinControlNumeric.h"
@@ -52,6 +53,8 @@ public:
   // Pixel size of buffer
   ofxLoopinControlNumeric _width;
   ofxLoopinControlNumeric _height;
+  ofxLoopinControlBool useDepth;
+
 
   ofxLoopinControlNumber aspect = 1;
 
@@ -140,6 +143,7 @@ protected:
     #endif
 
     addSubControl( "format", &format );
+    addSubControl( "useDepth", &useDepth );
 
     addSubControl( "width", &_width );
     addSubControl( "height", &_height );
@@ -151,7 +155,7 @@ private:
   int boundIndex = -1;
   int lastWroteIndex = -1;
   ofFbo buffers[2];
-  int _bufferFormats[2] = { -1, -1 };
+  ofFbo::Settings _bufferSettings[2];
 
   bool allocate( int index );
 };

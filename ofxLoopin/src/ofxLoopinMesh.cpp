@@ -9,22 +9,21 @@ void ofxLoopinMesh::erase() {
 };
 
 void ofxLoopinMesh::makePlane( const Json::Value & val ) {
-  int rows = 1;
-  int cols = 1;
-
-  bool split = false;
-  bool weave = false;
-
   if ( val.isObject() ) {
-    if ( val.isMember("rows") && val["rows"].isInt() ) rows = val["rows"].asInt();
-    if ( val.isMember("cols") && val["cols"].isInt() ) cols = val["cols"].asInt();
-    if ( val.isMember("split") && val["split"].isBool() )
-      split = val["split"].asBool();
-    if ( val.isMember("weave") && val["weave"].isBool() )
-      weave = val["weave"].asBool();
+    if ( val.isMember("rows") && val["rows"].isInt() ) _planeRows = val["rows"].asInt();
+    if ( val.isMember("cols") && val["cols"].isInt() ) _planeCols = val["cols"].asInt();
+    if ( val.isMember("split") )
+      _planeSplit = val["split"].asBool();
+    if ( val.isMember("weave") )
+      _planeWeave = val["weave"].asBool();
   }
 
-  makePlane( cols, rows, split, weave );
+  makePlane(
+    _planeCols,
+    _planeRows,
+    _planeSplit,
+    _planeWeave
+  );
 }
 
 void ofxLoopinMesh::makePlane( int wInd, int hInd, bool split, bool weave ) {
