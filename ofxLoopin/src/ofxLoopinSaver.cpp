@@ -3,13 +3,16 @@
 
 
 void ofxLoopinSaver::patchLocal( const Json::Value & value ) {
+  // cerr << "ofxLoopinSaver::patchLocal " << value << endl;
   if (
     value.isObject()
     && value.isMember( "dest" )
     && value["dest"].isString()
     && !value.isMember( "iterations" )
   ) {
-      iterations = iterations ? iterations : 1;
+    // cerr << "ofxLoopinSaver::patchLocal" << endl;
+    iterations = iterations ? iterations : 1;
+    // iterations = 1;
   }
 }
 
@@ -18,6 +21,7 @@ void ofxLoopinSaver::patchLocal( const Json::Value & value ) {
 void ofxLoopinSaver::patchString( const string & value ) {
   dest = value;
   iterations = iterations > 0 ? iterations : 1;
+  // iterations = 1;
 }
 
 void ofxLoopinSaver::updateLocal( ) {
@@ -35,7 +39,9 @@ void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
   iterations --;
 
   ofxLoopinEvent event;
-  event.data = read();
+  event.data["dest"] = dest;
+  event.data["quality"] = quality.getKey();
+
 
   if ( !buffer || !buffer->isAllocated() ) {
     event.type = "error";

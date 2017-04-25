@@ -54,7 +54,7 @@ protected:
 
   void addSubControls() {
     addSubControl("dest", new ofxLoopinControlValue( &dest ) );
-    addSubControl("iterations", new ofxLoopinControlValue( &iterations ) );
+    // addSubControl("iterations", new ofxLoopinControlValue( &iterations ) );
 
     format.setEnumKey("png",  OF_IMAGE_FORMAT_PNG );
     format.setEnumKey("jpeg", OF_IMAGE_FORMAT_JPEG );
