@@ -22,16 +22,20 @@ void ofxLoopinKinect::updateLocal() {
   shouldOpen = shouldOpen ||
     ( infrared != _modeInfrared );
 
+  float now = ofGetElapsedTimef();
 
   if ( shouldOpen ) {
-    if ( kinect->isConnected() ) {
-      kinect->close();
+    if ( now > _triedOpening + 10 ) {
+      _triedOpening = now;
+      if ( kinect->isConnected() ) {
+        kinect->close();
+      }
+
+      kinect->init( infrared, true, true );
+      kinect->open();
+
+      _modeInfrared = infrared;
     }
-
-    kinect->init( infrared, true, true );
-    kinect->open();
-
-    _modeInfrared = infrared;
   }
 
 

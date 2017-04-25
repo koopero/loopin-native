@@ -135,6 +135,7 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
         case 'r': pixel.r = channelValue;     break;
         case 'g': pixel.g = channelValue;     break;
         case 'b': pixel.b = channelValue;     break;
+        case 'a': pixel.a = channelValue;     break;
       }
     }
 
