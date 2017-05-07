@@ -49,6 +49,10 @@ public:
   int operator()() const { return (int) value; };
   operator int() const { return (int) value; };
 
+  int getValueInt() {
+    return value;
+  };
+
 protected:
   void updateLocal() {};
 

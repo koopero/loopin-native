@@ -18,7 +18,7 @@ public:
       return;
     }
 
-    ofRectangle area = ofRectangle( 0,0,ofGetWindowWidth(), ofGetWindowHeight() );
+    ofRectangle area = ofRectangle( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
     ofxLoopinBuffer * bufferP = buffer.getPointer();
     ofTexture * texture = bufferP->getTexture();

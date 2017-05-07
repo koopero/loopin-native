@@ -73,6 +73,8 @@ void ofxLoopinControl::patch ( const Json::Value & val ) {
     }
   }
 
+  patchLocalAfter( val );
+
 }
 
 void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {
