@@ -3,7 +3,7 @@
 #include "ofxLoopinMeshBase.h"
 #include "ofxLoopinMap.h"
 
-#include "mesh/circle.h"
+#include "mesh/arc.h"
 #include "mesh/cube.h"
 #include "mesh/plane.h"
 #include "mesh/scatter.h"
@@ -60,7 +60,7 @@ public:
   ofxLoopin::mesh::plane plane;
   ofxLoopin::mesh::scatter scatter;
   ofxLoopin::mesh::cube cube;
-  ofxLoopin::mesh::circle circle;
+  ofxLoopin::mesh::arc arc;
 
 
 
@@ -82,8 +82,8 @@ protected:
     cube.mesh = this;
     addSubControl("cube", &cube );
 
-    circle.mesh = this;
-    addSubControl("circle", &circle );
+    arc.mesh = this;
+    addSubControl("arc", &arc );
   };
 };
 

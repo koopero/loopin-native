@@ -24,7 +24,7 @@ int ofxLoopinMeshBase::addVertex(
 {
   int ind = _mesh.getVertices().size();
 
-  cerr << "addVertex " << ind << " " << x << " " << y << endl;
+  // cerr << "addVertex " << ind << " " << roundf(x*100.0)/100.0 << " " << roundf(y*100.0)/100.0 << endl;
 
   _mesh.getVertices().push_back( ofVec3f( x, y, z ) );
   _mesh.getTexCoords().push_back( ofVec2f( u, v ) );
@@ -36,7 +36,7 @@ int ofxLoopinMeshBase::addVertex(
 
 
 void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c ) {
-  cerr << "addTriangle " << a << " " << b << " " << c << endl;
+  // cerr << "addTriangle " << a << " " << b << " " << c << endl;
 
   vector<ofIndexType> & meshIndices = _mesh.getIndices();
   meshIndices.push_back( a );
