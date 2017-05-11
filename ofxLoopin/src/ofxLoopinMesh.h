@@ -7,6 +7,8 @@
 #include "mesh/cube.h"
 #include "mesh/plane.h"
 #include "mesh/scatter.h"
+#include "mesh/sphere.h"
+
 
 
 #include "ofMesh.h"
@@ -61,6 +63,7 @@ public:
   ofxLoopin::mesh::scatter scatter;
   ofxLoopin::mesh::cube cube;
   ofxLoopin::mesh::arc arc;
+  ofxLoopin::mesh::sphere sphere;
 
 
 
@@ -84,6 +87,9 @@ protected:
 
     arc.mesh = this;
     addSubControl("arc", &arc );
+
+    sphere.mesh = this;
+    addSubControl("sphere", &sphere );
   };
 };
 
