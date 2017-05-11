@@ -84,7 +84,8 @@ void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
 
 void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   shader.setUniform1f( "bufferAspect", buffer->getAspect() );
-
+  shader.setUniform1i( "bufferRows", buffer->rows.getValueInt() );
+  shader.setUniform1i( "bufferCols", buffer->cols.getValueInt() );
 }
 
 void ofxLoopinShader::applyUniformsGlobalClock() {
