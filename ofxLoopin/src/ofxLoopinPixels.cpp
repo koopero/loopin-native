@@ -1,10 +1,15 @@
 #include "ofxLoopinPixels.h"
 #include "ofxLoopinFile.h"
-#include "lib/base64.h"
 
 
 void ofxLoopinPixels::patchLocal( const Json::Value & value ) {
-
+  if (
+    value.isMember("data")
+    || value.isMember("format")
+    || value.isMember("channels")
+  ) {
+    _isDirty = true;
+  }
 }
 
 void ofxLoopinPixels::patchString( const string & value ) {
@@ -15,93 +20,11 @@ void ofxLoopinPixels::updateLocal( ) {
 }
 
 void ofxLoopinPixels::renderBuffer( ofxLoopinBuffer * buffer ) {
-  outputPixels( buffer );
-  renderPixels( buffer );
-}
+  maybeOutputBuffer( buffer );
 
-void ofxLoopinPixels::outputPixels( ofxLoopinBuffer * buffer ) {
-  if ( !buffer || !buffer->isAllocated() ) {
-    // TODO: Error
-    return;
-  }
+  bool inputIsFresh = decodeInput();
 
-  if ( output.getEnumValue() == OUTPUT_ONCE ) {
-    output.setEnumValue( OUTPUT_NONE );
-  } else if ( output.getEnumValue() == OUTPUT_NONE ) {
-    return;
-  }
-
-  ofPixels pixels;
-  ofFbo &fbo = buffer->getFbo();
-
-  fbo.readToPixels( pixels );
-
-  int numChannels = channels.size();
-  int numPixels = pixels.getWidth() * pixels.getHeight();
-  int dataSize = numPixels * numChannels;
-
-  string data;
-  data.resize( dataSize );
-
-  int i = 0;
-
-  for ( int y = 0; y < pixels.getHeight(); y++ )
-  for ( int x = 0; x < pixels.getWidth(); x++ )
-  {
-    ofColor pixel = pixels.getColor( x, y );
-
-    for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
-      switch ( channels[channelIndex] ) {
-        case 'r': data[i++] = pixel.r;  break;
-        case 'g': data[i++] = pixel.g;  break;
-        case 'b': data[i++] = pixel.b;  break;
-        case 'a': data[i++] = pixel.a;  break;
-        case '1': data[i++] = 255; break;
-        default: data[i++] = 0;
-      }
-    }
-  }
-
-
-  data = base64_encode( (const unsigned char *)data.c_str(), data.size() );
-  ofxLoopinEvent event;
-  event.type = "pixels";
-  event.data["pixels"] = data;
-  event.data["width"] = (int) pixels.getWidth();
-  event.data["height"] = (int) pixels.getHeight();
-  event.data["frame"] = renderingFrame.index;
-
-  dispatch( event );
-  pixels.clear();
-
-}
-
-ofRectangle ofxLoopinPixels::getBounds() {
-  return ofRectangle( 0, 0, decodeInput().size() / channels.size(), 1 );
-}
-
-
-string ofxLoopinPixels::decodeInput() {
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
-      return base64_decode( pixels );
-    break;
-
-    case FORMAT_HEX:
-      return decodeHex( pixels );
-    break;
-  }
-
-  return "";
-}
-
-void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
-  if ( !pixels.size() )
-    return;
-
-  string data = decodeInput();
-
-  if ( input.getEnumValue() == INPUT_CHANGE && data == _lastPixels )
+  if ( input.getEnumValue() == INPUT_CHANGE && !inputIsFresh )
     return;
 
   if ( !buffer )
@@ -109,12 +32,47 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
 
   buffer->defaultSize( getBounds() );
 
+  renderFloats( buffer );
+}
+
+ofRectangle ofxLoopinPixels::getBounds() {
+  int size = floats.size() / channels.size();
+  int width = ofxLoopinPixels::width;
+  int height = ofxLoopinPixels::height;
+
+  if ( width < 1 && height < 1 ) {
+    width = size;
+    height = 1;
+  } else if ( width ) {
+    if ( height < 1 )
+      height = ceil( (float) size / width );
+  } else if ( height ) {
+    width = 1;
+  }
+
+  if ( width < 1 )
+    width = 0;
+
+  if ( height < 1 )
+    height = 0;
+
+  return ofRectangle( 0, 0, width, height );
+}
+
+void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   if ( !buffer->begin() ) {
-    // TODO: Error here
     return;
   }
 
-  _lastPixels = data;
+  ofxLoopinShader * shader = ofxLoopinPixels::shader.getPointer( true );
+  if ( !shader ) { dispatch("shaderFault"); return; }
+
+  shader->begin();
+
+
+  glDisable( GL_CULL_FACE );
+  ofDisableBlendMode();
+
 
 
   int numChannels = channels.size();
@@ -125,12 +83,13 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
   int y = 0;
   int i = 0;
 
-  for ( int pixelIndex = 0; pixelIndex < numPixels; pixelIndex++ ) {
+  for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 
-    ofColor pixel;
-    for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
+    ofFloatColor pixel( 0,0,0,1);
+
+    for ( int channelIndex = 0; channelIndex < numChannels && i < floats.size(); channelIndex ++ ) {
       char channelKey = channels[channelIndex];
-      unsigned char channelValue = data[i++];
+      float channelValue = floats[i++] * pixel.limit();
       switch ( channelKey ) {
         case 'r': pixel.r = channelValue;     break;
         case 'g': pixel.g = channelValue;     break;
@@ -139,8 +98,16 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
       }
     }
 
-    ofSetColor( pixel );
+    // cerr << "renderFloats " << x << ", " << y << " == " <<  pixel << endl;
+
+    shader->shader.setUniform1f( "red", pixel.r );
+    shader->shader.setUniform1f( "green", pixel.g );
+    shader->shader.setUniform1f( "blue", pixel.b );
+    shader->shader.setUniform1f( "alpha", pixel.a );
+
+
     ofDrawRectangle( x,y,1,1);
+    // ofDrawTriangle( x,y,x,y,x,y);
 
     x ++;
     if ( x >= bufferWidth ) {
@@ -153,41 +120,79 @@ void ofxLoopinPixels::renderPixels( ofxLoopinBuffer * buffer ) {
   }
 
   // cerr << "pixels::renderPixels " << data  << endl;
+  shader->end();
   buffer->end();
 }
 
-string ofxLoopinPixels::decodeHex( const string & input, int digits ) {
-  string result;
 
-  int i = 0;
-  int value = 0;
-  int digit = 0;
-  for ( int inputIndex = 0; inputIndex < input.size(); ++inputIndex ) {
-    value *= 0xF;
-    char inputChar = input[inputIndex];
-    bool valid = false;
-    if ( inputChar >= '0' && inputChar <= '9' ) {
-      value += inputChar - '0';
-      valid = true;
-    } else if ( inputChar >= 'a' && inputChar <= 'f' ) {
-      value += inputChar - 'a' + 10;
-      valid = true;
-    } else if ( inputChar >= 'A' && inputChar <= 'F' ) {
-      value += inputChar - 'A' + 10;
-      valid = true;
-    }
 
-    if ( !valid )
-      continue;
-
-    digit ++;
-    if ( digit == digits ) {
-      digit = 0;
-
-      result.append(1,(unsigned char) value);
-      value = 0;
-    }
+void ofxLoopinPixels::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
+  if ( !buffer || !buffer->isAllocated() ) {
+    // TODO: Error
+    return;
   }
 
-  return result;
+  if ( output.getEnumValue() == OUTPUT_NONE ) {
+    return;
+  } else if ( output.getEnumValue() == OUTPUT_ONCE ) {
+    output.setEnumValue( OUTPUT_NONE );
+  }
+
+  bufferToFloats( buffer );
+  encode();
+  dispatchData();
+}
+
+void ofxLoopinPixels::bufferToFloats( ofxLoopinBuffer * buffer ) {
+  #ifndef TARGET_OPENGLES
+    ofFloatPixels pixels;
+  #else
+    ofPixels pixels;
+  #endif
+
+  ofFbo &fbo = buffer->getFbo();
+  fbo.readToPixels( pixels );
+
+  readWidth = pixels.getWidth();
+  readHeight = pixels.getHeight();
+
+  int numChannels = channels.size();
+  int numPixels = pixels.getWidth() * pixels.getHeight();
+  int dataSize = numPixels * numChannels;
+
+  floats.resize( dataSize );
+
+  int i = 0;
+
+  for ( int y = 0; y < pixels.getHeight(); y++ )
+  for ( int x = 0; x < pixels.getWidth(); x++ )
+  {
+    ofFloatColor pixel = pixels.getColor( x, y );
+
+    for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
+      switch ( channels[channelIndex] ) {
+        case 'r': floats[i++] = pixel.r;  break;
+        case 'g': floats[i++] = pixel.g;  break;
+        case 'b': floats[i++] = pixel.b;  break;
+        case 'a': floats[i++] = pixel.a;  break;
+        case 'h': floats[i++] = pixel.getHue();  break;
+
+        case '1': floats[i++] = 1.0; break;
+        default: floats[i++] = 0;
+      }
+    }
+  }
+}
+
+void ofxLoopinPixels::dispatchData() {
+  ofxLoopinEvent event;
+  ofRectangle bounds = getBounds();
+  event.type = "pixels";
+  event.data["width"] = readWidth ? readWidth : (int) bounds.getWidth();
+  event.data["height"] = readHeight ? readHeight : (int) bounds.getHeight();
+  event.data["format"] = format.getKey();
+  event.data["frame"] = renderingFrame.index;
+  event.data["data"] = data;
+
+  dispatch( event );
 }

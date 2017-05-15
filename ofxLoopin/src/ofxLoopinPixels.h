@@ -12,7 +12,11 @@ class ofxLoopinPixels : public ofxLoopinRender {
 public:
   enum Format {
     FORMAT_BASE64,
-    FORMAT_HEX
+    FORMAT_HEX,
+    FORMAT_HEX2,
+    FORMAT_FLOAT,
+    FORMAT_DECIMAL,
+    FORMAT_PERCENT
   };
 
   ofxLoopinControlEnum<ofxLoopinPixels::Format, FORMAT_BASE64> format;
@@ -34,28 +38,64 @@ public:
 
   string channels = "rgb";
 
-  string pixels;
+  ofxLoopinControlInt width = 0;
+  ofxLoopinControlInt height = 0;
+
+
+  string data;
+  vector<float> floats;
+
+  void bufferToFloats( ofxLoopinBuffer * buffer );
+
 
   ofRectangle getBounds();
   void renderBuffer( ofxLoopinBuffer * buffer );
-  void renderPixels( ofxLoopinBuffer * buffer );
+  void renderFloats( ofxLoopinBuffer * buffer );
+
   void outputPixels( ofxLoopinBuffer * buffer );
 
 protected:
   string _lastPixels;
 
-  string decodeInput();
+  int readWidth = 0;
+  int readHeight = 0;
+
+  bool _isDirty = false;
 
   void updateLocal();
-
   void patchLocal( const Json::Value & value );
   void patchString( const string & value );
-  string decodeHex( const string & input, int digits = 2 );
+
+  bool decodeInput();
+  void decodeNumeric( float divider = 1 );
+  void decodeHex( int digits = 2 );
+  void decodeBinary( const string &data );
+
+  void encode();
+  void encodeBase64();
+  void encodeHex( int digits );
+  void encodeNumeric( float divider );
+  void encodeBinary();
+
+
+  void dispatchData();
+
+  void maybeOutputBuffer( ofxLoopinBuffer * buffer );
 
   void addSubControls() {
+    addSubControl("width", &width );
+    addSubControl("height", &height );
+
+    shader.key = "solidRGBA";
+    addSubControl("shader", &shader );
+
     addSubControl("buffer", &buffer );
 
     format.setEnumKey( "hex", FORMAT_HEX );
+    format.setEnumKey( "hex2", FORMAT_HEX2 );
+    format.setEnumKey( "float", FORMAT_FLOAT );
+    format.setEnumKey( "percent", FORMAT_PERCENT );
+    format.setEnumKey( "decimal", FORMAT_DECIMAL );
     format.setEnumKey( "base64", FORMAT_BASE64 );
     addSubControl("format", &format );
 
@@ -69,6 +109,7 @@ protected:
     addSubControl("output", &output );
 
     addSubControl("channels", new ofxLoopinControlValue( &channels ) );
-    addSubControl("pixels", new ofxLoopinControlValue( &pixels ) );
+    addSubControl("data", new ofxLoopinControlValue( &data ) );
+
   };
 };

@@ -13,8 +13,7 @@ void ofxLoopin::mesh::plane::generate() {
 }
 
 void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool weave ) {
-  cerr << "makePlane " << wInd << " " << hInd << endl;
-
+  // cerr << "makePlane " << wInd << " " << hInd << endl;
 
   int vertIndex = 0;
   int rowIndex;
