@@ -4,7 +4,6 @@
 ## Scatter
 */
 void ofxLoopin::mesh::scatter::generate() {
-  cerr << "scatter generate " << endl;
   assert( mesh );
 
   makeScatter( count.getValueInt(), seed.getValueInt() );
