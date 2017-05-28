@@ -43,6 +43,7 @@ protected:
   virtual void patchKey( string key, const Json::Value & val ) {};
   virtual void patchSubs( const Json::Value & value ) {};
   virtual void patchLocal( const Json::Value & value ) {};
+  virtual void patchLocalAfter( const Json::Value & value ) {};
   virtual void patchString( const string & value ) {};
 
   virtual void readLocal( Json::Value & value ) {};

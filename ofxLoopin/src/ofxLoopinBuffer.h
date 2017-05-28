@@ -54,11 +54,11 @@ public:
   ofxLoopinControlNumeric _width;
   ofxLoopinControlNumeric _height;
   ofxLoopinControlBool useDepth;
-
+  ofxLoopinControlInt   cols = 1;
+  ofxLoopinControlInt   rows = 1;
 
   ofxLoopinControlNumber aspect = 1;
 
-  // Format of buffer ( not implemented )
   #ifndef TARGET_OPENGLES
     ofxLoopinControlEnum<int,GL_RGBA8> format;
   #else
@@ -141,12 +141,16 @@ protected:
       format.setEnumKey("rgba", GL_RGBA );
       format.setEnumKey("rgb", GL_RGB );
     #endif
-
     addSubControl( "format", &format );
+
+
     addSubControl( "useDepth", &useDepth );
 
     addSubControl( "width", &_width );
     addSubControl( "height", &_height );
+
+    addSubControl( "rows", &rows );
+    addSubControl( "cols", &cols );
   }
   void readLocal( Json::Value & value );
 

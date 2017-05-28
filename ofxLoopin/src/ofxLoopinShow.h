@@ -8,26 +8,31 @@
 class ofxLoopinShow : public ofxLoopinTexture {
 public:
   void draw() {
+    stringstream description;
+
+    description << buffer.key;
+
     if ( !hasTexture() ) {
-      _bufferDescription = "NO TEXTURE!";
+      description << " NO TEXTURE!";
+      _bufferDescription = description.str();
       return;
     }
 
-    ofRectangle area = ofRectangle( 0,0,ofGetWindowWidth(), ofGetWindowHeight() );
+    ofRectangle area = ofRectangle( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
     ofxLoopinBuffer * bufferP = buffer.getPointer();
     ofTexture * texture = bufferP->getTexture();
 
     if ( !texture || !texture->isAllocated() ) {
-      _bufferDescription = "NOT ALLOCATED?!!";
+      description << " NOT ALLOCATED?!!";
+      _bufferDescription = description.str();
+
       return;
     }
 
-    stringstream description;
-    description << buffer.key << " (" << texture->getWidth() << "x" << texture->getHeight() << ")";
 
+    description << " (" << texture->getWidth() << "x" << texture->getHeight() << ")";
     _bufferDescription = description.str();
-
     texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
     texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
     texture->draw( area );

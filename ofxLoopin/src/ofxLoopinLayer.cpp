@@ -64,6 +64,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
 
   if ( pointSize > 0.0 ) {
     ofEnablePointSprites();
+    glPointSize( pointSize );
   } else {
     ofDisablePointSprites();
   }
@@ -116,6 +117,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
   }
 
   glDisable( GL_CULL_FACE );
+  ofDisablePointSprites();
   ofSetDepthTest( false );
 
   buffer->end();
