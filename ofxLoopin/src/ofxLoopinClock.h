@@ -3,6 +3,7 @@
 #include "ofShader.h"
 
 #include "ofxLoopinControl.h"
+#include "ofxLoopinControlBool.h"
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinFrame.h"
@@ -47,7 +48,8 @@ public:
     TIME,
     FRAME,
     STEP,
-    WALL
+    WALL,
+    STOP
   };
 
   ofxLoopinControlEnum<Mode,TIME> mode;
@@ -83,11 +85,15 @@ protected:
     mode.setEnumKey("time",   TIME );
     mode.setEnumKey("frame",  FRAME );
     mode.setEnumKey("step",   STEP );
+    mode.setEnumKey("stop",   WALL );
     mode.setEnumKey("wall",   WALL );
+
 
     addSubControl("mode", &mode );
     addSubControl("rate", &rate );
     addSubControl("speed", &speed );
+
+
   };
 
   void patchLocal( const Json::Value & value ) {

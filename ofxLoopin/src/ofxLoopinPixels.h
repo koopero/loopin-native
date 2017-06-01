@@ -11,9 +11,9 @@
 class ofxLoopinPixels : public ofxLoopinRender {
 public:
   enum Format {
-    FORMAT_BASE64,
     FORMAT_HEX,
     FORMAT_HEX2,
+    FORMAT_BASE64,
     FORMAT_FLOAT,
     FORMAT_DECIMAL,
     FORMAT_PERCENT

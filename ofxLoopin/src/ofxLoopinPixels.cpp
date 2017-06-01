@@ -4,15 +4,19 @@
 
 void ofxLoopinPixels::patchLocal( const Json::Value & value ) {
   if (
-    value.isMember("data")
-    || value.isMember("format")
-    || value.isMember("channels")
+   value.isObject() && (
+     value.isMember("data")
+     || value.isMember("format")
+     || value.isMember("channels")
+   )
   ) {
     _isDirty = true;
   }
 }
 
 void ofxLoopinPixels::patchString( const string & value ) {
+  data = value;
+  _isDirty = true;
 }
 
 void ofxLoopinPixels::updateLocal( ) {
@@ -97,6 +101,14 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
         case 'g': pixel.g = channelValue;     break;
         case 'b': pixel.b = channelValue;     break;
         case 'a': pixel.a = channelValue;     break;
+
+        // Temp until real HSV support
+        case 'l':
+        case 'v':
+          pixel.r = channelValue;
+          pixel.g = channelValue;
+          pixel.b = channelValue;
+        break;
       }
     }
 

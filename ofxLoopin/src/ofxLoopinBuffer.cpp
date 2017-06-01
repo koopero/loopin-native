@@ -8,8 +8,9 @@ bool ofxLoopinBuffer::isAllocated( size_t index ) {
 
 
 ofTexture * ofxLoopinBuffer::getTexture( size_t index ) {
-  if ( !isAllocated( index ) )
+  if ( !isAllocated( index ) ) {
     return nullptr;
+  }
 
   ofFbo & buffer = buffers[ index ];
 

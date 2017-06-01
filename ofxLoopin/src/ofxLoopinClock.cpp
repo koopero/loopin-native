@@ -39,19 +39,30 @@ void ofxLoopinClock::advanceDelta( double speed ) {
   double now = ofGetSystemTimeMicros() / 1000000.0;
 
   switch ( mode.getEnumValue() ) {
+
+    case WALL:
+      running = true;
+      delta = now - frame.time;
+      speed = 1;
+    break;
+
     case TIME:
+      running = true;
       delta *= now - lastTime;
+    break;
+
+    case FRAME:
+      running = true;
+      delta *= 1.0 / rate;
     break;
 
     case STEP:
       running = false;
-    case FRAME:
       delta *= 1.0 / rate;
     break;
 
-    case WALL:
-      delta = now - frame.time;
-      speed = 1;
+    case STOP:
+      running = false;
     break;
   }
 

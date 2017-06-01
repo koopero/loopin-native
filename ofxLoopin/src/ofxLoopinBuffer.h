@@ -154,6 +154,8 @@ protected:
   }
   void readLocal( Json::Value & value );
 
+
+
 private:
   int curIndex = 0;
   int boundIndex = -1;
@@ -162,6 +164,7 @@ private:
   ofFbo::Settings _bufferSettings[2];
 
   bool allocate( int index );
+
 };
 
 class ofxLoopinBuffers : public ofxLoopinMap<ofxLoopinBuffer> {
