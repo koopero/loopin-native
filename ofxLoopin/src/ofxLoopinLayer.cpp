@@ -3,25 +3,17 @@
 #include <assert.h>
 
 void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
-  bool isTop = true;
-
 
   if ( !buffer ) {
     buffer = getBuffer( true );
   }
-
-  // Find if we're the top layer by checking
-  // path length
-  // 7 == strlen('render/')
-  if ( path.size() > key.size() + 7 )
-    isTop = false;
 
   assert( buffer != nullptr );
 
   clockControl.advance( renderingFrame );
   renderingFrame = clockControl.frame;
 
-  if ( isTop ) {
+  if ( advance ) {
     buffer->flip();
   }
 
@@ -33,13 +25,13 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
     return;
   }
 
-  renderSelf( buffer, isTop );
+  renderSelf( buffer );
 
   layers.render( renderingFrame, buffer );
 
 }
 
-void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer, bool isRoot )  {
+void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
   ofxLoopinShader * shader = ofxLoopinLayer::shader.getPointer();
   ofxLoopinMesh * mesh = ofxLoopinLayer::mesh.getPointer();
   ofxLoopinCamera * camera = ofxLoopinLayer::camera.getPointer();

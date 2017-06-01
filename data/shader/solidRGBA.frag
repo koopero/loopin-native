@@ -1,5 +1,4 @@
 #version 150
-uniform sampler2DRect srcSampler;
 
 uniform float red = 0.1;
 uniform float green = 0.1;

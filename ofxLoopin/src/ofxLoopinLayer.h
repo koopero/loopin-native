@@ -40,7 +40,8 @@ public:
   ofxLoopinClock clockControl;
   int passes = 1;
   ofxLoopinControlNumber pointSize;
-  ofxLoopinControlBool clear = true;
+  ofxLoopinControlBool clear = false;
+  ofxLoopinControlBool advance = false;
   ofxLoopinControlBool depthTest = false;
 
   ofxLoopinTexture * src;
@@ -62,6 +63,18 @@ public:
 protected:
   void addSubControls() {
     ofxLoopinRender::addSubControls();
+
+    bool isTop = true;
+
+    // Find if we're the top layer by checking
+    // path length
+    // 7 == strlen('render/')
+    if ( path.size() > key.size() + 7 )
+      isTop = false;
+
+    advance = isTop;
+    addSubControl( "advance", &advance );
+
 
     addSubControl( "shader", &shader );
     addSubControl( "clock", &clockControl );
@@ -117,8 +130,10 @@ protected:
 
     addSubControl( "aspect", &aspect );
 
+
+
   }
 
 private:
-  void renderSelf( ofxLoopinBuffer * buffer, bool isRoot );
+  void renderSelf( ofxLoopinBuffer * buffer );
 };

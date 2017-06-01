@@ -67,12 +67,14 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   ofxLoopinShader * shader = ofxLoopinPixels::shader.getPointer( true );
   if ( !shader ) { dispatch("shaderFault"); return; }
 
-  shader->begin();
 
 
   glDisable( GL_CULL_FACE );
   ofDisableBlendMode();
-
+  ofDisableDepthTest();
+  // ofLoadIdentityMatrix();
+  // ofViewport();
+  shader->begin();
 
 
   int numChannels = channels.size();
@@ -82,7 +84,7 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   int x = 0;
   int y = 0;
   int i = 0;
-
+  ofFill();
   for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 
     ofFloatColor pixel( 0,0,0,1);
@@ -98,12 +100,10 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
       }
     }
 
-    // cerr << "renderFloats " << x << ", " << y << " == " <<  pixel << endl;
-
-    shader->shader.setUniform1f( "red", pixel.r );
-    shader->shader.setUniform1f( "green", pixel.g );
-    shader->shader.setUniform1f( "blue", pixel.b );
-    shader->shader.setUniform1f( "alpha", pixel.a );
+    shader->shader.setUniform1f( "red", (float) pixel.r / pixel.limit() );
+    shader->shader.setUniform1f( "green", (float) pixel.g / pixel.limit() );
+    shader->shader.setUniform1f( "blue", (float) pixel.b / pixel.limit() );
+    shader->shader.setUniform1f( "alpha", (float) pixel.a / pixel.limit() );
 
 
     ofDrawRectangle( x,y,1,1);
@@ -119,7 +119,6 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
       break;
   }
 
-  // cerr << "pixels::renderPixels " << data  << endl;
   shader->end();
   buffer->end();
 }
