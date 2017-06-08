@@ -49,6 +49,7 @@ public:
 
 
   ofRectangle getBounds();
+  GLint getFormat();
   void renderBuffer( ofxLoopinBuffer * buffer );
   void renderFloats( ofxLoopinBuffer * buffer );
 

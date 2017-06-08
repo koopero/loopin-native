@@ -31,12 +31,47 @@ void ofxLoopinPixels::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( input.getEnumValue() == INPUT_CHANGE && !inputIsFresh )
     return;
 
+  ofRectangle bounds = getBounds();
+
   if ( !buffer )
     buffer = getBuffer( true );
 
-  buffer->defaultSize( getBounds() );
+  bool resize = true;
+
+  if ( resize ) {
+    buffer->setSize( bounds.getWidth(), bounds.getHeight(), getFormat() );
+  } else {
+    buffer->defaultSize( bounds );
+  }
 
   renderFloats( buffer );
+}
+
+GLint ofxLoopinPixels::getFormat() {
+
+  bool hasAlpha = channels.find_first_of("a") != string::npos;
+
+  #ifdef TARGET_OPENGLES
+    return hasAlpha ? GL_RGBA : GL_RGB;
+  #else
+    bool isFloat;
+    switch ( format.getEnumValue() ) {
+      case FORMAT_HEX:
+      case FORMAT_HEX2:
+      case FORMAT_BASE64:
+        isFloat = false;
+      break;
+
+      case FORMAT_FLOAT:
+      case FORMAT_DECIMAL:
+      case FORMAT_PERCENT:
+        isFloat = true;
+      break;
+    }
+
+    return isFloat ? GL_RGB32F_ARB :
+      hasAlpha ? GL_RGBA8 : GL_RGB8;
+  #endif
 }
 
 ofRectangle ofxLoopinPixels::getBounds() {
