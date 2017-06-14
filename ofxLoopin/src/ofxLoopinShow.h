@@ -31,7 +31,9 @@ public:
     }
 
 
-    description << " (" << texture->getWidth() << "x" << texture->getHeight() << ")";
+    description << " ( " << texture->getWidth() << "x" << texture->getHeight();
+    description << " " << bufferP->format.getKey();
+    description << " )";
     _bufferDescription = description.str();
     texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
     texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
