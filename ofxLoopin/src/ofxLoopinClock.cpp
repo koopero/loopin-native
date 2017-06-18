@@ -64,6 +64,7 @@ void ofxLoopinClock::advanceDelta( double speed ) {
     case STOP:
       running = false;
     break;
+
   }
 
   delta *= speed;
