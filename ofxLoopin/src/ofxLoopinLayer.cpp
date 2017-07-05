@@ -98,7 +98,6 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
       if ( (bool) ofxLoopinLayer::clear ) {
         ofClear( 0, 0, 0, 0 );
 
-
         #ifndef TARGET_OPENGLES
           glClearDepth(1000);
         #endif
@@ -116,4 +115,8 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
   ofDisablePointSprites();
   ofSetDepthTest( false );
 
-  buffer
+  buffer->end();
+  shader->end();
+
+  uniforms.unbind();
+}
