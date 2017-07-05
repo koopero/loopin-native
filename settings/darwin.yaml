@@ -10,5 +10,5 @@ app:
 addons:
   ofxSyphon:
     git: https://github.com/astellato/ofxSyphon.git
-  ofxFft:
-    git: https://github.com/kylemcdonald/ofxFft.git
+  # ofxFft:
+  #   git: https://github.com/kylemcdonald/ofxFft.git
