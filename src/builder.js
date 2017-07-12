@@ -10,8 +10,6 @@ const _ = require('lodash')
     , glob = Promise.promisify( require('glob') )
     , path = require('path')
     , os = require('os')
-    , Download = require('download')
-    , downloadStatus = require('download-status')
     , userhome = require('userhome')
 
 builder.options = require('boptions')({

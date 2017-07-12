@@ -1,11 +1,7 @@
 openframeworks:
-  zip_name: of_v{openframeworks.version}_{platform}_release.tar.gz
+  zipName: of_v${openframeworks.version}_${platform}_release.tar.gz
   projectGenerator: apps/projectGenerator/commandLine/bin/projectGenerator
   projectGeneratorPath: apps/projectGenerator/commandLine
-app:
-  executable: bin/{appName}
 
-# addons:
-#   ofxAudioAnalyzer:
-#     git: https://github.com/leozimmerman/ofxAudioAnalyzer.git
-#     patch: ofxAudioAnalyzer.patch
+binary:
+  executable: bin/${title}

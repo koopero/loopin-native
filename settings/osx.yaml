@@ -1,14 +1,12 @@
 # http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
 
 openframeworks:
-  zip_name: of_v{openframeworks.version}_osx_release.zip
+  zipName: of_${openframeworks.version}_osx_release.zip
   projectGenerator: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
 
-app:
-  executable: bin/{appName}.app/Contents/MacOS/{appName}
+binary:
+  executable: bin/${title}.app/Contents/MacOS/${title}
 
 addons:
   ofxSyphon:
     git: https://github.com/astellato/ofxSyphon.git
-  # ofxFft:
-  #   git: https://github.com/kylemcdonald/ofxFft.git

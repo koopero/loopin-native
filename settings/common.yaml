@@ -1,7 +1,7 @@
-app:
-  name: Loopin
-  dir: '0.7/{appName}/'
-  ofxLoopinData: bin/data/ofxLoopin
+project:
+  root: '${name}/'
+  executable: ${project.root}/${binary.executable}
+  # ofxLoopinData: bin/data/ofxLoopin
 
 download:
   dir: download/
@@ -9,20 +9,15 @@ download:
 # http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
 
 openframeworks:
-  dir: 'openFrameworks/{openframeworks.version}'
   version: 0.9.8
-  release_url: http://openframeworks.cc/versions/v{openframeworks.version}/
+  releaseURL: http://openframeworks.cc/versions/v${openframeworks.version}/
 
 addons:
-  ofxKinect: true
-  ofxLoopin: ./ofxLoopin
+  ofxKinect:
+    enable: true
+  ofxLoopin:
+    packageLink: ./ofxLoopin
   ofxJSON:
     git: https://github.com/jefftimesten/ofxJSON.git
-
-    # patch: ofxAudioAnalyzer.patch
-
-  # ofxFFT:
-  #   git: https://github.com/julapy/ofxFFT.git
-  #   # patch: ofxAudioAnalyzer.patch
   ofxTrueTypeFontUC:
     git: https://github.com/hironishihara/ofxTrueTypeFontUC.git
