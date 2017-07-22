@@ -36,7 +36,7 @@ public:
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );
   void applyUniformsGlobalClock();
-  
+
 protected:
   void refresh();
 

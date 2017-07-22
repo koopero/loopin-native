@@ -106,13 +106,10 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   ofxLoopinShader * shader = ofxLoopinPixels::shader.getPointer( true );
   if ( !shader ) { dispatch("shaderFault"); return; }
 
-
-
   glDisable( GL_CULL_FACE );
   ofDisableBlendMode();
   ofDisableDepthTest();
-  // ofLoadIdentityMatrix();
-  // ofViewport();
+
   shader->begin();
 
 

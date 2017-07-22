@@ -96,8 +96,9 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
 
     if ( !pass ) {
       if ( (bool) ofxLoopinLayer::clear ) {
+        ofDisableBlendMode();
         ofClear( 0, 0, 0, 0 );
-
+        ofEnableBlendMode( blend.getEnumValue() );
         #ifndef TARGET_OPENGLES
           glClearDepth(1000);
         #endif

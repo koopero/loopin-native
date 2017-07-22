@@ -27,8 +27,8 @@ void ofxLoopinTexture::bindToShader( ofxLoopinShader * shader ) {
   shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
   shader->shader.setUniform1i( key + "Rows", bufferP->rows );
   shader->shader.setUniform1i( key + "Cols", bufferP->cols );
-  // shader->shader.setUniform1i( key + "Width", texture->getWidth() );
-  // shader->shader.setUniform1i( key + "Height", texture->getHeight() );
+  shader->shader.setUniform1i( key + "Width", texture->getWidth() );
+  shader->shader.setUniform1i( key + "Height", texture->getHeight() );
 }
 
 void ofxLoopinTexture::unbind() {

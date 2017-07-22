@@ -28,7 +28,10 @@ var presetData = presets.load()
 if ( opt.test ) {
   presetData += '{"text":{"test":"Loopin Lives!"},"show":"test"}\n'
   presetData += '{"read":"info"}\n'
+}
 
+if ( opt.info ) {
+  
 }
 
 var _process
@@ -39,8 +42,6 @@ native( opt )
 
   const write = ( str ) => _process && _process.stdin.write( str )
   write( presetData )
-
-  console.log(presetData)
 
   if ( opt.watch )
     presets.watch( write )
@@ -64,13 +65,6 @@ process.on('exit', function () {
 
 
 function addArgparseArguments( parser ) {
-  // parser.addArgument(
-  //   ['-d', '--dir'],
-  //   {
-  //     help: 'Working directory',
-  //     action: 'storeTrue'
-  //   }
-  // )
 
   parser.addArgument(
     ['-n', '--no-run'],
@@ -97,13 +91,13 @@ function addArgparseArguments( parser ) {
     }
   )
 
-  // parser.addArgument(
-  //   ['-i', '--ignore-frame'],
-  //   {
-  //     help: 'Squelch frame events from output',
-  //     action: 'storeTrue'
-  //   }
-  // )
+  parser.addArgument(
+    ['-i', '--info'],
+    {
+      help: 'Output native system info and quit.',
+      action: 'storeTrue'
+    }
+  )
 
   parser.addArgument(
     ['-w', '--watch'],

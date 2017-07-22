@@ -1,13 +1,9 @@
-#version 150
-
-uniform float red = 0.1;
-uniform float green = 0.1;
-uniform float blue = 0.1;
-uniform float alpha = 1.0;
-
-out vec4 outputColour;
+uniform float red;
+uniform float green;
+uniform float blue;
+uniform float alpha;
 
 void main()
 {
-  outputColour = vec4( red, green, blue, alpha );
+  gl_FragColor = vec4( red, green, blue, alpha );
 }
