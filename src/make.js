@@ -4,5 +4,6 @@ function make() {
 
   build.log( 'cd', build.app )
 
-  return build.command( 'make', ['Debug'], { cwd: build.app } )
+
+  return build.command( 'make', build.debug ? ['Debug'] : [], { cwd: build.app } )
 }

@@ -35,6 +35,7 @@ public:
   int height = 0;
 
   void setAppBaseWindow( ofAppBaseWindow * window );
+  void update();
 
 protected:
   void patchKey( string key, const Json::Value & val ) {};
@@ -44,6 +45,7 @@ protected:
 
     event.data["_window"] = 3;
 
+    ofPoint position = _window->getWindowPosition();
 
     if ( !value.isObject() )
       return;
@@ -62,6 +64,8 @@ protected:
     }
 
     bool setSize = false;
+    bool setPosition = false;
+
 
     if ( value.isMember("width")
       && value["width"].isNumeric()
@@ -79,17 +83,37 @@ protected:
       height = value["height"].asInt();
     }
 
+    if ( value.isMember("x")
+      && value["x"].isNumeric()
+    ) {
+      setPosition = true;
+      position.x = value["x"].asInt();
+    }
+
+    if ( value.isMember("y")
+      && value["y"].isNumeric()
+    ) {
+      setPosition = true;
+      position.y = value["y"].asInt();
+    }
+
     if ( setSize ) {
       _window->setWindowShape( width, height );
+    }
+
+    if ( setPosition ) {
+      _window->setWindowPosition( position.x, position.y );
     }
   };
 
   void readLocal( Json::Value & value );
 
+
   void addSubControls() {};
 
 protected:
   ofAppBaseWindow * _window;
+  ofPoint _position;
 
   void sizeFromWindow();
 };

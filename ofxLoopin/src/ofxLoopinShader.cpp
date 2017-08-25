@@ -2,8 +2,44 @@
 
 void ofxLoopinShader::addSubControls() {
 
-  string fragDefaultFile = ofxLoopinFile::find( "shader/"+key+".frag" );
-  string vertDefaultFile = ofxLoopinFile::find( "shader/"+key+".vert" );
+
+  vector<string> frag_ext;
+  vector<string> vert_ext;
+
+  #ifdef TARGET_OPENGLES
+  frag_ext.push_back(".es.frag");
+  vert_ext.push_back(".es.vert");
+  #endif
+
+
+  frag_ext.push_back(".frag");
+  vert_ext.push_back(".vert");
+
+  #ifdef TARGET_OPENGLES
+  // frag_ext.push_back(".es");
+  // vert_ext.push_back(".es");
+  frag_ext.push_back(".es.glsl");
+  vert_ext.push_back(".es.glsl");
+  #endif
+
+
+  frag_ext.push_back(".glsl");
+  vert_ext.push_back(".glsl");
+
+  string fragDefaultFile;
+  for (auto& ext : frag_ext ) {
+    fragDefaultFile = ofxLoopinFile::find( "shader/"+key+ext );
+    if ( fragDefaultFile.size() )
+      break;
+  }
+
+  string vertDefaultFile;
+  for (auto& ext : vert_ext ) {
+    vertDefaultFile = ofxLoopinFile::find( "shader/"+key+ext );
+    if ( vertDefaultFile.size() )
+      break;
+  }
+
 
   if ( vertDefaultFile.size() ) {
     vert.file = vertDefaultFile;
@@ -80,7 +116,7 @@ void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
   shader.setUniform1i( "passTotal", passTotal );
   shader.setUniform1f( "passDensity", 1.0 / (float) passTotal );
   shader.setUniform1f( "passX", (float) passIndex / (float) passTotal );
-};
+}
 
 void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   shader.setUniform1f( "bufferAspect", buffer->getAspect() );
@@ -88,6 +124,13 @@ void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   shader.setUniform1i( "bufferHeight", buffer->getHeight() );
   shader.setUniform1i( "bufferRows", buffer->rows.getValueInt() );
   shader.setUniform1i( "bufferCols", buffer->cols.getValueInt() );
+}
+
+void ofxLoopinShader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
+  shader.setUniform1f( "meshAspect", mesh->aspect );
+  shader.setUniform1i( "meshCount", mesh->meta_count );
+  shader.setUniform1i( "meshRows", mesh->meta_rows );
+  shader.setUniform1i( "meshCols", mesh->meta_cols );
 }
 
 void ofxLoopinShader::applyUniformsGlobalClock() {

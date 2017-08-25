@@ -4,16 +4,20 @@ void ofxLoopin::mesh::plane::generate() {
   mesh->erase();
   mesh->setModeTriangles();
 
-  makePlane(
-    cols.getValueInt(),
-    rows.getValueInt(),
-    split.getValue(),
-    weave.getValue()
-  );
+  mesh->meta_cols = cols;
+  mesh->meta_rows = rows;
+  mesh->meta_count = count;
+
+  for ( int index = 0; index < count; index ++ )
+    makePlane( index );
+
 }
 
-void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool weave ) {
-  // cerr << "makePlane " << wInd << " " << hInd << endl;
+void ofxLoopin::mesh::plane::makePlane( int index ) {
+  int wInd = cols.getValueInt();
+  int hInd = rows.getValueInt();
+  bool split = ofxLoopin::mesh::plane::split;
+  bool weave = ofxLoopin::mesh::plane::weave;
 
   int vertIndex = 0;
   int rowIndex;
@@ -36,7 +40,7 @@ void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool wea
       int tl, tr, bl, br, centre;
 
       if ( split || (!xInd && !yInd) ) {
-        tl = makePlaneVertex( 0, 0, xInd, yInd, wInd, hInd );
+        tl = makePlaneVertex( index, 0, 0, xInd, yInd, wInd, hInd );
       } else if ( xInd ){
         tl = tr;
       } else {
@@ -44,15 +48,15 @@ void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool wea
       }
 
       if ( split || !yInd ) {
-        tr = makePlaneVertex( 1, 0, xInd, yInd, wInd, hInd );
+        tr = makePlaneVertex( index, 1, 0, xInd, yInd, wInd, hInd );
       } else {
         tr = lastBR[xInd];
       }
 
-      br = makePlaneVertex( 1, 1, xInd, yInd, wInd, hInd );
+      br = makePlaneVertex( index, 1, 1, xInd, yInd, wInd, hInd );
 
       if ( split || !xInd ) {
-        bl = makePlaneVertex( 0, 1, xInd, yInd, wInd, hInd );
+        bl = makePlaneVertex( index, 0, 1, xInd, yInd, wInd, hInd );
       } else {
         bl = lastBR[xInd-1];
       }
@@ -61,7 +65,7 @@ void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool wea
         lastBL = bl;
 
       if ( weave ) {
-        centre = makePlaneVertex( 0.5, 0.5, xInd, yInd, wInd, hInd );
+        centre = makePlaneVertex( index, 0.5, 0.5, xInd, yInd, wInd, hInd );
         addTriangle( tl, tr, centre );
         addTriangle( tr, br, centre );
         addTriangle( br, bl, centre );
@@ -81,7 +85,7 @@ void ofxLoopin::mesh::plane::makePlane( int wInd, int hInd, bool split, bool wea
   // exit( 0 );
 }
 
-int ofxLoopin::mesh::plane::makePlaneVertex( float cx, float cy, int x, int y, int w, int h ) {
+int ofxLoopin::mesh::plane::makePlaneVertex( int index, float cx, float cy, int x, int y, int w, int h ) {
 
   float ul = ( x + 0 ) / (float) w ;
   float ur = ( x + 1 ) / (float) w ;
@@ -103,7 +107,7 @@ int ofxLoopin::mesh::plane::makePlaneVertex( float cx, float cy, int x, int y, i
     xf, yf, 0, // x,y,z
     uf, vf,    // u,v
     cx, cy,    // r,g
-    ul + ( ur - ul ) * 0.5, // b
+    count > 1 ? (float) index / (float) (count-1) : 0.5,  // b
     vt + ( vb - vt ) * 0.5, // a
     w, h,       // nx, ny
     1 // nz

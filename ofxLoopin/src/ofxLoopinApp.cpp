@@ -49,6 +49,8 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
+  window.update();
+  
   render();
 
   ofClear( 0.05,0,0.1,0);

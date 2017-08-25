@@ -1,5 +1,8 @@
 #pragma once
 
+#include "interface/Blend.hpp"
+
+
 #include "ofxLoopinCamera.h"
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinClock.h"
@@ -35,6 +38,8 @@ aspect:
   max: 2
 */
 
+
+
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
   ofxLoopinClock clockControl;
@@ -43,6 +48,8 @@ public:
   ofxLoopinControlBool clear = false;
   ofxLoopinControlBool advance = false;
   ofxLoopinControlBool depthTest = false;
+
+  ofxLoopin::interface::Blend blend;
 
   ofxLoopinTexture * src;
   ofxLoopinTransform2D transform;
@@ -54,7 +61,7 @@ public:
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
   ofxLoopinRenders<ofxLoopinLayer> layers;
-  ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
+  // ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
   ofxLoopinControlEnum<GLenum,0> face;
 
 
@@ -74,14 +81,9 @@ protected:
 
     advance = isTop;
     addSubControl( "advance", &advance );
-
-
     addSubControl( "shader", &shader );
     addSubControl( "clock", &clockControl );
-
-
     addSubControl( "mesh", &mesh );
-
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
 
@@ -111,21 +113,7 @@ protected:
     addSubControl( "depthTest", &depthTest );
 
 
-    /** loopin/type/layer/sub/blend
-      options:
-        - none
-        - alpha
-        - add
-        - subtract
-        - multiply
-        - screen
-    */
-    blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
-    blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
-    blend.setEnumKey("add", OF_BLENDMODE_ADD );
-    blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
-    blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
-    blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
+
     addSubControl( "blend", &blend );
 
     addSubControl( "aspect", &aspect );

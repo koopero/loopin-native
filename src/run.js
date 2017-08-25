@@ -15,7 +15,7 @@ function run( opt ) {
   if ( os.platform() == 'linux' && !env['DISPLAY'] )
     env['DISPLAY'] = ':0'
 
-  execPath += '_debug'
+  // execPath += '_debug'
   build.log( execPath )
   const proc = spawn( execPath, [], { cwd: opt.runCwd, env: env } )
   // const proc = spawn( 'catchsegv', [ execPath ], { cwd: opt.runCwd, env: env } )
