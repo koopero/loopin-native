@@ -166,6 +166,16 @@ void ofxLoopinBuffer::end() {
 }
 
 void ofxLoopinBuffer::readLocal( Json::Value & value ) {
-  value["width"] = getWidth();
-  value["height"] = getHeight();
+  int index = getReadIndex();
+  ofFbo & buffer = buffers[index];
+
+  if ( buffer.isAllocated() ) {
+    value["width"] = buffer.getWidth();
+    value["height"] = buffer.getHeight();
+    value["allocated"] = true;
+  } else {
+    value["width"] = getWidth();
+    value["height"] = getHeight();
+    value["allocated"] = false;    
+  }
 }
