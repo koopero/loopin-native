@@ -63,8 +63,8 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
     ofDisablePointSprites();
   }
 
-  blend.apply();
-
+  // blend.apply();
+  ofEnableBlendMode( blend.getEnumValue() );
   ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
 
   //
