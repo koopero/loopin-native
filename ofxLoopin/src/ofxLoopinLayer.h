@@ -110,7 +110,7 @@ protected:
     addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
     addSubControl( "pointSize", &pointSize );
     addSubControl( "clear", &clear );
-    addSubControl( "depthTest", &depthTest );
+    addSubControl( "depth", &depthTest );
 
     /** loopin/type/layer/sub/blend
       options:
