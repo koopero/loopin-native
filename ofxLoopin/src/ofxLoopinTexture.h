@@ -109,7 +109,6 @@ protected:
 
 
     addSubControl("wrapH", &wrapH );
-
     addSubControl("wrapV", &wrapV );
   };
 
