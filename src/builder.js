@@ -5,34 +5,16 @@ const settings = require('./settings')
 
 const _ = require('lodash')
     , Promise = require('bluebird')
-    , boptions = require('boptions')
     , fs = Promise.promisifyAll( require('fs-extra'))
     , glob = Promise.promisify( require('glob') )
     , path = require('path')
-    , os = require('os')
-    , userhome = require('userhome')
 
-builder.options = require('boptions')({
-  'quiet': true,
-  'verbose': false,
-  'quick': true,
-  'run': false,
-  'runCwd': '',
-  'root': '',
-  'addons': {}
-})
 
-function builder( opt ) {
+
+function builder( settings ) {
   const build = Object.create( builder.prototype )
-  _.extend( build, builder.options( arguments ) )
+  _.extend( build, settings )
 
-  if ( !build.root ) {
-    build.root = userhome('_loopin','native')
-  }
-
-  build.settings = settings
-  build.platform = require('./platform')
-  build.addons = _.merge( _.clone( settings['addons'] ), build.addons )
   build.resolve = function () {
     return path.resolve.apply( path, _.concat( [build.root], arguments ) )
   }
@@ -69,30 +51,10 @@ function builder( opt ) {
     console.error.apply( console, arguments )
   }
 
-  build.substitute = function( str ) {
-    return str.replace( /{([\w\.]+)}/g, ( match, key ) =>
-      _.get( build, _.trim( key ) )
-      || _.get( build.settings, _.trim( key ) )
-      || ''
-    )
+  build.checkFile = function () {
+    let file = this.resolve.apply( this, arguments )
+    return fs.existsSync( file )
   }
 
-  var promise = Promise.resolve()
-    .then( require('./openframeworks').bind( build ) )
-    .then( require('./addons').bind( build ) )
-    .then( require('./project').bind( build ) )
-    .then( require('./make').bind( build ) )
-    .catch( function ( e ) {
-      console.error( build.stderr || '' )
-      throw e
-    })
-
-  if ( build.run )
-    promise = promise.then( require('./run').bind( build, opt ) )
-
-
-  promise = promise
-    .then( () => build )
-
-  return promise
+  return build
 }

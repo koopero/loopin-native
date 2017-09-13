@@ -10,6 +10,7 @@ const _ = require('lodash')
 class Settings {
   templatize( path ) {
     let value = _.get( this, path )
+    var result
 
     if ( _.isString( value ) ) {
       var last
@@ -20,26 +21,40 @@ class Settings {
           ( all, path ) => _.get( this, path )
         )
       } while( value != last )
+      result = value
     }
 
     if ( _.isObject( value ) ) {
-      _.map( value, ( v, k ) => this.templatize( path+'.'+k ) )
+      result = _.map( value, ( v, k ) => this.templatize( path+'.'+k ) )
     }
 
     _.set( this, path, value )
+
+    return result
   }
 }
 
-function settings( options ) {
-  var settings = new Settings()
+const OPTIONS = require('boptions')({
+  'root': '',
+  'title': 'ofxLoopin',
+  'version': pkg.version,
+  'dev': false,
+  'quiet': true,
+  'verbose': false,
+  'useEnv': true,
+  'addons': {}
+})
 
-  let root = options.root || process.env['LOOPIN_NATIVE'] || './loopin-native'
+function settings( options ) {
+  const settings = new Settings()
+  _.defaults( settings, OPTIONS( arguments ) )
+
+
+  let root = options.root ||
+    ( settings.useEnv && process.env['LOOPIN_NATIVE_DEV'] ) || ''
+
   root = path.resolve( root )
   settings.root = root
-  //
-  // Name
-  //
-  settings.title = _.isString( options.title ) ? options.title : 'Loopin'
 
   //
   // Platform
@@ -47,26 +62,22 @@ function settings( options ) {
   settings.platform = options.platform || platform.defaultPlatform()
   platform.validatePlatform( settings.platform )
 
-  //
-  // Version
-  //
-  settings.version = pkg.version
 
   //
   // Full name
   //
-  let name = settings.name = `${settings.title}-${settings.version}-${settings.platform}`
+  settings.name = `${settings.title}-${settings.version}-${settings.platform}`
 
   //
   // Files
   //
   files.loadSettingsFiles( settings )
 
-  settings.templatize('openframeworks.zipName')
+  settings.templatize('openframeworks')
   settings.templatize('project')
   settings.templatize('binary')
 
-
+  settings.templatize = settings.templatize
 
   _.merge( settings, {
     openframeworks: {

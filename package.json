@@ -19,12 +19,13 @@
     "download-progress": "0.0.1",
     "download-status": "^2.2.1",
     "filewatcher": "^3.0.0",
-    "fs-extra": "^0.26.7",
     "glob": "^7.0.3",
     "js-yaml": "^3.6.1",
     "lodash": "^4.13.1",
+    "loopin": "0.x.x",
     "string-substitute": "^1.0.2",
-    "userhome": "^1.0.0"
+    "tar": "^4.0.1",
+    "zip-dir": "^1.0.2"
   },
   "directories": {
     "test": "test"

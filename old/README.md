@@ -1,3 +1,6 @@
+# These docs are obsolete!!
+
+
 **loopin-native** contains all that is needed to run [Loopin](https://github.com/koopero/loopin)
 applications using a share, natively compiled binary. It includes the following:
 

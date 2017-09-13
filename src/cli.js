@@ -1,10 +1,23 @@
-#!/usr/bin/env node
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-const args = require('./parseArgs')()
+const args = require('./cli/args')
+    , Promise = require('bluebird')
+    , command = args.command
     , settings = require('./settings')( args )
+    , treebird = require('treebird')
+    , build = require('./builder')( settings )
 
-const treebird = require('treebird')
-treebird( settings )
+var promise = Promise.resolve()
+
+promise = promise.then( () => require('./build/executable')( build ) )
+
+if ( args.zip ) {
+  promise = promise.then( () => require('./build/zip')( build ) )
+}
+
+promise = promise.then( () => require('./build/run')( build ) )
+promise = promise.then( ( result ) => treebird( build ) )
 
 // const native = require('./builder')
 //     , yaml = require('js-yaml')
@@ -55,6 +68,3 @@ treebird( settings )
 //   if ( _process )
 //     _process.kill()
 // })
-//
-//
-//

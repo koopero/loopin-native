@@ -1,6 +1,5 @@
 .DS_Store
 .AppleDouble
 node_modules/
-test/scratch
-
+tmp/
 npm-debug.log

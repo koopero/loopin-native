@@ -5,9 +5,7 @@ const _ = require('lodash')
     , fs = Promise.promisifyAll( require('fs-extra'))
     , path = require('path')
 
-function addons() {
-  const build = this
-
+function addons( build ) {
   return Promise.mapSeries( _.keys( build.addons ), addonKey )
 
   function addonKey( key ) {
@@ -17,7 +15,7 @@ function addons() {
       build.addons[key] = addon = { path: addon }
 
 
-    addon['dest'] = build.resolve( build.openframeworks, 'addons/'+key )
+    addon['dest'] = build.resolve( build.openframeworks.root, 'addons/'+key )
 
 
     build.log('#addon', key )
@@ -29,14 +27,14 @@ function addons() {
       .then( gitCheckout )
       .then( gitPatch )
 
-    } else if ( addon['path'] ){
+    } else if ( addon['packageLink'] ){
       // If path is specified, then the addon is probably
       // ofxLoopin, which is included locally.
       return link()
     }
 
     function link () {
-      var addonPath = path.resolve( __dirname, '..', addon['path'] )
+      var addonPath = path.resolve( __dirname, '..', '..', addon['packageLink'] )
       build.log( 'ln -s', addonPath, addon['dest'] )
       return fs.ensureSymlinkAsync( addonPath, addon['dest'] )
     }
