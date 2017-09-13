@@ -107,7 +107,7 @@ int ofxLoopin::mesh::plane::makePlaneVertex( int index, float cx, float cy, int 
     xf, yf, 0, // x,y,z
     uf, vf,    // u,v
     cx, cy,    // r,g
-    count > 1 ? (float) index / (float) (count-1) : 0.5,  // b
+    (float) index / (float) (count),  // b
     vt + ( vb - vt ) * 0.5, // a
     w, h,       // nx, ny
     1 // nz
