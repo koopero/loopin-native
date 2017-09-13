@@ -3,14 +3,13 @@
 void ofxLoopinWindow::setAppBaseWindow( ofAppBaseWindow * window ) {
   _window = window;
   if ( _window ) {
-    sizeFromWindow();
+    sizeToWindow();
   }
 }
 
 void ofxLoopinWindow::readLocal( Json::Value & value ) {
   if ( _window ) {
     value["fullscreen"] = (bool) _window->getWindowMode();
-    sizeFromWindow();
     value["width"] = width;
     value["height"] = height;
     value["x"] = _position.x;
@@ -23,6 +22,18 @@ void ofxLoopinWindow::sizeFromWindow() {
   ofPoint size = _window->getWindowSize();
   width = size.x;
   height = size.y;
+}
+
+void ofxLoopinWindow::sizeToWindow() {
+  ofPoint size = _window->getWindowSize();
+
+  int width = ofxLoopinWindow::width;
+  int height = ofxLoopinWindow::height;
+
+  width = width <= 0 ? size.x : width;
+  height = height <= 0 ? size.y : height;
+
+  _window->setWindowShape( width, height );
 }
 
 void ofxLoopinWindow::update() {

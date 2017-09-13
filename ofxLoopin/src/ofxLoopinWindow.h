@@ -116,4 +116,6 @@ protected:
   ofPoint _position;
 
   void sizeFromWindow();
+  void sizeToWindow();
+
 };
