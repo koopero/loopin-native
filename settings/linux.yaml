@@ -4,4 +4,5 @@ openframeworks:
   projectGeneratorPath: apps/projectGenerator/commandLine
 
 binary:
-  executable: bin/${title}
+  executable: ${name}
+  package: ${name}

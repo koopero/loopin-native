@@ -13,7 +13,7 @@ upload:
 # http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
 
 ofxLoopin:
-  releaseURL: http://localhost:9080/${project.zipName}
+  releaseURL: http://aws-website-loopintech-ofamp.s3-website-us-east-1.amazonaws.com/bin/${project.zipName}
 
 openframeworks:
   version: 0.9.8
