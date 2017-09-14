@@ -10,7 +10,11 @@
 class ofxLoopinText : public ofxLoopinRender {
 public:
   string text = "hello, world";
+<<<<<<< HEAD
   ofxLoopinRef<operator::,ofxLoopinHasMeshes> mesh;
+=======
+  ofxLoopin::control::ref<ofxLoopin::type::font> font;
+>>>>>>> blend
 
 
   void draw( const ofRectangle & area );

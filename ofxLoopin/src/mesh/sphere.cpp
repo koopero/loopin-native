@@ -4,6 +4,10 @@ void ofxLoopin::mesh::sphere::generate() {
   mesh->erase();
   mesh->setModeTriangles();
 
+  mesh->meta_cols = cols;
+  mesh->meta_rows = rows;
+  mesh->meta_count = count;
+
   for ( int index = 0; index < count; index ++ )
     generateSphere( index );
 }
@@ -97,9 +101,9 @@ int ofxLoopin::mesh::sphere::generateSphereVertex( int index, int col, int row )
   return addVertex(
     pos.x, pos.y, pos.z, // x,y,z
     u, v,    // u,v
-    1.0 / (float) cols, 1.0 / (float) rows,   // r,g
+    0, 0,   // r,g
     count > 1 ? (float) index / (float) (count-1) : 0.5,  // b
-    1.0 / (float) count,       // a
+    0,       // a
     norm.x, norm.y, norm.z     // nx, ny, nz
   );
 };

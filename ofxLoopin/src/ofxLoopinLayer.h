@@ -1,5 +1,8 @@
 #pragma once
 
+//#include "interface/Blend.hpp"
+
+
 #include "ofxLoopinCamera.h"
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinClock.h"
@@ -35,6 +38,8 @@ aspect:
   max: 2
 */
 
+
+
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
   ofxLoopinClock clockControl;
@@ -43,6 +48,8 @@ public:
   ofxLoopinControlBool clear = false;
   ofxLoopinControlBool advance = false;
   ofxLoopinControlBool depthTest = false;
+
+  // ofxLoopin::interface::Blend blend;
 
   ofxLoopinTexture * src;
   ofxLoopinTransform2D transform;
@@ -74,14 +81,9 @@ protected:
 
     advance = isTop;
     addSubControl( "advance", &advance );
-
-
     addSubControl( "shader", &shader );
     addSubControl( "clock", &clockControl );
-
-
     addSubControl( "mesh", &mesh );
-
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
 
@@ -108,8 +110,7 @@ protected:
     addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
     addSubControl( "pointSize", &pointSize );
     addSubControl( "clear", &clear );
-    addSubControl( "depthTest", &depthTest );
-
+    addSubControl( "depth", &depthTest );
 
     /** loopin/type/layer/sub/blend
       options:

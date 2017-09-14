@@ -22,11 +22,12 @@ Json::Value ofxLoopinControl::read() {
 };
 
 void ofxLoopinControl::readToValue( Json::Value & value ) {
-  readLocal( value );
-
   if ( value.isObject () ) {
     readSubs( value );
   }
+
+  readLocal( value );
+
 }
 
 void ofxLoopinControl::readSubs( Json::Value & value ) {

@@ -2,6 +2,7 @@
 
 #include "ofxLoopinControl.h"
 #include "ofxLoopinFrame.h"
+#include "ofxLoopinMeshBase.h"
 #include "ofxLoopinShaderElement.h"
 #include "ofxLoopinFile.h"
 #include "ofxLoopinShaderDefaults.h"
@@ -33,10 +34,12 @@ public:
   void applyUniformsDefaults() { /* TODO */ };
   void applyUniformsPass( int passIndex, int passTotal );
   void applyUniformsBuffer( ofxLoopinBuffer * buffer );
+  void applyUniformsMesh( ofxLoopinMeshBase * mesh );
+
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );
   void applyUniformsGlobalClock();
-  
+
 protected:
   void refresh();
 

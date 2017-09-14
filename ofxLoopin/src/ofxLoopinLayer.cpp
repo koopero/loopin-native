@@ -49,6 +49,8 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
   shader->applyUniformsGlobalClock();
   shader->applyUniformPointSize( pointSize );
   shader->applyUniformsBuffer( buffer );
+  shader->applyUniformsMesh( mesh );
+
 
   clockControl.applyUniforms( shader->shader );
 
@@ -61,6 +63,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
     ofDisablePointSprites();
   }
 
+  // blend.apply();
   ofEnableBlendMode( blend.getEnumValue() );
   ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
 
@@ -96,8 +99,11 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
 
     if ( !pass ) {
       if ( (bool) ofxLoopinLayer::clear ) {
+        ofDisableBlendMode();
         ofClear( 0, 0, 0, 0 );
-        glClearDepth(1000);
+        #ifndef TARGET_OPENGLES
+          glClearDepth(1000);
+        #endif
       }
     }
     camera->loadMatrixes();

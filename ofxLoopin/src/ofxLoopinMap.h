@@ -39,7 +39,8 @@ protected:
   map<string, child_type> _map;
 
   void createKey( string key ) {
-    _map[key] = child_type();
+    // _map[key] = child_type();
+    // _map.emplace( key );
     _map[key].path = path + "/" + key;
     _map[key].root = root;
     _map[key].key = key;

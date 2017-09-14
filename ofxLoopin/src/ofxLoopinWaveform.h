@@ -5,8 +5,9 @@
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
-
 #include "ofxLoopinRender.h"
+
+#include <mutex>
 
 /** loopin/type/shader
 sub:
@@ -25,7 +26,6 @@ sub:
     type: float
     unit: s
     time: true
-    min: 0.001
     max: 30
 
   squelch:
@@ -49,14 +49,12 @@ public:
   };
 
   ofxLoopinControlEnum<ofxLoopinWaveform::Phase, PHASE_ABS> phase;
-  ofxLoopinControlNumber duration = 1;
+  ofxLoopinControlNumber duration = 0;
   ofxLoopinControlNumber squelch = 0;
   ofxLoopinControlNumber gain = 1;
+  ofxLoopinControlInt y = 0;
   ofxLoopinControlInt channels = 2;
   ofxLoopinControlInt deviceID = 0;
-
-
-
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void audioIn(ofSoundBuffer &buffer);
@@ -66,16 +64,24 @@ public:
   static Json::Value getInfo();
 
 protected:
+  std::mutex samples_mutex;
   bool streamIsOpen = false;
   int _deviceID = -1;
   ofSoundStream soundStream;
   ofSoundBuffer samples;
 
-  void computeSample( float & sample, float & sign );
+  void renderScrollExisting( ofxLoopinBuffer * buffer, int offset );
+
+  void computeSample( float & sample, int & sign );
   // void patchLocal( const Json::Value & value );
   // void patchString( const string & value );
 
+  void drawSample( ofxLoopinShader * shader, int x, int y, float sample );
+
   void addSubControls() {
+    shader.key = "solidRGBA";
+    addSubControl("shader", &shader );
+
     addSubControl("buffer", &buffer );
 
     phase.setEnumKey("abs", PHASE_ABS );
@@ -88,5 +94,8 @@ protected:
     addSubControl("gain", &gain);
     addSubControl("duration", &duration );
     addSubControl("channels", &channels );
+    addSubControl("y", &y );
+    addSubControl("deviceID", &deviceID );
+
   };
 };

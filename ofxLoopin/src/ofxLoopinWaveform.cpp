@@ -7,23 +7,27 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( channels < 1 )
     return;
 
-  if ( !streamIsOpen ) {
-    soundStream.setInput( *this );
-    streamIsOpen = true;
-  }
-
   int deviceID = ofxLoopinWaveform::deviceID;
 
   if ( soundStream.getNumInputChannels() != channels || deviceID != _deviceID ) {
-    streamIsOpen = soundStream.setup( 0, channels, 44100, 256, 1 );
     soundStream.setDeviceID( deviceID );
-    _deviceID = deviceID;
+    streamIsOpen = soundStream.setup( 0, channels, 48000, 256, 8 );
+    if ( streamIsOpen ) {
+      soundStream.setInput( *this );
+      _deviceID = deviceID;
+
+      ofxLoopinEvent event = ofxLoopinEvent("open");
+      event.data["deviceID"] = deviceID;
+      dispatch( event );
+    }
   }
 
   if ( !buffer )
     buffer = getBuffer( true );
 
   buffer->defaultSize( getBounds() );
+
+  std::lock_guard<std::mutex> guard(samples_mutex);
 
   if ( !samples.size() )
     return;
@@ -33,81 +37,98 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   float _duration = ofxLoopinWaveform::duration;
   float _samplesDuration = (float) samples.getDurationMicros() / 1000000.0;
-  int size = floor( bufferWidth * _samplesDuration / _duration );
+  int size = _duration ? floor( bufferWidth * _samplesDuration / _duration ) : bufferWidth;
 
   if ( !size )
     return;
 
-  if ( size < bufferWidth ) {
-    buffer->flip();
-    buffer->begin();
-    buffer->draw( bufferWidth, bufferHeight, size );
-  } else {
-    buffer->begin();
-  }
+  renderScrollExisting( buffer, size );
 
-  ofFloatImage output;
-  output.allocate( size, channels, OF_IMAGE_COLOR );
-  output.setColor( ofColor(0,0,0,255) );
 
-  ofFloatPixels & pixels = output.getPixels();
+
+  ofxLoopinShader * shader = ofxLoopinWaveform::shader.getPointer( true );
+  if ( !shader ) { dispatch("shaderFault"); return; }
 
   int k = samples.getNumFrames();
 
-  if ( k > size ) {
-    for ( int i = 0; i < k; i ++ ) {
-      int x = floor( ( (float) i / (float) (k-1) ) * size );
-      if ( x >= size )
-        break;
+  buffer->begin();
+  ofSetupScreen();
+  shader->begin();
 
-      for ( int channel = 0; channel < channels; channel++ ) {
-        ofFloatColor pixel = pixels.getColor( x, channel );
-        float sample = samples.getSample( i, channel );
-        float sampleSign;
-
-        computeSample( sample, sampleSign );
-
-        float last = pixel[0];
-        float lastAbs = fabs( last );
-        float lastSign = last == 0 ? 1 : last / lastAbs;
-
-        sample = max( lastAbs, sample );
-
-        pixel.setHsb( 0,0,sample);
-        pixels.setColor( x, channel, pixel );
-      }
-    }
-  } else {
+  for ( int channel = 0; channel < channels; channel++ ) {
     for ( int x = 0; x < size && x < bufferWidth; x ++ ) {
 
-      float i = ( (float) x / (float) size ) * k;
-      for ( int channel = 0; channel < channels; channel++ ) {
-        ofFloatColor pixel;
-        pixel.a = 1.0;
-        float sample = samples.getSample( i, channel );
-        float sampleSign;
+      int sampleStart = floor( (float) x / (float) size * k );
+      int sampleEnd = ceil( (float) x / (float) size * k );
 
-        computeSample( sample, sampleSign );
+      float sample = 0.0;
+      int sampleSign = 0;
+      for ( int i = sampleStart; ( i == sampleStart || i < sampleEnd ) && i < samples.getNumFrames(); i ++ ) {
+        int ssSign = 0;
+        float ssValue = samples.getSample( i, channel );
+        computeSample( ssValue, ssSign );
 
-        pixel.setHsb( 0,0,sample);
-        pixels.setColor( x, channel, pixel );
+        if ( !sampleSign )
+          sampleSign = ssSign;
+
+        sample = max( sample, ssValue );
       }
+      drawSample( shader, x, channel, sample * sampleSign );
     }
   }
 
-  // cerr << "done " << x << " < " << size << endl;
-
-
-  output.update();
-  output.draw(0,0,size,max(channels,bufferHeight));
-  output.clear();
-
+  shader->end();
   buffer->end();
   samples.clear();
 }
 
-void ofxLoopinWaveform::computeSample( float & sample, float & sign ) {
-  sign = sample == 0 ? 1 : fabs( sample ) / sample;
+void ofxLoopinWaveform::renderScrollExisting( ofxLoopinBuffer * buffer, int offset ) {
+  int bufferWidth = buffer->getWidth();
+  int bufferHeight = buffer->getHeight();
+
+
+  if ( offset >= bufferWidth )
+    return;
+
+  ofTexture * texture = buffer->getTexture();
+
+  if ( !texture || !texture->isAllocated() )
+    return;
+
+  buffer->flip();
+  buffer->begin();
+
+  ofSetupScreen();
+  glDisable( GL_CULL_FACE );
+  ofDisableBlendMode();
+  ofDisableDepthTest();
+
+  int y = ofxLoopinWaveform::y;
+  int channels = ofxLoopinWaveform::channels;
+
+  // Make sure everything else in the buffer is preserved.
+  if ( y > 0 || y + channels < bufferHeight ) {
+    texture->draw( 0, 0 );
+  }
+
+  texture->drawSubsection( offset, y, bufferWidth, channels, 0, y, bufferWidth, channels );
+  buffer->end();
+}
+
+void ofxLoopinWaveform::drawSample( ofxLoopinShader * shader, int x, int y, float sample ) {
+  shader->shader.setUniform1f( "red", sample );
+  shader->shader.setUniform1f( "green", sample );
+  shader->shader.setUniform1f( "blue", sample );
+  shader->shader.setUniform1f( "alpha", 1 );
+  // sample = sample > 1 ? 1 : sample < 0 ? 0 : sample;
+  // sample *= 255.0;
+  // ofSetColor( sample, sample, sample );
+
+  ofDrawRectangle( x,y+ofxLoopinWaveform::y,1,1);
+}
+
+void ofxLoopinWaveform::computeSample( float & sample, int & sign ) {
+  sign = sample == 0 ? 0 : fabs( sample ) / sample;
   sample = fabs( sample );
 
   float squelch = ofxLoopinWaveform::squelch;
@@ -117,7 +138,7 @@ void ofxLoopinWaveform::computeSample( float & sample, float & sign ) {
 
   switch ( phase.getEnumValue() ) {
     case PHASE_ABS:
-      sign = 1; // abs == true
+      sign = 1;
     break;
 
     case PHASE_POS:
@@ -136,15 +157,23 @@ void ofxLoopinWaveform::computeSample( float & sample, float & sign ) {
 
     break;
   }
+
+  if ( sample == 0 )
+    sign = 0;
 }
 
 ofRectangle ofxLoopinWaveform::getBounds() {
-  return ofRectangle( 0, 0, 1200, 1 );
+  return ofRectangle( 0, 0, 256, (int) y + (int) channels );
 }
 
 void ofxLoopinWaveform::audioIn(ofSoundBuffer &buffer) {
+  std::lock_guard<std::mutex> guard(samples_mutex);
+
   samples.setNumChannels( buffer.getNumChannels() );
-  samples.append( buffer );
+
+  if ( samples.size() < 1000000 ) {
+    samples.append( buffer );
+  }
 }
 
 Json::Value ofxLoopinWaveform::getInfo() {

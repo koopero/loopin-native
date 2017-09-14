@@ -10,8 +10,8 @@ public:
   ofxLoopinControlInt   count = 1;
   ofxLoopinControlNumber radius = 1;
   ofxLoopinControlNumber rotate = 0;
-  ofxLoopinControlInt   cols = 4;
-  ofxLoopinControlInt   rows = 2;
+  ofxLoopinControlInt   cols = 16;
+  ofxLoopinControlInt   rows = 32;
   ofxLoopinControlBool  split = ofxLoopinControlBool( false );
 
   void addSubControls() {

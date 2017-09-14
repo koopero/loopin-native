@@ -50,6 +50,9 @@ format:
 
 class ofxLoopinBuffer : public ofxLoopinControl {
 public:
+  int boundIndex = -1;
+
+
   // Pixel size of buffer
   ofxLoopinControlNumeric _width;
   ofxLoopinControlNumeric _height;
@@ -144,7 +147,7 @@ protected:
     addSubControl( "format", &format );
 
 
-    addSubControl( "useDepth", &useDepth );
+    addSubControl( "depth", &useDepth );
 
     addSubControl( "width", &_width );
     addSubControl( "height", &_height );
@@ -154,11 +157,16 @@ protected:
   }
   void readLocal( Json::Value & value );
 
+  void patchLocal( const Json::Value & value ) {
+    if ( value.isNumeric() ) {
+      _width.patch( value );
+      _height.patch( value );
+    }
+  };
 
 
 private:
   int curIndex = 0;
-  int boundIndex = -1;
   int lastWroteIndex = -1;
   ofFbo buffers[2];
   ofFbo::Settings _bufferSettings[2];

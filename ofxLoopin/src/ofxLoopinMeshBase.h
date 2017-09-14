@@ -76,6 +76,9 @@ public:
   void setModeTriangles();
   void setModePoints();
 
+  int meta_count = 1;
+  int meta_cols  = 1;
+  int meta_rows  = 1;
 
 protected:
   ofMesh _mesh;

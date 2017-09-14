@@ -1,10 +1,14 @@
 #include "cube.h"
 
 void ofxLoopin::mesh::cube::generate() {
-  makeCube( 1 );
+  mesh->meta_cols = 1;
+  mesh->meta_rows = 1;
+  mesh->meta_count = count;
+
+  makeCube();
 }
 
-void ofxLoopin::mesh::cube::makeCube( int count ) {
+void ofxLoopin::mesh::cube::makeCube() {
   mesh->erase();
   mesh->setModeTriangles();
 
@@ -57,7 +61,7 @@ int ofxLoopin::mesh::cube::makeCubeVertex( int cubeIndex, int faceIndex, ofVec3f
     pos.x, pos.y, pos.z, // x,y,z
     uv.x, uv.y,    // u,v
     cubeIndex, faceIndex,    // r,g
-    0, // b
+    count > 1 ? (float) cubeIndex / (float) (count-1) : 0.5, // b
     1, // a
     normal.x, normal.y, normal.z
   );
