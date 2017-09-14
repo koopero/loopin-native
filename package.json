@@ -4,7 +4,7 @@
   "description": "Builder for native Loopin apps",
   "main": "src/plugin.js",
   "bin": {
-    "loopin-native": "cli/loopin-native"
+    "loopin-native": "src/cli.js"
   },
   "scripts": {},
   "author": "Samm Cooper <samm@sublight.ca>",
