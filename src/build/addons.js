@@ -1,7 +1,7 @@
 module.exports = addons
 
 const _ = require('lodash')
-    , Promise = require('bluebird-extra')
+    , Promise = require('bluebird')
     , fs = Promise.promisifyAll( require('fs-extra'))
     , path = require('path')
 
