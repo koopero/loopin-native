@@ -14,7 +14,7 @@ function run( build ) {
       env['DISPLAY'] = ':0'
 
     build.log( execPath )
-    const proc = spawn( execPath, [], { cwd: build.resolve(), env: env } )
+    const proc = spawn( execPath, [], { cwd: build.cwd, env: env } )
     return proc
   })
 }

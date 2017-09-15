@@ -50,11 +50,13 @@ function settings( options ) {
   _.defaults( settings, OPTIONS( arguments ) )
 
 
-  let root = options.root ||
-    ( settings.useEnv && process.env['LOOPIN_NATIVE_DEV'] ) || ''
+  let root = ( settings.useEnv && process.env['LOOPIN_NATIVE_ROOT'] ) || options.root
 
   root = path.resolve( root )
   settings.root = root
+  settings.cwd = path.resolve( settings.cwd || '.')
+
+  settings.dev = !!settings.dev || ( settings.useEnv && !!process.env['LOOPIN_NATIVE_DEV'] )
 
   //
   // Platform
