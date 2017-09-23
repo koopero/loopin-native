@@ -44,6 +44,13 @@ public:
     return _bufferDescription;
   };
 
+protected:
+  void addSubControls() {
+    ofxLoopinTexture::addSubControls();
+    wrapV.setEnumValue(GL_CLAMP_TO_EDGE );
+    wrapH.setEnumValue(GL_CLAMP_TO_EDGE );  
+  }
+
 private:
   string _bufferDescription;
 };
