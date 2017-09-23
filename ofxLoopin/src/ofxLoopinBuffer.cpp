@@ -121,9 +121,9 @@ bool ofxLoopinBuffer::allocate( int index ) {
   ) {
     buffer.allocate( settings );
 
-    // buffer.begin();
-    // ofClear( 0, 0 );
-    // buffer.end();
+    buffer.begin();
+    ofClear( 0, 0 );
+    buffer.end();
 
     _bufferSettings[index] = settings;
   }
@@ -176,6 +176,6 @@ void ofxLoopinBuffer::readLocal( Json::Value & value ) {
   } else {
     value["width"] = getWidth();
     value["height"] = getHeight();
-    value["allocated"] = false;    
+    value["allocated"] = false;
   }
 }
