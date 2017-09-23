@@ -5,6 +5,7 @@ const _ = require('lodash')
     , platform = require('./settings/platform')
     , files = require('./settings/files')
     , pkg = require('../package.json')
+    , fs = require('fs-extra')
 
 
 class Settings {
@@ -51,6 +52,17 @@ function settings( options ) {
 
 
   let root = ( settings.useEnv && process.env['LOOPIN_NATIVE_ROOT'] ) || options.root
+
+  if ( !root ) {
+    var moduleRoot = path.resolve( __dirname, '..' )
+      , moduleBuildRoot = path.resolve( moduleRoot, 'build/')
+    try {
+      fs.access( moduleRoot, fs.constants.W_OK )
+      root = moduleBuildRoot
+    } catch ( err ) {
+      throw new Error(`No root defined, and could not access ${moduleRoot}`)
+    }
+  }
 
   root = path.resolve( root )
   settings.root = root
