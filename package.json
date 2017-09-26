@@ -1,7 +1,7 @@
 {
   "name": "loopin-native",
-  "version": "0.8.0-alpha",
-  "description": "Builder for native Loopin apps",
+  "version": "0.8.0-beta",
+  "description": "Native binary renderer for Loopin",
   "main": "src/plugin.js",
   "bin": {
     "loopin-native": "src/cli.js"
