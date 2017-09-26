@@ -39,6 +39,14 @@ parser.addArgument(
 )
 
 parser.addArgument(
+  ['-x', '--run'],
+  {
+    help: 'Run ofxLoopin.',
+    action: 'storeTrue'
+  }
+)
+
+parser.addArgument(
   ['-V', '--verbose'],
   {
     help: 'Log everything',

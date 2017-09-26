@@ -34,12 +34,16 @@ if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
 }
 
-if ( args.run && !args.which ) {
+if ( args.run || args.test ) {
   promise = promise.then( () => require('./build/run')( build ) )
+
   promise = promise.then( ( build_process ) => {
     runProcess = build_process
-    runProcess.stdout.pipe( process.stdout )
-    runProcess.stderr.pipe( process.stderr )
+
+    if ( !args.test ) {
+      runProcess.stdout.pipe( process.stdout )
+      runProcess.stderr.pipe( process.stderr )
+    }
     process.stdin.pipe( runProcess.stdin )
 
     process.on('exit', function () {
