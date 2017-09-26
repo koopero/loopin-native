@@ -10,21 +10,16 @@ const _ = require('lodash')
     , downloadStatus = require('download-status')
 
 
-function openframeworks() {
-  const build = this
-
-  if ( !build.openframeworks )
-    build.openframeworks = build.resolve( build.substitute( build.settings.openframeworks.dir ) )
-
+function openframeworks( build ) {
   return ensure()
 
   function ensure ( ) {
-    if ( exists() && !build.clean )
+    if ( exists() )
       return
 
     return ensureZip()
       .then( unpack )
-      .then( patchOF )
+      // .then( patchOF )
   }
 
   function exists() {
@@ -32,21 +27,16 @@ function openframeworks() {
     // Random file in the openFrameworks directory
     const file = './CODE_OF_CONDUCT.md'
 
-    return fs.existsSync( build.resolve( build.openframeworks, file ) )
+    return fs.existsSync( build.resolve( build.openframeworks.root, file ) )
   }
 
   function ensureZip( ) {
-    const version  = build.settings['openframeworks']['version']
-        , platform = require('./platform')
-        , stringsub = require('string-substitute')
-        , zip_name = build.substitute( build.settings['openframeworks']['zip_name'] )
-        , release_url = build.substitute( build.settings['openframeworks']['release_url'] ) + zip_name
-        , downloadDir = build.resolve( build.settings.download.dir )
+    const version  = build.openframeworks.version
+        , zip_name = build.openframeworks.zipName
+        , release_url = build.openframeworks.releaseURL
+        , downloadDir = build.resolve( build.download.dir )
 
-    if ( !build['openframeworksZip'] )
-      build['openframeworksZip'] = build.resolve( downloadDir, zip_name )
-
-    if ( fs.existsSync( build['openframeworksZip'] ) )
+    if ( fs.existsSync( build.resolve( downloadDir, zip_name ) ) )
       return Promise.resolve( true )
 
 
@@ -63,13 +53,16 @@ function openframeworks() {
   }
 
   function unpack() {
-    const Decompress = require('decompress')
-        , source = build['openframeworksZip']
-        , dest = build['openframeworks']
-
+    const source = build.resolve( build.download.dir, build.openframeworks.zipName )
+        , dest = build.resolve( build.openframeworks.root )
 
     build.log('unzip', source, dest )
-
+    // return fs.ensureDir( dest )
+    // .then( () => require('decompress')( source, dest, {
+    //   plugins: [ require('decompress-unzip') ],
+    //   strip: 1
+    // }).then())
+    const Decompress = require('decompress')
     var decompress = new Decompress({mode: '755'})
       .src( source )
       .dest( dest )
@@ -85,6 +78,10 @@ function openframeworks() {
     }
 
     return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
+
+    // return Promise.fromCallback( ( callback ) => require('extract-zip')( source, {
+    //   dir: dest
+    // }, callback ) )
   }
 
   function patchOF() {

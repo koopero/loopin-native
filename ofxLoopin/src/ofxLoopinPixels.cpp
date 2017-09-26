@@ -106,10 +106,15 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   ofxLoopinShader * shader = ofxLoopinPixels::shader.getPointer( true );
   if ( !shader ) { dispatch("shaderFault"); return; }
 
-  glDisable( GL_CULL_FACE );
-  ofDisableBlendMode();
-  ofDisableDepthTest();
+  ofClear(0,0,0,0);
+  // ofClearAlpha(0);
 
+
+  glDisable( GL_CULL_FACE );
+  ofDisableBlendMode( );
+
+  ofDisableDepthTest();
+  ofEnableBlendMode( OF_BLENDMODE_DISABLED );
   shader->begin();
 
 
@@ -120,10 +125,10 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
   int x = 0;
   int y = 0;
   int i = 0;
-  ofFill();
+  // ofFill();
   for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 
-    ofFloatColor pixel( 0,0,0,1);
+    ofFloatColor pixel( 0,0,0,0.5 );
 
     for ( int channelIndex = 0; channelIndex < numChannels && i < floats.size(); channelIndex ++ ) {
       char channelKey = channels[channelIndex];

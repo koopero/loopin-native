@@ -70,7 +70,7 @@ protected:
     }
   }
 
-  void addSubControls() {
+  virtual void addSubControls() {
     addSubControl("buffer", &buffer );
 
 
@@ -109,7 +109,6 @@ protected:
 
 
     addSubControl("wrapH", &wrapH );
-
     addSubControl("wrapV", &wrapV );
   };
 

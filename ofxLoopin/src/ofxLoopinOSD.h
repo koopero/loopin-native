@@ -22,11 +22,11 @@ public:
 
   string defaultString = {
     "   fps: %fps\n"
-    " files: %files\n"
+//    " files: %files\n"
     "  show: %show\n"
     "window: %window\n"
-    "  host: %hostname\n"
-    "client: %client"
+    "  host: %hostname"
+//    "client: %client"
   };
 
   string text;

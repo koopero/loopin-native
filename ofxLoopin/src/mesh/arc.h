@@ -7,15 +7,17 @@
 namespace ofxLoopin { namespace mesh {
 class arc: public ofxLoopin::MeshGenerator {
 public:
+  ofxLoopinControlInt   count = 1;
   ofxLoopinControlNumber radius = 1;
-  ofxLoopinControlNumber inner = 0.5;
+  ofxLoopinControlNumber inner = 0.0;
   ofxLoopinControlNumber rotate = 0;
   ofxLoopinControlNumber span = 360;
-  ofxLoopinControlInt   cols = 4;
-  ofxLoopinControlInt   rows = 2;
+  ofxLoopinControlInt   cols = 64;
+  ofxLoopinControlInt   rows = 8;
   ofxLoopinControlBool  split = ofxLoopinControlBool( false );
 
   void addSubControls() {
+    addSubControl( "count", &count );
     addSubControl( "cols", &cols );
     addSubControl( "rows", &rows );
     addSubControl( "rotate", &rotate );
@@ -26,7 +28,7 @@ public:
   }
 
   void generate();
-  void generateArc();
-  int generateArcVertex( int row, int col );
+  void generateArc( int index );
+  int generateArcVertex( int index, int row, int col, float qx, float qy );
 };
 } }

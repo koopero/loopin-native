@@ -50,7 +50,11 @@ public:
 protected:
   void addSubControls() {
     addSubControl( "float", &floats );
+    addSubControl( "texture", &tex );
+
+    // TODO: Deprecate or at least sqeulch read
     addSubControl( "tex", &tex );
+
   }
 
 

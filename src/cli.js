@@ -1,133 +1,59 @@
+#!/bin/sh
+':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
 
-const native = require('./builder')
-    , yaml = require('js-yaml')
-    , argparse = require('argparse')
-    , pkg = require('../package.json')
-    , parser = new argparse.ArgumentParser({
-        version: pkg.version,
-        addHelp: true,
-      })
+const args = require('./cli/args')
+    , Promise = require('bluebird')
+    , command = args.command
+    , settings = require('./settings')( args )
+    , treebird = require('treebird')
+    , build = require('./builder')( settings )
 
-addArgparseArguments( parser )
+var promise = Promise.resolve()
+  , runProcess
 
+if ( args.env ) {
+  if ( args.dev )
+    promise = promise.then( () => require('./build/devEnv')( build ) )
 
-const opt = parser.parseArgs()
+  promise = promise.then( () => {
+    const setEnv = ( key, value ) => {
+      process.env[key] = value
+      console.log( `export ${key}=${value}`)
+    }
 
-if ( opt.clean ) {
-  const fs = require('fs-extra')
-      , userhome = require('userhome')
-      , del = userhome('_loopin','native' )
+    setEnv( 'LOOPIN_NATIVE_ROOT', build.root )
+    setEnv( 'LOOPIN_NATIVE_DEV', build.dev ? '1' : '' )
 
-  console.log( 'rm -rf '+del )
-  fs.removeSync( del )
+    process.exit()
+  })
+
 }
 
-var presets = require('./presets')( opt.preset )
-var presetData = presets.load()
+promise = promise.then( () => require('./build/executable')( build ) )
 
-if ( opt.test ) {
-  presetData += '{"text":{"test":"Loopin Lives!"},"show":"test"}\n'
-  presetData += '{"read":"info"}\n'
+if ( args.zip ) {
+  promise = promise.then( () => require('./build/zip')( build ) )
 }
 
-if ( opt.info ) {
-  
-}
+if ( args.run && !args.which ) {
+  promise = promise.then( () => require('./build/run')( build ) )
+  promise = promise.then( ( build_process ) => {
+    runProcess = build_process
+    runProcess.stdout.pipe( process.stdout )
+    runProcess.stderr.pipe( process.stderr )
+    process.stdin.pipe( runProcess.stdin )
 
-var _process
-
-native( opt )
-.then( function ( build ) {
-  _process = build.process
-
-  const write = ( str ) => _process && _process.stdin.write( str )
-  write( presetData )
-
-  if ( opt.watch )
-    presets.watch( write )
-
-  if ( _process ) {
-
-    _process.stdout.pipe( process.stdout )
-    _process.stderr.pipe( process.stderr )
-    process.stdin.pipe( _process.stdin )
-
-    _process.on('exit', function () {
-      process.exit()
+    process.on('exit', function () {
+      if ( _process )
+        runProcess.kill()
     })
-  }
-} )
-
-process.on('exit', function () {
-  if ( _process )
-    _process.kill()
-})
-
-
-function addArgparseArguments( parser ) {
-
-  parser.addArgument(
-    ['-n', '--no-run'],
-    {
-      dest: 'run',
-      help: "Don't run the exec after building.",
-      action: 'storeFalse'
+  })
+  promise = promise.then( () => {
+    if ( args.test ) {
+      runProcess.stdin.write('{"text":{"test":"Loopin Lives!"},"show":"test"}\n')
+      runProcess.stdin.write('{"read":"info"}\n')
     }
-  )
-
-  parser.addArgument(
-    ['-V', '--verbose'],
-    {
-      help: 'Log everything',
-      action: 'storeTrue'
-    }
-  )
-
-  parser.addArgument(
-    ['-q', '--quiet'],
-    {
-      help: 'Do not log anything',
-      action: 'storeTrue'
-    }
-  )
-
-  parser.addArgument(
-    ['-i', '--info'],
-    {
-      help: 'Output native system info and quit.',
-      action: 'storeTrue'
-    }
-  )
-
-  parser.addArgument(
-    ['-w', '--watch'],
-    {
-      help: 'Watch preset files',
-      action: 'storeTrue'
-    }
-  )
-
-  parser.addArgument(
-    ['-T', '--test'],
-    {
-      help: 'Run a really simple test preset',
-      action: 'storeTrue'
-    }
-  )
-
-  parser.addArgument(
-    ['--clean'],
-    {
-      help: 'Clean ~/_loopin',
-      action: 'storeTrue'
-    }
-  )
-
-
-
-  parser.addArgument([ 'preset' ], {
-    nargs: '*',
-    help: 'Load preset files'
-  });
-
+  })
+} else {
+  promise = promise.then( ( result ) => treebird( build ) )
 }

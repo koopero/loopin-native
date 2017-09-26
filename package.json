@@ -1,36 +1,30 @@
 {
   "name": "loopin-native",
-  "version": "0.7.3",
-  "description": "Builder for native Loopin apps",
-  "main": "src/builder.js",
+  "version": "0.8.0-beta",
+  "description": "Native binary renderer for Loopin",
+  "main": "src/plugin.js",
   "bin": {
-    "loopin-native": "cli/loopin-native"
+    "loopin-native": "src/cli.js"
   },
   "scripts": {},
   "author": "Samm Cooper <samm@sublight.ca>",
   "license": "MIT",
   "dependencies": {
     "arg-parse": "^1.0.0",
-    "bluebird": "^3.4.1",
-    "bluebird-extra": "^1.0.1",
-    "boptions": "^0.4.2",
+    "bluebird": "^3.5.0",
+    "boptions": "^0.4.3",
+    "byline": "^5.0.0",
     "decompress": "^3.0.0",
     "download": "^4.4.3",
     "download-progress": "0.0.1",
     "download-status": "^2.2.1",
-    "filewatcher": "^3.0.0",
-    "fs-extra": "^0.26.7",
+    "fs-extra": "^4.0.2",
     "glob": "^7.0.3",
     "js-yaml": "^3.6.1",
     "lodash": "^4.13.1",
-    "string-substitute": "^1.0.2",
-    "userhome": "^1.0.0"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "devDependencies": {
-    "byline": "^5.0.0"
+    "loopin": "0.x.x",
+    "tar": "^4.0.1",
+    "zip-dir": "^1.0.2"
   },
   "repository": {
     "type": "git",

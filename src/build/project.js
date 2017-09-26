@@ -6,14 +6,7 @@ const _ = require('lodash')
     , fs = Promise.promisifyAll( require('fs-extra'))
 
 
-function project() {
-  const build = this
-
-  if ( !build.appName )
-    build.appName = build.settings['app']['name']
-
-  if ( !build.app )
-    build.app = build.resolve( build.substitute( build.settings['app']['dir'] ) )
+function project( build ) {
 
   if ( exists() )
     return Promise.resolve( build )
@@ -21,27 +14,26 @@ function project() {
   return buildGenerator()
     .then( generate )
     .then( replaceMain )
-    // .then( copyData )
     .then( symlinkData )
 
 
   function exists() {
-    const testfile = build.resolve( build.app, 'Makefile' )
+    const testfile = build.resolve( build.project.root, 'Makefile' )
     return fs.existsSync( testfile )
   }
 
   function buildGenerator() {
     const generator =
-          build.resolve( build.openframeworks,
-            build.settings['openframeworks']['projectGenerator']
+          build.resolve( build.openframeworks.root,
+            build.openframeworks.projectGenerator
           )
 
     if ( fs.existsSync( generator ))
       return Promise.resolve()
 
     const cwd =
-      build.resolve( build.openframeworks,
-        build.settings['openframeworks']['projectGeneratorPath']
+      build.resolve( build.openframeworks.root,
+        build.openframeworks.projectGeneratorPath
       )
 
     return build.command( 'make', [], { cwd: cwd } )
@@ -49,22 +41,22 @@ function project() {
 
   function generate() {
     const generator =
-          build.resolve( build.openframeworks,
-            build.settings['openframeworks']['projectGenerator']
+          build.resolve( build.openframeworks.root,
+            build.openframeworks.projectGenerator
           )
         , addons = _.keys( build.addons )
         , args = [
           '-a'+addons.join(','),
-          '-o'+build.openframeworks,
+          '-o'+build.resolve( build.openframeworks.root ),
           '-p'+build.platform,
-          build.app
+          build.resolve( build.project.root )
         ]
 
     return build.command( generator, args, build )
   }
 
   function replaceMain() {
-    const appSrcPath = build.resolve( build.app, 'src' )
+    const appSrcPath = build.resolve( build.project.root, 'src' )
         , appMain = build.resolve( appSrcPath, 'main.cpp' )
         , replacementMain = build.resolve( build.addons.ofxLoopin.dest, 'replace/main.cpp' )
 
@@ -73,7 +65,7 @@ function project() {
 
   function copyData() {
     const dataSrc = path.resolve( __dirname, '..', 'data' )
-        , dataDest = build.resolve( build.app, build.settings['app']['ofxLoopinData'] )
+        , dataDest = build.resolve( build.project.root, build.settings['app']['ofxLoopinData'] )
 
     build.log( '#copyData', src, dest )
     return fs.mkdirpAsync( dataDest )
@@ -90,8 +82,8 @@ function project() {
   }
 
   function symlinkData() {
-    const dataSrc = path.resolve( __dirname, '..', 'data' )
-        , dataDest = build.resolve( build.app, build.settings['app']['ofxLoopinData'] )
+    const dataSrc = path.resolve( __dirname, '..', '..', 'data' )
+        , dataDest = build.resolve( build.project.root, 'bin', 'data','ofxLoopin' )
 
     build.log( '# project data symlink')
     build.log( 'ln -s', dataSrc, dataDest )

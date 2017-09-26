@@ -15,6 +15,10 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
     if ( streamIsOpen ) {
       soundStream.setInput( *this );
       _deviceID = deviceID;
+
+      ofxLoopinEvent event = ofxLoopinEvent("open");
+      event.data["deviceID"] = deviceID;
+      dispatch( event );
     }
   }
 

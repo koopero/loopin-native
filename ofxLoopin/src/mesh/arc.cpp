@@ -4,10 +4,15 @@ void ofxLoopin::mesh::arc::generate() {
   mesh->erase();
   mesh->setModeTriangles();
 
-  generateArc();
+  mesh->meta_cols = cols;
+  mesh->meta_rows = rows;
+  mesh->meta_count = count;
+
+  for ( int index = 0; index < count; index ++ )
+    generateArc( index );
 }
 
-void ofxLoopin::mesh::arc::generateArc( ) {
+void ofxLoopin::mesh::arc::generateArc( int index ) {
   int cols = ofxLoopin::mesh::arc::cols.getValueInt();
   int rows = ofxLoopin::mesh::arc::rows.getValueInt();
   bool split =  ofxLoopin::mesh::arc::split.getValue();
@@ -28,8 +33,7 @@ void ofxLoopin::mesh::arc::generateArc( ) {
       // Vertex A
       //
       if ( split || (!col && !row) ) {
-        float offset = 0;
-        indexA = generateArcVertex( col + offset, row );
+        indexA = generateArcVertex( index, col, row, 0, 0 );
       } else if ( !col ) {
         indexA = firstIndexB;
       } else {
@@ -41,7 +45,7 @@ void ofxLoopin::mesh::arc::generateArc( ) {
       // Vertex B
       //
       if ( split || !col ) {
-        indexB = generateArcVertex( col, row+1 );
+        indexB = generateArcVertex( index, col, row+1, 0, 1 );
       } else {
         indexB = lastIndexC[col-1];
       }
@@ -53,7 +57,7 @@ void ofxLoopin::mesh::arc::generateArc( ) {
       //
       //  Vertex C
       //
-      indexC = generateArcVertex( col+1, row+1 );
+      indexC = generateArcVertex( index, col+1, row+1, 1, 1 );
 
 
       //
@@ -61,7 +65,7 @@ void ofxLoopin::mesh::arc::generateArc( ) {
       //
 
       if ( split || !row ) {
-        indexD = generateArcVertex( col+1, row );
+        indexD = generateArcVertex( index, col+1, row, 1, 0 );
       } else {
         indexD = lastIndexC[col];
       }
@@ -79,7 +83,7 @@ void ofxLoopin::mesh::arc::generateArc( ) {
   // exit( 0 );
 }
 
-int ofxLoopin::mesh::arc::generateArcVertex( int col, int row ) {
+int ofxLoopin::mesh::arc::generateArcVertex( int index, int col, int row, float qx, float qy ) {
   float radius = ofxLoopin::mesh::arc::radius;
   float inner = ofxLoopin::mesh::arc::inner;
 
@@ -104,9 +108,9 @@ int ofxLoopin::mesh::arc::generateArcVertex( int col, int row ) {
   return addVertex(
     x, y, 0, // x,y,z
     u, v,    // u,v
-    0, 0,    // r,g
-    0, // b
-    0, // a
+    qx, qy,    // r,g
+    (float) index / (float) count, // b
+    1.0, // a
     s, c,       // nx, ny
     1 // nz
   );
