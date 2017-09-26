@@ -4,7 +4,6 @@ function devEnv( build ) {
   return Promise.resolve()
     .then( () => require('./openframeworks')( build ) )
     .then( () => require('./addons')( build ) )
-    .then( () => require('./project')( build ) )
     .catch( function ( e ) {
       console.error( build.stderr || '' )
       throw e

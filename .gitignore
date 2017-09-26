@@ -4,5 +4,5 @@ node_modules/
 npm-debug.log
 
 
-build/
-tmp/
+/build/
+/tmp/
