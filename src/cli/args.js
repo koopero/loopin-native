@@ -22,6 +22,13 @@ parser.addArgument(
 //   help: 'Load preset files'
 // })
 
+parser.addArgument(
+  ['-e', '--env'],
+  {
+    help: 'Show environment variables and exit.',
+    action: 'storeTrue'
+  }
+)
 
 parser.addArgument(
   ['-d', '--dev'],
@@ -35,6 +42,14 @@ parser.addArgument(
   ['-V', '--verbose'],
   {
     help: 'Log everything',
+    action: 'storeTrue'
+  }
+)
+
+parser.addArgument(
+  ['-T', '--test'],
+  {
+    help: 'Perform a simple self-test.',
     action: 'storeTrue'
   }
 )

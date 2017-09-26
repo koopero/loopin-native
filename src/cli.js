@@ -9,6 +9,25 @@ const args = require('./cli/args')
     , build = require('./builder')( settings )
 
 var promise = Promise.resolve()
+  , runProcess
+
+if ( args.env ) {
+  if ( args.dev )
+    promise = promise.then( () => require('./build/devEnv')( build ) )
+
+  promise = promise.then( () => {
+    const setEnv = ( key, value ) => {
+      process.env[key] = value
+      console.log( `export ${key}=${value}`)
+    }
+
+    setEnv( 'LOOPIN_NATIVE_ROOT', build.root )
+    setEnv( 'LOOPIN_NATIVE_DEV', build.dev ? '1' : '' )
+
+    process.exit()
+  })
+
+}
 
 promise = promise.then( () => require('./build/executable')( build ) )
 
@@ -16,55 +35,25 @@ if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
 }
 
-promise = promise.then( () => require('./build/run')( build ) )
-promise = promise.then( ( result ) => treebird( build ) )
+if ( args.run && !args.which ) {
+  promise = promise.then( () => require('./build/run')( build ) )
+  promise = promise.then( ( build_process ) => {
+    runProcess = build_process
+    runProcess.stdout.pipe( process.stdout )
+    runProcess.stderr.pipe( process.stderr )
+    process.stdin.pipe( runProcess.stdin )
 
-// const native = require('./builder')
-//     , yaml = require('js-yaml')
-//     ,
-//     , pkg = require('../package.json')
-
-//
-// addArgparseArguments( parser )
-//
-//
-// const opt =
-//
-// var presets = require('./presets')( opt.preset )
-// var presetData = presets.load()
-//
-// if ( opt.test ) {
-//   presetData += '{"text":{"test":"Loopin Lives!"},"show":"test"}\n'
-//   presetData += '{"read":"info"}\n'
-// }
-//
-// var _process
-//
-// native( opt )
-// .then( function ( build ) {
-//   _process = build.process
-//
-//   const write = ( str ) => _process && _process.stdin.write( str )
-//   write( presetData )
-//
-//   console.log(presetData)
-//
-//   if ( opt.watch )
-//     presets.watch( write )
-//
-//   if ( _process ) {
-//
-//     _process.stdout.pipe( process.stdout )
-//     _process.stderr.pipe( process.stderr )
-//     process.stdin.pipe( _process.stdin )
-//
-//     _process.on('exit', function () {
-//       process.exit()
-//     })
-//   }
-// } )
-//
-// process.on('exit', function () {
-//   if ( _process )
-//     _process.kill()
-// })
+    process.on('exit', function () {
+      if ( _process )
+        runProcess.kill()
+    })
+  })
+  promise = promise.then( () => {
+    if ( args.test ) {
+      runProcess.stdin.write('{"text":{"test":"Loopin Lives!"},"show":"test"}\n')
+      runProcess.stdin.write('{"read":"info"}\n')
+    }
+  })
+} else {
+  promise = promise.then( ( result ) => treebird( build ) )
+}
