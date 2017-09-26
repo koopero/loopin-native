@@ -96,7 +96,7 @@ The procedure for installation on generic Linux should work. A few PI-specific n
 
 ## Developer Mode
 
-`loopin-native` is capable of setting up a development environment and building `ofxLoopin` binaries in-situ and on-demand. This can be used for `ofxLoopin` feature development as well as building on platforms that are currently unsupported.  
+`loopin-native` is capable of setting up a development environment and building `ofxLoopin` binaries in-situ and on-demand. This can be used for `ofxLoopin` feature development as well as building on platforms that are currently unsupported. Note that developer mode may automatically download and install libraries and dependencies.
 
 ### OSX Deps
 [Homebrew](http://brew.sh/) is your best friend for development on Mac.
@@ -109,7 +109,7 @@ brew install node git ffmpeg
 ### Setting up environment
 
 ``` sh
-cd WHERE_YOU_PUT_YOUR_CODE
+cd WHERE_YOU_PUT_YOUR_CODE/
 
 # Clone this repo
 git clone https://github.com/koopero/loopin-native.git
@@ -125,7 +125,7 @@ sudo link npm link
 loopin-native --dev --env
 ```
 
-The output of the last will look something like this:
+The output of the last command will look something like this:
 
 ``` sh
 export LOOPIN_NATIVE_ROOT=/your/dir/loopin-native/build
