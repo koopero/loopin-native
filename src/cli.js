@@ -26,7 +26,6 @@ if ( args.env ) {
 
     process.exit()
   })
-
 }
 
 promise = promise.then( () => require('./build/executable')( build ) )

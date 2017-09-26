@@ -43,6 +43,7 @@ const OPTIONS = require('boptions')({
   'quiet': true,
   'verbose': false,
   'useEnv': true,
+  'env': false,
   'addons': {}
 })
 
@@ -69,6 +70,8 @@ function settings( options ) {
   settings.cwd = path.resolve( settings.cwd || '.')
 
   settings.dev = !!settings.dev || ( settings.useEnv && !!process.env['LOOPIN_NATIVE_DEV'] )
+
+  settings.quiet = !!settings.quiet || !!settings.env
 
   //
   // Platform
