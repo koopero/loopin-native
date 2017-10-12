@@ -56,6 +56,7 @@ public:
   ofxLoopinControlNumber rate = 60.0;
   ofxLoopinControlNumber speed = 1.0;
 
+  // ofxLoopinControlBool running = true;
   bool running = true;
   double lastTime;
 
@@ -85,14 +86,13 @@ protected:
     mode.setEnumKey("time",   TIME );
     mode.setEnumKey("frame",  FRAME );
     mode.setEnumKey("step",   STEP );
-    mode.setEnumKey("stop",   WALL );
+    mode.setEnumKey("stop",   STOP );
     mode.setEnumKey("wall",   WALL );
-
 
     addSubControl("mode", &mode );
     addSubControl("rate", &rate );
     addSubControl("speed", &speed );
-
+    // addSubControl("running", &running );
 
   };
 
@@ -102,6 +102,10 @@ protected:
     }
 
     if ( value.isObject() ) {
+      if ( value.isMember("time") && value["time"].isNumeric() ) {
+      seek( value["time"].asDouble() );
+      }
+
       if ( value.isMember("advance") && value["advance"].asBool() ) {
         running = true;
       }

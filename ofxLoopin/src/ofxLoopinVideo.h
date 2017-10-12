@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ofxLoopinBuffer.h"
+#include "ofxLoopinClock.h"
 #include "ofxLoopinFile.h"
 #include "ofxLoopinRender.h"
 
@@ -9,17 +11,18 @@
 class ofxLoopinVideo : public ofxLoopinRender {
 public:
   ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
+  ofxLoopinClock clock;
 
 protected:
   void patchLocal( const Json::Value & value ) {
-    cerr << "ofxLoopinVideo::patchLocal " << value << endl;
+    // cerr << "ofxLoopinVideo::patchLocal " << value << endl;
 
     if ( value.isMember("src") && value["src"].isString() ) {
       string videoPath = value["src"].asString();
       string absPath = ofxLoopinFile::find( videoPath );
 
       if ( absPath.size() ) {
-        _video.load( absPath );
+        player.load( absPath );
       } else {
         auto event = ofxLoopinEvent::fileNotFound( videoPath );
         dispatch( event );
@@ -33,7 +36,7 @@ protected:
     patchLocal( patch );
   };
 
-
+  void renderBuffer( ofxLoopinBuffer * buffer );
 
   void readLocal( Json::Value & value ) {
     cerr << "ofxLoopinVideo::readLocal" << endl;
@@ -50,9 +53,11 @@ protected:
     loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
 
     addSubControl( "loop", &loop );
+    addSubControl( "clock", &clock );
+
   }
 
 private:
-  ofVideoPlayer _video;
+  ofVideoPlayer player;
 
 };
