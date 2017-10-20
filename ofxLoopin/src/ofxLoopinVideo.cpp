@@ -15,8 +15,51 @@
 //   }
 // };
 
+void ofxLoopinVideo::patchLocal( const Json::Value & value ) {
+  // cerr << "ofxLoopinVideo::patchLocal " << value << endl;
+
+  if ( value.isObject() && value.isMember("src") && value["src"].isString() ) {
+    string videoPath = value["src"].asString();
+    string absPath = ofxLoopinFile::find( videoPath );
+
+    if ( absPath.size() ) {
+      player.load( absPath );
+    } else {
+      ofxLoopinEvent event;
+      event.type = "error";
+      dispatch( event );
+    }
+  }
+};
+
+void ofxLoopinVideo::patchString( const string & value ) {
+  Json::Value patch;
+  patch["src"] = value;
+  patchLocal( patch );
+};
+
+
+double ofxLoopinVideo::getPlayerTime() {
+  return getPlayerTime( player.getCurrentFrame() );
+}
+
+double ofxLoopinVideo::getPlayerTime( int frame ) {
+  float duration = player.getDuration();
+  // int numFrames = player.getTotalNumFrames();
+  // double rate = numFrames / duration;
+
+  float position = player.getPosition();
+  double time = position * duration;
+
+  return time;
+}
 
 void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
+
+  if ( player.isPaused() ) {
+    // cerr << "no delta "<< endl;
+    renderingFrame.delta = 0;
+  }
 
   clock.advance( renderingFrame );
 
@@ -24,10 +67,16 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   int numFrames = player.getTotalNumFrames();
 
+  if ( !numFrames )
+    return;
+
+
   float duration = player.getDuration();
 
 
   double rate = numFrames / duration;
+
+  clock.rate = rate;
 
   double syncTo = clock.frame.time;
 
@@ -46,13 +95,13 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
   int frame = player.getCurrentFrame();
 
 
-  int syncTolerance = 3;
-
+  int syncTolerance = 10;
   bool shouldDispatch = false;
 
   switch( clock.mode.getEnumValue() ) {
     case ofxLoopinClock::STEP:
       player.setSpeed(0);
+      // player.update();
 
       if ( clock.frame.speed ) {
         syncFrame = frame + 1;
@@ -69,11 +118,10 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
     case ofxLoopinClock::FRAME:
       player.setSpeed( clock.frame.speed );
       player.play();
-      player.update();
+      // player.update();
     break;
   }
 
-  int sync = syncFrame - frame;
 
 
   float position = player.getPosition();
@@ -92,29 +140,25 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
 
   event.data["position"] = position;
-  event.data["clock"] = clock.frame.time;
+  event.data["clock"]["time"] = clock.frame.time;
 
 
+  int sync = syncFrame - frame;
   if ( abs( sync ) > syncTolerance ) {
     event.data["syncFrame"] = syncFrame;
 
     if ( sync == 1 ) {
       player.nextFrame();
-      player.update();
     } else {
       player.setFrame( syncFrame );
-      player.update();
     }
 
-    time = syncFrame / rate;
-    clock.frame.time = time;
 
-    shouldDispatch = true;
+    time = syncFrame / rate;
   }
 
-  if ( shouldDispatch )
-    dispatch( event );
-
+  player.update();
+  clock.frame.time = getPlayerTime();
 
 
   if ( !player.isFrameNew() )

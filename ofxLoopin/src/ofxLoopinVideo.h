@@ -14,32 +14,14 @@ public:
   ofxLoopinClock clock;
 
 protected:
-  void patchLocal( const Json::Value & value ) {
-    // cerr << "ofxLoopinVideo::patchLocal " << value << endl;
-
-    if ( value.isMember("src") && value["src"].isString() ) {
-      string videoPath = value["src"].asString();
-      string absPath = ofxLoopinFile::find( videoPath );
-
-      if ( absPath.size() ) {
-        player.load( absPath );
-      } else {
-        auto event = ofxLoopinEvent::fileNotFound( videoPath );
-        dispatch( event );
-      }
-    }
-  };
-
-  void patchString( const string & value ) {
-    Json::Value patch;
-    patch["src"] = value;
-    patchLocal( patch );
-  };
+  void patchLocal( const Json::Value & value );
+  void patchString( const string & value );
 
   void renderBuffer( ofxLoopinBuffer * buffer );
-
   void readLocal( Json::Value & value ) {
-    cerr << "ofxLoopinVideo::readLocal" << endl;
+    // cerr << "ofxLoopinVideo::readLocal" << endl;
+    value["position"] = player.getPosition();
+    value["frame"] = player.getCurrentFrame();
   };
 
   // virtual void readLocal( Json::Value & value ) {};
@@ -59,5 +41,8 @@ protected:
 
 private:
   ofVideoPlayer player;
+
+  double getPlayerTime();
+  double getPlayerTime( int frame );
 
 };
