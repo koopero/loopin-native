@@ -25,6 +25,17 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
     return;
   }
 
+  if ( (bool) ofxLoopinLayer::clear ) {
+    buffer->begin();
+    ofDisableBlendMode();
+    ofClear( 0, 0, 0, 0 );
+    #ifndef TARGET_OPENGLES
+      glClearDepth(1000);
+    #endif
+    buffer->end();
+
+  }
+
   renderSelf( buffer );
 
   layers.render( renderingFrame, buffer );
@@ -98,13 +109,7 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
     buffer->begin();
 
     if ( !pass ) {
-      if ( (bool) ofxLoopinLayer::clear ) {
-        ofDisableBlendMode();
-        ofClear( 0, 0, 0, 0 );
-        #ifndef TARGET_OPENGLES
-          glClearDepth(1000);
-        #endif
-      }
+
     }
     camera->loadMatrixes();
 
