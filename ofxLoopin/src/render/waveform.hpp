@@ -2,6 +2,7 @@
 
 #include "ofSoundStream.h"
 
+#include "ofxLoopinHasInfo.h"
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
@@ -39,7 +40,17 @@ sub:
     max: 30
 
 */
-class ofxLoopinWaveform : public ofxLoopinRender, public ofBaseSoundInput {
+
+namespace ofxLoopin { namespace render {
+
+class waveform_imp;
+
+class waveform : public ofxLoopinRenders<waveform_imp>, public ofxLoopinHasInfo {
+public:
+  Json::Value infoGet();
+};
+
+class waveform_imp : public ofxLoopinRender, public ofBaseSoundInput {
 public:
   enum Phase {
     PHASE_ABS,
@@ -48,7 +59,7 @@ public:
     PHASE_BOTH
   };
 
-  ofxLoopinControlEnum<ofxLoopinWaveform::Phase, PHASE_ABS> phase;
+  ofxLoopinControlEnum<waveform_imp::Phase, PHASE_ABS> phase;
   ofxLoopinControlNumber duration = 0;
   ofxLoopinControlNumber squelch = 0;
   ofxLoopinControlNumber gain = 1;
@@ -73,9 +84,6 @@ protected:
   void renderScrollExisting( ofxLoopinBuffer * buffer, int offset );
 
   void computeSample( float & sample, int & sign );
-  // void patchLocal( const Json::Value & value );
-  // void patchString( const string & value );
-
   void drawSample( ofxLoopinShader * shader, int x, int y, float sample );
 
   void addSubControls() {
@@ -99,3 +107,5 @@ protected:
 
   };
 };
+
+}}

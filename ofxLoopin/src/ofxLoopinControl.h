@@ -36,6 +36,7 @@ public:
 
   void readToValue( Json::Value & value );
 
+  map< string, ofxLoopinControl *> getSubs() { return subs; };
 
 protected:
 

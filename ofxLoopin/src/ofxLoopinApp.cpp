@@ -34,7 +34,8 @@ void ofxLoopinApp::setup () {
 
   stdio.start();
 
-  ofSetFrameRate( 60 );
+  ofSetFrameRate( 240 );
+  ofSetVerticalSync(false);
 }
 
 void ofxLoopinApp::updateLocal() {
@@ -50,7 +51,7 @@ void ofxLoopinApp::updateLocal() {
 
 void ofxLoopinApp::draw() {
   window.update();
-  
+
   render();
 
   ofClear( 0.05,0,0.1,0);

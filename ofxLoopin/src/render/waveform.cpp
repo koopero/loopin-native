@@ -1,13 +1,31 @@
-#include "ofxLoopinWaveform.h"
+#include "waveform.hpp"
 
-void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
+Json::Value ofxLoopin::render::waveform::infoGet() {
+  Json::Value result;
+
+  ofSoundStream stream;
+  vector<ofSoundDevice> devices = stream.getDeviceList();
+  int ji = 0;
+  for ( int i = 0; i < devices.size(); i ++ ) {
+    if ( !devices[i].inputChannels )
+      continue;
+    result["devices"][ji]["deviceID"] = devices[i].deviceID;
+    result["devices"][ji]["inputChannels"] = devices[i].inputChannels;
+    result["devices"][ji]["name"] = devices[i].name;
+    ji++;
+  }
+
+  return result;
+}
+
+void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
   // Ensure the soundstream is running
-  int channels = (int) ofxLoopinWaveform::channels;
+  int channels = (int) ofxLoopin::render::waveform_imp::channels;
 
   if ( channels < 1 )
     return;
 
-  int deviceID = ofxLoopinWaveform::deviceID;
+  int deviceID = ofxLoopin::render::waveform_imp::deviceID;
 
   if ( soundStream.getNumInputChannels() != channels || deviceID != _deviceID ) {
     soundStream.setDeviceID( deviceID );
@@ -35,7 +53,7 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
   int bufferWidth = buffer->getWidth();
   int bufferHeight = buffer->getHeight();
 
-  float _duration = ofxLoopinWaveform::duration;
+  float _duration = ofxLoopin::render::waveform_imp::duration;
   float _samplesDuration = (float) samples.getDurationMicros() / 1000000.0;
   int size = _duration ? floor( bufferWidth * _samplesDuration / _duration ) : bufferWidth;
 
@@ -46,7 +64,7 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
 
 
 
-  ofxLoopinShader * shader = ofxLoopinWaveform::shader.getPointer( true );
+  ofxLoopinShader * shader = ofxLoopin::render::waveform_imp::shader.getPointer( true );
   if ( !shader ) { dispatch("shaderFault"); return; }
 
   int k = samples.getNumFrames();
@@ -82,7 +100,7 @@ void ofxLoopinWaveform::renderBuffer( ofxLoopinBuffer * buffer ) {
   samples.clear();
 }
 
-void ofxLoopinWaveform::renderScrollExisting( ofxLoopinBuffer * buffer, int offset ) {
+void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * buffer, int offset ) {
   int bufferWidth = buffer->getWidth();
   int bufferHeight = buffer->getHeight();
 
@@ -103,8 +121,8 @@ void ofxLoopinWaveform::renderScrollExisting( ofxLoopinBuffer * buffer, int offs
   ofDisableBlendMode();
   ofDisableDepthTest();
 
-  int y = ofxLoopinWaveform::y;
-  int channels = ofxLoopinWaveform::channels;
+  int y = ofxLoopin::render::waveform_imp::y;
+  int channels = ofxLoopin::render::waveform_imp::channels;
 
   // Make sure everything else in the buffer is preserved.
   if ( y > 0 || y + channels < bufferHeight ) {
@@ -115,7 +133,7 @@ void ofxLoopinWaveform::renderScrollExisting( ofxLoopinBuffer * buffer, int offs
   buffer->end();
 }
 
-void ofxLoopinWaveform::drawSample( ofxLoopinShader * shader, int x, int y, float sample ) {
+void ofxLoopin::render::waveform_imp::drawSample( ofxLoopinShader * shader, int x, int y, float sample ) {
   shader->shader.setUniform1f( "red", sample );
   shader->shader.setUniform1f( "green", sample );
   shader->shader.setUniform1f( "blue", sample );
@@ -124,17 +142,17 @@ void ofxLoopinWaveform::drawSample( ofxLoopinShader * shader, int x, int y, floa
   // sample *= 255.0;
   // ofSetColor( sample, sample, sample );
 
-  ofDrawRectangle( x,y+ofxLoopinWaveform::y,1,1);
+  ofDrawRectangle( x,y+ofxLoopin::render::waveform_imp::y,1,1);
 }
 
-void ofxLoopinWaveform::computeSample( float & sample, int & sign ) {
+void ofxLoopin::render::waveform_imp::computeSample( float & sample, int & sign ) {
   sign = sample == 0 ? 0 : fabs( sample ) / sample;
   sample = fabs( sample );
 
-  float squelch = ofxLoopinWaveform::squelch;
+  float squelch = ofxLoopin::render::waveform_imp::squelch;
   sample = sample < squelch ? 0 : sample - squelch;
 
-  sample *= ofxLoopinWaveform::gain;
+  sample *= ofxLoopin::render::waveform_imp::gain;
 
   switch ( phase.getEnumValue() ) {
     case PHASE_ABS:
@@ -162,11 +180,11 @@ void ofxLoopinWaveform::computeSample( float & sample, int & sign ) {
     sign = 0;
 }
 
-ofRectangle ofxLoopinWaveform::getBounds() {
+ofRectangle ofxLoopin::render::waveform_imp::getBounds() {
   return ofRectangle( 0, 0, 256, (int) y + (int) channels );
 }
 
-void ofxLoopinWaveform::audioIn(ofSoundBuffer &buffer) {
+void ofxLoopin::render::waveform_imp::audioIn(ofSoundBuffer &buffer) {
   std::lock_guard<std::mutex> guard(samples_mutex);
 
   samples.setNumChannels( buffer.getNumChannels() );
@@ -174,22 +192,4 @@ void ofxLoopinWaveform::audioIn(ofSoundBuffer &buffer) {
   if ( samples.size() < 1000000 ) {
     samples.append( buffer );
   }
-}
-
-Json::Value ofxLoopinWaveform::getInfo() {
-  Json::Value result;
-
-  ofSoundStream stream;
-  vector<ofSoundDevice> devices = stream.getDeviceList();
-  int ji = 0;
-  for ( int i = 0; i < devices.size(); i ++ ) {
-    if ( !devices[i].inputChannels )
-      continue;
-    result["devices"][ji]["deviceID"] = devices[i].deviceID;
-    result["devices"][ji]["inputChannels"] = devices[i].inputChannels;
-    result["devices"][ji]["name"] = devices[i].name;
-    ji++;
-  }
-
-  return result;
 }

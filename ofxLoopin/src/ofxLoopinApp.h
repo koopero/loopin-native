@@ -26,7 +26,7 @@
 #include "ofxLoopinShow.h"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
-#include "ofxLoopinWaveform.h"
+#include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
 
 
@@ -125,7 +125,7 @@ public:
   /** loopin/root/waveform
     map: waveform
   */
-  ofxLoopinRenders<ofxLoopinWaveform> waveforms;
+  ofxLoopin::render::waveform waveforms;
 
   // fft/:buffer - ofxFft wrapper.
   /** loopin/root/fft
