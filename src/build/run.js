@@ -4,7 +4,7 @@ const _ = require('lodash')
     , os = require('os')
     , spawn = require('child_process').spawn
 
-function run( build ) {
+function run( build, stdio ) {
   return require( './executable')( build )
   .then( function ( execPath ) {
     const env = _.clone( process.env )
@@ -14,7 +14,12 @@ function run( build ) {
       env['DISPLAY'] = ':0'
 
     build.log( execPath )
-    const proc = spawn( execPath, [], { cwd: build.cwd, env: env } )
+    const opt = {
+      cwd: build.cwd,
+      env: env,
+      stdio: stdio || 'pipe'
+    }
+    const proc = spawn( execPath, [], opt )
     return proc
   })
 }

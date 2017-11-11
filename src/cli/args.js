@@ -62,13 +62,13 @@ parser.addArgument(
   }
 )
 
-parser.addArgument(
-  ['-q', '--quiet'],
-  {
-    help: 'Do not log anything',
-    action: 'storeTrue'
-  }
-)
+// parser.addArgument(
+//   ['-q', '--quiet'],
+//   {
+//     help: 'Do not log anything',
+//     action: 'storeTrue'
+//   }
+// )
 
 parser.addArgument(
   ['--zip'],
@@ -78,6 +78,20 @@ parser.addArgument(
   }
 )
 
+parser.addArgument(
+  ['--json'],
+  {
+    help: 'Output as JSON',
+    action: 'storeTrue'
+  }
+)
 
+parser.addArgument(
+  ['--info'],
+  {
+    help: 'Get Loopin system info and exit.',
+    action: 'storeTrue'
+  }
+)
 
 module.exports = parser.parseArgs()

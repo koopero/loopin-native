@@ -19,20 +19,23 @@ function loopinNative( options ) {
       cwd: loopin.filesAbsolute()
     })
 
-    const Promise = require('bluebird')
-        , settings = require('./settings')( options )
-        , build = require('./builder')( settings )
-
-    var promise = Promise.resolve()
-
-    return Promise.resolve()
-    .then( () => require('./build/executable')( build ) )
-    .then( () => require('./build/run')( build ) )
+    return Promise.resolve( resolveProcess() )
     .then( function ( process ) {
-      loopin.plugin( 'stdio', process )
+      loopin.plugin( require('./stdio'), process )
       loopin.dispatchEvent( { path: 'native', type: 'open', data: { pid: process.pid } } )
       loopin.emit( 'open' )
     } )
+
+    function resolveProcess() {
+      if ( options.process )
+        return options.process
+
+      const settings = require('./settings')( options )
+          , build = require('./builder')( settings )
+
+      return require('./build/executable')( build )
+      .then( () => require('./build/run')( build ) )
+    }
   }
 
 }
