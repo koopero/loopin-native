@@ -6,7 +6,16 @@ void ofxLoopinInfo::readLocal( Json::Value & value ) {
 
 Json::Value ofxLoopinInfo::getInfo() {
   Json::Value result;
-  result["waveform"] = getInfoKey( "waveform" );
+
+  map< string, ofxLoopinControl *> subs = root->getSubs();
+
+  for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
+    string key = it->first;
+    Json::Value keyResult = getInfoKey( key );
+
+    if ( keyResult.isObject() )
+      result[key] = keyResult;
+  }
   return result;
 }
 
@@ -29,12 +38,3 @@ Json::Value ofxLoopinInfo::getInfoKey( const string & key ) {
   return result;
 
 }
-//
-// Json::Value ofxLoopinInfo::getGLInfo() {
-//   shared_ptr<ofBaseGLRenderer> renderer = dynamic_pointer_cast<ofBaseGLRenderer>( ofGetCurrentRenderer() );
-//
-//   Json::Value result;
-//   result["VersionMajor"] = renderer->getGLVersionMajor();
-//   result["VersionMinor"] = renderer->getGLVersionMinor();
-//   return result;
-// }

@@ -1,8 +1,10 @@
 #pragma once
 
-#include "ofAppBaseWindow.h"
+#include "ofMain.h"
 
 #include "ofxLoopinControl.h"
+#include "ofxLoopinHasInfo.h"
+
 
 /** loopin/type/window
 
@@ -29,13 +31,15 @@ sub/height:
 
 */
 
-class ofxLoopinWindow : public ofxLoopinControl {
+class ofxLoopinWindow : public ofxLoopinControl, public ofxLoopinHasInfo {
 public:
   int width = 0;
   int height = 0;
 
   void setAppBaseWindow( ofAppBaseWindow * window );
   void update();
+
+  Json::Value infoGet();
 
 protected:
   void patchKey( string key, const Json::Value & val ) {};

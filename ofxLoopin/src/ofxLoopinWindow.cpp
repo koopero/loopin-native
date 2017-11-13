@@ -1,5 +1,18 @@
 #include "ofxLoopinWindow.h"
 
+Json::Value ofxLoopinWindow::infoGet() {
+  Json::Value result;
+
+  shared_ptr<ofBaseGLRenderer> renderer = dynamic_pointer_cast<ofBaseGLRenderer>( ofGetCurrentRenderer() );
+
+  if ( renderer ) {
+    result["gl"]["VersionMajor"] = renderer->getGLVersionMajor();
+    result["gl"]["VersionMinor"] = renderer->getGLVersionMinor();
+  }
+
+  return result;
+}
+
 void ofxLoopinWindow::setAppBaseWindow( ofAppBaseWindow * window ) {
   _window = window;
   if ( _window ) {
