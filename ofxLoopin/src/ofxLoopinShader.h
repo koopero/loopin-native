@@ -42,6 +42,8 @@ public:
 
 protected:
   void refresh();
-
+  void initialize();
   void addSubControls();
+
+  bool _initialized = false;
 };

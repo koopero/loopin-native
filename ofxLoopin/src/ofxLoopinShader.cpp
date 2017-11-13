@@ -70,6 +70,11 @@ void ofxLoopinShader::addSubControls() {
 void ofxLoopinShader::refresh() {
   ofxLoopinEvent event;
 
+  if ( !_initialized ) {
+    initialize();
+  }
+
+
   vert.load();
   frag.load();
 
@@ -99,6 +104,12 @@ void ofxLoopinShader::refresh() {
   }
 }
 
+void ofxLoopinShader::initialize() {
+  ofxLoopinEvent event;
+  event.type = "shaderInit";
+  dispatch( event );
+  _initialized = true;
+}
 
 void ofxLoopinShader::begin() {
   refresh();
