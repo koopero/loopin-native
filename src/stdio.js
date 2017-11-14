@@ -9,7 +9,7 @@ const _ = require('lodash')
 
 require('util').inherits(loopinStdio, EventEmitter);
 
-function loopinStdio( proc ) {
+function loopinStdio( { proc, verbose = false } ) {
   const loopin = this
 
   // Make sure proc is at least close to a real ChildProcess
@@ -58,7 +58,9 @@ function loopinStdio( proc ) {
   }
 
   function warn ( line ) {
-    // console.warn( line )
+    if ( verbose )
+      console.warn( line )
+      
     if ( line )
       stdio.emit( 'warn', line )
   }

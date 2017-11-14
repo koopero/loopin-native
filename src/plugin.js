@@ -21,7 +21,10 @@ function loopinNative( options ) {
 
     return Promise.resolve( resolveProcess() )
     .then( function ( process ) {
-      loopin.plugin( require('./stdio'), process )
+      loopin.plugin( require('./stdio'), {
+        proc: process,
+        verbose: !!options.verbose
+      } )
       loopin.dispatchEvent( { path: 'native', type: 'open', data: { pid: process.pid } } )
       loopin.emit( 'open' )
     } )
