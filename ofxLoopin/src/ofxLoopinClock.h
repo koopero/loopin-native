@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ofAppRunner.h"
 #include "ofShader.h"
 
 #include "ofxLoopinControl.h"
@@ -92,9 +93,12 @@ protected:
     addSubControl("mode", &mode );
     addSubControl("rate", &rate );
     addSubControl("speed", &speed );
-    // addSubControl("running", &running );
-
   };
+
+  bool isClockGlobal() {
+    cerr << "isClockGlobal " << path << endl;
+    return true;
+  }
 
   void patchLocal( const Json::Value & value ) {
     if ( value.isNumeric() ) {
@@ -112,6 +116,16 @@ protected:
 
       if ( value.isMember("reset") && value["reset"].asBool() ) {
         reset();
+      }
+    }
+
+    if ( isClockGlobal() && value.isObject() ) {
+      if ( value.isMember("rate") && value["rate"].isNumeric() ) {
+        ofSetFrameRate( round( value["rate"].asDouble() ) );
+      }
+
+      if ( value.isMember("vsync") ) {
+        ofSetVerticalSync( value["vsync"].asBool() );
       }
     }
   }
