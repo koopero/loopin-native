@@ -7,7 +7,8 @@ function zip( build ) {
 
   let filelist = [ 'data', build.binary.package ]
 
-  return fs.mkdirs( build.resolve( build.upload.dir ) )
+  return require('./executable')( build )
+  .then( () => fs.mkdirs( build.resolve( build.upload.dir ) )
   .then( () => require('tar').c( {
     file: build.resolve( build.upload.dir, build.project.zipName ),
     cwd: build.resolve( build.project.root, 'bin' ),
