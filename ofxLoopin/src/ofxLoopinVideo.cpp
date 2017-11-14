@@ -99,7 +99,7 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
   bool shouldDispatch = false;
 
   switch( clock.mode.getEnumValue() ) {
-    case ofxLoopinClock::STEP:
+    case ofxLoopinFrame::Mode::STEP:
       player.setSpeed(0);
       // player.update();
 
@@ -114,8 +114,8 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
     break;
 
-    case ofxLoopinClock::TIME:
-    case ofxLoopinClock::FRAME:
+    case ofxLoopinFrame::Mode::TIME:
+    case ofxLoopinFrame::Mode::FRAME:
       player.setSpeed( clock.frame.speed );
       player.play();
       // player.update();

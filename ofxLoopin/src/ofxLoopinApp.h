@@ -151,9 +151,7 @@ public:
   // Called by ofxLoopinControl::dispatch
   void dispatch( ofxLoopinEvent & event );
 
-  void update() {
-    ofxLoopinControl::update();
-  }
+  void update();
 
 protected:
   void updateLocal ();

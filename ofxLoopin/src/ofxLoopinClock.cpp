@@ -1,5 +1,62 @@
 #include "ofxLoopinClock.h"
 
+ofxLoopinFrame ofxLoopinClock::globalFrame;
+
+void ofxLoopinClock::applyUniforms( ofShader & shader ) {
+  shader.setUniform1i( "clockIndex", frame.index );
+  shader.setUniform1f( "clockTime", frame.time );
+  shader.setUniform1f( "clockDelta", frame.delta );
+}
+void ofxLoopinClock::addSubControls() {
+  if ( !isClockGlobal() ) {
+    mode.setEnumKey("none", ofxLoopinFrame::Mode::NONE );
+    mode.setEnumValue( ofxLoopinFrame::Mode::NONE );
+  }
+
+  mode.setEnumKey("time",   ofxLoopinFrame::Mode::TIME );
+  mode.setEnumKey("frame",  ofxLoopinFrame::Mode::FRAME );
+  mode.setEnumKey("step",   ofxLoopinFrame::Mode::STEP );
+  mode.setEnumKey("stop",   ofxLoopinFrame::Mode::STOP );
+  mode.setEnumKey("wall",   ofxLoopinFrame::Mode::WALL );
+
+  addSubControl("mode", &mode );
+  addSubControl("rate", &rate );
+  addSubControl("speed", &speed );
+};
+bool ofxLoopinClock::isClockGlobal() {
+  return ( path == "clock" );
+}
+void ofxLoopinClock::patchLocal( const Json::Value & value ) {
+  if ( value.isNumeric() ) {
+    seek( value.asDouble() );
+  }
+
+  if ( value.isObject() ) {
+    if ( value.isMember("time") && value["time"].isNumeric() ) {
+    seek( value["time"].asDouble() );
+    }
+
+    if ( value.isMember("advance") && value["advance"].asBool() ) {
+      running = true;
+    }
+
+    if ( value.isMember("reset") && value["reset"].asBool() ) {
+      reset();
+    }
+  }
+
+  if ( isClockGlobal() && value.isObject() ) {
+    if ( value.isMember("rate") && value["rate"].isNumeric() ) {
+      ofSetFrameRate( round( value["rate"].asDouble() ) );
+    }
+
+    if ( value.isMember("vsync") ) {
+      ofSetVerticalSync( value["vsync"].asBool() );
+    }
+  }
+}
+
+
 void ofxLoopinClock::reset() {
   frame.time = 0;
   nextDelta = 0;
@@ -22,6 +79,10 @@ void ofxLoopinClock::advance() {
   }
 
   advanceDelta( delta * speed );
+
+  if ( isClockGlobal() ) {
+    globalFrame = frame;
+  }
 };
 
 void ofxLoopinClock::advance( const ofxLoopinFrame & parentFrame ) {
@@ -39,29 +100,33 @@ void ofxLoopinClock::advanceDelta( double speed ) {
   double now = ofGetSystemTimeMicros() / 1000000.0;
 
   switch ( mode.getEnumValue() ) {
+    case ofxLoopinFrame::Mode::NONE:
+      running = true;
+      delta = globalFrame.delta;
+    break;
 
-    case WALL:
+    case ofxLoopinFrame::Mode::WALL:
       running = true;
       delta = now - frame.time;
       speed = 1;
     break;
 
-    case TIME:
+    case ofxLoopinFrame::Mode::TIME:
       running = true;
       delta *= now - lastTime;
     break;
 
-    case FRAME:
+    case ofxLoopinFrame::Mode::FRAME:
       running = true;
       delta *= 1.0 / rate;
     break;
 
-    case STEP:
+    case ofxLoopinFrame::Mode::STEP:
       running = false;
       delta *= 1.0 / rate;
     break;
 
-    case STOP:
+    case ofxLoopinFrame::Mode::STOP:
       running = false;
     break;
 

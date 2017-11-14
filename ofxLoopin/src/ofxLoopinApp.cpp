@@ -38,6 +38,10 @@ void ofxLoopinApp::setup () {
   ofSetVerticalSync( true );
 }
 
+void ofxLoopinApp::update() {
+  ofxLoopinControl::update();
+}
+
 void ofxLoopinApp::updateLocal() {
   // Take inputs.
   patch( stdio.getValue() );
@@ -46,13 +50,16 @@ void ofxLoopinApp::updateLocal() {
   frame = clock.frame;
 
   osd.setFrame( frame );
-}
 
-
-void ofxLoopinApp::draw() {
   window.update();
 
   render();
+}
+
+
+
+void ofxLoopinApp::draw() {
+
 
   ofClear( 0.05,0,0.1,0);
 

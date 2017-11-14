@@ -45,15 +45,7 @@ public:
 
   static ofxLoopinFrame globalFrame;
 
-  enum Mode {
-    TIME,
-    FRAME,
-    STEP,
-    WALL,
-    STOP
-  };
-
-  ofxLoopinControlEnum<Mode,TIME> mode;
+  ofxLoopinControlEnum<ofxLoopinFrame::Mode,ofxLoopinFrame::Mode::TIME> mode;
   ofxLoopinControlNumber rate = 60.0;
   ofxLoopinControlNumber speed = 1.0;
 
@@ -74,60 +66,15 @@ public:
   bool shouldRender();
   void advanceDelta( double speed );
 
-  void applyUniforms( ofShader & shader ) {
-    shader.setUniform1i( "clockIndex", frame.index );
-    shader.setUniform1f( "clockTime", frame.time );
-    shader.setUniform1f( "clockDelta", frame.delta );
-  }
+  void applyUniforms( ofShader & shader );
 
 protected:
   float nextDelta = 0;
 
-  void addSubControls() {
-    mode.setEnumKey("time",   TIME );
-    mode.setEnumKey("frame",  FRAME );
-    mode.setEnumKey("step",   STEP );
-    mode.setEnumKey("stop",   STOP );
-    mode.setEnumKey("wall",   WALL );
+  void addSubControls();
 
-    addSubControl("mode", &mode );
-    addSubControl("rate", &rate );
-    addSubControl("speed", &speed );
-  };
+  bool isClockGlobal();
 
-  bool isClockGlobal() {
-    cerr << "isClockGlobal " << path << endl;
-    return true;
-  }
-
-  void patchLocal( const Json::Value & value ) {
-    if ( value.isNumeric() ) {
-      seek( value.asDouble() );
-    }
-
-    if ( value.isObject() ) {
-      if ( value.isMember("time") && value["time"].isNumeric() ) {
-      seek( value["time"].asDouble() );
-      }
-
-      if ( value.isMember("advance") && value["advance"].asBool() ) {
-        running = true;
-      }
-
-      if ( value.isMember("reset") && value["reset"].asBool() ) {
-        reset();
-      }
-    }
-
-    if ( isClockGlobal() && value.isObject() ) {
-      if ( value.isMember("rate") && value["rate"].isNumeric() ) {
-        ofSetFrameRate( round( value["rate"].asDouble() ) );
-      }
-
-      if ( value.isMember("vsync") ) {
-        ofSetVerticalSync( value["vsync"].asBool() );
-      }
-    }
-  }
+  void patchLocal( const Json::Value & value );
 
 };
