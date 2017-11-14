@@ -43,9 +43,12 @@ if ( args.info ) {
     .then( outputResult )
     .then( quit )
   )
-}
-
-if ( args.run ) {
+} else if ( args.test ) {
+  promise = promise.then( () =>
+    runLoopin()
+    .then( () => loopin.patch( {"text":{"test":"Loopin Lives!"},"show":"test"} ))
+  )
+} else if ( args.run ) {
   promise = promise.then( () => run() )
   promise = promise.then( () => pipeStdio() )
 }
@@ -87,28 +90,3 @@ function quit() {
 
   process.exit()
 }
-
-// if ( args.run || args.test ) {
-//   promise = promise.then( () => require('./build/run')( build ) )
-//
-//   promise = promise.then( ( build_process ) => {
-//     runProcess = build_process
-//
-//     if ( !args.test ) {
-//
-//     }
-//
-//     process.on('exit', function () {
-//       if ( _process )
-//         runProcess.kill()
-//     })
-//   })
-//   promise = promise.then( () => {
-//     if ( args.test ) {
-//       runProcess.stdin.write('{"text":{"test":"Loopin Lives!"},"show":"test"}\n')
-//       runProcess.stdin.write('{"read":"info"}\n')
-//     }
-//   })
-// } else {
-//   promise = promise.then( ( result ) => treebird( build ) )
-// }
