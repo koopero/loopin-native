@@ -47,9 +47,9 @@ public:
   ofxLoopinControlNumber pointSize;
   ofxLoopinControlBool clear = false;
   ofxLoopinControlBool advance = false;
+  ofxLoopinControlBool passAdvance = false;
   ofxLoopinControlBool depthTest = false;
 
-  // ofxLoopin::interface::Blend blend;
 
   ofxLoopinTexture * src;
   ofxLoopinTransform2D transform;
@@ -61,6 +61,7 @@ public:
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
   ofxLoopinRenders<ofxLoopinLayer> layers;
+  // ofxLoopin::interface::Blend blend;
   ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
   ofxLoopinControlEnum<GLenum,0> face;
 
@@ -130,11 +131,21 @@ protected:
     addSubControl( "blend", &blend );
 
     addSubControl( "aspect", &aspect );
-
-
-
   }
 
+  bool renderSetup();
+  void renderSelf();
+  void renderUniforms();
+  void renderStyle();
+  void renderUniformsPerPass( int pass );
+
+  void resetStyle();
+  void resetUniforms();
+
+  ofxLoopinBuffer * _buffer = nullptr;
+  ofxLoopinShader * _shader = nullptr;
+  ofxLoopinMesh * _mesh = nullptr;
+  ofxLoopinCamera * _camera = nullptr;
+
 private:
-  void renderSelf( ofxLoopinBuffer * buffer );
 };

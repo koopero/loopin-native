@@ -25,6 +25,8 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
     return;
   }
 
+  _buffer = buffer;
+
   if ( (bool) ofxLoopinLayer::clear ) {
     buffer->begin();
     ofDisableBlendMode();
@@ -33,40 +35,83 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
       glClearDepth(1000);
     #endif
     buffer->end();
-
   }
 
-  renderSelf( buffer );
+  if ( passes > 0 && renderSetup() )
+    renderSelf();
 
   layers.render( renderingFrame, buffer );
 
 }
 
-void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
-  ofxLoopinShader * shader = ofxLoopinLayer::shader.getPointer();
-  ofxLoopinMesh * mesh = ofxLoopinLayer::mesh.getPointer();
-  ofxLoopinCamera * camera = ofxLoopinLayer::camera.getPointer();
+void ofxLoopinLayer::renderSelf( )  {
+  _buffer->begin();
+  _shader->begin();
 
+  renderUniforms();
+  renderStyle();
+
+  for ( int pass = 0; pass < passes; pass ++ ) {
+    if ( pass > 0 ) {
+
+      if ( passAdvance ) {
+        _buffer->flip();
+      }
+
+      _buffer->begin();
+      renderUniformsPerPass( pass );
+    }
+
+    _camera->loadMatrixes();
+
+    _mesh->draw();
+    _buffer->end();
+  }
+
+
+
+  _buffer->end();
+  _shader->end();
+
+  resetStyle();
+  resetUniforms();
+
+};
+
+bool ofxLoopinLayer::renderSetup() {
+  _shader = ofxLoopinLayer::shader.getPointer();
+  _mesh = ofxLoopinLayer::mesh.getPointer();
+  _camera = ofxLoopinLayer::camera.getPointer();
+
+  if ( !_shader ) { dispatch("shaderFault"); return false; }
+  if ( !_mesh ) { dispatch("meshFault"); return false; }
+  if ( !_camera ) { dispatch("cameraFault"); return false; }
+
+  return true;
+}
+
+void ofxLoopinLayer::renderUniforms() {
+  _shader->applyUniformsDefaults();
+  _shader->applyUniformsGlobalClock();
+  _shader->applyUniformPointSize( pointSize );
+  _shader->applyUniformsBuffer( _buffer );
+  _shader->applyUniformsMesh( _mesh );
+  clockControl.applyUniforms( _shader->shader );
+  uniforms.bindToShader( _shader );
+
+  //
+  // Set Aspects
+  //
+  _camera->setLayerAspect( ofxLoopinLayer::aspect );
+  _camera->setBufferAspect( _buffer->getArea(), _buffer->aspect );
+  _camera->setMeshAspect( _mesh->aspect );
+  _camera->setTransform( transform );
+  _camera->calculate();
+  _camera->setUniforms( _shader );
+}
+
+void ofxLoopinLayer::renderStyle() {
   float pointSize = ofxLoopinLayer::pointSize;
-
-  if ( !shader ) { dispatch("shaderFault"); return; }
-  if ( !mesh ) { dispatch("meshFault"); return; }
-  if ( !camera ) { dispatch("cameraFault"); return; }
-
-  auto renderer = ofGetCurrentRenderer();
-
-  shader->begin();
-  shader->applyUniformsDefaults();
-  shader->applyUniformsGlobalClock();
-  shader->applyUniformPointSize( pointSize );
-  shader->applyUniformsBuffer( buffer );
-  shader->applyUniformsMesh( mesh );
-
-
-  clockControl.applyUniforms( shader->shader );
-
-  uniforms.bindToShader( shader );
-
   if ( pointSize > 0.0 ) {
     ofEnablePointSprites();
     glPointSize( pointSize );
@@ -74,26 +119,8 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
     ofDisablePointSprites();
   }
 
-  // blend.apply();
   ofEnableBlendMode( blend.getEnumValue() );
   ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
-
-  //
-  // Set Aspects
-  //
-  camera->setLayerAspect( ofxLoopinLayer::aspect );
-  camera->setBufferAspect( buffer->getArea(), buffer->aspect );
-  camera->setMeshAspect( mesh->aspect );
-  camera->setTransform( transform );
-
-  camera->calculate();
-
-  camera->setUniforms( shader );
-
-  //
-  // Set Matrixs
-  //
-
 
   GLenum face_ = face.getEnumValue();
 
@@ -104,27 +131,19 @@ void ofxLoopinLayer::renderSelf( ofxLoopinBuffer * buffer )  {
   // } else {
   //   glDisable( GL_CULL_FACE );
   // }
+}
 
-  for ( int pass = 0; pass < passes; pass ++ ) {
-    buffer->begin();
-
-    if ( !pass ) {
-
-    }
-    camera->loadMatrixes();
-
-    shader->applyUniformsPass( pass, passes );
-    mesh->draw();
-
-    buffer->end();
-  }
-
+void ofxLoopinLayer::resetStyle() {
   glDisable( GL_CULL_FACE );
   ofDisablePointSprites();
   ofSetDepthTest( false );
-
-  buffer->end();
-  shader->end();
-
-  uniforms.unbind();
 }
+
+void ofxLoopinLayer::resetUniforms() {
+  uniforms.unbind();
+
+}
+
+void ofxLoopinLayer::renderUniformsPerPass( int pass ) {
+  _shader->applyUniformsPass( pass, passes );
+};
