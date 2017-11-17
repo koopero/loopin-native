@@ -36,6 +36,6 @@ void ofxLoopinShaderElement::load() {
   ofxLoopinEvent event;
   event.type = "loadFile";
   event.data["file"] = absPath;
-  event.data["data"] = data;
+  // event.data["data"] = data;
   dispatch( event );
 }
