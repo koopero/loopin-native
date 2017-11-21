@@ -41,9 +41,9 @@ public:
   void applyUniformsGlobalClock();
 
 protected:
-  void refresh();
-  void initialize();
+  void refresh( bool sendNeedEvent = true );
   void addSubControls();
+  void patchLocalAfter( const Json::Value & value );
 
   bool _initialized = false;
 };

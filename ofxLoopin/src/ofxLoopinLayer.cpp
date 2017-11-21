@@ -124,13 +124,13 @@ void ofxLoopinLayer::renderStyle() {
 
   GLenum face_ = face.getEnumValue();
 
-  // if ( face_ ) {
-  //   glEnable( GL_CULL_FACE );
-  //   glCullFace( face_ );
-  //   glFrontFace( GL_CW );
-  // } else {
-  //   glDisable( GL_CULL_FACE );
-  // }
+  if ( face_ ) {
+    glEnable( GL_CULL_FACE );
+    glCullFace( face_ );
+    glFrontFace( GL_CW );
+  } else {
+    glDisable( GL_CULL_FACE );
+  }
 }
 
 void ofxLoopinLayer::resetStyle() {

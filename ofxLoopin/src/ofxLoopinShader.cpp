@@ -1,5 +1,9 @@
 #include "ofxLoopinShader.h"
 
+void ofxLoopinShader::patchLocalAfter( const Json::Value & value ) {
+  refresh( false );
+};
+
 void ofxLoopinShader::addSubControls() {
 
 
@@ -67,11 +71,15 @@ void ofxLoopinShader::addSubControls() {
   addSubControl("frag", &frag );
 };
 
-void ofxLoopinShader::refresh() {
+void ofxLoopinShader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 
   if ( !_initialized ) {
-    initialize();
+    if ( sendNeedEvent ) {
+      event.type = "need";
+      dispatch( event );
+    }
+    _initialized = true;
   }
 
 
@@ -95,20 +103,11 @@ void ofxLoopinShader::refresh() {
       event.type = "captureEnd";
       dispatch( event );
 
-
-      event.type = "shader";
-      event.data["loaded"] = shader.isLoaded();
+      event.type = "done";
+      // event.data["_vertData"] = vert.data;
       dispatch( event );
-
     }
   }
-}
-
-void ofxLoopinShader::initialize() {
-  ofxLoopinEvent event;
-  event.type = "shaderInit";
-  dispatch( event );
-  _initialized = true;
 }
 
 void ofxLoopinShader::begin() {

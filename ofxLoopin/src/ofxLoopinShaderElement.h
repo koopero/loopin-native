@@ -26,7 +26,7 @@ protected:
   string _loadedFile;
 
   void addSubControls() {
-    addSubControl( "src", new ofxLoopinControlValue( &file ) );
+    addSubControl( "file", new ofxLoopinControlValue( &file ) );
     addSubControl( "data", new ofxLoopinControlValue( &data ) );
   };
 
