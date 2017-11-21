@@ -60,15 +60,13 @@ function loopinStdio( { proc, verbose = false } ) {
   function warn ( line ) {
     if ( verbose )
       console.warn( line )
-      
+
     if ( line )
       stdio.emit( 'warn', line )
   }
 
 
   function onLine( line, isErr ) {
-    // console.warn( '!!!!', line )
-
     try {
       var event = JSON.parse( line )
     } catch ( e ) {}

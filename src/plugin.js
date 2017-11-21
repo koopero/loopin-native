@@ -14,7 +14,7 @@ function loopinNative( options ) {
   return
 
   function start( options ) {
-    options = _.merge( {}, options )
+    options = _.merge( { verbose: true }, options )
     _.defaults( options, {
       cwd: loopin.filesAbsolute()
     })
