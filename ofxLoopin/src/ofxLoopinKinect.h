@@ -2,6 +2,8 @@
 
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinRender.h"
+#include "ofxLoopinShader.h"
+
 
 #include "ofxKinect.h"
 
@@ -76,28 +78,7 @@ protected:
   void updateLocal();
   void readLocal( Json::Value & value );
 
-  void addSubControls() {
-
-    addSubControl( "tilt", &tilt );
-    addSubControl( "infrared", &infrared );
-
-    led.setEnumKey("default", ofxKinect::LedMode::LED_DEFAULT );
-    led.setEnumKey("off", ofxKinect::LedMode::LED_OFF );
-    led.setEnumKey("green", ofxKinect::LedMode::LED_GREEN );
-    led.setEnumKey("red", ofxKinect::LedMode::LED_RED );
-    led.setEnumKey("yellow", ofxKinect::LedMode::LED_YELLOW );
-    led.setEnumKey("blinkGreen", ofxKinect::LedMode::LED_BLINK_GREEN );
-    led.setEnumKey("blinkYellowRed", ofxKinect::LedMode::LED_BLINK_YELLOW_RED );
-
-    addSubControl( "led", &led );
-
-    output.setEnumKey("both", OUTPUT_BOTH );
-    output.setEnumKey("video", OUTPUT_VIDEO );
-    output.setEnumKey("depth", OUTPUT_DEPTH );
-    output.setEnumKey("alpha", OUTPUT_ALPHA );
-
-    addSubControl( "output", &output );
-  };
+  void addSubControls();
 
 private:
   ofxKinect * kinect;
@@ -114,5 +95,9 @@ private:
 
   void drawVideo( const ofRectangle & crop, const ofRectangle & area );
   void drawDepth( const ofRectangle & crop, const ofRectangle & area );
+  void drawBoth( const ofRectangle & area );
+
+
+  static ofxLoopinShader _bothShader;
 
 };

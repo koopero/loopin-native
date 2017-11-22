@@ -6,8 +6,6 @@ void ofxLoopinTexture::bindToShader( ofxLoopinShader * shader ) {
   ofMatrix4x4 matrix;
   shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
 
-
-
   if ( !hasTexture() )
     return;
 

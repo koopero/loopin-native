@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofxLoopinLoader.h"
-#include "ofxLoopinMap.h"
 #include "ofxLoopinControlValue.h"
 
 /** loopin/type/shaderElement
@@ -15,12 +14,15 @@ public:
   string data;
 
   void load();
+  void loadDefault();
 
-  bool dataIsNew;
+
+  bool dataIsNew = false;
 
   bool isDataReady() {
     return data.size() > 0;
   }
+
 
 protected:
   string _loadedFile;
@@ -30,21 +32,15 @@ protected:
     addSubControl( "data", new ofxLoopinControlValue( &data ) );
   };
 
-  void patchLocal( const Json::Value & value ) {
-    // cerr << "shaderElement::patchLocal " << path << endl;
+  string findDefaultFile();
 
+  void patchLocal( const Json::Value & value ) {
     dataIsNew = true;
   }
 
   void patchString( const string & str ) {
-    if ( isStringGLSL( str ) ) {
-      data = str;
-      dataIsNew = true;
-    } else {
-      file = str;
-      _loadedFile = "";
-      dataIsNew = true;
-    }
+    data = str;
+    dataIsNew = true;
   };
 
 

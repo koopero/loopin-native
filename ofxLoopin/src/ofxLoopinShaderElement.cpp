@@ -1,11 +1,67 @@
 #include "ofxLoopinShaderElement.h"
 #include "ofxLoopinFile.h"
+#include "ofxLoopinShaderDefaults.h"
 
-bool ofxLoopinShaderElement::isStringGLSL( const string & str ) {
-  // TODO
-  return false;
+
+void ofxLoopinShaderElement::loadDefault() {
+  cerr << "********* loadDefault!!!" << endl;
+
+  // Already got data from ofxLoopinShader constructor
+  if ( data.size() )
+    return;
+
+  if ( !file.size() )
+    file = findDefaultFile();
+
+  if ( !file.size() ) {
+    if ( key == "vert" ) {
+      #ifdef TARGET_OPENGLES
+        data = ofxLoopinShaderDefaults::GLES_VERT;
+      #else
+        data = ofxLoopinShaderDefaults::GL_VERT;
+      #endif
+    } else if ( key == "frag" ) {
+      #ifdef TARGET_OPENGLES
+        data = ofxLoopinShaderDefaults::GLES_FRAG;
+      #else
+        data = ofxLoopinShaderDefaults::GL_FRAG;
+      #endif
+    }
+  }
+
+  dataIsNew = true;
 }
 
+string ofxLoopinShaderElement::findDefaultFile() {
+
+  #ifdef TARGET_OPENGLES
+  string version = "es";
+  #else
+  string version = "150";
+  #endif
+  vector<string> extensions;
+
+  string file;
+  string type = key;
+
+  // shader/foo.150.frag
+  file = ofxLoopinFile::find( "shader/"+key+"."+version+"."+type );
+  if ( file.size() ) return file;
+
+  // shader/foo.frag
+  file = ofxLoopinFile::find( "shader/"+key+"."+type );
+  if ( file.size() ) return file;
+
+  // shader/foo.150.glsl
+  file = ofxLoopinFile::find( "shader/"+key+"."+version+".glsl" );
+  if ( file.size() ) return file;
+
+  // shader/foo.glsl
+  file = ofxLoopinFile::find( "shader/"+key+".glsl" );
+  if ( file.size() ) return file;
+
+  return "";
+}
 
 void ofxLoopinShaderElement::load() {
   if ( _loadedFile == file )

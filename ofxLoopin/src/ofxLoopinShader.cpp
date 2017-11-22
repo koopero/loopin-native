@@ -5,68 +5,6 @@ void ofxLoopinShader::patchLocalAfter( const Json::Value & value ) {
 };
 
 void ofxLoopinShader::addSubControls() {
-
-
-  vector<string> frag_ext;
-  vector<string> vert_ext;
-
-  #ifdef TARGET_OPENGLES
-  frag_ext.push_back(".es.frag");
-  vert_ext.push_back(".es.vert");
-  #endif
-
-
-  frag_ext.push_back(".frag");
-  vert_ext.push_back(".vert");
-
-  #ifdef TARGET_OPENGLES
-  // frag_ext.push_back(".es");
-  // vert_ext.push_back(".es");
-  frag_ext.push_back(".es.glsl");
-  vert_ext.push_back(".es.glsl");
-  #endif
-
-
-  frag_ext.push_back(".glsl");
-  vert_ext.push_back(".glsl");
-
-  string fragDefaultFile;
-  for (auto& ext : frag_ext ) {
-    fragDefaultFile = ofxLoopinFile::find( "shader/"+key+ext );
-    if ( fragDefaultFile.size() )
-      break;
-  }
-
-  string vertDefaultFile;
-  for (auto& ext : vert_ext ) {
-    vertDefaultFile = ofxLoopinFile::find( "shader/"+key+ext );
-    if ( vertDefaultFile.size() )
-      break;
-  }
-
-
-  if ( vertDefaultFile.size() ) {
-    vert.file = vertDefaultFile;
-  } else {
-    #ifdef TARGET_OPENGLES
-      vert.data = ofxLoopinShaderDefaults::GLES_VERT;
-    #else
-      vert.data = ofxLoopinShaderDefaults::GL_VERT;
-    #endif
-  }
-  vert.dataIsNew = true;
-
-  if ( fragDefaultFile.size() ) {
-    frag.file = fragDefaultFile;
-  } else {
-    #ifdef TARGET_OPENGLES
-      frag.data = ofxLoopinShaderDefaults::GLES_FRAG;
-    #else
-      frag.data = ofxLoopinShaderDefaults::GL_FRAG;
-    #endif
-  }
-  frag.dataIsNew = true;
-
   addSubControl("vert", &vert );
   addSubControl("frag", &frag );
 };
@@ -75,6 +13,11 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 
   if ( !_initialized ) {
+    cerr << "INIT SHADER" << endl;
+    vert.key = "vert";
+    frag.key = "frag";
+    vert.loadDefault();
+    frag.loadDefault();
     if ( sendNeedEvent ) {
       event.type = "need";
       dispatch( event );

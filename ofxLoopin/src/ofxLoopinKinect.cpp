@@ -1,10 +1,84 @@
 #include "ofxLoopinKinect.h"
+#include "ofGraphics.h"
+
+
+ofxLoopinShader ofxLoopinKinect::_bothShader = ofxLoopinShader(
+#ifndef TARGET_OPENGLES
+"\#version 150\n\
+uniform mat4 modelViewProjectionMatrix;\n\
+uniform mat4 srcMatrix;\n\
+uniform sampler2D srcSampler;\n\
+in vec4 position;\n\
+in vec2 texcoord;\n\
+in vec4 color;\n\
+out vec2 srcCoord;\n\
+// out vec4 vertColour;\n\
+void main()\n\
+{\n\
+    srcCoord = texcoord.xy;\n\
+    // srcCoord *= vec2( 640, 480 );\n\
+    // srcCoord *= vec2( 640, 480 );\n\
+    // srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy;\n\
+    // vertColour = color;\n\
+    // vertColour = vec4(1,1,1,1);\n\
+    // gl_Position = modelViewProjectionMatrix * position;\n\
+    gl_Position = position;\n\
+}\n\
+"
+#else
+#error "Kinect on OpenGL ES not supported"
+#endif
+
+,
+
+#ifndef TARGET_OPENGLES
+"#version 150 \n\
+uniform sampler2D depthSampler; \n\
+uniform sampler2D videoSampler; \n\
+in vec2 srcCoord; \n\
+out vec4 OUT; \n\
+void main() \n\
+{ \n\
+  OUT.rgb = texture(videoSampler, srcCoord).rgb; \n\
+  OUT.a   = texture(depthSampler, srcCoord).g; \n\
+  // OUT.rg  = srcCoord; \n\
+  // OUT.r  = 1.0 - OUT.r; \n\
+  // OUT.a   = 1.0; \n\
+} \n\
+"
+#else
+#error "Kinect on OpenGL ES not supported"
+#endif
+);
+
+void ofxLoopinKinect::addSubControls() {
+
+  addSubControl( "tilt", &tilt );
+  addSubControl( "infrared", &infrared );
+
+  led.setEnumKey("default", ofxKinect::LedMode::LED_DEFAULT );
+  led.setEnumKey("off", ofxKinect::LedMode::LED_OFF );
+  led.setEnumKey("green", ofxKinect::LedMode::LED_GREEN );
+  led.setEnumKey("red", ofxKinect::LedMode::LED_RED );
+  led.setEnumKey("yellow", ofxKinect::LedMode::LED_YELLOW );
+  led.setEnumKey("blinkGreen", ofxKinect::LedMode::LED_BLINK_GREEN );
+  led.setEnumKey("blinkYellowRed", ofxKinect::LedMode::LED_BLINK_YELLOW_RED );
+
+  addSubControl( "led", &led );
+
+  output.setEnumKey("both", OUTPUT_BOTH );
+  output.setEnumKey("video", OUTPUT_VIDEO );
+  output.setEnumKey("depth", OUTPUT_DEPTH );
+  output.setEnumKey("alpha", OUTPUT_ALPHA );
+
+  addSubControl( "output", &output );
+};
 
 void ofxLoopinKinect::updateLocal() {
   if ( !kinect ) {
     kinect = new ofxKinect();
     kinect->init();
-    kinect->setRegistration( true );
+    kinect->setRegistration( false );
   }
 
   if ( !kinect ) {
@@ -31,6 +105,7 @@ void ofxLoopinKinect::updateLocal() {
         kinect->close();
       }
 
+      cerr << "kinect opening" << endl;
       kinect->init( infrared, true, true );
       kinect->open();
 
@@ -46,6 +121,7 @@ void ofxLoopinKinect::updateLocal() {
 
     ofxLoopinEvent event;
     event.type = "open";
+    readLocal( event.data );
     dispatch( event );
   } else if ( !kinect->isConnected() && status ) {
     status = false;
@@ -93,13 +169,12 @@ ofxLoopinBuffer * ofxLoopinKinect::renderDepth() {
 
 
 void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
-  if ( !kinect )
+  if ( !kinect || !kinect->isConnected() )
     return;
 
-  if ( buffer == nullptr )
+  if ( !buffer ) {
     buffer = getBuffer( true );
-
-  Output outputType = ofxLoopinKinect::output.getEnumValue();
+  }
 
   renderBufferParams( buffer );
 
@@ -108,13 +183,17 @@ void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
     return;
   }
 
-  ofRectangle cropVideo = ofRectangle( 34, 39, 578, 434 );
-  ofRectangle cropDepth = ofRectangle( 34, 39 + 434, 578, -434 );
+
+
+  // ofRectangle cropVideo = ofRectangle( 34, 39, 578, 434 );
+  // ofRectangle cropDepth = ofRectangle( 34, 39 + 434, 578, -434 );
+  ofRectangle cropVideo = ofRectangle( 0, 0, 640, 480 );
+  ofRectangle cropDepth = ofRectangle( 0, 0, 640, 480 );
 
   int width = buffer->getWidth();
   int height = buffer->getHeight();
 
-
+  Output outputType = ofxLoopinKinect::output.getEnumValue();
   switch ( outputType ) {
     case OUTPUT_BOTH:
       drawVideo( cropVideo, ofRectangle( 0, 0, width / 2, height ) );
@@ -130,7 +209,7 @@ void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
     break;
 
     case OUTPUT_ALPHA:
-      cerr << "alpha mode not implemented" << endl;
+      drawBoth( ofRectangle( 0, 0, width, height ) );
     break;
   }
 
@@ -142,6 +221,8 @@ void ofxLoopinKinect::drawVideo( const ofRectangle & crop, const ofRectangle & a
   if ( !kinect->isFrameNewVideo() )
     return;
 
+  ofSetupScreen();
+
   ofTexture &texture = kinect->getTexture();
 
   texture.drawSubsection(
@@ -151,17 +232,50 @@ void ofxLoopinKinect::drawVideo( const ofRectangle & crop, const ofRectangle & a
 }
 
 void ofxLoopinKinect::drawDepth( const ofRectangle & crop, const ofRectangle & area ) {
-  ofxLoopinBuffer * depthBuffer = renderDepth();
-
-  if ( depthBuffer == nullptr )
+  if ( !kinect->isFrameNewDepth() )
     return;
 
-  ofTexture * depth = depthBuffer->getTexture();
-  depth->setTextureMinMagFilter( GL_NEAREST, GL_NEAREST );
-  depth->drawSubsection(
+
+  ofSetupScreen();
+  ofTexture &depthTexture = kinect->getDepthTexture();
+  depthTexture.setTextureWrap( GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE );
+  depthTexture.setTextureMinMagFilter( GL_NEAREST, GL_NEAREST );
+
+  depthTexture.drawSubsection(
     area.x, area.y, area.width, area.height,
     crop.x, crop.y, crop.width, crop.height
   );
+};
+
+void ofxLoopinKinect::drawBoth( const ofRectangle & area ) {
+  ofShader & shader = _bothShader.shader;
+  ofSetupScreen();
+
+  _bothShader.begin();
+
+  ofTexture &videoTexture = kinect->getTexture();
+  if ( videoTexture.isAllocated() ) {
+    videoTexture.bind( 2 );
+    shader.setUniformTexture( "videoSampler", videoTexture, 2 );
+  }
+
+  ofxLoopinBuffer * depthBuffer = renderDepth();
+  ofTexture &depthTexture = kinect->getDepthTexture();
+  if ( depthTexture.isAllocated() ) {
+    depthTexture.setTextureWrap( GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE );
+    depthTexture.setTextureMinMagFilter( GL_NEAREST, GL_NEAREST );
+    depthTexture.bind( 1 );
+
+    shader.setUniformTexture( "depthSampler", depthTexture, 1 );
+  }
+
+  ofClear( 0, 0, 0, 0 );
+  ofDisableBlendMode();
+  videoTexture.draw( -1, -1, 2, 2 );
+
+  _bothShader.end();
+  videoTexture.unbind();
+  depthTexture.unbind();
 };
 
 void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
@@ -186,16 +300,16 @@ void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
       if ( infrared ) {
         buffer->setSize( 640, 488, formatRGB );
       } else {
-        buffer->setSize( 640, 488, formatRGB );
+        buffer->setSize( 640, 480, formatRGB );
       }
     break;
 
     case OUTPUT_DEPTH:
-      buffer->setSize( 1280, 480, formatRGBDeep );
+      buffer->setSize( 640, 480, formatRGBDeep );
     break;
 
     case OUTPUT_ALPHA:
-      buffer->setSize( 1280, 480, formatRGBADeep );
+      buffer->setSize( 640, 480, formatRGBADeep );
     break;
   }
 

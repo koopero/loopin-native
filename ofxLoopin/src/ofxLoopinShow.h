@@ -37,6 +37,9 @@ public:
     _bufferDescription = description.str();
     texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
     texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
+
+    ofClear( 0, 0, 0, 0 );
+    ofDisableBlendMode();
     texture->draw( area );
   }
 
@@ -48,7 +51,7 @@ protected:
   void addSubControls() {
     ofxLoopinTexture::addSubControls();
     wrapV.setEnumValue(GL_CLAMP_TO_EDGE );
-    wrapH.setEnumValue(GL_CLAMP_TO_EDGE );  
+    wrapH.setEnumValue(GL_CLAMP_TO_EDGE );
   }
 
 private:

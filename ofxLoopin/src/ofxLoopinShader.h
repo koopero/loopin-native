@@ -1,12 +1,10 @@
 #pragma once
 
 #include "ofxLoopinControl.h"
+#include "ofxLoopinFile.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMeshBase.h"
 #include "ofxLoopinShaderElement.h"
-#include "ofxLoopinFile.h"
-#include "ofxLoopinShaderDefaults.h"
-
 #include "ofShader.h"
 
 /** loopin/type/shader
@@ -20,6 +18,19 @@ sub:
 
 class ofxLoopinShader : public ofxLoopinControl {
 public:
+  ofxLoopinShader() {};
+  ofxLoopinShader( string defaultFragSource ) {
+    frag.data = defaultFragSource;
+    frag.dataIsNew = true;
+  };
+
+  ofxLoopinShader( string defaultVertSource, string defaultFragSource ) {
+    frag.data = defaultFragSource;
+    frag.dataIsNew = true;
+    vert.data = defaultVertSource;
+    vert.dataIsNew = true;
+  };
+
 
   ofShader shader;
 
