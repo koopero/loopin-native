@@ -29,7 +29,7 @@ if ( args.env ) {
   })
 }
 
-promise = promise.then( () => require('./build/executable')( build ) )
+// promise = promise.then( () => require('./build/executable')( build ) )
 
 if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
