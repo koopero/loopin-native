@@ -4,6 +4,9 @@
 
 ofxLoopinShader ofxLoopinKinect::_bothShader = ofxLoopinShader(
 #ifndef TARGET_OPENGLES
+// name
+"kinectBoth",
+// vert
 "\#version 150\n\
 uniform mat4 modelViewProjectionMatrix;\n\
 uniform mat4 srcMatrix;\n\
@@ -24,14 +27,8 @@ void main()\n\
     // gl_Position = modelViewProjectionMatrix * position;\n\
     gl_Position = position;\n\
 }\n\
-"
-#else
-#error "Kinect on OpenGL ES not supported"
-#endif
-
-,
-
-#ifndef TARGET_OPENGLES
+",
+// frag
 "#version 150 \n\
 uniform sampler2D depthSampler; \n\
 uniform sampler2D videoSampler; \n\
@@ -47,7 +44,7 @@ void main() \n\
 } \n\
 "
 #else
-#error "Kinect on OpenGL ES not supported"
+#warning "Kinect on OpenGL ES not supported"
 #endif
 );
 

@@ -1,8 +1,56 @@
-#include "ofxLoopinPixels.h"
+#include "./main.hpp"
 #include "ofxLoopinFile.h"
 
+ofxLoopinShader ofxLoopin::pixels::Render::shader = ofxLoopinShader(
+// name
+"solidRGBA",
+// frag
+"#version 150 \n\
+uniform float red; \n\
+uniform float green; \n\
+uniform float blue; \n\
+uniform float alpha; \n\
+out vec4 OUT; \n\
+void main() \n\
+{ \n\
+  OUT = vec4( red, green, blue, alpha ); \n\
+} \n\
+"
+) ;
 
-void ofxLoopinPixels::patchLocal( const Json::Value & value ) {
+
+void ofxLoopin::pixels::Render::addSubControls() {
+  addSubControl("width", &width );
+  addSubControl("height", &height );
+
+  shader.key = "solidRGBA";
+  addSubControl("shader", &shader );
+
+  addSubControl("buffer", &buffer );
+
+  format.setEnumKey( "hex", FORMAT_HEX );
+  format.setEnumKey( "hex2", FORMAT_HEX2 );
+  format.setEnumKey( "float", FORMAT_FLOAT );
+  format.setEnumKey( "percent", FORMAT_PERCENT );
+  format.setEnumKey( "decimal", FORMAT_DECIMAL );
+  format.setEnumKey( "base64", FORMAT_BASE64 );
+  addSubControl("format", &format );
+
+  input.setEnumKey( "change", INPUT_CHANGE );
+  input.setEnumKey( "always", INPUT_ALWAYS );
+  addSubControl("input", &input );
+
+  output.setEnumKey( "none", OUTPUT_NONE );
+  output.setEnumKey( "always", OUTPUT_ALWAYS );
+  output.setEnumKey( "once", OUTPUT_ONCE );
+  addSubControl("output", &output );
+
+  addSubControl("channels", new ofxLoopinControlValue( &channels ) );
+  addSubControl("data", new ofxLoopinControlValue( &data ) );
+
+};
+
+void ofxLoopin::pixels::Render::patchLocal( const Json::Value & value ) {
   if (
    value.isObject() && (
      value.isMember("data")
@@ -14,16 +62,16 @@ void ofxLoopinPixels::patchLocal( const Json::Value & value ) {
   }
 }
 
-void ofxLoopinPixels::patchString( const string & value ) {
+void ofxLoopin::pixels::Render::patchString( const string & value ) {
   data = value;
   _isDirty = true;
 }
 
-void ofxLoopinPixels::updateLocal( ) {
+void ofxLoopin::pixels::Render::updateLocal( ) {
 
 }
 
-void ofxLoopinPixels::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderBuffer( ofxLoopinBuffer * buffer ) {
   maybeOutputBuffer( buffer );
 
   bool inputIsFresh = decodeInput();
@@ -47,7 +95,7 @@ void ofxLoopinPixels::renderBuffer( ofxLoopinBuffer * buffer ) {
   renderFloats( buffer );
 }
 
-GLint ofxLoopinPixels::getFormat() {
+GLint ofxLoopin::pixels::Render::getFormat() {
 
   bool hasAlpha = channels.find_first_of("a") != string::npos;
 
@@ -74,10 +122,10 @@ GLint ofxLoopinPixels::getFormat() {
   #endif
 }
 
-ofRectangle ofxLoopinPixels::getBounds() {
+ofRectangle ofxLoopin::pixels::Render::getBounds() {
   int size = floats.size() / channels.size();
-  int width = ofxLoopinPixels::width;
-  int height = ofxLoopinPixels::height;
+  int width = ofxLoopin::pixels::Render::width;
+  int height = ofxLoopin::pixels::Render::height;
 
   if ( width < 1 && height < 1 ) {
     width = size;
@@ -98,24 +146,20 @@ ofRectangle ofxLoopinPixels::getBounds() {
   return ofRectangle( 0, 0, width, height );
 }
 
-void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
   if ( !buffer->begin() ) {
     return;
   }
-
-  ofxLoopinShader * shader = ofxLoopinPixels::shader.getPointer( true );
-  if ( !shader ) { dispatch("shaderFault"); return; }
 
   ofClear(0,0,0,0);
   // ofClearAlpha(0);
 
 
+  shader.begin();
   glDisable( GL_CULL_FACE );
   ofDisableBlendMode( );
-
   ofDisableDepthTest();
-  ofEnableBlendMode( OF_BLENDMODE_DISABLED );
-  shader->begin();
+  // ofEnableBlendMode( OF_BLENDMODE_DISABLED );
 
 
   int numChannels = channels.size();
@@ -149,10 +193,10 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
       }
     }
 
-    shader->shader.setUniform1f( "red", (float) pixel.r / pixel.limit() );
-    shader->shader.setUniform1f( "green", (float) pixel.g / pixel.limit() );
-    shader->shader.setUniform1f( "blue", (float) pixel.b / pixel.limit() );
-    shader->shader.setUniform1f( "alpha", (float) pixel.a / pixel.limit() );
+    shader.shader.setUniform1f( "red", (float) pixel.r / pixel.limit() );
+    shader.shader.setUniform1f( "green", (float) pixel.g / pixel.limit() );
+    shader.shader.setUniform1f( "blue", (float) pixel.b / pixel.limit() );
+    shader.shader.setUniform1f( "alpha", (float) pixel.a / pixel.limit() );
 
 
     ofDrawRectangle( x,y,1,1);
@@ -168,13 +212,13 @@ void ofxLoopinPixels::renderFloats( ofxLoopinBuffer * buffer ) {
       break;
   }
 
-  shader->end();
+  shader.end();
   buffer->end();
 }
 
 
 
-void ofxLoopinPixels::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     return;
@@ -191,7 +235,7 @@ void ofxLoopinPixels::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
   dispatchData();
 }
 
-void ofxLoopinPixels::bufferToFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopinBuffer * buffer ) {
   #ifndef TARGET_OPENGLES
     ofFloatPixels pixels;
   #else
@@ -232,7 +276,7 @@ void ofxLoopinPixels::bufferToFloats( ofxLoopinBuffer * buffer ) {
   }
 }
 
-void ofxLoopinPixels::dispatchData() {
+void ofxLoopin::pixels::Render::dispatchData() {
   ofxLoopinEvent event;
   ofRectangle bounds = getBounds();
   event.type = "pixels";

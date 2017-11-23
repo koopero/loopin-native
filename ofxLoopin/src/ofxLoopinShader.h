@@ -19,12 +19,14 @@ sub:
 class ofxLoopinShader : public ofxLoopinControl {
 public:
   ofxLoopinShader() {};
-  ofxLoopinShader( string defaultFragSource ) {
+  ofxLoopinShader( string _key, string defaultFragSource ) {
+    key = _key;
     frag.data = defaultFragSource;
     frag.dataIsNew = true;
   };
 
-  ofxLoopinShader( string defaultVertSource, string defaultFragSource ) {
+  ofxLoopinShader( string _key, string defaultVertSource, string defaultFragSource ) {
+    key = _key;
     frag.data = defaultFragSource;
     frag.dataIsNew = true;
     vert.data = defaultVertSource;

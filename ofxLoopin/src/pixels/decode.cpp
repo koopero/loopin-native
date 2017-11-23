@@ -1,8 +1,8 @@
-#include "../ofxLoopinPixels.h"
+#include "./main.hpp"
 #include "lib/base64.h"
 
 
-bool ofxLoopinPixels::decodeInput() {
+bool ofxLoopin::pixels::Render::decodeInput() {
 
   if ( !_isDirty )
     return false;
@@ -41,7 +41,7 @@ bool ofxLoopinPixels::decodeInput() {
 
 
 
-void ofxLoopinPixels::decodeHex( int digits ) {
+void ofxLoopin::pixels::Render::decodeHex( int digits ) {
   floats.resize(0);
 
   int i = 0;
@@ -77,7 +77,7 @@ void ofxLoopinPixels::decodeHex( int digits ) {
   }
 }
 
-void ofxLoopinPixels::decodeBinary( const string &data ) {
+void ofxLoopin::pixels::Render::decodeBinary( const string &data ) {
   floats.resize( data.size() );
   for ( int index = 0; index < data.size(); index ++ ) {
     unsigned char valueC = data[ index ];
@@ -86,7 +86,7 @@ void ofxLoopinPixels::decodeBinary( const string &data ) {
   }
 }
 
-void ofxLoopinPixels::decodeNumeric( float divider ) {
+void ofxLoopin::pixels::Render::decodeNumeric( float divider ) {
   floats.resize( 0 );
 
   size_t index = 0;

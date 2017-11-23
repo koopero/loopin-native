@@ -1,7 +1,7 @@
-#include "../ofxLoopinPixels.h"
+#include "./main.hpp"
 #include "lib/base64.h"
 
-void ofxLoopinPixels::encode() {
+void ofxLoopin::pixels::Render::encode() {
   switch( format.getEnumValue() ) {
     case FORMAT_BASE64:
       encodeBinary();
@@ -32,7 +32,7 @@ void ofxLoopinPixels::encode() {
 
 }
 
-void ofxLoopinPixels::encodeBinary() {
+void ofxLoopin::pixels::Render::encodeBinary() {
   data.resize( floats.size() );
 
   for ( int i = 0; i < floats.size(); i ++ ) {
@@ -44,7 +44,7 @@ void ofxLoopinPixels::encodeBinary() {
 }
 
 
-void ofxLoopinPixels::encodeNumeric( float divider ) {
+void ofxLoopin::pixels::Render::encodeNumeric( float divider ) {
   int numChannels = channels.size();
   int channel = 0;
   stringstream result;
@@ -60,7 +60,7 @@ void ofxLoopinPixels::encodeNumeric( float divider ) {
   data = result.str();
 }
 
-void ofxLoopinPixels::encodeHex( int digits ) {
+void ofxLoopin::pixels::Render::encodeHex( int digits ) {
   static char charset[] = "0123456789abcef";
   data.resize( floats.size() * digits );
 

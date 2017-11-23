@@ -20,12 +20,12 @@
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinOSD.h"
 #include "ofxLoopinRender.h"
-#include "ofxLoopinPixels.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
 #include "ofxLoopinShow.h"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
+#include "pixels/main.hpp"
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
 
@@ -112,7 +112,7 @@ public:
   /** loopin/root/pixels
     map: pixels
   */
-  ofxLoopinRenders<ofxLoopinPixels> pixels;
+  ofxLoopin::pixels::Map pixels;
 
 
   // video/:buffer - video file input

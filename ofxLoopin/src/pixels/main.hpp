@@ -7,8 +7,15 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
+#include "ofxLoopinShader.h"
 
-class ofxLoopinPixels : public ofxLoopinRender {
+namespace ofxLoopin { namespace pixels {
+
+class Render;
+
+class Map : public ofxLoopinRenders<Render> {};
+
+class Render : public ofxLoopinRender {
 public:
   enum Format {
     FORMAT_HEX,
@@ -19,14 +26,14 @@ public:
     FORMAT_PERCENT
   };
 
-  ofxLoopinControlEnum<ofxLoopinPixels::Format, FORMAT_BASE64> format;
+  ofxLoopinControlEnum<Format, FORMAT_BASE64> format;
 
   enum Input {
     INPUT_CHANGE,
     INPUT_ALWAYS
   };
 
-  ofxLoopinControlEnum<ofxLoopinPixels::Input, INPUT_CHANGE> input;
+  ofxLoopinControlEnum<Input, INPUT_CHANGE> input;
 
   enum Output {
     OUTPUT_NONE,
@@ -34,7 +41,7 @@ public:
     OUTPUT_ONCE
   };
 
-  ofxLoopinControlEnum<ofxLoopinPixels::Output, OUTPUT_NONE> output;
+  ofxLoopinControlEnum<Output, OUTPUT_NONE> output;
 
   string channels = "rgb";
 
@@ -82,35 +89,12 @@ protected:
   void dispatchData();
 
   void maybeOutputBuffer( ofxLoopinBuffer * buffer );
+  void addSubControls();
 
-  void addSubControls() {
-    addSubControl("width", &width );
-    addSubControl("height", &height );
-
-    shader.key = "solidRGBA";
-    addSubControl("shader", &shader );
-
-    addSubControl("buffer", &buffer );
-
-    format.setEnumKey( "hex", FORMAT_HEX );
-    format.setEnumKey( "hex2", FORMAT_HEX2 );
-    format.setEnumKey( "float", FORMAT_FLOAT );
-    format.setEnumKey( "percent", FORMAT_PERCENT );
-    format.setEnumKey( "decimal", FORMAT_DECIMAL );
-    format.setEnumKey( "base64", FORMAT_BASE64 );
-    addSubControl("format", &format );
-
-    input.setEnumKey( "change", INPUT_CHANGE );
-    input.setEnumKey( "always", INPUT_ALWAYS );
-    addSubControl("input", &input );
-
-    output.setEnumKey( "none", OUTPUT_NONE );
-    output.setEnumKey( "always", OUTPUT_ALWAYS );
-    output.setEnumKey( "once", OUTPUT_ONCE );
-    addSubControl("output", &output );
-
-    addSubControl("channels", new ofxLoopinControlValue( &channels ) );
-    addSubControl("data", new ofxLoopinControlValue( &data ) );
-
-  };
+  static ofxLoopinShader shader;
 };
+
+
+
+// end of namespace
+}}
