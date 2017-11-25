@@ -4,8 +4,6 @@
 
 
 void ofxLoopinShaderElement::loadDefault() {
-  cerr << "********* loadDefault!!!" << endl;
-
   // Already got data from ofxLoopinShader constructor
   if ( data.size() )
     return;

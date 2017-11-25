@@ -13,14 +13,13 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 
   if ( !_initialized ) {
-    cerr << "INIT SHADER" << endl;
     vert.key = "vert";
     frag.key = "frag";
     vert.loadDefault();
     frag.loadDefault();
     if ( sendNeedEvent ) {
       event.type = "need";
-      dispatch( event );
+      if( root ) dispatch( event );
     }
     _initialized = true;
   }
@@ -36,7 +35,7 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
       frag.dataIsNew = false;
 
       event.type = "captureStart";
-      dispatch( event );
+      if ( root ) dispatch( event );
 
       shader.setupShaderFromSource( GL_VERTEX_SHADER, vert.data );
       shader.setupShaderFromSource( GL_FRAGMENT_SHADER, frag.data );
@@ -44,11 +43,11 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
       shader.linkProgram();
 
       event.type = "captureEnd";
-      dispatch( event );
+      if ( root ) dispatch( event );
 
       event.type = "done";
       // event.data["_vertData"] = vert.data;
-      dispatch( event );
+      if ( root ) dispatch( event );
     }
   }
 }

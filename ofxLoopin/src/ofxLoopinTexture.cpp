@@ -2,14 +2,18 @@
 
 
 void ofxLoopinTexture::bindToShader( ofxLoopinShader * shader ) {
+  bindSpecific( shader, key, shader->_textureLocation++ );
+}
 
+
+void ofxLoopinTexture::bindSpecific( ofxLoopinShader * shader, string key, int location ) {
   ofMatrix4x4 matrix;
   shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
 
   if ( !hasTexture() )
     return;
 
-  _boundLocation = shader->_textureLocation++;
+  _boundLocation = location;
 
   ofxLoopinBuffer * bufferP = buffer.getPointer();
 

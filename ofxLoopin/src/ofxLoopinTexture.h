@@ -47,7 +47,7 @@ public:
   }
 
   void bindToShader( ofxLoopinShader * shader );
-
+  void bindSpecific( ofxLoopinShader * shader, string key, int location );
   void unbind();
 
 

@@ -22,7 +22,7 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
-#include "ofxLoopinShow.h"
+#include "show/show.hpp"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
 #include "pixels/main.hpp"
@@ -55,7 +55,7 @@ public:
   /** loopin/root/show
     type: show
   */
-  ofxLoopinShow show;
+  ofxLoopin::Show show;
 
   // clock/ - Clock parameters
   /** loopin/root/clock

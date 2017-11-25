@@ -83,7 +83,7 @@ void ofxLoopinKinect::updateLocal() {
   }
 
   bool shouldOpen = !kinect->isConnected();
-
+  ofxLoopinEvent event;
   // Open if deviceId has changed
   shouldOpen = shouldOpen ||
     ( kinect->getDeviceId() != deviceId && deviceId != -1 );
@@ -102,9 +102,15 @@ void ofxLoopinKinect::updateLocal() {
         kinect->close();
       }
 
-      cerr << "kinect opening" << endl;
+
+      event.type = "captureStart";
+      if ( root ) dispatch( event );
+
       kinect->init( infrared, true, true );
       kinect->open();
+
+      event.type = "captureEnd";
+      if ( root ) dispatch( event );
 
       _modeInfrared = infrared;
     }
@@ -116,7 +122,6 @@ void ofxLoopinKinect::updateLocal() {
   if ( kinect->isConnected() && !status ) {
     status = true;
 
-    ofxLoopinEvent event;
     event.type = "open";
     readLocal( event.data );
     dispatch( event );

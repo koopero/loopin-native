@@ -10,36 +10,7 @@
 
 #include <mutex>
 
-/** loopin/type/shader
-sub:
-  buffer:
-    map: buffer
-    sub/type: buffer
 
-  phase:
-    options:
-      - abs
-      - pos
-      - neg
-      - both
-
-  duration:
-    type: float
-    unit: s
-    time: true
-    max: 30
-
-  squelch:
-    type: float
-    min: 0
-    max: 1
-
-  gain:
-    type: float
-    min: 0
-    max: 30
-
-*/
 
 namespace ofxLoopin { namespace render {
 
@@ -107,5 +78,34 @@ protected:
 
   };
 };
+/** loopin/type/shader
+sub:
+  buffer:
+    map: buffer
+    sub/type: buffer
 
+  phase:
+    options:
+      - abs
+      - pos
+      - neg
+      - both
+
+  duration:
+    type: float
+    unit: s
+    time: true
+    max: 30
+
+  squelch:
+    type: float
+    min: 0
+    max: 1
+
+  gain:
+    type: float
+    min: 0
+    max: 30
+
+*/
 }}
