@@ -11,14 +11,14 @@ public:
   }
 
   void setKey( const string & key ) {
-    if ( _map.count( key ) ) {
+    if ( _keyToEnum.count( key ) ) {
       _key = key;
-      _value = _map[key];
+      _value = _keyToEnum[key];
     }
   }
 
   void setEnumValue( E value ) {
-    for ( auto it : _map ) {
+    for ( auto it : _keyToEnum ) {
       if ( value == it.second ) {
         _value = value;
         _key = it.first;
@@ -33,7 +33,11 @@ public:
     if ( !_key.size() )
       _key = key;
 
-    _map[key] = value;
+    _keyToEnum[key] = value;
+  }
+
+  void setKeyBool( bool boo, string key ) {
+    _boolToKey[boo] = key;
   }
 
   E getEnumValue() const {
@@ -42,11 +46,21 @@ public:
 
 protected:
   void patchString( const string & value ) {
-    if ( _map.count( value ) ) {
+    if ( _keyToEnum.count( value ) ) {
       _key = value;
-      _value = _map[value];
+      _value = _keyToEnum[value];
     }
   };
+
+  void patchLocal( const Json::Value & value ) {
+    if ( value.isBool() ) {
+      bool valueB = value.asBool();
+      if ( _boolToKey.count( valueB ) ) {
+        _key = _boolToKey[valueB];
+        _value = _keyToEnum[_key];
+      }
+    }
+  }
 
   void readLocal( Json::Value & value ) {
     value = _key;
@@ -56,5 +70,6 @@ protected:
 private:
   string _key;
   E _value = DEFAULT;
-  map<string,E> _map;
+  map<string,E> _keyToEnum;
+  map<bool,string>   _boolToKey;
 };

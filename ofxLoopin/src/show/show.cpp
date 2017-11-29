@@ -13,8 +13,29 @@ void main() \n\
 { \n\
   OUT = texture(srcSampler, srcCoord); \n\
   OUT.rgb /= OUT.a; \n\
-  // OUT.r  = 1.0 - OUT.r; \n\
-  // OUT.a   = 1.0; \n\
+} \n\
+"
+#else
+#warning "Alpha divide on OpenGL ES not supported"
+#endif
+);
+
+ofxLoopinShader ofxLoopin::Show::alphaShowShader = ofxLoopinShader(
+#ifndef TARGET_OPENGLES
+// name
+"alphaShow",
+// frag
+"#version 150 \n\
+uniform sampler2D srcSampler; \n\
+in vec2 srcCoord; \n\
+out vec4 OUT; \n\
+void main() \n\
+{ \n\
+  OUT = texture(srcSampler, srcCoord); \n\
+  OUT.r = OUT.a; \n\
+  OUT.g = OUT.a; \n\
+  OUT.b = OUT.a; \n\
+  OUT.a = 1.0; \n\
 } \n\
 "
 #else
@@ -30,6 +51,8 @@ void ofxLoopin::Show::addSubControls() {
   alpha.setEnumKey("ignore", IGNORE );
   alpha.setEnumKey("multiply", MULTIPLY );
   alpha.setEnumKey("divide", DIVIDE );
+  alpha.setEnumKey("show", SHOW );
+
 
   addSubControl("alpha", &alpha );
 }
@@ -84,6 +107,14 @@ void ofxLoopin::Show::draw() {
       bindSpecific( &alphaDivideShader, "src", 0 );
       texture->draw( area );
       alphaDivideShader.end();
+    break;
+
+    case SHOW:
+      ofDisableBlendMode();
+      alphaShowShader.begin();
+      bindSpecific( &alphaShowShader, "src", 0 );
+      texture->draw( area );
+      alphaShowShader.end();
     break;
   }
 

@@ -27,15 +27,7 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
 
   _buffer = buffer;
 
-  if ( (bool) ofxLoopinLayer::clear ) {
-    buffer->begin();
-    ofDisableBlendMode();
-    ofClear( 0, 0, 0, 0 );
-    #ifndef TARGET_OPENGLES
-      glClearDepth(1000);
-    #endif
-    buffer->end();
-  }
+  renderClear();
 
   if ( passes > 0 && renderSetup() )
     renderSelf();
@@ -43,6 +35,39 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
   layers.render( renderingFrame, buffer );
 
 }
+
+void ofxLoopinLayer::renderClear()  {
+  if ( clear.getEnumValue() == NONE )
+    return;
+
+  _buffer->begin();
+  ofDisableBlendMode();
+
+  switch( clear.getEnumValue() ) {
+    case BOTH:
+      ofClear( 0, 0, 0, 0 );
+      #ifndef TARGET_OPENGLES
+        glClearDepth(1000);
+      #endif
+    break;
+
+    case RGBA:
+      ofClear( 0, 0, 0, 0 );
+    break;
+
+    case DEPTH:
+      #ifndef TARGET_OPENGLES
+        glClearDepth(1000);
+      #endif
+    break;
+
+    case NONE:
+    break;
+  }
+
+  _buffer->end();
+}
+
 
 void ofxLoopinLayer::renderSelf( )  {
   _buffer->begin();

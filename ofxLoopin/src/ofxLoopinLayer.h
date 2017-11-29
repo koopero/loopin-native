@@ -45,7 +45,15 @@ public:
   ofxLoopinClock clockControl;
   int passes = 1;
   ofxLoopinControlNumber pointSize;
-  ofxLoopinControlBool clear = false;
+
+  enum Clear {
+    NONE,
+    RGBA,
+    DEPTH,
+    BOTH
+  };
+
+  ofxLoopinControlEnum<Clear,NONE> clear;
   ofxLoopinControlBool advance = false;
   ofxLoopinControlBool passAdvance = false;
   ofxLoopinControlBool depthTest = false;
@@ -110,7 +118,15 @@ protected:
 
     addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
     addSubControl( "pointSize", &pointSize );
+
+    clear.setEnumKey("none",  NONE  );
+    clear.setEnumKey("depth", DEPTH );
+    clear.setEnumKey("rgba",  RGBA  );
+    clear.setEnumKey("both",  BOTH  );
+    clear.setKeyBool( true,   "both" );
+    clear.setKeyBool( false,  "none" );
     addSubControl( "clear", &clear );
+
     addSubControl( "depth", &depthTest );
 
     /** loopin/type/layer/sub/blend
@@ -133,6 +149,7 @@ protected:
     addSubControl( "aspect", &aspect );
   }
 
+  void renderClear();
   bool renderSetup();
   void renderSelf();
   void renderUniforms();

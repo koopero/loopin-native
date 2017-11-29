@@ -12,7 +12,8 @@ public:
   enum Alpha {
     IGNORE,
     MULTIPLY,
-    DIVIDE
+    DIVIDE,
+    SHOW
   };
 
   ofxLoopinControlEnum<Alpha,IGNORE> alpha;
@@ -26,6 +27,8 @@ public:
 protected:
   void addSubControls();
   static ofxLoopinShader alphaDivideShader;
+  static ofxLoopinShader alphaShowShader;
+
 
 private:
   string _bufferDescription;
