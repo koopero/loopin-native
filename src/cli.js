@@ -29,13 +29,10 @@ if ( args.env ) {
   })
 }
 
-// promise = promise.then( () => require('./build/executable')( build ) )
 
 if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
-}
-
-if ( args.info ) {
+} else if ( args.info ) {
   promise = promise.then( () => run() )
   promise = promise.then( () =>
     runLoopin()
@@ -51,6 +48,8 @@ if ( args.info ) {
 } else if ( args.run ) {
   promise = promise.then( () => run() )
   promise = promise.then( () => pipeStdio() )
+} else {
+  promise = promise.then( () => require('./build/executable')( build ) )
 }
 
 function run() {
