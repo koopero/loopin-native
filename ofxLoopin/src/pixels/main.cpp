@@ -5,6 +5,7 @@ ofxLoopinShader ofxLoopin::pixels::Render::shader = ofxLoopinShader(
 // name
 "solidRGBA",
 // frag
+#ifndef TARGET_OPENGLES:
 "#version 150 \n\
 uniform float red; \n\
 uniform float green; \n\
@@ -16,6 +17,17 @@ void main() \n\
   OUT = vec4( red, green, blue, alpha ); \n\
 } \n\
 "
+#else
+"uniform float red; \n\
+uniform float green; \n\
+uniform float blue; \n\
+uniform float alpha; \n\
+void main() \n\
+{ \n\
+  gl_FragColor = vec4( red, green, blue, alpha ); \n\
+} \n\
+"
+#endif
 ) ;
 
 
