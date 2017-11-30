@@ -17,7 +17,3 @@ function executable( build ) {
   } )
   .then( () => build.resolve( build.project.executable ) )
 }
-
-
-// /Volumes/hdd/koop/loopin/loopin-native/tmp/loopin-native/ofxLoopin-0.8.0a-osx/bin/ofxLoopin-0.8.0a-osx.app/Contents/MacOS/ofxLoopin-0.8.0a-osx
-// /Volumes/hdd/koop/loopin/loopin-native/tmp/loopin-native/ofxLoopin-0.8.0a-osx/bin/ofxLoopin.app/Contents/MacOS/ofxLoopin

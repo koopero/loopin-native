@@ -50,6 +50,10 @@ if ( args.zip ) {
   promise = promise.then( () => pipeStdio() )
 } else {
   promise = promise.then( () => require('./build/executable')( build ) )
+  promise = promise.then( () => build )
+  promise = promise.then( outputResult )
+
+
 }
 
 function run() {

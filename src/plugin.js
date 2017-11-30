@@ -25,8 +25,12 @@ function loopinNative( options ) {
         proc: process,
         verbose: !!options.verbose
       } )
+      process.on('close', event => onChildClose( process, event ) )
       loopin.dispatchEvent( { path: 'native', type: 'open', data: { pid: process.pid } } )
       loopin.emit( 'open' )
+
+      killOnExit( process )
+
     } )
 
     function resolveProcess() {
@@ -39,5 +43,15 @@ function loopinNative( options ) {
       return require('./build/run')( build )
     }
   }
+
+  function onChildClose( process, event ) {
+    loopin.close()
+  }
+
+  function killOnExit( childProcess ) {
+    process.on('exit', event => childProcess.kill() )
+  }
+
+
 
 }
