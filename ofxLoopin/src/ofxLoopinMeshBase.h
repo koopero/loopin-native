@@ -102,6 +102,7 @@ protected:
   }
 
   void setIndices( const Json::Value & val );
+  void setIndex( int index, const Json::Value &val );
   void setVertices( const Json::Value & val );
   void setVertexElements( int vertIndex, const Json::Value &val );
   int vertexKeyToAxis( const string &key );

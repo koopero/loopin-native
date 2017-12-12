@@ -49,19 +49,32 @@ void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c
 //
 
 void ofxLoopinMeshBase::setIndices( const Json::Value & val ) {
+  if ( val.isArray() ) {
+    vector<ofIndexType> & meshIndices = _mesh.getIndices();
+    meshIndices.resize( val.size() );
+  }
+
+  if ( val.isObject() || val.isArray() ) {
+    for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
+      string key = it.key().asString();
+      stringstream ss( key );
+      int index = -1;
+      ss >> index;
+      if ( index != -1 )
+        setIndex( index, *it );
+    }
+  }
+}
+
+void ofxLoopinMeshBase::setIndex( int index, const Json::Value &val ) {
   vector<ofIndexType> & meshIndices = _mesh.getIndices();
 
-  if ( val.isArray() ) {
-    size_t valLength = val.size();
+  if ( index >= meshIndices.size() )
+    meshIndices.resize( index + 1 );
 
-    meshIndices.resize( valLength );
-
-    for ( int valIndex = 0; valIndex < valLength; valIndex ++ ) {
-      if ( val[valIndex].isInt() ) {
-        int indexValue = val[valIndex].asInt();
-        meshIndices[valIndex] = indexValue;
-      }
-    }
+  if ( val.isInt() ) {
+    int indexValue = val.asInt();
+    meshIndices[index] = indexValue;
   }
 }
 
