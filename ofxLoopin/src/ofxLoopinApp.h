@@ -41,7 +41,8 @@ class ofxLoopinApp :
   public ofxLoopinRoot,
   public ofxLoopinHasShaders,
   public ofxLoopinHasMeshes,
-  public ofxLoopinHasCameras
+  public ofxLoopinHasCameras,
+  public ofxLoopinHasUniforms
 {
 public:
   ofxLoopinApp();
@@ -157,6 +158,8 @@ protected:
   void updateLocal ();
 
   void addAppControls() {
+    addSubControl( "uniform", &uniforms );
+
     addSubControl( "clock", &clock );
     addSubControl( "input", &input );
 

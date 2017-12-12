@@ -52,13 +52,18 @@ protected:
     addSubControl( "float", &floats );
     addSubControl( "texture", &tex );
 
-    // TODO: Deprecate or at least sqeulch read
+    // TODO: Deprecate or at least squelch read
     addSubControl( "tex", &tex );
-
   }
 
 
 private:
 
 
+};
+
+
+class ofxLoopinHasUniforms {
+public:
+  ofxLoopinUniformSet uniforms;
 };

@@ -62,45 +62,53 @@ void ofxLoopinShader::end() {
   shader.end();
 }
 
+void ofxLoopinShader::applyUniformFloat( const string & name, double value ) {
+  shader.setUniform1f( name, value );
+}
+
+void ofxLoopinShader::applyUniformInt( const string & name, int value ){
+  shader.setUniform1i( name, value );
+}
+
 void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
   // cerr << "applyUniformsPass " << passIndex << " " << passTotal << endl;
-  shader.setUniform1i( "passIndex", passIndex );
-  shader.setUniform1i( "passTotal", passTotal );
-  shader.setUniform1f( "passDensity", 1.0 / (float) passTotal );
-  shader.setUniform1f( "passX", (float) passIndex / (float) passTotal );
+  applyUniformInt( "passIndex", passIndex );
+  applyUniformInt( "passTotal", passTotal );
+  applyUniformFloat( "passDensity", 1.0 / (float) passTotal );
+  applyUniformFloat( "passX", (float) passIndex / (float) passTotal );
 }
 
 void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
-  shader.setUniform1f( "bufferAspect", buffer->getAspect() );
-  shader.setUniform1i( "bufferWidth", buffer->getWidth() );
-  shader.setUniform1i( "bufferHeight", buffer->getHeight() );
-  shader.setUniform1i( "bufferRows", buffer->rows.getValueInt() );
-  shader.setUniform1i( "bufferCols", buffer->cols.getValueInt() );
+  applyUniformFloat( "bufferAspect", buffer->getAspect() );
+  applyUniformInt( "bufferWidth", buffer->getWidth() );
+  applyUniformInt( "bufferHeight", buffer->getHeight() );
+  applyUniformInt( "bufferRows", buffer->rows.getValueInt() );
+  applyUniformInt( "bufferCols", buffer->cols.getValueInt() );
 }
 
 void ofxLoopinShader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
-  shader.setUniform1f( "meshAspect", mesh->aspect );
-  shader.setUniform1i( "meshCount", mesh->meta_count );
-  shader.setUniform1i( "meshRows", mesh->meta_rows );
-  shader.setUniform1i( "meshCols", mesh->meta_cols );
+  applyUniformFloat( "meshAspect", mesh->aspect );
+  applyUniformInt( "meshCount", mesh->meta_count );
+  applyUniformInt( "meshRows", mesh->meta_rows );
+  applyUniformInt( "meshCols", mesh->meta_cols );
 }
 
 void ofxLoopinShader::applyUniformsGlobalClock() {
   ofxLoopinFrame frame = root->frame;
-  shader.setUniform1i( "clockGlobalIndex", frame.index );
-  shader.setUniform1f( "clockGlobalTime", frame.time );
-  shader.setUniform1f( "clockGlobalDelta", frame.delta );
+  applyUniformInt( "clockGlobalIndex", frame.index );
+  applyUniformFloat( "clockGlobalTime", frame.time );
+  applyUniformFloat( "clockGlobalDelta", frame.delta );
 }
 
 
 void ofxLoopinShader::applyUniformsFrame() {
   ofxLoopinFrame frame = root->frame;
-  shader.setUniform1i( "clockIndex", frame.index );
-  shader.setUniform1f( "clockTime", frame.time );
-  shader.setUniform1f( "clockDelta", frame.delta );
+  applyUniformInt( "clockIndex", frame.index );
+  applyUniformFloat( "clockTime", frame.time );
+  applyUniformFloat( "clockDelta", frame.delta );
 }
 
 void ofxLoopinShader::applyUniformPointSize( float pointSize ) {
-  shader.setUniform1f( "pointSize", pointSize );
-  shader.setUniform1f( "pointDensity", 1.0 / pointSize / pointSize );
+  applyUniformFloat( "pointSize", pointSize );
+  applyUniformFloat( "pointDensity", 1.0 / pointSize / pointSize );
 }
