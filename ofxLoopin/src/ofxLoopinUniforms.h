@@ -37,6 +37,10 @@ public:
   void bindToShader( ofxLoopinShader * shader ) {
     floats.bindToShader( shader );
     tex.bindToShader( shader );
+    ints.bindToShader( shader );
+    vec2s.bindToShader( shader );
+    vec3s.bindToShader( shader );
+    vec4s.bindToShader( shader );
   }
 
   void unbind() {
@@ -45,11 +49,19 @@ public:
 
 
   ofxLoopinUniforms<ofxLoopinUniformFloat> floats;
+  ofxLoopinUniforms<ofxLoopinUniformInt> ints;
+  ofxLoopinUniforms<ofxLoopinUniformVec2> vec2s;
+  ofxLoopinUniforms<ofxLoopinUniformVec3> vec3s;
+  ofxLoopinUniforms<ofxLoopinUniformVec4> vec4s;
   ofxLoopinUniforms<ofxLoopinTexture> tex;
 
 protected:
   void addSubControls() {
     addSubControl( "float", &floats );
+    addSubControl( "int", &ints );
+    addSubControl( "vec2", &vec2s );
+    addSubControl( "vec3", &vec3s );
+    addSubControl( "vec4", &vec4s );
     addSubControl( "texture", &tex );
 
     // TODO: Deprecate or at least squelch read

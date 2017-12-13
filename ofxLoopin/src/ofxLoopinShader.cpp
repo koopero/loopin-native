@@ -9,6 +9,9 @@ void ofxLoopinShader::addSubControls() {
   addSubControl("frag", &frag );
 };
 
+
+
+
 void ofxLoopinShader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 
@@ -68,6 +71,18 @@ void ofxLoopinShader::applyUniformFloat( const string & name, double value ) {
 
 void ofxLoopinShader::applyUniformInt( const string & name, int value ){
   shader.setUniform1i( name, value );
+}
+
+void ofxLoopinShader::applyUniformVec2( const string & name, ofVec2f value ){
+  shader.setUniform3f( name, value );
+}
+
+void ofxLoopinShader::applyUniformVec3( const string & name, ofVec3f value ){
+  shader.setUniform3f( name, value );
+}
+
+void ofxLoopinShader::applyUniformVec4( const string & name, ofVec4f value ){
+  shader.setUniform4f( name, value );
 }
 
 void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {

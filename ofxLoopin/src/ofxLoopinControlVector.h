@@ -1,47 +1,85 @@
 #pragma once
 
 #include "ofxLoopinControl.h"
-#include "ofxLoopinFrame.h"
 
-template <LENGTH>
+template <int LENGTH>
 class ofxLoopinControlVector : public ofxLoopinControl {
 public:
-  static ofxLoopinControlVector VEC4( ofVec4f init ) {
-
-  };
-
-  static ofxLoopinControlVector VEC4( ofVec4f init ) {
-
-  };
-
   ofxLoopinControlVector() {};
+  ofxLoopinControlNumber component[LENGTH];
 
-  operator ofVec4f() const { return value; };
-  double operator()() const { return value; };
+  float getAxis( int axis = 0, float defaultValue = 0.0 ) {
+    if ( axis < 0 || axis > LENGTH )
+      return defaultValue;
 
-  /*
-   * Gets the current value of the property as an integer.
-   */
-  int getValueInt() {
-    return value;
+    return component[axis].getValueFloat();
   };
-  float getValueFloat() {
-    return value;
+
+  ofVec3f getValueVec2() {
+    return ofVec2f( getAxis(0), getAxis(1) );
   };
+
+  ofVec3f getValueVec3() {
+    return ofVec3f( getAxis(0), getAxis(1), getAxis(2) );
+  };
+
+  ofVec4f getValueVec4() {
+    return ofVec4f( getAxis(0), getAxis(1), getAxis(2), getAxis(3) );
+  };
+
+
+  void setAxis( int axis, float value ) {
+    if ( axis >= 0 && axis < LENGTH ) {
+      component[axis].setValue( value );
+    }
+  }
+
+  void setAxis( int axis, const Json::Value & val ) {
+    if ( axis >= 0 && axis < LENGTH ) {
+      component[axis].patch( val );
+    }
+  }
 
 protected:
-
   void updateLocal() {};
 
-  double  value         = 0.0;
+  void patchLocal( const Json::Value & val ) {
+    if ( val.isNumeric() ) {
+      for ( int axis = 0; axis < LENGTH && axis < 3; axis ++ )
+        setAxis( axis, val );
+    }
 
-  void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric() ) {
-      value = jsonValue.asDouble();
+    if ( val.isArray() ) {
+      for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
+        setAxis( valIndex, val[ valIndex ]);
+      }
+    }
+
+    if ( val.isObject() ) {
+      for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
+        int axis = keyToAxis( it.key().asString() );
+        setAxis( axis, (*it) );
+      }
     }
   };
 
+  int keyToAxis( const string & key ) {
+    if ( key == "x" || key == "0" ) return 0;
+    if ( key == "y" || key == "1" ) return 1;
+    if ( key == "z" || key == "2" ) return 2;
+    if ( key == "w" || key == "3" ) return 3;
+
+    if ( key == "r" || key == "red" ) return 0;
+    if ( key == "g" || key == "green" ) return 1;
+    if ( key == "b" || key == "blue" ) return 2;
+    if ( key == "a" || key == "alpha" ) return 3;
+
+    return -1;
+  }
+
   void readLocal( Json::Value & jsonValue ) {
-    jsonValue = value;
+    jsonValue = Json::Value( Json::ValueType::arrayValue );
+    for ( int axis = 0; axis < LENGTH; axis++ )
+      jsonValue[axis] = getAxis( axis );
   };
 };
