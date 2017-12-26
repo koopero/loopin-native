@@ -44,11 +44,23 @@ public:
   void begin();
   void end();
 
-  void applyUniformsDefaults() { /* TODO */ };
+
+  void applyUniformsDefaults() {
+    applyUniformsGlobal();
+    applyUniformsSelf();
+  };
+  virtual void applyUniformsGlobal() {};
+  virtual void applyUniformsSelf() {};
+  void applyUniformFloat( const string & name, double value );
+  void applyUniformInt( const string & name, int value );
+  void applyUniformVec2( const string & name, ofVec2f value );
+  void applyUniformVec3( const string & name, ofVec3f value );
+  void applyUniformVec4( const string & name, ofVec4f value );
+
+
   void applyUniformsPass( int passIndex, int passTotal );
   void applyUniformsBuffer( ofxLoopinBuffer * buffer );
   void applyUniformsMesh( ofxLoopinMeshBase * mesh );
-
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );
   void applyUniformsGlobalClock();

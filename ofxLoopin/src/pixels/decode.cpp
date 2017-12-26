@@ -99,7 +99,7 @@ void ofxLoopin::pixels::Render::decodeNumeric( float divider ) {
     if ( begin == string::npos )
       break;
 
-    end = data.find_first_not_of( "0123456789.e", begin + 1 );
+    end = data.find_first_not_of( "0123456789.e-", begin + 1 );
 
     if ( end == string::npos )
       end = data.size();
