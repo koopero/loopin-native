@@ -76,5 +76,6 @@ protected:
   bool isClockGlobal();
 
   void patchLocal( const Json::Value & value );
+  void readLocal( Json::Value & value );
 
 };

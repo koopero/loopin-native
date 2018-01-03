@@ -297,6 +297,7 @@ void ofxLoopin::pixels::Render::dispatchData() {
   event.data["format"] = format.getKey();
   event.data["frame"] = renderingFrame.index;
   event.data["data"] = data;
-
+  event.data["channels"] = channels;
+  
   dispatch( event );
 }

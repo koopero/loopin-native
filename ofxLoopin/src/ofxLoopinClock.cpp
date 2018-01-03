@@ -2,6 +2,10 @@
 
 ofxLoopinFrame ofxLoopinClock::globalFrame;
 
+void ofxLoopinClock::readLocal( Json::Value & value ) {
+  value["time"] = frame.time;
+}
+
 void ofxLoopinClock::applyUniforms( ofShader & shader ) {
   shader.setUniform1i( "clockIndex", frame.index );
   shader.setUniform1f( "clockTime", frame.time );
