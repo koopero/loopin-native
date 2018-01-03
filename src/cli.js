@@ -52,8 +52,6 @@ if ( args.zip ) {
   promise = promise.then( () => require('./build/executable')( build ) )
   promise = promise.then( () => build )
   promise = promise.then( outputResult )
-
-
 }
 
 function run() {
@@ -73,6 +71,7 @@ function runLoopin() {
   loopin = require('loopin')()
   loopin.plugin( 'read' )
   loopin.plugin( require('./plugin'), {
+    settings: settings,
     process: runProcess
   })
 
