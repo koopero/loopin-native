@@ -62,6 +62,13 @@ protected:
     if ( jsonValue.isNumeric() ) {
       value = jsonValue.asInt();
     }
+
+    if ( jsonValue.isString() ) {
+      // Try to parse anyway.
+      std::stringstream ss;
+      ss << jsonValue.asString();
+      ss >> value;
+    }
   };
 
   void readLocal( Json::Value & jsonValue ) {
