@@ -1,4 +1,4 @@
-#include "../MeshGenerator.h"
+#include "./MeshGenerator.hpp"
 
 #include "../ofxLoopinControlNumber.h"
 #include "../ofxLoopinControlBool.h"

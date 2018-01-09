@@ -2,7 +2,7 @@
 
 #include "ofxLoopinShader.h"
 #include "ofxLoopinControlNumeric.h"
-#include "ofxLoopinControlVector.h"
+#include "./type/Vector.hpp"
 
 
 
@@ -37,7 +37,7 @@ public:
 
 class ofxLoopinUniformVec2 :
   public ofxLoopinUniform,
-  public ofxLoopinControlVector<2>
+  public ofxLoopin::type::Vector<2>
 {
 public:
   void bindToShader( ofxLoopinShader * shader ) {
@@ -47,7 +47,7 @@ public:
 
 class ofxLoopinUniformVec3 :
   public ofxLoopinUniform,
-  public ofxLoopinControlVector<3>
+  public ofxLoopin::type::Vector<3>
 {
 public:
   void bindToShader( ofxLoopinShader * shader ) {
@@ -57,7 +57,7 @@ public:
 
 class ofxLoopinUniformVec4 :
   public ofxLoopinUniform,
-  public ofxLoopinControlVector<4>
+  public ofxLoopin::type::Vector<4>
 {
 public:
   void bindToShader( ofxLoopinShader * shader ) {
