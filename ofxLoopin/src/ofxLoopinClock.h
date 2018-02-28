@@ -9,6 +9,7 @@
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinFrame.h"
 
+#include "util/json.hpp"
 
 /** loopin/type/clock/sub
 

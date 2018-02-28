@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofxLoopinControl.h"
+#include "util/json.hpp"
 
 class ofxLoopinControlBool : public ofxLoopinControl {
 public:
@@ -24,11 +25,7 @@ protected:
   bool  value         = false;
 
   void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric()  ) {
-      value = jsonValue.asFloat() != 0 && !isnan( jsonValue.asFloat() );
-    } else {
-      value = jsonValue.asBool();
-    }
+    value = ofxLoopinJSONToBool( jsonValue );
   };
 
   void readLocal( Json::Value & jsonValue ) {

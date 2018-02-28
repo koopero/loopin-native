@@ -5,6 +5,8 @@
 #include "ofxLoopinControl.h"
 #include "ofxLoopinHasInfo.h"
 
+#include "util/json.hpp"
+
 
 /** loopin/type/window
 
@@ -58,7 +60,7 @@ protected:
       return;
 
     if ( value.isMember("fullscreen") ) {
-      _window->setFullscreen( value["fullscreen"].asBool() );
+      _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
     }
 
     if ( value.isMember("title")
