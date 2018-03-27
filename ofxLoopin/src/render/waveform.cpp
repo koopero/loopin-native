@@ -1,5 +1,34 @@
 #include "waveform.hpp"
 
+ofxLoopinShader ofxLoopin::render::waveform_imp::shader = ofxLoopinShader(
+// name
+"solidRGBA",
+// frag
+#ifndef TARGET_OPENGLES
+"#version 150 \n\
+uniform float red; \n\
+uniform float green; \n\
+uniform float blue; \n\
+uniform float alpha; \n\
+out vec4 OUT; \n\
+void main() \n\
+{ \n\
+  OUT = vec4( red, green, blue, alpha ); \n\
+} \n\
+"
+#else
+"uniform float red; \n\
+uniform float green; \n\
+uniform float blue; \n\
+uniform float alpha; \n\
+void main() \n\
+{ \n\
+  gl_FragColor = vec4( red, green, blue, alpha ); \n\
+} \n\
+"
+#endif
+) ;
+
 Json::Value ofxLoopin::render::waveform::infoGet() {
   Json::Value result;
 
@@ -35,7 +64,7 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
       _deviceID = deviceID;
 
       ofxLoopinEvent event = ofxLoopinEvent("open");
-      event.data["deviceID"] = deviceID;
+      event.data["deviceID"] = (int) deviceID;
       dispatch( event );
     }
   }
@@ -62,16 +91,11 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   renderScrollExisting( buffer, size );
 
-
-
-  ofxLoopinShader * shader = ofxLoopin::render::waveform_imp::shader.getPointer( true );
-  if ( !shader ) { dispatch("shaderFault"); return; }
-
   int k = samples.getNumFrames();
 
   buffer->begin();
   ofSetupScreen();
-  shader->begin();
+  shader.begin();
 
   for ( int channel = 0; channel < channels; channel++ ) {
     for ( int x = 0; x < size && x < bufferWidth; x ++ ) {
@@ -91,11 +115,11 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
         sample = max( sample, ssValue );
       }
-      drawSample( shader, x, channel, sample * sampleSign );
+      drawSample( x, channel, sample * sampleSign );
     }
   }
 
-  shader->end();
+  shader.end();
   buffer->end();
   samples.clear();
 }
@@ -133,14 +157,11 @@ void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * bu
   buffer->end();
 }
 
-void ofxLoopin::render::waveform_imp::drawSample( ofxLoopinShader * shader, int x, int y, float sample ) {
-  shader->shader.setUniform1f( "red", sample );
-  shader->shader.setUniform1f( "green", sample );
-  shader->shader.setUniform1f( "blue", sample );
-  shader->shader.setUniform1f( "alpha", 1 );
-  // sample = sample > 1 ? 1 : sample < 0 ? 0 : sample;
-  // sample *= 255.0;
-  // ofSetColor( sample, sample, sample );
+void ofxLoopin::render::waveform_imp::drawSample( int x, int y, float sample ) {
+  shader.applyUniformFloat( "red", sample );
+  shader.applyUniformFloat( "green", sample );
+  shader.applyUniformFloat( "blue", sample );
+  shader.applyUniformFloat( "alpha", 1 );
 
   ofDrawRectangle( x,y+ofxLoopin::render::waveform_imp::y,1,1);
 }

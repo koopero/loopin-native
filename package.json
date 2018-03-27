@@ -12,7 +12,7 @@
   "dependencies": {
     "arg-parse": "^1.0.0",
     "bluebird": "^3.5.0",
-    "boptions": "^0.4.3",
+    "boptions": "^0.5.0",
     "byline": "^5.0.0",
     "decompress": "^3.0.0",
     "download": "^4.4.3",

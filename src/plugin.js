@@ -37,7 +37,7 @@ function loopinNative( options ) {
       if ( options.process )
         return options.process
 
-      const settings = require('./settings')( options )
+      const settings = require('./settings')( ( options && options.settings ) || options )
           , build = require('./builder')( settings )
 
       return require('./build/run')( build )

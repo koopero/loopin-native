@@ -5,6 +5,7 @@
 
 
 #include "ofMesh.h"
+#include "util/json.hpp"
 
 namespace ofxLoopin {
   class MeshGenerator : public ofxLoopinControl {
@@ -14,7 +15,7 @@ namespace ofxLoopin {
   protected:
 
     void patchLocalAfter( const Json::Value & value ) {
-      if ( !value.empty() && ( value.isObject() || value.asBool() ) ) {
+      if ( ofxLoopinJSONToBool( value ) ) {
         generate();
       }
     };

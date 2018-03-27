@@ -7,6 +7,8 @@
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinRender.h"
+#include "ofxLoopinShader.h"
+
 
 #include <mutex>
 
@@ -55,13 +57,12 @@ protected:
   void renderScrollExisting( ofxLoopinBuffer * buffer, int offset );
 
   void computeSample( float & sample, int & sign );
-  void drawSample( ofxLoopinShader * shader, int x, int y, float sample );
+  void drawSample( int x, int y, float sample );
 
   void addSubControls() {
-    shader.key = "solidRGBA";
-    addSubControl("shader", &shader );
 
     addSubControl("buffer", &buffer );
+    addSubControl("deviceID", &deviceID );
 
     phase.setEnumKey("abs", PHASE_ABS );
     phase.setEnumKey("pos", PHASE_POS );
@@ -74,11 +75,12 @@ protected:
     addSubControl("duration", &duration );
     addSubControl("channels", &channels );
     addSubControl("y", &y );
-    addSubControl("deviceID", &deviceID );
 
   };
+
+  static ofxLoopinShader shader;
 };
-/** loopin/type/shader
+/** loopin/type/waveform
 sub:
   buffer:
     map: buffer

@@ -51,7 +51,6 @@ function settings( options ) {
   const settings = new Settings()
   _.defaults( settings, OPTIONS( arguments ) )
 
-
   let root = ( settings.useEnv && process.env['LOOPIN_NATIVE_ROOT'] ) || options.root
 
   if ( !root ) {

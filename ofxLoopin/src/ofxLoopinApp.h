@@ -12,7 +12,7 @@
 #include "ofxLoopinStdio.h"
 
 // #include "ofxLoopinAudioAnalyzer.h"
-#include "ofxLoopinImage.h"
+#include "image/Image.hpp"
 #include "ofxLoopinCamera.h"
 #include "ofxLoopinInfo.h"
 #include "ofxLoopinKinect.h"

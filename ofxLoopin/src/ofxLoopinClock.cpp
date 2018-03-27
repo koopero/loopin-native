@@ -37,14 +37,14 @@ void ofxLoopinClock::patchLocal( const Json::Value & value ) {
 
   if ( value.isObject() ) {
     if ( value.isMember("time") && value["time"].isNumeric() ) {
-    seek( value["time"].asDouble() );
+      seek( value["time"].asDouble() );
     }
 
-    if ( value.isMember("advance") && value["advance"].asBool() ) {
+    if ( ofxLoopinJSONToBool( value, "advance") ) {
       running = true;
     }
 
-    if ( value.isMember("reset") && value["reset"].asBool() ) {
+    if ( ofxLoopinJSONToBool( value, "reset" ) ) {
       reset();
     }
   }
@@ -55,7 +55,7 @@ void ofxLoopinClock::patchLocal( const Json::Value & value ) {
     }
 
     if ( value.isMember("vsync") ) {
-      ofSetVerticalSync( value["vsync"].asBool() );
+      ofSetVerticalSync( ofxLoopinJSONToBool( value ) );
     }
   }
 }

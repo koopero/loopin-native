@@ -4,9 +4,11 @@
 #include "ofTexture.h"
 
 #include "ofxLoopinControl.h"
+#include "ofxLoopinControlBool.h"
 // #include "ofxLoopinLoader.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinMap.h"
+#include "../type/Box.hpp"
 
 /** loopin/type/image:
   trigger: true
@@ -23,12 +25,13 @@ public:
     _createBuffer = false;
   }
   string src;
-  bool reload = false;
+
+  ofxLoopin::type::Box box;
+  ofxLoopin::type::Box crop;
+  ofxLoopinControlBool replace;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void load( string filePath );
-
-  bool opt_resize = true;
 
 protected:
   void updateLocal();
@@ -39,12 +42,17 @@ protected:
 
   void addSubControls() {
     addSubControl("buffer", &buffer );
+    addSubControl("box", &box );
+    addSubControl("crop", &crop );
+    addSubControl("replace", &replace );
+
     addSubControl("src", new ofxLoopinControlValue( &src ) );
   };
 
 private:
   ofTexture texture;
 
+  bool _dirty = true;
   string _loaded;
 
 };

@@ -2,10 +2,12 @@
 
 #include "ofxLoopinControl.h"
 
+namespace ofxLoopin { namespace type {
+
 template <int LENGTH>
-class ofxLoopinControlVector : public ofxLoopinControl {
+class Vector : public ofxLoopinControl {
 public:
-  ofxLoopinControlVector() {};
+  Vector() {};
   ofxLoopinControlNumber component[LENGTH];
 
   float getAxis( int axis = 0, float defaultValue = 0.0 ) {
@@ -63,7 +65,7 @@ protected:
     }
   };
 
-  int keyToAxis( const string & key ) {
+  virtual int keyToAxis( const string & key ) {
     if ( key == "x" || key == "0" ) return 0;
     if ( key == "y" || key == "1" ) return 1;
     if ( key == "z" || key == "2" ) return 2;
@@ -83,3 +85,4 @@ protected:
       jsonValue[axis] = getAxis( axis );
   };
 };
+}}
