@@ -43,7 +43,6 @@ aspect:
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
   ofxLoopinClock clockControl;
-  int passes = 1;
   ofxLoopinControlNumber pointSize;
 
   enum Clear {
@@ -57,6 +56,7 @@ public:
   ofxLoopinControlBool advance = false;
   ofxLoopinControlBool passAdvance = false;
   ofxLoopinControlBool depthTest = false;
+  ofxLoopinControlInt  passes = 1;
 
 
   ofxLoopinTexture * src;
@@ -116,7 +116,7 @@ protected:
     face.setEnumKey("back", GL_BACK );
     addSubControl( "face", &face );
 
-    addSubControl( "passes", new ofxLoopinControlValue( &passes ) );
+    addSubControl( "passes", &passes );
     addSubControl( "pointSize", &pointSize );
 
     clear.setEnumKey("none",  NONE  );
