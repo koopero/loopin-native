@@ -32,8 +32,9 @@ void main() \n\
 
 
 void ofxLoopin::pixels::Render::addSubControls() {
-  addSubControl("width", &width );
-  addSubControl("height", &height );
+  // addSubControl("width", &width );
+  // addSubControl("height", &height );
+  addSubControl("box", &box );
 
   shader.key = "solidRGBA";
   addSubControl("shader", &shader );
@@ -96,7 +97,7 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( !buffer )
     buffer = getBuffer( true );
 
-  bool resize = true;
+  bool resize = false;
 
   if ( resize ) {
     buffer->setSize( bounds.getWidth(), bounds.getHeight(), getFormat() );
@@ -136,8 +137,8 @@ GLint ofxLoopin::pixels::Render::getFormat() {
 
 ofRectangle ofxLoopin::pixels::Render::getBounds() {
   int size = floats.size() / channels.size();
-  int width = ofxLoopin::pixels::Render::width;
-  int height = ofxLoopin::pixels::Render::height;
+  int width = box.getAxis( 2 );
+  int height = box.getAxis( 3 );
 
   if ( width < 1 && height < 1 ) {
     width = size;
@@ -155,32 +156,31 @@ ofRectangle ofxLoopin::pixels::Render::getBounds() {
   if ( height < 1 )
     height = 0;
 
-  return ofRectangle( 0, 0, width, height );
+  return ofRectangle( box.getAxis(0), box.getAxis(1), width, height );
 }
 
 void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
   if ( !buffer->begin() ) {
     return;
   }
-
-  ofClear(0,0,0,0);
-  // ofClearAlpha(0);
-
-
+  
   shader.begin();
   glDisable( GL_CULL_FACE );
   ofDisableBlendMode( );
   ofDisableDepthTest();
-  // ofEnableBlendMode( OF_BLENDMODE_DISABLED );
 
+
+  ofRectangle bounds = getBounds();
 
   int numChannels = channels.size();
   int numPixels = data.size() / numChannels;
   int bufferWidth = buffer->getWidth();
   int bufferHeight = buffer->getHeight();
-  int x = 0;
-  int y = 0;
+  int x = bounds.getX();
+  int y = bounds.getY();
   int i = 0;
+
+  // cerr << "RenderFloats " << bounds << endl;
   // ofFill();
   for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 
@@ -214,13 +214,16 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
     ofDrawRectangle( x,y,1,1);
     // ofDrawTriangle( x,y,x,y,x,y);
 
+    cerr << "RenderFloats " << x << ", " << y << " " << pixel.b << endl;
+
+
     x ++;
-    if ( x >= bufferWidth ) {
-      x = 0;
+    if ( x >= bounds.getWidth() + bounds.getX() ) {
+      x = bounds.getX();
       y ++;
     }
 
-    if ( y >= bufferHeight )
+    if ( y >= bounds.getHeight() + bounds.getY() )
       break;
   }
 

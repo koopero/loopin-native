@@ -24,11 +24,11 @@ public:
 
 protected:
   int keyToAxis( const string & key ) {
-   if ( key == "x" || key == "0" ) return 0;
-   if ( key == "y" || key == "1" ) return 1;
-   if ( key == "w" || key == "width" || key == "2" ) return 2;
-   if ( key == "h" || key == "height" || key == "3" ) return 3;
-   return -1;
- }
+    if ( key == "x" || key == "0" ) return 0;
+    if ( key == "y" || key == "1" ) return 1;
+    if ( key == "w" || key == "width" || key == "2" ) return 2;
+    if ( key == "h" || key == "height" || key == "3" ) return 3;
+    return -1;
+  }
 };
 }}

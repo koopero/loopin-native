@@ -8,6 +8,8 @@
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinShader.h"
+#include "../type/Box.hpp"
+
 
 namespace ofxLoopin { namespace pixels {
 
@@ -45,8 +47,11 @@ public:
 
   string channels = "rgb";
 
-  ofxLoopinControlInt width = 0;
-  ofxLoopinControlInt height = 0;
+  // ofxLoopinControlInt width = 0;
+  // ofxLoopinControlInt height = 0;
+
+  ofxLoopin::type::Box box;
+  ofxLoopinControlBool replace;
 
 
   string data;
