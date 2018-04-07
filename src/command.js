@@ -9,7 +9,7 @@ function command( cmd, args, opt ) {
   opt = opt || {}
 
   if ( build.verbose ) {
-    opt.stdio = [ 'pipe', process.stdout, process.stderr ]
+    opt.stdio = opt.stdio || [ 'pipe', process.stdout, process.stderr ]
   }
 
   return Promise.fromCallback( function ( cb ) {

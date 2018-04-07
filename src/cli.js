@@ -12,6 +12,10 @@ var promise = Promise.resolve()
   , runProcess
   , loopin
 
+
+// 
+// Handle --env command. Will exit 
+// 
 if ( args.env ) {
   if ( args.dev )
     promise = promise.then( () => require('./build/devEnv')( build ) )
@@ -28,6 +32,15 @@ if ( args.env ) {
     process.exit()
   })
 }
+
+//
+// Handle --deps command. Will exit.
+//
+if ( args.deps ) {
+  promise = promise.then( () => require('./build/deps')( build ) )
+}
+
+
 
 
 if ( args.zip ) {

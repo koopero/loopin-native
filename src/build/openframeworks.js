@@ -19,7 +19,7 @@ function openframeworks( build ) {
 
     return ensureZip()
       .then( unpack )
-      // .then( patchOF )
+      .then( patchOF )
   }
 
   function exists() {

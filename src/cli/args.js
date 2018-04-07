@@ -17,10 +17,14 @@ parser.addArgument(
   }
 )
 
-// parser.addArgument([ 'preset' ], {
-//   nargs: '*',
-//   help: 'Load preset files'
-// })
+parser.addArgument(
+  ['--deps'],
+  {
+    help: 'Install openframeworks dependencies and exit. Will require root.',
+    action: 'storeTrue'
+  }
+)
+
 
 parser.addArgument(
   ['-e', '--env'],

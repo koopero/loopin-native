@@ -1,5 +1,5 @@
 **loopin-native** contains all that is needed to run [Loopin](https://github.com/koopero/loopin)
-applications using a share, natively compiled binary: `ofxLoopin`. It includes the following:
+applications using a shared, natively compiled binary: `ofxLoopin`. It includes the following:
 
 * C++/[openFrameworks](http://openframeworks.cc) source code for the reference Loopin server implementation `ofxLoopin`.
 * A [loopin](https://github.com/koopero/loopin) plugin to interface with the rest of the Loopin stack.
