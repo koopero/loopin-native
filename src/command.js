@@ -13,15 +13,15 @@ function command( cmd, args, opt ) {
   }
 
   return Promise.fromCallback( function ( cb ) {
-    const process = spawn( cmd, args, opt )
+    const proc = spawn( cmd, args, opt )
     build.log( cmd, args.join(' ') )
 
     if ( !build.verbose ) {
-      process.stderr.on('data', (d) => build.warn( String( d ) ) )
-      process.stdout.on('data', (d) => build.log( String( d ) ) )
+      proc.stderr && proc.stderr.on('data', (d) => build.warn( String( d ) ) )
+      proc.stdout && proc.stdout.on('data', (d) => build.log( String( d ) ) )
     }
 
-    process.on('close', function ( code ) {
+    proc.on('close', function ( code ) {
       if ( code ) {
         cb( 'Called utility returned non-zero exit code' )
       } else {

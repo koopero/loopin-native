@@ -115,7 +115,11 @@ The procedure for installation on generic Linux should work. A few PI-specific n
 - **Ubuntu 16** - Probably works.
 - **Fedora 26** - Build fails, upstream Poco issue in OF.
 
-# Setting up environment
+## Potential Troubles
+
+openFrameworks build processes will not work when the installation of this module is in any directory who's path includes dotfiles. Specifically, this can be problem when using **nvm**. To mitigate this problem, use the instructions below and ensure that the module is installed globally in a path that doesn't have any dotfiles. 
+
+## Setting up environment
 
 ``` sh
 cd WHERE_YOU_PUT_YOUR_CODE/
