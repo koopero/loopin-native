@@ -18,9 +18,12 @@ async function deps( build ) {
     process.exit(1)
   }
 
-  let distro = await getos() 
-  distro = distro['dist'].toLowerCase()
+  await require('./openframeworks')( build ) 
 
+
+  let distro = await getos() 
+  console.log('distro', distro)
+  distro = distro['dist'].toLowerCase()
 
 
   const cwd = build.resolve( build.openframeworks.root, 'scripts', 'linux', distro )
@@ -36,16 +39,4 @@ async function deps( build ) {
     console.log( command )
     await build.command( command, ['-y'], { cwd, stdio: [ process.stdin, process.stdout, process.stderr ] } )
   }
-
-  // console.log( cwd )
-  
-
-  // process.exit()
-
-
-  // build.log( 'cd', cwd  )
-
-  // return require('./openframeworks')( build )
-  // .then( () => build.command( 'make', [], { cwd: cwd } ) )
-  // .then( () => build )
 }

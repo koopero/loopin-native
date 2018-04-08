@@ -98,15 +98,11 @@ The procedure for installation on generic Linux should work. A few PI-specific n
 
 `loopin-native` is capable of setting up a development environment and building `ofxLoopin` binaries in-situ and on-demand. This can be used for `ofxLoopin` feature development as well as building on platforms that are currently unsupported. Note that developer mode may automatically download and install libraries and dependencies.
 
-### OSX Deps
-[Homebrew](http://brew.sh/) is your best friend for development on Mac.
+## Potential Troubles
 
-``` sh
-# Install node.js, git and ffmpeg via homebrew
-brew install node git ffmpeg
-```
+openFrameworks build processes will not work when the installation of this module is in any directory who's path includes dotfiles. Specifically, this can be problem when using **nvm**. To mitigate this problem, use the instructions below and ensure that the module is installed globally in a path that doesn't have any dotfiles. 
 
-### Setting up environment
+## Setting up environment
 
 ``` sh
 cd WHERE_YOU_PUT_YOUR_CODE/

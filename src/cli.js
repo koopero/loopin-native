@@ -38,6 +38,7 @@ if ( args.env ) {
 //
 if ( args.deps ) {
   promise = promise.then( () => require('./build/deps')( build ) )
+  promise = promise.then( () => process.exit() )
 }
 
 

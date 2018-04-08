@@ -90,8 +90,8 @@ function openframeworks( build ) {
 
     build.log('# patching openFrameworks' )
     return Promise.map( [ 'linuxarmv6l','linuxarmv7l' ], function ( arch ) {
-      let src  = build.resolve( build['openframeworks'], 'scripts','templates','linux','qtcreator.qbs' )
-      let dest = build.resolve( build['openframeworks'], 'scripts','templates', arch,'qtcreator.qbs' )
+      let src  = build.resolve( build['openframeworks']['root'], 'scripts','templates','linux','qtcreator.qbs' )
+      let dest = build.resolve( build['openframeworks']['root'], 'scripts','templates', arch,'qtcreator.qbs' )
       build.log('cp', src, dest )
       return fs.copyAsync( src, dest )
     } )
