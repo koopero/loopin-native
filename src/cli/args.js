@@ -66,13 +66,13 @@ parser.addArgument(
   }
 )
 
-// parser.addArgument(
-//   ['-q', '--quiet'],
-//   {
-//     help: 'Do not log anything',
-//     action: 'storeTrue'
-//   }
-// )
+parser.addArgument(
+  ['-q', '--quiet'],
+  {
+    help: 'Do not log anything',
+    action: 'storeTrue'
+  }
+)
 
 parser.addArgument(
   ['--zip'],
