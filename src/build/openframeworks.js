@@ -57,31 +57,18 @@ function openframeworks( build ) {
         , dest = build.resolve( build.openframeworks.root )
 
     build.log('unzip', source, dest )
-    // return fs.ensureDir( dest )
-    // .then( () => require('decompress')( source, dest, {
-    //   plugins: [ require('decompress-unzip') ],
-    //   strip: 1
-    // }).then())
+
     const Decompress = require('decompress')
     var decompress = new Decompress({mode: '755'})
       .src( source )
       .dest( dest )
 
-    switch ( os.platform() ) {
-      case 'darwin':
-        decompress = decompress.use(Decompress.zip({strip: 1}))
-      break
-
-      case 'linux':
-        decompress = decompress.use(Decompress.targz({strip: 1}))
-      break
-    }
-
+    if ( source.endsWith('.zip' ))
+      decompress = decompress.use(Decompress.zip({strip: 1}))
+    else
+      decompress = decompress.use(Decompress.targz({strip: 1}))
+  
     return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
-
-    // return Promise.fromCallback( ( callback ) => require('extract-zip')( source, {
-    //   dir: dest
-    // }, callback ) )
   }
 
   function patchOF() {

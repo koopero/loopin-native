@@ -59,6 +59,14 @@ parser.addArgument(
 )
 
 parser.addArgument(
+  ['-q', '--quiet'],
+  {
+    help: 'Log as little as possible',
+    action: 'storeTrue'
+  }
+)
+
+parser.addArgument(
   ['-T', '--test'],
   {
     help: 'Perform a simple self-test.',

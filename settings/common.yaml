@@ -18,6 +18,9 @@ ofxLoopin:
 openframeworks:
   version: 0.9.8
   releaseURL: http://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
+  zipPath: download/${settings.openframeworks.zipName}
+  root: lib/of_v${settings.openframeworks.version}_${settings.platform}_release
+
 
 addons:
   ofxKinect:
@@ -26,5 +29,4 @@ addons:
     packageLink: ./ofxLoopin
   ofxJSON:
     git: https://github.com/jefftimesten/ofxJSON.git
-  ofxTrueTypeFontUC:
-    git: https://github.com/hironishihara/ofxTrueTypeFontUC.git
+
