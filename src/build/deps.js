@@ -18,9 +18,12 @@ async function deps( build ) {
     process.exit(1)
   }
 
+  await require('./openframeworks')( build )
+
   let distro = await getos() 
   distro = distro['dist'].toLowerCase()
-
+  distro = distro.split(/[^\w]/)
+  distro = distro[0]
 
 
   const cwd = build.resolve( build.openframeworks.root, 'scripts', 'linux', distro )
