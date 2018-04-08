@@ -95,12 +95,12 @@ function settings( options ) {
 
   settings.templatize = settings.templatize
 
-  // _.merge( settings, {
-  //   openframeworks: {
-  //     zipPath: path.join('download', settings.openframeworks.zipName ),
-  //     root: path.join('lib',`of_v${settings.openframeworks.version}_${settings.platform}_release`)
-  //   }
-  // })
+  _.merge( settings, {
+    openframeworks: {
+      zipPath: path.join('download', settings.openframeworks.zipName ),
+      root: path.join('lib',`of_v${settings.openframeworks.version}_${settings.platform}_release`)
+    }
+  })
 
   Object.freeze( settings )
   return settings

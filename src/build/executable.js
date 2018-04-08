@@ -12,6 +12,11 @@ function executable( build ) {
         .then( () => require('./make.js')( build ) )
       } else {
         return require('./download')( build )
+        .catch( err => {
+          build.log('# Failed to download pre-packaged binary. Falling back to source build.')
+          return require('./devEnv.js')( build )
+          .then( () => require('./make.js')( build ) )
+        } )
       }
     }
   } )

@@ -59,7 +59,11 @@ Installations on linux will probably need to install openframeworks dependencies
 # Install the loopin-native module
 sudo npm install -g loopin-native
 
-# Attempt to auto-run 
+# Attempt to auto-run dependency installers. 
+# Downstream scripts will pop up Y/n prompts.
+# Y is not always the correct answer! 
+sudo loopin-native --deps 
+
 ```
 
 ### Manual Linux Deps Install
@@ -110,10 +114,12 @@ The procedure for installation on generic Linux should work. A few PI-specific n
 
 ## Tested Distros 
 
-*Updated April 7th, 2018*
+*Updated April 8th, 2018*
 
-- **Ubuntu 16** - Probably works.
+- **Ubuntu 16** - Works!
 - **Fedora 26** - Build fails, upstream Poco issue in OF.
+- **Debian 9** - Same Poco issue.
+
 
 ## Potential Troubles
 
