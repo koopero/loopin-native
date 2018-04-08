@@ -24,7 +24,8 @@ async function deps( build ) {
   let distro = await getos() 
   console.log('distro', distro)
   distro = distro['dist'].toLowerCase()
-
+  distro = distro.split(/[^\w]/)
+  distro = distro[0]
 
   const cwd = build.resolve( build.openframeworks.root, 'scripts', 'linux', distro )
   let commands = [
