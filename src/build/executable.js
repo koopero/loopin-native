@@ -2,7 +2,11 @@ module.exports = executable
 
 const Promise = require('bluebird')
 
-function executable( build ) {
+async function executable( build ) {
+  let executable = build.project.executable
+
+  build.log( '# checking for executable ', executable )
+
   return Promise.resolve()
   .then( () => build.dev || !build.checkFile( build.project.executable ) )
   .then( function ( needExecutable ) {

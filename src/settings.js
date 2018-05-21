@@ -40,7 +40,7 @@ const OPTIONS = require('boptions')({
   'title': 'ofxLoopin',
   'version': pkg.version,
   'dev': false,
-  'quiet': true,
+  'quiet': false,
   'verbose': false,
   'useEnv': true,
   'env': false,

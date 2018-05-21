@@ -57,7 +57,7 @@ if ( args.zip ) {
 } else if ( args.test ) {
   promise = promise.then( () =>
     runLoopin()
-    .then( () => loopin.patch( {"text":{"test":"Loopin Lives!"},"show":"test"} ))
+    .then( () => loopin.patch( {"text":{"test":build.name},"show":"test","window":{"width":800,"height":100}} ))
   )
 } else if ( args.run ) {
   promise = promise.then( () => run() )

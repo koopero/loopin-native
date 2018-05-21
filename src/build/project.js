@@ -12,14 +12,17 @@ function project( build ) {
     return Promise.resolve( build )
 
   return buildGenerator()
-    .then( generate )
     .then( replaceMain )
+    .then( generate )
     .then( symlinkData )
 
 
   function exists() {
     const testfile = build.resolve( build.project.root, 'Makefile' )
-    return fs.existsSync( testfile )
+    let result = fs.existsSync( testfile )
+    build.log('# test project existence', result, testfile )
+
+    return result
   }
 
   function buildGenerator() {
@@ -28,6 +31,7 @@ function project( build ) {
             build.openframeworks.projectGenerator
           )
 
+    build.log('# test project generator existence', generator )
     if ( fs.existsSync( generator ))
       return Promise.resolve()
 
@@ -40,6 +44,8 @@ function project( build ) {
   }
 
   function generate() {
+    build.log('# running project generator')
+
     const generator =
           build.resolve( build.openframeworks.root,
             build.openframeworks.projectGenerator
@@ -48,6 +54,7 @@ function project( build ) {
         , args = [
           '-a'+addons.join(','),
           '-o'+build.resolve( build.openframeworks.root ),
+          '-f',
           '-p'+build.platform,
           build.resolve( build.project.root )
         ]
