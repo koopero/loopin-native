@@ -18,7 +18,7 @@ std::string getcwd_string( void ) {
 
 
 ofxLoopinApp::ofxLoopinApp ( int argc, char* argv[] ) {
-  ofxLoopinFile::addPath( Poco::Path::forDirectory( getcwd_string() ) );
+  ofxLoopinFile::addPath( getcwd_string() );
   ofxLoopinFile::addPath( ofToDataPath("ofxLoopin/", true ) );
 }
 

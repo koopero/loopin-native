@@ -50,7 +50,7 @@ public:
 
 
   string data;
-  vector<float> floats;
+  std::vector<float> floats;
 
   void bufferToFloats( ofxLoopinBuffer * buffer );
 

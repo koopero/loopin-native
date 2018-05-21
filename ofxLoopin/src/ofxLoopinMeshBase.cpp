@@ -24,7 +24,7 @@ int ofxLoopinMeshBase::addVertex(
 {
   int ind = _mesh.getVertices().size();
 
-  // cerr << "addVertex " << ind << " " << roundf(x*100.0)/100.0 << " " << roundf(y*100.0)/100.0 << endl;
+  // std::cerr << "addVertex " << ind << " " << roundf(x*100.0)/100.0 << " " << roundf(y*100.0)/100.0 << endl;
 
   _mesh.getVertices().push_back( ofVec3f( x, y, z ) );
   _mesh.getTexCoords().push_back( ofVec2f( u, v ) );
@@ -36,9 +36,9 @@ int ofxLoopinMeshBase::addVertex(
 
 
 void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c ) {
-  // cerr << "addTriangle " << a << " " << b << " " << c << endl;
+  // std::cerr << "addTriangle " << a << " " << b << " " << c << endl;
 
-  vector<ofIndexType> & meshIndices = _mesh.getIndices();
+  std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
   meshIndices.push_back( a );
   meshIndices.push_back( b );
   meshIndices.push_back( c );
@@ -50,14 +50,14 @@ void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c
 
 void ofxLoopinMeshBase::setIndices( const Json::Value & val ) {
   if ( val.isArray() ) {
-    vector<ofIndexType> & meshIndices = _mesh.getIndices();
+    std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
     meshIndices.resize( val.size() );
   }
 
   if ( val.isObject() || val.isArray() ) {
     for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
       string key = it.key().asString();
-      stringstream ss( key );
+      std::stringstream ss( key );
       int index = -1;
       ss >> index;
       if ( index != -1 )
@@ -67,7 +67,7 @@ void ofxLoopinMeshBase::setIndices( const Json::Value & val ) {
 }
 
 void ofxLoopinMeshBase::setIndex( int index, const Json::Value &val ) {
-  vector<ofIndexType> & meshIndices = _mesh.getIndices();
+  std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
 
   if ( index >= meshIndices.size() )
     meshIndices.resize( index + 1 );
@@ -88,7 +88,7 @@ void ofxLoopinMeshBase::setVertices( const Json::Value & val ) {
   if ( val.isObject() ) {
     for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
       string key = it.key().asString();
-      stringstream ss( key );
+      std::stringstream ss( key );
       int vertIndex = -1;
       ss >> vertIndex;
       if ( vertIndex != -1 )
@@ -150,28 +150,30 @@ void ofxLoopinMeshBase::setVertexElement( int index, int axis, float value ) {
     // Unknown axis
   } else if ( axis < 3 ) {
     // xyz vertex
-    vector<ofVec3f> &vertices = _mesh.getVertices();
+    // std::vector<ofVec3f> &vertices = _mesh.getVertices();
+    auto &vertices = _mesh.getVertices();
+    
     if ( index >= vertices.size() )
       vertices.resize( index + 1 );
 
     vertices[index][axis] = value;
   } else if ( axis < 5 ) {
     // uv texCoords
-    vector<ofVec2f> &texCoords = _mesh.getTexCoords();
+    auto &texCoords = _mesh.getTexCoords();
     if ( index >= texCoords.size() )
       texCoords.resize( index + 1 );
 
     texCoords[index][axis - 3] = value;
   } else if ( axis < 9 ) {
     // rgba colour
-    vector<ofFloatColor> &colours = _mesh.getColors();
+    auto &colours = _mesh.getColors();
     if ( index >= colours.size() )
       colours.resize( index + 1  );
 
     colours[index][axis - 5] = value;
   } else if ( axis < 12 ) {
     // xyz normal
-    vector<ofVec3f> &normals = _mesh.getNormals();
+    auto &normals = _mesh.getNormals();
     if ( index >= normals.size() )
       normals.resize( index + 1  );
 

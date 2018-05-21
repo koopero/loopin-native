@@ -44,7 +44,7 @@ void ofxLoopinControl::readSubs( Json::Value & value ) {
 };
 
 void ofxLoopinControl::patch ( const Json::Value & val ) {
-  // cerr << "patch" << val << endl;
+  // std::cerr << "patch" << val << endl;
 
   patchLocal( val );
 
@@ -88,7 +88,7 @@ void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {
 
     root->dispatch( event );
   } else {
-    cerr << " no root " << path << endl;
+    std::cerr << " no root " << path << endl;
   }
 }
 

@@ -19,7 +19,7 @@ protected:
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void readLocal( Json::Value & value ) {
-    // cerr << "ofxLoopinVideo::readLocal" << endl;
+    // std::cerr << "ofxLoopinVideo::readLocal" << endl;
     value["position"] = player.getPosition();
     value["frame"] = player.getCurrentFrame();
   };
@@ -28,7 +28,7 @@ protected:
 
 
   void addSubControls() {
-    // cerr << "ofxLoopinVideo::addSubControls " << key << endl;
+    // std::cerr << "ofxLoopinVideo::addSubControls " << key << endl;
 
     loop.setEnumKey( "none", OF_LOOP_NONE );
     loop.setEnumKey( "loop", OF_LOOP_NORMAL );

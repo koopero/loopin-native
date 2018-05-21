@@ -1,7 +1,7 @@
 #include "ofxLoopinVideo.h"
 
 // void ofxLoopinVideo::readLocal( Json::Value & value ) {
-//   cerr << "ofxLoopinVideo::readLocal" << endl;
+//   std::cerr << "ofxLoopinVideo::readLocal" << endl;
 //   if ( _video.isLoaded() ) {
 //     value["loaded"] = true;
 //     value["width"] = _video.getWidth();
@@ -16,7 +16,7 @@
 // };
 
 void ofxLoopinVideo::patchLocal( const Json::Value & value ) {
-  // cerr << "ofxLoopinVideo::patchLocal " << value << endl;
+  // std::cerr << "ofxLoopinVideo::patchLocal " << value << endl;
 
   if ( value.isObject() && value.isMember("src") && value["src"].isString() ) {
     string videoPath = value["src"].asString();
@@ -57,7 +57,7 @@ double ofxLoopinVideo::getPlayerTime( int frame ) {
 void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   if ( player.isPaused() ) {
-    // cerr << "no delta "<< endl;
+    // std::cerr << "no delta "<< endl;
     renderingFrame.delta = 0;
   }
 

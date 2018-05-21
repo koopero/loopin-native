@@ -17,7 +17,7 @@ void ofxLoopin::mesh::sphere::generateSphere( int index ) {
   int rows = ofxLoopin::mesh::sphere::rows.getValueInt();
   bool split =  ofxLoopin::mesh::sphere::split.getValue();
 
-  vector<int> lastIndexC;
+  std::vector<int> lastIndexC;
   lastIndexC.resize( cols );
 
   int firstIndexB, lastIndexA, lastIndexD;

@@ -16,7 +16,7 @@ public:
       ofxLoopinUniform & uniform = it.second;
 
       GLint location = shader->shader.getUniformLocation( key );
-      // cerr << "bindToShader " << key << " " << location << endl;
+      // std::cerr << "bindToShader " << key << " " << location << endl;
       if ( true || location != -1 ) {
         uniform.bindToShader( shader );
       }

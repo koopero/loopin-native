@@ -2,7 +2,7 @@
 
 ofxLoopinBuffer * ofxLoopinRender::getBuffer( const string & key, bool create ) {
 
-  // cerr << "ofxLoopinRender::getBuffer " << key << endl;
+  // std::cerr << "ofxLoopinRender::getBuffer " << key << endl;
   assert( root );
 
   auto has = dynamic_cast<ofxLoopinHasBuffers *> ( root );

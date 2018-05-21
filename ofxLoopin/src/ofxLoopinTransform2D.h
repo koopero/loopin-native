@@ -31,8 +31,8 @@ public:
   ofxLoopinControlEnum<ofxLoopinTransform2DMode,ofxLoopinTransform2DMode::COVER> mode;
 
   ofMatrix4x4 makeMatrix ( float layerAspect, float bufferAspect ) const  {
-    // cerr << "transform2D::layerAspect " << layerAspect << endl;
-    // cerr << "transform2D::bufferAspect " << bufferAspect << endl;
+    // std::cerr << "transform2D::layerAspect " << layerAspect << endl;
+    // std::cerr << "transform2D::bufferAspect " << bufferAspect << endl;
 
     ofMatrix4x4 mat;
     float ourAspect = aspect;
