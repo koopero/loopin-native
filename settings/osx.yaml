@@ -7,6 +7,7 @@ binary:
   executable: ${name}.app/Contents/MacOS/${name}
   package: ${name}.app
 
-addons:
-  ofxSyphon:
-    git: https://github.com/astellato/ofxSyphon.git
+
+# addons:
+#   ofxSyphon:
+#     git: https://github.com/astellato/ofxSyphon.git
