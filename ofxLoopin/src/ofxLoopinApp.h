@@ -22,6 +22,7 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
+#include "ofxLoopinSyphon.h"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
 #include "ofxLoopinVideo.h"
@@ -145,6 +146,11 @@ public:
     type: osd
   */
   ofxLoopinOSD osd;
+  
+  #ifdef LOOPIN_SYPHON
+  ofxLoopinSyphonRoot syphon;
+  #endif
+
 
   ofxLoopinInfo info;
   // openFrameWorks master overrides.
@@ -198,6 +204,10 @@ protected:
     addSubControl( "waveform", &waveforms );
     // addSubControl( "fft", &fft );
 
+    #ifdef LOOPIN_SYPHON
+    addSubControl( "syphon", &syphon );
+    #endif
+
     addSubControl( "save", &savers );
     addSubControl( "show", &show );
 
@@ -216,6 +226,10 @@ protected:
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );
+
+    #ifdef LOOPIN_SYPHON
+    renderLists.push_back( &syphon );
+    #endif
   }
 
   // Utility for reading from stdio
