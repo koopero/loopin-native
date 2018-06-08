@@ -8,6 +8,9 @@ binary:
   package: ${name}.app
 
 
-# addons:
-#   ofxSyphon:
-#     git: https://github.com/astellato/ofxSyphon.git
+addons:
+  ofxSyphon:
+    git: https://github.com/astellato/ofxSyphon.git
+
+  ofxHAPAVPlayer:
+    git: https://github.com/gameoverhack/ofxHAPAVPlayer.git
