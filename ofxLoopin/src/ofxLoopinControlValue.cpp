@@ -1,22 +1,22 @@
 #include "ofxLoopinControlValue.h"
 
-void ofxLoopinControlValue::patchLocal( const Json::Value & val ) {
+void ofxLoopinControlValue::patchLocal( const ofJson & val ) {
   if ( targ_int ) {
-    if ( val.isNumeric() ) {
+    if ( val.is_number() ) {
       // There were traces here for a reason, but I don't remember what it was.
-      // cout << "targ_int " << val.asInt64() << endl;
+      // cout << "targ_int " << val.get<int>() << endl;
       // cout << "targ_int_targ " << (uint64_t) targ_int  << endl;
-      *targ_int = val.asInt64();
-    } else if ( val.isBool() ) {
-      *targ_int = val.asBool() ? 1 : 0;
+      *targ_int = val.get<int>();
+    } else if ( val.is_boolean() ) {
+      *targ_int = val.get<bool>() ? 1 : 0;
     }
   }
 
   if ( targ_bool ) {
-    if ( val.isNumeric() ) {
-      *targ_bool = val.asFloat() != 0;
-    } else if ( val.isBool() ) {
-      *targ_bool = val.asBool();
+    if ( val.is_number() ) {
+      *targ_bool = val.get<float>() != 0;
+    } else if ( val.get<bool>() ) {
+      *targ_bool = val.get<bool>();
     }
   }
 
@@ -25,13 +25,13 @@ void ofxLoopinControlValue::patchLocal( const Json::Value & val ) {
   // dispatch( event );
 
   if ( targ_string ) {
-    if ( val.isString() ) {
-      *targ_string = val.asString();
+    if ( val.is_string() ) {
+      *targ_string = val.get<std::string>();
     }
   }
 }
 
-void ofxLoopinControlValue::readLocal( Json::Value & value ) {
+void ofxLoopinControlValue::readLocal( ofJson & value ) {
   if ( targ_string ) {
     value = *targ_string;
   }

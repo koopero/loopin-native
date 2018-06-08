@@ -1,7 +1,7 @@
 #include "ofxLoopinWindow.h"
 
-Json::Value ofxLoopinWindow::infoGet() {
-  Json::Value result;
+ofJson ofxLoopinWindow::infoGet() {
+  ofJson result;
 
   shared_ptr<ofBaseGLRenderer> renderer = dynamic_pointer_cast<ofBaseGLRenderer>( ofGetCurrentRenderer() );
 
@@ -27,7 +27,7 @@ void ofxLoopinWindow::setAppBaseWindow( ofAppBaseWindow * window ) {
   }
 }
 
-void ofxLoopinWindow::readLocal( Json::Value & value ) {
+void ofxLoopinWindow::readLocal( ofJson & value ) {
   if ( _window ) {
     value["fullscreen"] = (bool) _window->getWindowMode();
     value["width"] = width;

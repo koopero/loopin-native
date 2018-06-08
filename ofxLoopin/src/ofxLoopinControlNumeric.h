@@ -54,13 +54,13 @@ protected:
   int     * targ_int    = NULL;
 
 
-  void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric() ) {
-      value = jsonValue.asDouble();
+  void patchLocal( const ofJson & jsonValue ) {
+    if ( jsonValue.is_number() ) {
+      value = jsonValue;
     }
   };
 
-  void readLocal( Json::Value & jsonValue ) {
+  void readLocal( ofJson & jsonValue ) {
     jsonValue = value;
   };
 

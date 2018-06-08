@@ -45,16 +45,16 @@ public:
   }
 
 protected:
-  void patchString( const string & value ) {
+  void patchString( string value ) {
     if ( _keyToEnum.count( value ) ) {
       _key = value;
       _value = _keyToEnum[value];
     }
   };
 
-  void patchLocal( const Json::Value & value ) {
-    if ( value.isBool() ) {
-      bool valueB = value.asBool();
+  void patchLocal( const ofJson & value ) {
+    if ( value.is_boolean() ) {
+      bool valueB = value;
       if ( _boolToKey.count( valueB ) ) {
         _key = _boolToKey[valueB];
         _value = _keyToEnum[_key];
@@ -62,7 +62,7 @@ protected:
     }
   }
 
-  void readLocal( Json::Value & value ) {
+  void readLocal( ofJson & value ) {
     value = _key;
   };
 

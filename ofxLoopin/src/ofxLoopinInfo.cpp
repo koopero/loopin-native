@@ -1,26 +1,26 @@
 #include "ofxLoopinInfo.h"
 
-void ofxLoopinInfo::readLocal( Json::Value & value ) {
+void ofxLoopinInfo::readLocal( ofJson & value ) {
   value = getInfo();
 }
 
-Json::Value ofxLoopinInfo::getInfo() {
-  Json::Value result;
+ofJson ofxLoopinInfo::getInfo() {
+  ofJson result;
 
   map< string, ofxLoopinControl *> subs = root->getSubs();
 
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
     string key = it->first;
-    Json::Value keyResult = getInfoKey( key );
+    ofJson keyResult = getInfoKey( key );
 
-    if ( keyResult.isObject() )
+    if ( keyResult.is_object() )
       result[key] = keyResult;
   }
   return result;
 }
 
-Json::Value ofxLoopinInfo::getInfoKey( const string & key ) {
-  Json::Value result;
+ofJson ofxLoopinInfo::getInfoKey( const string & key ) {
+  ofJson result;
 
   if ( !root )
     return result;

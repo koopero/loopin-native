@@ -71,8 +71,8 @@ protected:
   bool _isDirty = false;
 
   void updateLocal();
-  void patchLocal( const Json::Value & value );
-  void patchString( const string & value );
+  void patchLocal( const ofJson & value );
+  void patchString( string value );
 
   bool decodeInput();
   void decodeNumeric( float divider = 1 );

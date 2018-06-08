@@ -49,8 +49,8 @@ public:
 protected:
   void updateLocal();
 
-  void patchLocal( const Json::Value & value );
-  void patchString( const string & value );
+  void patchLocal( const ofJson & value );
+  void patchString( string value );
 
   void addSubControls() {
     addSubControl("dest", new ofxLoopinControlValue( &dest ) );

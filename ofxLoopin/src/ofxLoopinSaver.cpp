@@ -2,13 +2,13 @@
 #include "ofxLoopinFile.h"
 
 
-void ofxLoopinSaver::patchLocal( const Json::Value & value ) {
+void ofxLoopinSaver::patchLocal( const ofJson & value ) {
   // std::cerr << "ofxLoopinSaver::patchLocal " << value << endl;
   if (
-    value.isObject()
-    && value.isMember( "dest" )
-    && value["dest"].isString()
-    && !value.isMember( "iterations" )
+    value.is_object()
+    && value.count( "dest" )
+    && value["dest"].is_string()
+    && !value.count( "iterations" )
   ) {
     // std::cerr << "ofxLoopinSaver::patchLocal" << endl;
     iterations = iterations ? iterations : 1;
@@ -18,7 +18,7 @@ void ofxLoopinSaver::patchLocal( const Json::Value & value ) {
 
 
 
-void ofxLoopinSaver::patchString( const string & value ) {
+void ofxLoopinSaver::patchString( string value ) {
   dest = value;
   iterations = iterations > 0 ? iterations : 1;
   // iterations = 1;

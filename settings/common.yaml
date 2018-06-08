@@ -27,6 +27,4 @@ addons:
     enable: true
   ofxLoopin:
     packageLink: ./ofxLoopin
-  ofxJSON:
-    git: https://github.com/jefftimesten/ofxJSON.git
 

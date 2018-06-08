@@ -18,10 +18,13 @@ std::string getcwd_string( void ) {
 
 
 ofxLoopinApp::ofxLoopinApp ( int argc, char* argv[] ) {
+  startFromArgs( argc, argv );
+}
+
+void ofxLoopinApp::startFromArgs( int argc, char* argv[] ) {
   ofxLoopinFile::addPath( getcwd_string() );
   ofxLoopinFile::addPath( ofToDataPath("ofxLoopin/", true ) );
 }
-
 
 
 void ofxLoopinApp::setup () {

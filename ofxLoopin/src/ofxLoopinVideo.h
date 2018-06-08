@@ -14,17 +14,17 @@ public:
   ofxLoopinClock clock;
 
 protected:
-  void patchLocal( const Json::Value & value );
-  void patchString( const string & value );
+  void patchLocal( const ofJson & value );
+  void patchString( string value );
 
   void renderBuffer( ofxLoopinBuffer * buffer );
-  void readLocal( Json::Value & value ) {
+  void readLocal( ofJson & value ) {
     // std::cerr << "ofxLoopinVideo::readLocal" << endl;
     value["position"] = player.getPosition();
     value["frame"] = player.getCurrentFrame();
   };
 
-  // virtual void readLocal( Json::Value & value ) {};
+  // virtual void readLocal( ofJson & value ) {};
 
 
   void addSubControls() {

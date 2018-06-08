@@ -23,19 +23,21 @@ public:
     return value;
   };
 
+  void setValue( double v ) { value = v; };
+
 protected:
 
   void updateLocal() {};
 
   double  value         = 0.0;
 
-  void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric() ) {
-      value = jsonValue.asDouble();
+  void patchLocal( const ofJson & jsonValue ) {
+    if ( jsonValue.is_number() ) {
+      value = jsonValue;
     }
   };
 
-  void readLocal( Json::Value & jsonValue ) {
+  void readLocal( ofJson & jsonValue ) {
     jsonValue = value;
   };
 };
@@ -58,20 +60,20 @@ protected:
 
   int value         = 0;
 
-  void patchLocal( const Json::Value & jsonValue ) {
-    if ( jsonValue.isNumeric() ) {
-      value = jsonValue.asInt();
+  void patchLocal( const ofJson & jsonValue ) {
+    if ( jsonValue.is_number() ) {
+      value = jsonValue;
     }
 
-    if ( jsonValue.isString() ) {
+    if ( jsonValue.is_string() ) {
       // Try to parse anyway.
       std::stringstream ss;
-      ss << jsonValue.asString();
+      ss << jsonValue.get<std::string>();
       ss >> value;
     }
   };
 
-  void readLocal( Json::Value & jsonValue ) {
+  void readLocal( ofJson & jsonValue ) {
     jsonValue = value;
   };
 };

@@ -19,7 +19,7 @@ public:
     addSubControl("equation", &equation );
   };
 
-  void patchString( const string & str ) {
+  void patchString( string str ) {
 
   };
 

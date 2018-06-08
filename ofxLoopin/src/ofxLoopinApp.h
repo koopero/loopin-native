@@ -32,7 +32,7 @@
 
 #include "ofMain.h"
 
-#include "filesystem/path.hpp"
+#include "boost/filesystem/path.hpp"
 
 #include <stdlib.h>
 
@@ -47,6 +47,12 @@ class ofxLoopinApp :
 public:
   ofxLoopinApp();
   ofxLoopinApp( int argc, char* argv[] );
+
+  ~ofxLoopinApp() {
+    stdio.waitForThread();
+  }
+
+  void startFromArgs( int argc, char* argv[] );
 
   //
   // Root elements, accessible as controls.

@@ -52,18 +52,19 @@ public:
 
 
 protected:
-  void patchString( const string & value ) {
-    buffer.patch( value );
+  void patchString( string value ) {
+    const string bufferName = value; 
+    buffer.patch( ofJson( bufferName  ) );
   };
 
-  void patchLocal( const Json::Value & value ) {
-    if ( value.isObject() ) {
-      if ( value.isMember("wrap") ) {
+  void patchLocal( const ofJson & value ) {
+    if ( value.is_object() ) {
+      if ( value.count("wrap") ) {
         wrapH.patch( value["wrap"] );
         wrapV.patch( value["wrap"] );
       }
 
-      if ( value.isMember("filter") ) {
+      if ( value.count("filter") ) {
         minFilter.patch( value["filter"] );
         magFilter.patch( value["filter"] );
       }

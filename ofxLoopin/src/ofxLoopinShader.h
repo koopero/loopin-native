@@ -68,7 +68,7 @@ public:
 protected:
   void refresh( bool sendNeedEvent = true );
   void addSubControls();
-  void patchLocalAfter( const Json::Value & value );
+  void patchLocalAfter( const ofJson & value );
 
   bool _initialized = false;
 };

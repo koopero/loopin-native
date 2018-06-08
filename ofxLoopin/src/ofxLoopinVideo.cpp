@@ -1,6 +1,6 @@
 #include "ofxLoopinVideo.h"
 
-// void ofxLoopinVideo::readLocal( Json::Value & value ) {
+// void ofxLoopinVideo::readLocal( ofJson & value ) {
 //   std::cerr << "ofxLoopinVideo::readLocal" << endl;
 //   if ( _video.isLoaded() ) {
 //     value["loaded"] = true;
@@ -15,11 +15,11 @@
 //   }
 // };
 
-void ofxLoopinVideo::patchLocal( const Json::Value & value ) {
+void ofxLoopinVideo::patchLocal( const ofJson & value ) {
   // std::cerr << "ofxLoopinVideo::patchLocal " << value << endl;
 
-  if ( value.isObject() && value.isMember("src") && value["src"].isString() ) {
-    string videoPath = value["src"].asString();
+  if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
+    string videoPath = value["src"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
 
     if ( absPath.size() ) {
@@ -32,8 +32,8 @@ void ofxLoopinVideo::patchLocal( const Json::Value & value ) {
   }
 };
 
-void ofxLoopinVideo::patchString( const string & value ) {
-  Json::Value patch;
+void ofxLoopinVideo::patchString( string value ) {
+  ofJson patch;
   patch["src"] = value;
   patchLocal( patch );
 };
@@ -135,7 +135,7 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
   event.data["frameSpeed"] = clock.frame.speed;
 
   event.data["time"] = time;
-  event.data["sync"] = sync;
+  // event.data["sync"] = sync;
   event.data["syncTo"] = syncTo;
 
 
