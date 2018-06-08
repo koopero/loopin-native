@@ -1,9 +1,9 @@
 #include "ofMain.h"
-#include "ofxLoopinApp.h"
+#include "ofApp.h"
 
 //========================================================================
 int main(int argc, char* argv[]) {
-	auto app = new ofxLoopinApp( argc, argv );
+	auto app = new ofApp( argc, argv );
 
 	#ifdef TARGET_OPENGLES
 		ofGLESWindowSettings settings;
