@@ -20,15 +20,19 @@ void ofxLoopinStdio::dispatch ( const ofxLoopinEvent & event ) {
   json["path"] = path;
   json["data"] = event.data;
 
-  std::cerr << json.dump();
+  std::cerr << json.dump() << std::endl;
 }
 
 
 void ofxLoopinStdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
-    if ( std::cin.rdbuf()->in_avail() && std::getline( std::cin, line ) ) {
+
+    // std::cin.rdbuf()->in_avail() && 
+    if ( std::getline( std::cin, line ) ) {
       if ( line.size() ) {
+        std::cerr << "ofxLoopinStdio::threadedFunction '" << line << "'" << std::endl;
+        
         lock();
         lines_.push_back( line );
         unlock();
@@ -62,9 +66,10 @@ void ofxLoopinStdio::mergeValue(ofJson& a, ofJson& b) {
 
   if (!a.is_object() || !b.is_object()) {
     a = b;
+    return;
   }
 
-  for ( auto it = b.begin(); it != b.end(); ++it ) {
+  for ( ofJson::iterator it = b.begin(); it != b.end(); ++it ) {
     string key = it.key();
     mergeValue( a[key], b[key] );
   }

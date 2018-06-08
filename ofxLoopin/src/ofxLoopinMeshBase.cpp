@@ -54,7 +54,8 @@ void ofxLoopinMeshBase::setIndices( const ofJson & val ) {
     meshIndices.resize( val.size() );
   }
 
-  if ( val.is_object() || val.is_array() ) {
+  if ( val.is_object() ) {
+  // if ( val.is_object() || val.is_array() ) {
     for( auto it = val.begin(); it != val.end() ; it++) {
       string key = it.key();
       std::stringstream ss( key );

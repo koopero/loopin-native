@@ -56,7 +56,7 @@ void ofxLoopinControl::patch ( const ofJson & val ) {
     unkeyed->patch( val );
   }
 
-  if ( val.is_object() && !val.empty() ) {
+  if ( val.is_object() && !val.empty() && !val.is_array() ) {
     typedef map<string, ofxLoopinControl *>::iterator it_type;
 
     for ( it_type it = subs.begin(); it != subs.end(); it ++ ) {

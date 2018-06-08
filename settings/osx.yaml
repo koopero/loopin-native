@@ -4,7 +4,7 @@ openframeworks:
 
 
 binary:
-  executable: ${name}.app/Contents/MacOS/${name}
+  executable: ${name}Debug.app/Contents/MacOS/${name}Debug
   package: ${name}.app
 
 
