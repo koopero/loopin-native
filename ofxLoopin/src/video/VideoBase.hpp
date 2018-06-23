@@ -8,7 +8,10 @@
 
 #include "ofVideoPlayer.h"
 
-class ofxLoopinVideo : public ofxLoopinRender {
+namespace ofxLoopin { namespace video {
+
+template <class Player>
+class VideoBase: public ofxLoopinRender {
 public:
   ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
   ofxLoopinClock clock;
@@ -40,9 +43,10 @@ protected:
   }
 
 private:
-  ofVideoPlayer player;
+  Player player;
 
   double getPlayerTime();
   double getPlayerTime( int frame );
 
 };
+}};

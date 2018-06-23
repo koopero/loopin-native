@@ -44,7 +44,7 @@ void ofxLoopinControl::readSubs( ofJson & value ) {
 };
 
 void ofxLoopinControl::patch ( const ofJson & val ) {
-  // std::cerr << "patch" << val << endl;
+  //  std::cerr << "patch" << val << endl;
 
   patchLocal( val );
 

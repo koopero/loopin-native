@@ -28,10 +28,10 @@ void ofxLoopinStdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
 
-    // std::cin.rdbuf()->in_avail() && 
-    if ( std::getline( std::cin, line ) ) {
+    //
+    if ( std::cin.rdbuf()->in_avail() && std::getline( std::cin, line ) ) {
       if ( line.size() ) {
-        std::cerr << "ofxLoopinStdio::threadedFunction '" << line << "'" << std::endl;
+        // std::cerr << "ofxLoopinStdio::threadedFunction '" << line << "'" << std::endl;
         
         lock();
         lines_.push_back( line );

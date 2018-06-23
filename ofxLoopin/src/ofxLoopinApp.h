@@ -25,7 +25,7 @@
 #include "ofxLoopinSyphon.h"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
-#include "ofxLoopinVideo.h"
+// #include "video/Video.hpp"
 #include "pixels/main.hpp"
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
@@ -127,7 +127,7 @@ public:
   /** loopin/root/video
     map: video
   */
-  ofxLoopinRenders<ofxLoopinVideo> videos;
+  // ofxLoopinRenders<ofxLoopinVideo> videos;
 
   // waveform/:buffer - waveform input ( experimental )
   /** loopin/root/waveform
@@ -198,7 +198,7 @@ protected:
     addSubControl( "image", &images );
     addSubControl( "text", &texts );
     addSubControl( "kinect", &kinects );
-    addSubControl( "video", &videos );
+    // addSubControl( "video", &videos );
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
@@ -222,7 +222,7 @@ protected:
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
-    renderLists.push_back( &videos );
+    // renderLists.push_back( &videos );
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );
