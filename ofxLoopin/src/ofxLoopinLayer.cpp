@@ -84,8 +84,10 @@ void ofxLoopinLayer::renderSelf( )  {
       }
 
       _buffer->begin();
-      renderUniformsPerPass( pass );
+      renderStyle();
     }
+
+    renderUniformsPerPass( pass );
 
     _camera->loadMatrixes();
 
