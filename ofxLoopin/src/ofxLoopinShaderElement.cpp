@@ -37,7 +37,7 @@ string ofxLoopinShaderElement::findDefaultFile() {
   #else
   string version = "150";
   #endif
-  vector<string> extensions;
+  std::vector<string> extensions;
 
   string file;
   string type = key;

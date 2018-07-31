@@ -6,19 +6,19 @@ const _ = require('lodash')
     , glob = Promise.promisify( require('glob') )
     , path = require('path')
     , os = require('os')
-    , Download = require('download')
-    , downloadStatus = require('download-status')
-
 
 function download( build ) {
   return ensureZip()
   .then( deleteExisting )
   .then( unpack )
 
-  function ensureZip( ) {
+  async function ensureZip( ) {
+    return
+
     const zip_name = build.project.zipName
         , release_url = build.templatize( 'ofxLoopin.releaseURL' )
         , downloadDir = build.resolve( build.download.dir )
+        , dest = build.resolve( downloadDir, zip_name )
 
     if ( fs.existsSync( build.resolve( downloadDir, zip_name ) ) )
       return Promise.resolve( true )

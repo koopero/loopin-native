@@ -6,69 +6,67 @@ const _ = require('lodash')
     , glob = Promise.promisify( require('glob') )
     , path = require('path')
     , os = require('os')
-    , Download = require('download')
-    , downloadStatus = require('download-status')
-
+    , got = require('got')
 
 function openframeworks( build ) {
   return ensure()
 
-  function ensure ( ) {
+  async function ensure ( ) {
     if ( exists() )
       return
 
-    return ensureZip()
-      .then( unpack )
-      .then( patchOF )
+    await ensureZip()
+    await unpack()
+    await patchOF()
+
+    if ( !exists() )
+      throw new Error('Failed to download and unpack openFrameworks')
   }
 
   function exists() {
-
     // Random file in the openFrameworks directory
     const file = './CODE_OF_CONDUCT.md'
 
     return fs.existsSync( build.resolve( build.openframeworks.root, file ) )
   }
 
-  function ensureZip( ) {
+  async function ensureZip( ) {
     const version  = build.openframeworks.version
         , zip_name = build.openframeworks.zipName
-        , release_url = build.openframeworks.releaseURL
+        , releaseURL = build.openframeworks.releaseURL
         , downloadDir = build.resolve( build.download.dir )
+        , dest = build.resolve( downloadDir, zip_name )
 
-    if ( fs.existsSync( build.resolve( downloadDir, zip_name ) ) )
-      return Promise.resolve( true )
+    if ( fs.existsSync( dest ) )
+      return true
 
+    build.log('mkdir -p', downloadDir )
+  
+    await fs.ensureDirAsync( downloadDir )
 
     build.log('cd', downloadDir )
-    build.log('wget', release_url )
+    build.log('wget', releaseURL )
 
-    var download = new Download({strip: 1})
-        .get( release_url, downloadDir )
+    let data = await got.get( releaseURL, { 
+      // This is somewhat dangerous.
+      rejectUnauthorized: false,
+      encoding: null
+    } )
 
-    if ( !build.quiet )
-        download = download.use(downloadStatus())
+    data = data.body
 
-    return Promise.fromCallback( ( callback ) => download.run( callback ) )
+    await fs.writeFileAsync( dest, data, null )
   }
 
-  function unpack() {
+  async function unpack() {
     const source = build.resolve( build.download.dir, build.openframeworks.zipName )
         , dest = build.resolve( build.openframeworks.root )
 
     build.log('unzip', source, dest )
 
     const Decompress = require('decompress')
-    var decompress = new Decompress({mode: '755'})
-      .src( source )
-      .dest( dest )
 
-    if ( source.endsWith('.zip' ))
-      decompress = decompress.use(Decompress.zip({strip: 1}))
-    else
-      decompress = decompress.use(Decompress.targz({strip: 1}))
-  
-    return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
+    await Decompress( source, dest, { strip: 1 } )
   }
 
   function patchOF() {
@@ -84,3 +82,5 @@ function openframeworks( build ) {
     } )
   }
 }
+
+

@@ -12,6 +12,8 @@ function command( cmd, args, opt ) {
     opt.stdio = opt.stdio || [ 'pipe', process.stdout, process.stderr ]
   }
 
+  opt.cwd = opt.cwd || build.resolve()
+
   return Promise.fromCallback( function ( cb ) {
     const proc = spawn( cmd, args, opt )
     build.log( cmd, args.join(' ') )

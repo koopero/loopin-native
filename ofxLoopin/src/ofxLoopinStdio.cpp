@@ -20,14 +20,14 @@ void ofxLoopinStdio::dispatch ( const ofxLoopinEvent & event ) {
   json["path"] = path;
   json["data"] = event.data;
 
-  cerr << jsonWriter.write( json );
+  std::cerr << jsonWriter.write( json );
 }
 
 
 void ofxLoopinStdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
-    if ( std::getline( cin, line ) ) {
+    if ( std::getline( std::cin, line ) ) {
       if ( line.size() ) {
         lock();
         lines_.push_back( line );

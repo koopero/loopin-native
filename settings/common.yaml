@@ -16,8 +16,8 @@ ofxLoopin:
   releaseURL: http://aws-website-loopintech-ofamp.s3-website-us-east-1.amazonaws.com/bin/${project.zipName}
 
 openframeworks:
-  version: 0.9.8
-  releaseURL: http://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
+  version: 0.10.0
+  releaseURL: https://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
   zipPath: download/${settings.openframeworks.zipName}
   root: lib/of_v${settings.openframeworks.version}_${settings.platform}_release
 

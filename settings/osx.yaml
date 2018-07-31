@@ -1,6 +1,6 @@
 openframeworks:
   zipName: of_v${openframeworks.version}_osx_release.zip
-  projectGenerator: projectGenerator-osx/projectGenerator.app/Contents/Resources/app/app/projectGenerator
+  projectGenerator: projectGenerator/projectGenerator.app/Contents/Resources/app/app/projectGenerator
 
 
 binary:

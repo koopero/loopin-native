@@ -3,7 +3,7 @@
 void ofxLoopinCamera::calculate() {
 
   model.makeIdentityMatrix();
-  // cerr << "camera::getMeshAspect() " << getMeshAspect() << endl;
+  // std::cerr << "camera::getMeshAspect() " << getMeshAspect() << endl;
 
   model.scale( getMeshAspect(), 1, 1 );
 
@@ -25,7 +25,7 @@ void ofxLoopinCamera::calculate() {
 
   float bufferAspect = getBufferAspect();
   // float bufferAspect = 1.0;
-  // cerr << "camera::calculate " << bufferAspect << endl;
+  // std::cerr << "camera::calculate " << bufferAspect << endl;
   float near = max( 0.001, dist + focus - dof / 2.0 );
   float far = max( 0.001, dist + focus + dof / 2.0 );
 
@@ -43,7 +43,7 @@ void ofxLoopinCamera::calculate() {
     projection.scale( -1, 1, 1 );
   }
 
-  // cerr << "ofxLoopinCamera::make\n"
+  // std::cerr << "ofxLoopinCamera::make\n"
   //      << "near:\n" << near << "\n"
   //      << "far:\n" << far << "\n"
   //      << "focus:\n" << focus << "\n"

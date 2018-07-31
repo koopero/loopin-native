@@ -26,7 +26,7 @@ void ofxLoopin::mesh::plane::makePlane( int index ) {
   int lastBL;
 
 
-  vector<int> lastBR;
+  std::vector<int> lastBR;
   lastBR.resize( wInd );
   //
   //
@@ -76,7 +76,7 @@ void ofxLoopin::mesh::plane::makePlane( int index ) {
         addTriangle( br, bl, tl );
       }
 
-      vertIndex = max( bl, centre );
+      vertIndex = fmax( bl, centre );
       lastBR[xInd] = br;
 
     }

@@ -10,4 +10,4 @@ bool ofxLoopinJSONToBool( const Json::Value & value );
 /**
   Same deal, but take a memebr key
 */
-bool ofxLoopinJSONToBool( const Json::Value & value, const string & key );
+bool ofxLoopinJSONToBool( const Json::Value & value, const std::string & key );
