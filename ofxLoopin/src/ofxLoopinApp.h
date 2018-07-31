@@ -32,7 +32,7 @@
 
 #include "ofMain.h"
 
-#include "filesystem/path.hpp"
+#include "boost/filesystem/path.hpp"
 
 #include <stdlib.h>
 
