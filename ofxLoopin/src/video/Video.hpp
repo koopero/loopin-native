@@ -8,10 +8,14 @@
 
 #include "ofVideoPlayer.h"
 
+#include "./Engine.cpp"
+#include "ofxHAPAVPlayer.h"
+
 namespace ofxLoopin { namespace video {
 
-template <class Player>
-class VideoBase: public ofxLoopinRender {
+typedef Engine<ofxHAPAVPlayer> VideoEngine; 
+
+class Video: public ofxLoopinRender {
 public:
   ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
   ofxLoopinClock clock;
@@ -22,17 +26,11 @@ protected:
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void readLocal( ofJson & value ) {
-    // std::cerr << "ofxLoopinVideo::readLocal" << endl;
-    value["position"] = player.getPosition();
-    value["frame"] = player.getCurrentFrame();
+    value["position"] = engine->getPosition();
+    value["frame"] = engine->getCurrentFrame();
   };
 
-  // virtual void readLocal( ofJson & value ) {};
-
-
   void addSubControls() {
-    // std::cerr << "ofxLoopinVideo::addSubControls " << key << endl;
-
     loop.setEnumKey( "none", OF_LOOP_NONE );
     loop.setEnumKey( "loop", OF_LOOP_NORMAL );
     loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
@@ -42,11 +40,9 @@ protected:
 
   }
 
+  bool videoSync();
+
 private:
-  Player player;
-
-  double getPlayerTime();
-  double getPlayerTime( int frame );
-
+  VideoEngine * engine;
 };
 }};

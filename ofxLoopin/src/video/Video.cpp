@@ -1,7 +1,7 @@
-#include "ofxLoopinVideo.h"
+#include "./Video.hpp"
 
-// void ofxLoopinVideo::readLocal( ofJson & value ) {
-//   std::cerr << "ofxLoopinVideo::readLocal" << endl;
+// void ofxLoopin::video::Video::readLocal( ofJson & value ) {
+//   std::cerr << "ofxLoopin::video::Video::readLocal" << endl;
 //   if ( _video.isLoaded() ) {
 //     value["loaded"] = true;
 //     value["width"] = _video.getWidth();
@@ -15,15 +15,15 @@
 //   }
 // };
 
-void ofxLoopinVideo::patchLocal( const ofJson & value ) {
-  // std::cerr << "ofxLoopinVideo::patchLocal " << value << endl;
+void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
+  // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
 
   if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
     string videoPath = value["src"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
 
     if ( absPath.size() ) {
-      player.load( absPath );
+      engine->load( absPath );
     } else {
       ofxLoopinEvent event;
       event.type = "error";
@@ -32,58 +32,28 @@ void ofxLoopinVideo::patchLocal( const ofJson & value ) {
   }
 };
 
-void ofxLoopinVideo::patchString( string value ) {
+void ofxLoopin::video::Video::patchString( string value ) {
   ofJson patch;
   patch["src"] = value;
   patchLocal( patch );
 };
 
 
-double ofxLoopinVideo::getPlayerTime() {
-  return getPlayerTime( player.getCurrentFrame() );
-}
-
-double ofxLoopinVideo::getPlayerTime( int frame ) {
-  float duration = player.getDuration();
-  // int numFrames = player.getTotalNumFrames();
-  // double rate = numFrames / duration;
-
-  float position = player.getPosition();
-  double time = position * duration;
-
-  return time;
-}
-
-void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
-
-  if ( player.isPaused() ) {
-    // std::cerr << "no delta "<< endl;
-    renderingFrame.delta = 0;
-  }
-
-  clock.advance( renderingFrame );
-
-
-
-  int numFrames = player.getTotalNumFrames();
+bool ofxLoopin::video::Video::videoSync() {
+  int numFrames = engine->getFrames();
 
   if ( !numFrames )
     return;
 
 
-  float duration = player.getDuration();
-
-
+  float duration = engine->getDuration();
   double rate = numFrames / duration;
-
   clock.rate = rate;
 
   double syncTo = clock.frame.time;
-
   syncTo = fmod( syncTo, duration );
   if ( syncTo < 0 )
     syncTo += duration;
-
 
   int syncFrame = syncTo / duration * numFrames;
 
@@ -91,8 +61,7 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
   ofxLoopinEvent event;
   event.type = "videoFrame";
 
-
-  int frame = player.getCurrentFrame();
+  int frame = engine->getCurrentFrame();
 
 
   int syncTolerance = 10;
@@ -100,8 +69,8 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   switch( clock.mode.getEnumValue() ) {
     case ofxLoopinFrame::Mode::STEP:
-      player.setSpeed(0);
-      // player.update();
+      engine->setSpeed(0);
+      // engine->update();
 
       if ( clock.frame.speed ) {
         syncFrame = frame + 1;
@@ -116,15 +85,15 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
 
     case ofxLoopinFrame::Mode::TIME:
     case ofxLoopinFrame::Mode::FRAME:
-      player.setSpeed( clock.frame.speed );
-      player.play();
-      // player.update();
+      engine->setSpeed( clock.frame.speed );
+      engine->play();
+      // engine->update();
     break;
   }
 
 
 
-  float position = player.getPosition();
+  float position = engine->getPosition();
   double time = position * duration;
 
   event.data["rate"] = rate;
@@ -148,36 +117,33 @@ void ofxLoopinVideo::renderBuffer( ofxLoopinBuffer * buffer ) {
     event.data["syncFrame"] = syncFrame;
 
     if ( sync == 1 ) {
-      player.nextFrame();
+      engine->nextFrame();
     } else {
-      player.setFrame( syncFrame );
+      engine->setFrame( syncFrame );
     }
 
 
     time = syncFrame / rate;
   }
-
-  player.update();
-  clock.frame.time = getPlayerTime();
+}
 
 
-  if ( !player.isFrameNew() )
+void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
+  if ( !engine->isReady() || engine->isPaused() ) {
+    // std::cerr << "no delta "<< endl;
+    renderingFrame.delta = 0;
+  }
+
+  clock.advance( renderingFrame );
+
+  videoSync();
+
+  engine->update();
+  clock.frame.time = engine->getTime();
+
+  if ( !engine->isFrameNew() )
     return;
-
-  ofRectangle bounds = ofRectangle( 0,0, player.getWidth(), player.getHeight() );
 
   if ( buffer == nullptr )
     buffer = getBuffer( true );
-
-  buffer->defaultSize( bounds );
-
-  if ( !buffer->begin() ) {
-    // TODO: Error here
-    return;
-  }
-
-
-  player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  buffer->end();
 };
