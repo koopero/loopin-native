@@ -16,12 +16,13 @@
 // };
 
 void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
-  // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
+  std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
 
   if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
     string videoPath = value["src"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
 
+    wasLoaded = false;
     if ( absPath.size() ) {
       engine->load( absPath );
     } else {
@@ -129,6 +130,15 @@ bool ofxLoopin::video::Video::videoSync() {
 
 
 void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
+  std::cerr << "Video::renderBuffer " << engine->isLoaded() << endl;
+  
+  if ( !wasLoaded && engine->isLoaded() ) {
+    ofxLoopinEvent event;
+    event.type = "loaded";
+    dispatch( event );
+    wasLoaded = true;
+  }
+
   if ( !engine->isReady() || engine->isPaused() ) {
     // std::cerr << "no delta "<< endl;
     renderingFrame.delta = 0;

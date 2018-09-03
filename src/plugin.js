@@ -10,8 +10,21 @@ function loopinNative( options ) {
   loopin.plugin('bootstrap')
 
   loopin.hookAdd('bootstrap', () => start( options ) )
+  loopin.hookAdd('close', () => close() )
+
+  var _process
 
   return
+
+  async function close() {
+    if ( _process ) {
+      _process.kill()
+      _process.kill()
+      _process.kill()
+
+      _process = null;
+    }
+  }
 
   function start( options ) {
     options = _.merge( { verbose: true }, options )
@@ -21,6 +34,7 @@ function loopinNative( options ) {
 
     return Promise.resolve( resolveProcess() )
     .then( function ( process ) {
+      _process = process
       loopin.plugin( require('./stdio'), {
         proc: process,
         verbose: !!options.verbose

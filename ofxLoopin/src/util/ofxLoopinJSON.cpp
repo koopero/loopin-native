@@ -5,13 +5,19 @@
   from object, array and string.
 */
 bool ofxLoopinJSONToBool( const ofJson & value ) {
+  if ( value.is_boolean() )
+    return value;
+
   if ( value.is_string() )
     return !value.get<std::string>().empty();
 
   if ( value.is_object() || value.is_array() )
     return true;
 
-  return value;
+  if ( value.is_number() ) 
+    return value.get<float>() != 0;
+
+  return false;
 };
 
 /**

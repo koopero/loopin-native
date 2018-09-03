@@ -44,8 +44,6 @@ void ofxLoopinControl::readSubs( ofJson & value ) {
 };
 
 void ofxLoopinControl::patch ( const ofJson & val ) {
-  //  std::cerr << "patch" << val << endl;
-
   patchLocal( val );
 
   if ( val.is_string() ) {
@@ -62,7 +60,6 @@ void ofxLoopinControl::patch ( const ofJson & val ) {
     for ( it_type it = subs.begin(); it != subs.end(); it ++ ) {
       string key = it->first;
 
-      // cout << "set " << key << endl;
       if ( val.count( key ) ) {
         ofxLoopinControl * sub = it->second;
         sub->patch( val[ key ] );
@@ -76,6 +73,10 @@ void ofxLoopinControl::patch ( const ofJson & val ) {
 
   patchLocalAfter( val );
 
+}
+
+void ofxLoopinControl::patchKey( string key, const ofJson & val ) {
+  
 }
 
 void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {

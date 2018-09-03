@@ -1,12 +1,32 @@
 #include "./Engine.hpp"
 
 template <class Player>
-double ofxLoopin::video::Engine<Player>::getTime() {
+void ofxLoopin::video::Engine<Player>::update() {
+  player.update();
+}
+
+template <class Player>
+void ofxLoopin::video::Engine<Player>::load( string file ) {
+  player.load( file );
+}
+
+template <class Player>
+void ofxLoopin::video::Engine<Player>::play() {
+  player.play();
+}
+
+template <class Player>
+void ofxLoopin::video::Engine<Player>::pause() {
+  player.pause();
+}
+
+template <class Player>
+double ofxLoopin::video::Engine<Player>::getTime() const {
   return getTime( player.getCurrentFrame() );
 }
 
 template <class Player>
-double ofxLoopin::video::Engine<Player>::getTime( int frame ) {
+double ofxLoopin::video::Engine<Player>::getTime( int frame ) const  {
   float duration = player.getDuration();
   float position = player.getPosition();
 
@@ -16,8 +36,18 @@ double ofxLoopin::video::Engine<Player>::getTime( int frame ) {
 }
 
 template <class Player>
-int ofxLoopin::video::Engine<Player>::getFrames() {
-  return player.getTotalNumFrames();
+float ofxLoopin::video::Engine<Player>::getPosition() const {
+
+}
+
+template <class Player>
+int ofxLoopin::video::Engine<Player>::getCurrentFrame() const {
+
+}
+
+template <class Player>
+int ofxLoopin::video::Engine<Player>::getFrames() const {
+
 }
 
 template <class Player>
@@ -43,6 +73,49 @@ template <class Player>
 bool ofxLoopin::video::Engine<Player>::isReady() const {
   return player.isLoaded();
 }
+
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isFrameNew() {
+  return player.isFrameNew();
+}
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isPaused() const {
+  return player.isPaused();  
+}
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isLoaded() const {
+  return player.isLoaded();
+}
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isLoading() const {
+  return player.isLoading();
+}
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isSeeking() const {
+  return player.isSeeking();
+}
+
+template <class Player>
+bool ofxLoopin::video::Engine<Player>::isPlaying() const {
+  return player.isPlaying();
+}
+
+template <class Player>
+void ofxLoopin::video::Engine<Player>::nextFrame() {
+  return player.nextFrame();
+}
+
+template <class Player>
+void ofxLoopin::video::Engine<Player>::setFrame(int frame) {
+
+}
+
+
 
 
 template <class Player>

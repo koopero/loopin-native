@@ -13,15 +13,15 @@ public:
   void play();
   void pause();
 
-  double getTime();
-  double getTime( int frame );
-  float getPosition();
-  int getCurrentFrame();
-  int getFrames();
+  double getTime() const;
+  double getTime( int frame ) const ;
+  float getPosition() const;
+  int getCurrentFrame() const;
+  int getFrames() const;
   double getDuration();
   void setSpeed( float speed );
   void setPlaying( bool playing );
-  bool isReady() const ;
+  bool isReady() const;
   bool isFrameNew();
   bool isPaused() const;
   bool isLoaded() const;
@@ -29,9 +29,8 @@ public:
   bool isSeeking() const;
   bool isPlaying() const;
 
-
   void nextFrame();
-void setFrame(int frame);
+  void setFrame(int frame);
   void drawToBuffer( ofxLoopinBuffer * buffer );
 protected:
   Player player;

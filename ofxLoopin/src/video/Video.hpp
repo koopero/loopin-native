@@ -15,7 +15,7 @@ namespace ofxLoopin { namespace video {
 
 typedef Engine<ofxHAPAVPlayer> VideoEngine; 
 
-class Video: public ofxLoopinRender {
+class Video : public ofxLoopinRender {
 public:
   ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
   ofxLoopinClock clock;
@@ -37,12 +37,12 @@ protected:
 
     addSubControl( "loop", &loop );
     addSubControl( "clock", &clock );
-
   }
 
   bool videoSync();
 
 private:
   VideoEngine * engine;
+  bool wasLoaded = false;
 };
 }};

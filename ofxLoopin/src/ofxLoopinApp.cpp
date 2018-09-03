@@ -62,9 +62,7 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
-
-
-  ofClear( 0.05,0,0.1,0);
+  ofClear( 12,0,16,255);
 
   show.draw();
 

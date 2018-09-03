@@ -15,6 +15,6 @@ int main(int argc, char* argv[]) {
 		settings.setGLVersion(3,2);
 	#endif
 
-	ofCreateWindow(settings);     // this kicks off the running of my app
+	ofCreateWindow(settings); 
 	ofRunApp( app );
 }

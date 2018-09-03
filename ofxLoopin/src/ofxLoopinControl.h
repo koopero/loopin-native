@@ -40,7 +40,7 @@ public:
 protected:
 
   virtual void updateLocal() {};
-  virtual void patchKey( string key, const ofJson & val ) {};
+  virtual void patchKey( string key, const ofJson & val );
   virtual void patchSubs( ofJson & value ) {};
   virtual void patchLocal( const ofJson & value ) {};
   virtual void patchLocalAfter( const ofJson & value ) {};

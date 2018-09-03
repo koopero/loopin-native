@@ -25,7 +25,7 @@
 #include "ofxLoopinSyphon.h"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
-// #include "video/Video.hpp"
+#include "video/Video.hpp"
 #include "pixels/main.hpp"
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
@@ -127,7 +127,7 @@ public:
   /** loopin/root/video
     map: video
   */
-  // ofxLoopinRenders<ofxLoopinVideo> videos;
+  ofxLoopinRenders<ofxLoopin::video::Video> videos;
 
   // waveform/:buffer - waveform input ( experimental )
   /** loopin/root/waveform
@@ -182,7 +182,6 @@ protected:
     shaders.getByKey( "blank", true );
     shaders.defaultKey = "blank";
 
-    // create default mesh, accessible as mesh/sprite/
     addSubControl( "mesh", &meshes );
     meshes.getByKey( "sprite", true );
     meshes.defaultKey = "sprite";
@@ -198,11 +197,10 @@ protected:
     addSubControl( "image", &images );
     addSubControl( "text", &texts );
     addSubControl( "kinect", &kinects );
-    // addSubControl( "video", &videos );
+    addSubControl( "video", &videos );
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
-    // addSubControl( "fft", &fft );
 
     #ifdef LOOPIN_SYPHON
     addSubControl( "syphon", &syphon );
@@ -213,16 +211,16 @@ protected:
 
     addSubControl( "osd", &osd );
     addSubControl( "window", &window );
+
     window.setAppBaseWindow( ofGetWindowPtr() );
   }
 
   void addRenderLists () {
     renderLists.push_back( &waveforms );
-    // renderLists.push_back( &fft );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
-    // renderLists.push_back( &videos );
+    renderLists.push_back( &videos );
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );

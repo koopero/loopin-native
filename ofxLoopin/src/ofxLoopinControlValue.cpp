@@ -15,7 +15,7 @@ void ofxLoopinControlValue::patchLocal( const ofJson & val ) {
   if ( targ_bool ) {
     if ( val.is_number() ) {
       *targ_bool = val.get<float>() != 0;
-    } else if ( val.get<bool>() ) {
+    } else if ( val.is_boolean() ) {
       *targ_bool = val.get<bool>();
     }
   }

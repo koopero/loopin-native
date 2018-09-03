@@ -28,11 +28,8 @@ void ofxLoopinStdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
 
-    //
-    if ( std::cin.rdbuf()->in_avail() && std::getline( std::cin, line ) ) {
+    if ( std::getline( std::cin, line ) ) {
       if ( line.size() ) {
-        // std::cerr << "ofxLoopinStdio::threadedFunction '" << line << "'" << std::endl;
-        
         lock();
         lines_.push_back( line );
         unlock();
@@ -51,8 +48,10 @@ ofJson ofxLoopinStdio::getValue() {
     ofJson delta = ofJson::parse( line );
     mergeValue( value, delta );
   }
+
   lines_.resize(0);
   unlock();
+
 
   return value;
 }
