@@ -32,7 +32,7 @@
 
 #include "ofMain.h"
 
-#include "Poco/Path.h"
+#include "filesystem/path.hpp"
 
 #include <stdlib.h>
 
@@ -219,7 +219,7 @@ protected:
   ofxLoopinReader reader;
 
   void keyPressed(int key) {
-    // cerr << "keyPressed " << key << endl;
+    // std::cerr << "keyPressed " << key << endl;
 
     switch ( key ) {
       case OF_KEY_LEFT:
@@ -235,5 +235,5 @@ protected:
 private:
   int exitAfterFrames = 0;
 
-  vector<ofxLoopinRenderList *> renderLists;
+  std::vector<ofxLoopinRenderList *> renderLists;
 };

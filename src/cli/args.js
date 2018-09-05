@@ -17,10 +17,14 @@ parser.addArgument(
   }
 )
 
-// parser.addArgument([ 'preset' ], {
-//   nargs: '*',
-//   help: 'Load preset files'
-// })
+parser.addArgument(
+  ['--deps'],
+  {
+    help: 'Install openframeworks dependencies and exit. Will require root.',
+    action: 'storeTrue'
+  }
+)
+
 
 parser.addArgument(
   ['-e', '--env'],
@@ -55,20 +59,20 @@ parser.addArgument(
 )
 
 parser.addArgument(
+  ['-q', '--quiet'],
+  {
+    help: 'Log as little as possible',
+    action: 'storeTrue'
+  }
+)
+
+parser.addArgument(
   ['-T', '--test'],
   {
     help: 'Perform a simple self-test.',
     action: 'storeTrue'
   }
 )
-
-// parser.addArgument(
-//   ['-q', '--quiet'],
-//   {
-//     help: 'Do not log anything',
-//     action: 'storeTrue'
-//   }
-// )
 
 parser.addArgument(
   ['--zip'],

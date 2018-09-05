@@ -73,27 +73,23 @@ void ofxLoopinLayer::renderSelf( )  {
   _buffer->begin();
   _shader->begin();
 
-  renderUniforms();
   renderStyle();
+  renderUniforms();
 
   for ( int pass = 0; pass < passes; pass ++ ) {
     if ( pass > 0 ) {
-
       if ( passAdvance ) {
+        _buffer->end();
         _buffer->flip();
+        _buffer->begin();
+        renderStyle();
+        renderUniforms();
       }
-
-      _buffer->begin();
-      renderUniformsPerPass( pass );
     }
-
+    renderUniformsPerPass( pass );
     _camera->loadMatrixes();
-
     _mesh->draw();
-    _buffer->end();
   }
-
-
 
   _buffer->end();
   _shader->end();

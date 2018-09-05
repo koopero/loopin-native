@@ -19,5 +19,5 @@ private:
 
   Json::Value value;
   ofxTCPServer server;
-  vector<string> buffers;
+  std::vector<string> buffers;
 }

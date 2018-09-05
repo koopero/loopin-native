@@ -1,5 +1,5 @@
 **loopin-native** contains all that is needed to run [Loopin](https://github.com/koopero/loopin)
-applications using a share, natively compiled binary: `ofxLoopin`. It includes the following:
+applications using a shared, natively compiled binary: `ofxLoopin`. It includes the following:
 
 * C++/[openFrameworks](http://openframeworks.cc) source code for the reference Loopin server implementation `ofxLoopin`.
 * A [loopin](https://github.com/koopero/loopin) plugin to interface with the rest of the Loopin stack.
@@ -53,8 +53,22 @@ Running and installation should be automatic on OSX 10.8 and above. Please repor
 
 Installations on linux will probably need to install openframeworks dependencies.
 
+### 'Automatic' Linux Deps Install 
+
 ``` sh
-# Install prerequisites using apt-get. This may be yum on your machine.
+# Install the loopin-native module
+sudo npm install -g loopin-native
+
+# Attempt to auto-run dependency installers. 
+# Downstream scripts will pop up Y/n prompts.
+# Y is not always the correct answer! 
+sudo loopin-native --deps 
+
+```
+
+### Manual Linux Deps Install
+``` sh
+# Install prerequisites using apt-get. This may be yum or dnf on your machine.
 sudo apt-get install build-essential git nodejs npm ffmpeg
 
 # Install the loopin-native module
@@ -92,21 +106,26 @@ The procedure for installation on generic Linux should work. A few PI-specific n
 * Don't install desktop!
 * Installer currently forces armv6 architecture.
 * Installation and compiling can take *hours*, even on a PI 3. Deploy early and often!
-* GL ES shader support still needs a lot of work.
+
 
 ## Developer Mode
 
 `loopin-native` is capable of setting up a development environment and building `ofxLoopin` binaries in-situ and on-demand. This can be used for `ofxLoopin` feature development as well as building on platforms that are currently unsupported. Note that developer mode may automatically download and install libraries and dependencies.
 
-### OSX Deps
-[Homebrew](http://brew.sh/) is your best friend for development on Mac.
+## Tested Distros 
 
-``` sh
-# Install node.js, git and ffmpeg via homebrew
-brew install node git ffmpeg
-```
+*Updated April 8th, 2018*
 
-### Setting up environment
+- **Ubuntu 16** - Works!
+- **Fedora 26** - Build fails, upstream Poco issue in OF.
+- **Debian 9** - Same Poco issue.
+
+
+## Potential Troubles
+
+openFrameworks build processes will not work when the installation of this module is in any directory who's path includes dotfiles. Specifically, this can be problem when using **nvm**. To mitigate this problem, use the instructions below and ensure that the module is installed globally in a path that doesn't have any dotfiles. 
+
+## Setting up environment
 
 ``` sh
 cd WHERE_YOU_PUT_YOUR_CODE/

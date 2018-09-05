@@ -70,6 +70,6 @@ protected:
 private:
   string _key;
   E _value = DEFAULT;
-  map<string,E> _keyToEnum;
-  map<bool,string>   _boolToKey;
+  std::map<string,E> _keyToEnum;
+  std::map<bool,string>   _boolToKey;
 };

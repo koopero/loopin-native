@@ -36,7 +36,7 @@ public:
 
   void readToValue( Json::Value & value );
 
-  map< string, ofxLoopinControl *> getSubs() { return subs; };
+  std::map< string, ofxLoopinControl *> getSubs() { return subs; };
 
 protected:
 
@@ -57,8 +57,8 @@ protected:
 
 private:
 
-  vector <ofxLoopinControl *> subsUnkeyed;
-  map< string, ofxLoopinControl *> subs;
+  std::vector <ofxLoopinControl *> subsUnkeyed;
+  std::map< string, ofxLoopinControl *> subs;
 
 
 public:

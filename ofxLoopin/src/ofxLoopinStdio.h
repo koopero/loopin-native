@@ -29,5 +29,5 @@ private:
 
 private:
   Json::FastWriter jsonWriter;
-  vector<string> lines_;
+  std::vector<string> lines_;
 };

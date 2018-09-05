@@ -17,9 +17,9 @@ void ofxLoopin::mesh::arc::generateArc( int index ) {
   int rows = ofxLoopin::mesh::arc::rows.getValueInt();
   bool split =  ofxLoopin::mesh::arc::split.getValue();
 
-  // cerr << endl << "generateArc " << cols << " " << rows << endl;
+  // std::cerr << endl << "generateArc " << cols << " " << rows << endl;
 
-  vector<int> lastIndexC;
+  std::vector<int> lastIndexC;
   lastIndexC.resize( cols );
 
   int firstIndexB, lastIndexA, lastIndexD;

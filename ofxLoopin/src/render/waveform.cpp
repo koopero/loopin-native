@@ -33,7 +33,7 @@ Json::Value ofxLoopin::render::waveform::infoGet() {
   Json::Value result;
 
   ofSoundStream stream;
-  vector<ofSoundDevice> devices = stream.getDeviceList();
+  std::vector<ofSoundDevice> devices = stream.getDeviceList();
   int ji = 0;
   for ( int i = 0; i < devices.size(); i ++ ) {
     if ( !devices[i].inputChannels )

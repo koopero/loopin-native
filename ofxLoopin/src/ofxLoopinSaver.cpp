@@ -3,14 +3,14 @@
 
 
 void ofxLoopinSaver::patchLocal( const Json::Value & value ) {
-  // cerr << "ofxLoopinSaver::patchLocal " << value << endl;
+  // std::cerr << "ofxLoopinSaver::patchLocal " << value << endl;
   if (
     value.isObject()
     && value.isMember( "dest" )
     && value["dest"].isString()
     && !value.isMember( "iterations" )
   ) {
-    // cerr << "ofxLoopinSaver::patchLocal" << endl;
+    // std::cerr << "ofxLoopinSaver::patchLocal" << endl;
     iterations = iterations ? iterations : 1;
     // iterations = 1;
   }
@@ -133,9 +133,9 @@ void ofxLoopinSaverThread::threadedFunction() {
 
 }
 
-vector<ofxLoopinEvent> ofxLoopinSaverThread::flushEvents() {
+std::vector<ofxLoopinEvent> ofxLoopinSaverThread::flushEvents() {
   lock();
-  vector<ofxLoopinEvent> result = events_;
+  std::vector<ofxLoopinEvent> result = events_;
   events_.resize(0);
   unlock();
 

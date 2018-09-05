@@ -68,7 +68,7 @@ public:
 
 
   ofxLoopinMesh() {
-    // cerr << "init mesh" << endl;
+    // std::cerr << "init mesh" << endl;
     plane.mesh = this;
     plane.generate();
   };

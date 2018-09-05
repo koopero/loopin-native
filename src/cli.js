@@ -12,6 +12,10 @@ var promise = Promise.resolve()
   , runProcess
   , loopin
 
+
+// 
+// Handle --env command. Will exit 
+// 
 if ( args.env ) {
   if ( args.dev )
     promise = promise.then( () => require('./build/devEnv')( build ) )
@@ -29,6 +33,16 @@ if ( args.env ) {
   })
 }
 
+//
+// Handle --deps command. Will exit.
+//
+if ( args.deps ) {
+  promise = promise.then( () => require('./build/deps')( build ) )
+  promise = promise.then( () => process.exit() )
+}
+
+
+
 
 if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
@@ -43,7 +57,7 @@ if ( args.zip ) {
 } else if ( args.test ) {
   promise = promise.then( () =>
     runLoopin()
-    .then( () => loopin.patch( {"text":{"test":"Loopin Lives!"},"show":"test"} ))
+    .then( () => loopin.patch( {"text":{"test":build.name},"show":"test","window":{"width":800,"height":100}} ))
   )
 } else if ( args.run ) {
   promise = promise.then( () => run() )

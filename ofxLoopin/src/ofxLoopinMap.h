@@ -21,7 +21,7 @@ public:
     return it->first;
   }
 
-  map<string, child_type> & getMap() {
+  std::map<string, child_type> & getMap() {
     return _map;
   }
 
@@ -36,7 +36,7 @@ public:
 protected:
   void patchChildren( const Json::Value & value );
 
-  map<string, child_type> _map;
+  std::map<string, child_type> _map;
 
   void createKey( string key ) {
     // _map[key] = child_type();
@@ -67,7 +67,7 @@ child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
 
   if ( !_map.count( key ) ) {
     if ( !create ) {
-      // cerr << "keyNotFound! (" << key << ")" << endl;
+      // std::cerr << "keyNotFound! (" << key << ")" << endl;
       return NULL;
     }
 
