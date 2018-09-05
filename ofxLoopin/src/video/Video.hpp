@@ -9,11 +9,18 @@
 #include "ofVideoPlayer.h"
 
 #include "./Engine.cpp"
-#include "ofxHAPAVPlayer.h"
+// #include "ofxHAPAVPlayer.h"
+#include "ofVideoPlayer.h"
+// #include "ofxThreadedVideo.h"
+
 
 namespace ofxLoopin { namespace video {
 
-typedef Engine<ofxHAPAVPlayer> VideoEngine; 
+// typedef Engine<ofxHAPAVPlayer> VideoEngine; 
+typedef Engine<ofVideoPlayer> VideoEngine; 
+// typedef Engine<ofAVFoundationPlayer> VideoEngine; 
+
+
 
 class Video : public ofxLoopinRender {
 public:
@@ -36,13 +43,16 @@ protected:
     loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
 
     addSubControl( "loop", &loop );
+
     addSubControl( "clock", &clock );
+    clock.mode.setKey("time");
+
   }
 
   bool videoSync();
 
 private:
-  VideoEngine * engine;
+  VideoEngine * engine = new VideoEngine();
   bool wasLoaded = false;
 };
 }};

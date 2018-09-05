@@ -82,6 +82,8 @@ void ofxLoopinClock::advance() {
     delta = 0;
   }
 
+  frame.mode = mode.getEnumValue();
+
   advanceDelta( delta * speed );
 
   if ( isClockGlobal() ) {

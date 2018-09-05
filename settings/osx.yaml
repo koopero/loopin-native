@@ -4,13 +4,23 @@ openframeworks:
 
 
 binary:
-  executable: ${name}Debug.app/Contents/MacOS/${name}Debug
+  executable: ${name}.app/Contents/MacOS/${name}
   package: ${name}.app
 
+
+make: xcodebuild
 
 addons:
   ofxSyphon:
     git: https://github.com/astellato/ofxSyphon.git
+    commit: OpenFrameworks-0.10
 
-  ofxHAPAVPlayer:
-    git: https://github.com/gameoverhack/ofxHAPAVPlayer.git
+
+  # ofxThreadedVideo:
+  #   git: https://github.com/gameoverhack/ofxThreadedVideo.git
+
+  # ofxHAPAVPlayer:
+  #   git: https://github.com/koopero/ofxHAPAVPlayer.git
+
+  # ofxAVFVideoPlayer:
+  #   git: https://github.com/kronick/ofxAVFVideoPlayer.git

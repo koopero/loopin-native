@@ -7,8 +7,20 @@ void ofxLoopin::video::Engine<Player>::update() {
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::load( string file ) {
+  player.setUseTexture( true );
+  player.setPixelFormat( OF_PIXELS_RGB );
+  // player.loadAsync( file );
+  // player.initTextureCache();
   player.load( file );
 }
+
+// template <>
+// void ofxLoopin::video::Engine<ofVideoPlayer>::load( string file ) {
+//   player.setUseTexture( true );
+//   player.setPixelFormat( OF_PIXELS_RGB );
+//   // player.loadAsync( file );
+//   player.load( file );
+// }
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::play() {
@@ -47,7 +59,7 @@ int ofxLoopin::video::Engine<Player>::getCurrentFrame() const {
 
 template <class Player>
 int ofxLoopin::video::Engine<Player>::getFrames() const {
-
+  return player.getTotalNumFrames();
 }
 
 template <class Player>
@@ -127,7 +139,6 @@ void ofxLoopin::video::Engine<Player>::drawToBuffer( ofxLoopinBuffer * buffer ) 
     // TODO: Error here
     return;
   }
-
 
   player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
 

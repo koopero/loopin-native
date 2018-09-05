@@ -1,6 +1,7 @@
 module.exports = loopinNative
 
 const _ = require('lodash')
+const treeKill = require('tree-kill')
 
 function loopinNative( options ) {
   const loopin = this
@@ -18,9 +19,7 @@ function loopinNative( options ) {
 
   async function close() {
     if ( _process ) {
-      _process.kill()
-      _process.kill()
-      _process.kill()
+      treeKill( _process.pid )
 
       _process = null;
     }

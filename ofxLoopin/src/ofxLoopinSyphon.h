@@ -15,6 +15,36 @@
 
 class ofxLoopinSyphon : public ofxLoopinRender {
 public:
+  string app = "Loopin";
+  string name;
+
+  
+  enum Mode {
+    MODE_CLIENT,
+    MODE_SERVER,
+    MODE_NONE
+  };
+
+  ofxLoopinControlEnum<Mode, MODE_CLIENT> mode;
+
+  void renderBuffer( ofxLoopinBuffer * buffer );
+  ofRectangle getBounds();
+
+protected:
+  void addSubControls() {
+    ofxLoopinRender::addSubControls();
+    mode.setEnumKey( "client", MODE_CLIENT );
+    mode.setEnumKey( "server", MODE_SERVER );
+    mode.setEnumKey( "none", MODE_NONE );
+
+    addSubControl( "mode", &mode );
+    addSubControl( "app", new ofxLoopinControlValue( &app ) );
+    addSubControl( "name", new ofxLoopinControlValue( &name ) );
+
+  }
+  
+  void maybeOutputBuffer( ofxLoopinBuffer * buffer );
+
 
 private:
   ofxSyphonServer syphonServer;

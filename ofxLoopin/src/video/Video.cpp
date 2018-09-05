@@ -21,9 +21,12 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
   if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
     string videoPath = value["src"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
+    std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
+
 
     wasLoaded = false;
     if ( absPath.size() ) {
+
       engine->load( absPath );
     } else {
       ofxLoopinEvent event;
@@ -31,6 +34,9 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
       dispatch( event );
     }
   }
+
+  std::cerr << "ofxLoopin::video::Video::patchLocal after " << endl;
+
 };
 
 void ofxLoopin::video::Video::patchString( string value ) {
@@ -86,9 +92,19 @@ bool ofxLoopin::video::Video::videoSync() {
 
     case ofxLoopinFrame::Mode::TIME:
     case ofxLoopinFrame::Mode::FRAME:
-      engine->setSpeed( clock.frame.speed );
-      engine->play();
+
+      // engine->setSpeed( clock.frame.speed );
+
+      if ( !engine->isPlaying() ) {
+        cerr << "ofxLoopin::video::Video::videoSync playing " << clock.frame.speed << endl;
+        engine->play();
+      }
       // engine->update();
+    break;
+
+    default:
+  cerr << "ofxLoopin::video::Video::videoSync no clock mode " << clock.mode.getKey() << endl;
+
     break;
   }
 
@@ -130,7 +146,6 @@ bool ofxLoopin::video::Video::videoSync() {
 
 
 void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
-  std::cerr << "Video::renderBuffer " << engine->isLoaded() << endl;
   
   if ( !wasLoaded && engine->isLoaded() ) {
     ofxLoopinEvent event;
@@ -146,9 +161,19 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   clock.advance( renderingFrame );
 
-  videoSync();
+  if ( !engine->isReady() ) 
+    return;
 
+  videoSync();
+  // engine->play();
+
+  auto before = ofGetElapsedTimeMicros();
   engine->update();
+  auto after = ofGetElapsedTimeMicros();
+
+  std::cerr << "Video::renderBuffer engine->update() " << (after-before) << endl;
+
+
   clock.frame.time = engine->getTime();
 
   if ( !engine->isFrameNew() )
@@ -156,4 +181,8 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   if ( buffer == nullptr )
     buffer = getBuffer( true );
+  
+  assert( buffer );
+
+  engine->drawToBuffer( buffer );
 };
