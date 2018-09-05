@@ -24,6 +24,7 @@
     "lodash": "^4.13.1",
     "loopin": "0.x.x",
     "tar": "^4.0.1",
+    "treebird": "^0.2.3",
     "zip-dir": "^1.0.2"
   },
   "repository": {
