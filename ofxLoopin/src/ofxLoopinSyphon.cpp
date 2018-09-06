@@ -68,11 +68,13 @@ void ofxLoopinSyphon::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
     return;
   }
 
+  buffer->flip();
   ofTexture * texture = buffer->getTexture();
 
   if ( texture ) {
     syphonServer.setName( name );
     syphonServer.publishTexture( texture );
+    // cerr << "Publish texture" << endl;
   }
   
   // bufferToFloats( buffer );
