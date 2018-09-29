@@ -1,0 +1,9 @@
+openframeworks:
+  zipName: of_v${openframeworks.version}_vs2017_release.zip
+  projectGenerator: projectGenerator-vs/projectGenerator.exe
+
+# binary:
+  # executable: ${name}.app/Contents/MacOS/${name}
+  # package: ${name}.app
+
+
