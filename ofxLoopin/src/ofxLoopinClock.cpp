@@ -2,7 +2,7 @@
 
 ofxLoopinFrame ofxLoopinClock::globalFrame;
 
-void ofxLoopinClock::readLocal( Json::Value & value ) {
+void ofxLoopinClock::readLocal( ofJson & value ) {
   value["time"] = frame.time;
 }
 
@@ -30,14 +30,14 @@ void ofxLoopinClock::addSubControls() {
 bool ofxLoopinClock::isClockGlobal() {
   return ( path == "clock" );
 }
-void ofxLoopinClock::patchLocal( const Json::Value & value ) {
-  if ( value.isNumeric() ) {
-    seek( value.asDouble() );
+void ofxLoopinClock::patchLocal( const ofJson & value ) {
+  if ( value.is_number() ) {
+    seek( value.get<double>() );
   }
 
-  if ( value.isObject() ) {
-    if ( value.isMember("time") && value["time"].isNumeric() ) {
-      seek( value["time"].asDouble() );
+  if ( value.is_object() ) {
+    if ( value.count("time") && value["time"].is_number() ) {
+      seek( value["time"].get<double>() );
     }
 
     if ( ofxLoopinJSONToBool( value, "advance") ) {
@@ -49,12 +49,12 @@ void ofxLoopinClock::patchLocal( const Json::Value & value ) {
     }
   }
 
-  if ( isClockGlobal() && value.isObject() ) {
-    if ( value.isMember("rate") && value["rate"].isNumeric() ) {
-      ofSetFrameRate( round( value["rate"].asDouble() ) );
+  if ( isClockGlobal() && value.is_object() ) {
+    if ( value.count("rate") && value["rate"].is_number() ) {
+      ofSetFrameRate( round( value["rate"].get<double>() ) );
     }
 
-    if ( value.isMember("vsync") ) {
+    if ( value.count("vsync") ) {
       ofSetVerticalSync( ofxLoopinJSONToBool( value ) );
     }
   }
@@ -81,6 +81,8 @@ void ofxLoopinClock::advance() {
   } else {
     delta = 0;
   }
+
+  frame.mode = mode.getEnumValue();
 
   advanceDelta( delta * speed );
 

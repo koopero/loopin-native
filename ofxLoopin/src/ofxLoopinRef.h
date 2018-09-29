@@ -38,15 +38,15 @@ public:
 
 
 protected:
-  void patchString( const string & value ) {
+  void patchString( string value ) {
     key = value;
   }
 
-  void readLocal( Json::Value & value ) {
+  void readLocal( ofJson & value ) {
     if ( key.size() )
       value = key;
     else
-      value = Json::nullValue;
+      value = ofJson();
   }
 
 private:

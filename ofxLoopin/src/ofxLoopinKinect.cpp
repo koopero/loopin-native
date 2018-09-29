@@ -317,7 +317,7 @@ void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
 
 };
 
-void ofxLoopinKinect::readLocal( Json::Value & value ) {
+void ofxLoopinKinect::readLocal( ofJson & value ) {
   if ( kinect ) {
     value["open"]   = kinect->isConnected();
     value["id"]     = kinect->getDeviceId();

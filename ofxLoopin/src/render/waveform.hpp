@@ -20,7 +20,7 @@ class waveform_imp;
 
 class waveform : public ofxLoopinRenders<waveform_imp>, public ofxLoopinHasInfo {
 public:
-  Json::Value infoGet();
+  ofJson infoGet();
 };
 
 class waveform_imp : public ofxLoopinRender, public ofBaseSoundInput {
@@ -45,7 +45,7 @@ public:
 
   ofRectangle getBounds();
 
-  static Json::Value getInfo();
+  static ofJson getInfo();
 
 protected:
   std::mutex samples_mutex;

@@ -5,13 +5,11 @@
 template <class child_type>
 class ofxLoopinMap : public ofxLoopinControl {
 public:
-  void patchKey( string key, const Json::Value &val );
-
-  string defaultKey;
+  string defaultKey = "";
 
   child_type * getByKey( string key, bool create = false );
 
-  string randomKey() const {
+  string randomKey() {
     if ( !_map.size() )
       return "";
 
@@ -34,8 +32,7 @@ public:
 
 
 protected:
-  void patchChildren( const Json::Value & value );
-
+  void patchKey( string key, const ofJson & val );
   std::map<string, child_type> _map;
 
   void createKey( string key ) {
@@ -67,7 +64,6 @@ child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
 
   if ( !_map.count( key ) ) {
     if ( !create ) {
-      // std::cerr << "keyNotFound! (" << key << ")" << endl;
       return NULL;
     }
 
@@ -78,13 +74,8 @@ child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
 }
 
 template <class child_type>
-void ofxLoopinMap<child_type>::patchChildren( const Json::Value & value ) {
-}
-
-template <class child_type>
-void ofxLoopinMap<child_type>::patchKey( string key, const Json::Value &val ) {
-
-  bool hasVal = !val.isNull();
+void ofxLoopinMap<child_type>::patchKey( string key, const ofJson & val ) {
+  bool hasVal = !val.is_null();
   child_type * item = _map.count( key ) ? &_map[key] : NULL;
 
 

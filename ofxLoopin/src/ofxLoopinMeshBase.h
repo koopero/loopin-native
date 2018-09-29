@@ -4,7 +4,7 @@
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinMap.h"
-
+#include "util/ofxLoopinJSON.hpp"
 #include "ofMesh.h"
 
 /** loopin/root/mesh:
@@ -91,20 +91,20 @@ protected:
     addSubControl("mode", &mode );
   };
 
-  void patchLocal( const Json::Value & val ) {
-    if ( val.isObject() ) {
-      if ( val.isMember("vertex") )
+  void patchLocal( const ofJson & val ) {
+    if ( val.is_object() ) {
+      if ( val.count("vertex") )
         setVertices( val["vertex"] );
 
-      if ( val.isMember("index") )
+      if ( val.count("index") )
         setIndices( val["index"] );
     }
   }
 
-  void setIndices( const Json::Value & val );
-  void setIndex( int index, const Json::Value &val );
-  void setVertices( const Json::Value & val );
-  void setVertexElements( int vertIndex, const Json::Value &val );
+  void setIndices( const ofJson & val );
+  void setIndex( int index, const ofJson & val );
+  void setVertices( const ofJson & val );
+  void setVertexElements( int vertIndex, const ofJson & val );
   int vertexKeyToAxis( const string &key );
   void setVertexElement( int index, int axis, float value );
 };

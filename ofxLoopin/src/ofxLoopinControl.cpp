@@ -15,14 +15,14 @@ void ofxLoopinControl::update() {
 };
 
 
-Json::Value ofxLoopinControl::read() {
-  Json::Value value = Json::Value( Json::objectValue );
+ofJson ofxLoopinControl::read() {
+  ofJson value = ofJson();
   readToValue( value );
   return value;
 };
 
-void ofxLoopinControl::readToValue( Json::Value & value ) {
-  if ( value.isObject () ) {
+void ofxLoopinControl::readToValue( ofJson & value ) {
+  if ( value.is_object () ) {
     readSubs( value );
   }
 
@@ -30,7 +30,7 @@ void ofxLoopinControl::readToValue( Json::Value & value ) {
 
 }
 
-void ofxLoopinControl::readSubs( Json::Value & value ) {
+void ofxLoopinControl::readSubs( ofJson & value ) {
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
     const string & key = it->first;
     ofxLoopinControl * sub = it->second;
@@ -43,39 +43,40 @@ void ofxLoopinControl::readSubs( Json::Value & value ) {
   }
 };
 
-void ofxLoopinControl::patch ( const Json::Value & val ) {
-  // std::cerr << "patch" << val << endl;
-
+void ofxLoopinControl::patch ( const ofJson & val ) {
   patchLocal( val );
 
-  if ( val.isString() ) {
-    patchString( val.asString() );
+  if ( val.is_string() ) {
+    patchString( val.get<std::string>() );
   }
 
   for ( auto & unkeyed : subsUnkeyed ) {
     unkeyed->patch( val );
   }
 
-  if ( val.isObject() && !val.empty() ) {
+  if ( val.is_object() && !val.empty() && !val.is_array() ) {
     typedef map<string, ofxLoopinControl *>::iterator it_type;
 
     for ( it_type it = subs.begin(); it != subs.end(); it ++ ) {
-      const string & key = it->first;
+      string key = it->first;
 
-      // cout << "set " << key << endl;
-      if ( val.isMember( key ) ) {
+      if ( val.count( key ) ) {
         ofxLoopinControl * sub = it->second;
         sub->patch( val[ key ] );
       }
     }
 
-    for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
-      patchKey( it.key().asString(), *it );
+    for( auto it = val.begin(); it != val.end() ; it++) {
+      patchKey( it.key(), *it );
     }
   }
 
   patchLocalAfter( val );
 
+}
+
+void ofxLoopinControl::patchKey( string key, const ofJson & val ) {
+  
 }
 
 void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {

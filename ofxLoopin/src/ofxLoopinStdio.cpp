@@ -10,7 +10,7 @@ bool EndsWith(const string& a, const string& b) {
 }
 
 void ofxLoopinStdio::dispatch ( const ofxLoopinEvent & event ) {
-  Json::Value json = Json::objectValue;
+  ofJson json;
 
   string path = event.path;
   if ( !EndsWith( path, "/" ) )
@@ -20,13 +20,14 @@ void ofxLoopinStdio::dispatch ( const ofxLoopinEvent & event ) {
   json["path"] = path;
   json["data"] = event.data;
 
-  std::cerr << jsonWriter.write( json );
+  std::cerr << json.dump() << std::endl;
 }
 
 
 void ofxLoopinStdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
+
     if ( std::getline( std::cin, line ) ) {
       if ( line.size() ) {
         lock();
@@ -39,35 +40,36 @@ void ofxLoopinStdio::threadedFunction () {
   }
 }
 
-Json::Value ofxLoopinStdio::getValue() {
+ofJson ofxLoopinStdio::getValue() {
   lock();
   value.clear();
 
   for (const string& line : lines_ ){
-    Json::Reader reader;
-    Json::Value delta;
-    reader.parse( line, delta, false );
+    ofJson delta = ofJson::parse( line );
     mergeValue( value, delta );
   }
+
   lines_.resize(0);
   unlock();
+
 
   return value;
 }
 
 
 
-void ofxLoopinStdio::mergeValue(Json::Value& a, Json::Value& b) {
-    if ( b.isObject() && !a.isObject() )
-      a = Json::Value( Json::objectValue );
+void ofxLoopinStdio::mergeValue(ofJson& a, ofJson& b) {
+  // a.merge_patch( b );
+  if ( b.is_object() && !a.is_object() )
+    a = ofJson();
 
-    if (!a.isObject() || !b.isObject()) return;
+  if (!a.is_object() || !b.is_object()) {
+    a = b;
+    return;
+  }
 
-    for (const auto& key : b.getMemberNames()) {
-        if (a[key].isObject()) {
-            mergeValue(a[key], b[key]);
-        } else {
-            a[key] = b[key];
-        }
-    }
+  for ( ofJson::iterator it = b.begin(); it != b.end(); ++it ) {
+    string key = it.key();
+    mergeValue( a[key], b[key] );
+  }
 }

@@ -36,7 +36,7 @@ public:
 protected:
   void updateLocal();
 
-  void patchString( const string & value ) {
+  void patchString( string value ) {
     src = value;
   }
 

@@ -9,7 +9,7 @@
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinFrame.h"
 
-#include "util/json.hpp"
+#include "util/ofxLoopinJSON.hpp"
 
 /** loopin/type/clock/sub
 
@@ -76,7 +76,7 @@ protected:
 
   bool isClockGlobal();
 
-  void patchLocal( const Json::Value & value );
-  void readLocal( Json::Value & value );
+  void patchLocal( const ofJson & value );
+  void readLocal( ofJson & value );
 
 };

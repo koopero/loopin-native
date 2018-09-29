@@ -11,3 +11,5 @@ openframeworks:
 binary:
   executable: ${name}
   package: ${name}
+
+make: make

@@ -22,9 +22,10 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
+#include "ofxLoopinSyphon.h"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
-#include "ofxLoopinVideo.h"
+#include "video/Video.hpp"
 #include "pixels/main.hpp"
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
@@ -32,7 +33,7 @@
 
 #include "ofMain.h"
 
-#include "filesystem/path.hpp"
+#include "boost/filesystem/path.hpp"
 
 #include <stdlib.h>
 
@@ -47,6 +48,12 @@ class ofxLoopinApp :
 public:
   ofxLoopinApp();
   ofxLoopinApp( int argc, char* argv[] );
+
+  ~ofxLoopinApp() {
+    stdio.waitForThread();
+  }
+
+  void startFromArgs( int argc, char* argv[] );
 
   //
   // Root elements, accessible as controls.
@@ -120,7 +127,7 @@ public:
   /** loopin/root/video
     map: video
   */
-  ofxLoopinRenders<ofxLoopinVideo> videos;
+  ofxLoopinRenders<ofxLoopin::video::Video> videos;
 
   // waveform/:buffer - waveform input ( experimental )
   /** loopin/root/waveform
@@ -139,6 +146,11 @@ public:
     type: osd
   */
   ofxLoopinOSD osd;
+  
+  #ifdef LOOPIN_SYPHON
+  ofxLoopinSyphonRoot syphon;
+  #endif
+
 
   ofxLoopinInfo info;
   // openFrameWorks master overrides.
@@ -170,7 +182,6 @@ protected:
     shaders.getByKey( "blank", true );
     shaders.defaultKey = "blank";
 
-    // create default mesh, accessible as mesh/sprite/
     addSubControl( "mesh", &meshes );
     meshes.getByKey( "sprite", true );
     meshes.defaultKey = "sprite";
@@ -190,19 +201,22 @@ protected:
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
-    // addSubControl( "fft", &fft );
+
+    #ifdef LOOPIN_SYPHON
+    addSubControl( "syphon", &syphon );
+    #endif
 
     addSubControl( "save", &savers );
     addSubControl( "show", &show );
 
     addSubControl( "osd", &osd );
     addSubControl( "window", &window );
+
     window.setAppBaseWindow( ofGetWindowPtr() );
   }
 
   void addRenderLists () {
     renderLists.push_back( &waveforms );
-    // renderLists.push_back( &fft );
     renderLists.push_back( &images );
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
@@ -210,6 +224,10 @@ protected:
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );
+
+    #ifdef LOOPIN_SYPHON
+    renderLists.push_back( &syphon );
+    #endif
   }
 
   // Utility for reading from stdio

@@ -29,8 +29,8 @@ void main() \n\
 #endif
 ) ;
 
-Json::Value ofxLoopin::render::waveform::infoGet() {
-  Json::Value result;
+ofJson ofxLoopin::render::waveform::infoGet() {
+  ofJson result;
 
   ofSoundStream stream;
   std::vector<ofSoundDevice> devices = stream.getDeviceList();

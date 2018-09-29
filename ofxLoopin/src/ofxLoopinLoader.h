@@ -9,7 +9,7 @@ public:
   string getFilePath();
 
 protected:
-  void patchLocal( const Json::Value & value );
+  void patchLocal( const ofJson & value );
 
   string filePath;
 };

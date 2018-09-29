@@ -8,6 +8,19 @@ binary:
   package: ${name}.app
 
 
-# addons:
-#   ofxSyphon:
-#     git: https://github.com/astellato/ofxSyphon.git
+make: xcodebuild
+
+addons:
+  ofxSyphon:
+    git: https://github.com/astellato/ofxSyphon.git
+    commit: OpenFrameworks-0.10
+
+
+  # ofxThreadedVideo:
+  #   git: https://github.com/gameoverhack/ofxThreadedVideo.git
+
+  # ofxHAPAVPlayer:
+  #   git: https://github.com/koopero/ofxHAPAVPlayer.git
+
+  # ofxAVFVideoPlayer:
+  #   git: https://github.com/kronick/ofxAVFVideoPlayer.git

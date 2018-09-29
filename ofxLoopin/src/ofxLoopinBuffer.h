@@ -155,10 +155,10 @@ protected:
     addSubControl( "rows", &rows );
     addSubControl( "cols", &cols );
   }
-  void readLocal( Json::Value & value );
+  void readLocal( ofJson & value );
 
-  void patchLocal( const Json::Value & value ) {
-    if ( value.isNumeric() ) {
+  void patchLocal( const ofJson & value ) {
+    if ( value.is_number() ) {
       _width.patch( value );
       _height.patch( value );
     }
