@@ -29,4 +29,6 @@ float ofxLoopinControlNumeric::oscValue () {
   //   break;
   // }
 
+  // Future proof :P
+  return 0;
 }

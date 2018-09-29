@@ -53,7 +53,7 @@ public:
   virtual void draw( const ofRectangle & area ) {};
 
   virtual ofRectangle getBounds() {
-
+    return ofRectangle(0,0,0,0);
   };
 
 protected:

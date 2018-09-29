@@ -26,10 +26,10 @@ void ofxLoopinCamera::calculate() {
   float bufferAspect = getBufferAspect();
   // float bufferAspect = 1.0;
   // std::cerr << "camera::calculate " << bufferAspect << endl;
-  float near = max( 0.001, dist + focus - dof / 2.0 );
-  float far = max( 0.001, dist + focus + dof / 2.0 );
+  float _near = max( 0.001, dist + focus - dof / 2.0 );
+  float _far = max( 0.001, dist + focus + dof / 2.0 );
 
-  projection.makePerspectiveMatrix( fov, fabs( bufferAspect ), near, far );
+  projection.makePerspectiveMatrix( fov, fabs( bufferAspect ), _near, _far );
   projection.scale( zoomLin, zoomLin, 1 );
 
   float layerAspect = getLayerAspect();

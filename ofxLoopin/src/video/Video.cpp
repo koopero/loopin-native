@@ -50,7 +50,7 @@ bool ofxLoopin::video::Video::videoSync() {
   int numFrames = engine->getFrames();
 
   if ( !numFrames )
-    return;
+    return true;
 
 
   float duration = engine->getDuration();
@@ -142,6 +142,8 @@ bool ofxLoopin::video::Video::videoSync() {
 
     time = syncFrame / rate;
   }
+
+  return true;
 }
 
 

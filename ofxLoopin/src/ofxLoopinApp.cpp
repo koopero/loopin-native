@@ -10,10 +10,7 @@ void ofxLoopinApp::dispatch ( ofxLoopinEvent & event ) {
 
 
 std::string getcwd_string( void ) {
-   char buff[PATH_MAX];
-   getcwd( buff, PATH_MAX );
-   std::string cwd( buff );
-   return cwd;
+   return boost::filesystem::current_path().string();
 }
 
 

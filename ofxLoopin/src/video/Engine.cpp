@@ -49,12 +49,14 @@ double ofxLoopin::video::Engine<Player>::getTime( int frame ) const  {
 
 template <class Player>
 float ofxLoopin::video::Engine<Player>::getPosition() const {
-
+  // TODO
+  return 0;
 }
 
 template <class Player>
 int ofxLoopin::video::Engine<Player>::getCurrentFrame() const {
-
+  // TODO
+  return 0;
 }
 
 template <class Player>

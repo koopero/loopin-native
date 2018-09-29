@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 
-// #ifdef TARGET_OSX
+#ifdef TARGET_OSX
 #define LOOPIN_SYPHON
 
 #include "ofJson.h"
@@ -64,4 +64,4 @@ private:
 
 
 
-// #endif
+#endif
