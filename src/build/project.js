@@ -55,9 +55,12 @@ function project( build ) {
           '-a'+addons.join(','),
           '-o'+build.resolve( build.openframeworks.root ),
           '-f',
-          '-p'+build.platform,
-          build.resolve( build.project.root )
         ]
+
+    if ( build.platform != 'win32' )
+      args.push( '-p'+build.platform )
+
+    args.push( build.resolve( build.project.root ) )
 
     return build.command( generator, args, build )
   }
