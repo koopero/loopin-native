@@ -16,12 +16,12 @@
 // };
 
 void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
-  std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
+  // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
 
   if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
     string videoPath = value["src"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
-    std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
+    // std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
 
     wasLoaded = false;
     if ( true || absPath.size() ) {
@@ -34,7 +34,7 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
     }
   }
 
-  std::cerr << "ofxLoopin::video::Video::patchLocal after " << endl;
+  // std::cerr << "ofxLoopin::video::Video::patchLocal after " << endl;
 
 };
 
@@ -95,14 +95,13 @@ bool ofxLoopin::video::Video::videoSync() {
       // engine->setSpeed( clock.frame.speed );
 
       if ( !engine->isPlaying() ) {
-        cerr << "ofxLoopin::video::Video::videoSync playing " << clock.frame.speed << endl;
+        // cerr << "ofxLoopin::video::Video::videoSync playing " << clock.frame.speed << endl;
         engine->play();
       }
       // engine->update();
     break;
 
     default:
-      cerr << "ofxLoopin::video::Video::videoSync no clock mode " << clock.mode.getKey() << endl;
 
     break;
   }
@@ -164,9 +163,6 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
   engine->play();
   engine->update();
   auto after = ofGetElapsedTimeMicros();
-
-  // std::cerr << "Video::renderBuffer engine->update() " << engine->getCurrentFrame() << " " << engine->getTotalNumFrames() << endl;
-
 
 //  clock.frame.time = engine->getTime();
 
