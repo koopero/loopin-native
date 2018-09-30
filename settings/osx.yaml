@@ -15,16 +15,18 @@ addons:
     git: https://github.com/astellato/ofxSyphon.git
     commit: OpenFrameworks-0.10
 
-  ofxGStreamer:
-    git: https://github.com/koopero/ofxGStreamer
+  # Has huge dependensy tree.. 
+  # ofxGstRTP:
+  #   git: https://github.com/koopero/ofxGstRTP
 
-  ofxGstRTP:
-    git: https://github.com/koopero/ofxGstRTP
+  # Doesn't work that well...
   # ofxThreadedVideo:
   #   git: https://github.com/gameoverhack/ofxThreadedVideo.git
 
+  # Didn't work at all, unfortunately.
   # ofxHAPAVPlayer:
   #   git: https://github.com/koopero/ofxHAPAVPlayer.git
 
+  # No go.
   # ofxAVFVideoPlayer:
   #   git: https://github.com/kronick/ofxAVFVideoPlayer.git

@@ -7,10 +7,8 @@ project:
 download:
   dir: download/
 
-upload:
-  dir: upload/
-
-# http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
+release:
+  dir: release/
 
 ofxLoopin:
   releaseURL: http://aws-website-loopintech-ofamp.s3-website-us-east-1.amazonaws.com/bin/${project.zipName}
@@ -23,27 +21,14 @@ openframeworks:
 
 
 addons:
+  ofxLoopin:
+    packageLink: ./ofxLoopin
+
   ofxKinect:
     enable: true
 
   ofxOsc:
     enable: true
 
-  ofxPoco:
-    enable: true
-
-  ofxSnappy:
-    git: https://github.com/arturoc/ofxSnappy
-
-  ofxNice:
-    git: https://github.com/koopero/ofxNice
-
-  ofxDepthStreamCompression:
-    git: https://github.com/koopero/ofxDepthStreamCompression
-
-  ofxXMPP:
-    git: https://github.com/koopero/ofxXMPP
-
-  ofxLoopin:
-    packageLink: ./ofxLoopin
-
+  ofxGStreamer:
+    git: https://github.com/koopero/ofxGStreamer
