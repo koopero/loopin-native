@@ -1,5 +1,7 @@
 #include "ofxLoopinSyphon.h"
 
+#ifdef LOOPIN_SYPHON
+
 ofJson ofxLoopinSyphonRoot::infoGet() {
   ofJson result;
   ofJson servers = ofJson::array();
@@ -81,3 +83,5 @@ void ofxLoopinSyphon::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
   // encode();
   // dispatchData();
 }
+
+#endif

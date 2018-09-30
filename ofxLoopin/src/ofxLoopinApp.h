@@ -22,13 +22,13 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
-#include "ofxLoopinSyphon.h"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
 #include "video/Video.hpp"
 #include "pixels/main.hpp"
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
+#include "ofxLoopinSyphon.h"
 
 
 #include "ofMain.h"
