@@ -55,7 +55,7 @@ void ofxLoopinClock::patchLocal( const ofJson & value ) {
     }
 
     if ( value.count("vsync") ) {
-      ofSetVerticalSync( ofxLoopinJSONToBool( value ) );
+      ofSetVerticalSync( ofxLoopinJSONToBool( value["vsync"] ) );
     }
   }
 }

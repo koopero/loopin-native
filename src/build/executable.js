@@ -18,7 +18,6 @@ async function executable( build ) {
         return require('./download')( build )
         .catch( err => {
           build.log('# Failed to download pre-packaged binary. Falling back to source build.', err )
-          process.exit()
           return require('./devEnv.js')( build )
           .then( () => require('./make.js')( build ) )
         } )

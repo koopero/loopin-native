@@ -3,8 +3,9 @@ openframeworks:
   projectGenerator: projectGenerator-vs/resources/app/app/projectGenerator.exe
 
 binary:
-  executable: ${name}_debug.exe
-  package: ${name}.app
+  executable: ${name}.exe
 
 
-make: msbuild.exe
+make: msbuild.exe 
+makeArgs: 
+  - /property:Configuration=Release
