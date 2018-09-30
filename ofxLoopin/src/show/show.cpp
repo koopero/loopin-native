@@ -90,7 +90,7 @@ void ofxLoopin::Show::draw() {
   texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
 
   switch( alpha.getEnumValue() ) {
-    case IGNORE:
+      case IGNOREX:
       ofDisableBlendMode();
       texture->draw( area );
     break;
