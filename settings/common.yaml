@@ -11,7 +11,7 @@ release:
   dir: release/
 
 ofxLoopin:
-  releaseURL: http://aws-website-loopintech-ofamp.s3-website-us-east-1.amazonaws.com/bin/${project.zipName}
+  releaseURL: https://github.com/koopero/loopin-native/releases/download/${version}/${project.zipName}
 
 openframeworks:
   version: 0.10.0

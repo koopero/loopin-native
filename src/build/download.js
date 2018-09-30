@@ -3,9 +3,7 @@ module.exports = download
 const _ = require('lodash')
     , Promise = require('bluebird')
     , fs = Promise.promisifyAll( require('fs-extra'))
-    , glob = Promise.promisify( require('glob') )
-    , path = require('path')
-    , os = require('os')
+    , got = require('got')
 
 function download( build ) {
   return ensureZip()
@@ -13,10 +11,8 @@ function download( build ) {
   .then( unpack )
 
   async function ensureZip( ) {
-    return
-
     const zip_name = build.project.zipName
-        , release_url = build.templatize( 'ofxLoopin.releaseURL' )
+        , releaseURL = build.templatize( 'ofxLoopin.releaseURL' )
         , downloadDir = build.resolve( build.download.dir )
         , dest = build.resolve( downloadDir, zip_name )
 
@@ -25,15 +21,17 @@ function download( build ) {
 
 
     build.log('cd', downloadDir )
-    build.log('wget', release_url )
+    build.log('wget', releaseURL )
 
-    var download = new Download({strip: 1})
-        .get( release_url, downloadDir )
+    let data = await got.get( releaseURL, { 
+      // This is somewhat dangerous.
+      rejectUnauthorized: false,
+      encoding: null
+    } )
 
-    if ( !build.quiet )
-        download = download.use(downloadStatus())
+    data = data.body
 
-    return Promise.fromCallback( ( callback ) => download.run( callback ) )
+    await fs.writeFileAsync( dest, data, null )
   }
 
   function deleteExisting() {
@@ -54,18 +52,8 @@ function download( build ) {
       file: build.resolve( build.download.dir, build.project.zipName ),
       cwd: build.resolve( build.project.root, 'bin' ),
       unlink: true,
-      // gzip: true,
-      // follow: true,
-      // portable: false,
+      gzip: true,
     } ) )
-
-    // var decompress = new Decompress({})
-    //   .src( source )
-    //   .dest( dest )
-    //
-    // decompress = decompress.use(Decompress.zip({}))
-    //
-    // return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
   }
 
 }
