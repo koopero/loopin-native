@@ -17,7 +17,7 @@ public:
   double getTime( int frame ) const ;
   float getPosition() const;
   int getCurrentFrame() const;
-  int getFrames() const;
+  int getTotalNumFrames() const;
   double getDuration();
   void setSpeed( float speed );
   void setPlaying( bool playing );
@@ -34,6 +34,7 @@ public:
   void drawToBuffer( ofxLoopinBuffer * buffer );
 protected:
   Player player;
+  bool hasDuration;
 };
 
 }};

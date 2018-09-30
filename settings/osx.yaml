@@ -15,7 +15,11 @@ addons:
     git: https://github.com/astellato/ofxSyphon.git
     commit: OpenFrameworks-0.10
 
+  ofxGStreamer:
+    git: https://github.com/koopero/ofxGStreamer
 
+  ofxGstRTP:
+    git: https://github.com/koopero/ofxGstRTP
   # ofxThreadedVideo:
   #   git: https://github.com/gameoverhack/ofxThreadedVideo.git
 

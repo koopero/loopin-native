@@ -23,11 +23,10 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
     string absPath = ofxLoopinFile::find( videoPath );
     std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
 
-
     wasLoaded = false;
-    if ( absPath.size() ) {
+    if ( true || absPath.size() ) {
 
-      engine->load( absPath );
+      engine->load( videoPath );
     } else {
       ofxLoopinEvent event;
       event.type = "error";
@@ -47,7 +46,7 @@ void ofxLoopin::video::Video::patchString( string value ) {
 
 
 bool ofxLoopin::video::Video::videoSync() {
-  int numFrames = engine->getFrames();
+  int numFrames = engine->getTotalNumFrames();
 
   if ( !numFrames )
     return;
@@ -103,23 +102,17 @@ bool ofxLoopin::video::Video::videoSync() {
     break;
 
     default:
-  cerr << "ofxLoopin::video::Video::videoSync no clock mode " << clock.mode.getKey() << endl;
+      cerr << "ofxLoopin::video::Video::videoSync no clock mode " << clock.mode.getKey() << endl;
 
     break;
   }
-
-
-
   float position = engine->getPosition();
   double time = position * duration;
 
   event.data["rate"] = rate;
-
   event.data["running"] = (bool) clock.running;
-
   event.data["frame"] = frame;
   event.data["frameSpeed"] = clock.frame.speed;
-
   event.data["time"] = time;
   // event.data["sync"] = sync;
   event.data["syncTo"] = syncTo;
@@ -154,35 +147,65 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
     wasLoaded = true;
   }
 
-  if ( !engine->isReady() || engine->isPaused() ) {
+  if ( !engine->isLoaded() || engine->isPaused() ) {
     // std::cerr << "no delta "<< endl;
     renderingFrame.delta = 0;
   }
 
   clock.advance( renderingFrame );
 
-  if ( !engine->isReady() ) 
+  if ( !engine->isLoaded() ) 
     return;
 
-  videoSync();
+  // videoSync();
   // engine->play();
 
   auto before = ofGetElapsedTimeMicros();
+  engine->play();
   engine->update();
   auto after = ofGetElapsedTimeMicros();
 
-  std::cerr << "Video::renderBuffer engine->update() " << (after-before) << endl;
+  // std::cerr << "Video::renderBuffer engine->update() " << engine->getCurrentFrame() << " " << engine->getTotalNumFrames() << endl;
 
 
-  clock.frame.time = engine->getTime();
+//  clock.frame.time = engine->getTime();
 
-  if ( !engine->isFrameNew() )
-    return;
+  // if ( !engine->isFrameNew() )
+  //   return;
 
   if ( buffer == nullptr )
     buffer = getBuffer( true );
   
   assert( buffer );
 
-  engine->drawToBuffer( buffer );
+  ofRectangle bounds = ofRectangle( 0,0, engine->getWidth(), engine->getHeight() );
+  buffer->defaultSize( bounds );
+
+  ofTexture * tex = engine->getTexturePtr();
+
+  if ( tex != nullptr ) {
+    cerr << "TEXTURE!!! :)" << endl;
+  }
+
+  ofPixels & pixels = engine->getPixels();
+
+  if ( !pixels.getWidth() || !pixels.getHeight() )
+    return;
+
+  if ( !buffer->begin() ) {
+    return;
+  }
+
+
+  ofTexture texture;
+  texture.allocate( pixels );
+  // cerr << "Drawing " << bounds << endl;
+
+
+
+  texture.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  buffer->end();  
 };

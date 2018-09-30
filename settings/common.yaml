@@ -25,6 +25,25 @@ openframeworks:
 addons:
   ofxKinect:
     enable: true
+
+  ofxOsc:
+    enable: true
+
+  ofxPoco:
+    enable: true
+
+  ofxSnappy:
+    git: https://github.com/arturoc/ofxSnappy
+
+  ofxNice:
+    git: https://github.com/koopero/ofxNice
+
+  ofxDepthStreamCompression:
+    git: https://github.com/koopero/ofxDepthStreamCompression
+
+  ofxXMPP:
+    git: https://github.com/koopero/ofxXMPP
+
   ofxLoopin:
     packageLink: ./ofxLoopin
 

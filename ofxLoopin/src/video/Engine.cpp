@@ -1,4 +1,5 @@
 #include "./Engine.hpp"
+#include "ofGstUtils.h"
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::update() {
@@ -7,11 +8,21 @@ void ofxLoopin::video::Engine<Player>::update() {
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::load( string file ) {
-  player.setUseTexture( true );
+  // player.setUseTexture( true );
   player.setPixelFormat( OF_PIXELS_RGB );
+  player.setFrameByFrame( false );
+  // player.setThreadAppSink( true );
   // player.loadAsync( file );
   // player.initTextureCache();
+    ofSetLogLevel(OF_LOG_VERBOSE);
+
   player.load( file );
+
+  // ofGstVideoUtils * utils = player.getGstVideoUtils();
+  // // std::string pipeline = "rtspsrc location=rtsp://10.4.1.106:5000/cam/realmonitor?channel=1&subtype=1&authbasic=admin:CooperEngineering latency=0 ! decodebin ";
+  // std::string pipeline = "playbin uri=rtsp://admin:CooperEngineering@10.4.1.106:80/cam/realmonitor\?channel=1\&subtype=1";
+  // utils->setPipeline( pipeline, OF_PIXELS_RGB, true );
+  // utils->startPipeline();
 }
 
 // template <>
@@ -58,13 +69,16 @@ int ofxLoopin::video::Engine<Player>::getCurrentFrame() const {
 }
 
 template <class Player>
-int ofxLoopin::video::Engine<Player>::getFrames() const {
+int ofxLoopin::video::Engine<Player>::getTotalNumFrames() const {
   return player.getTotalNumFrames();
 }
 
 template <class Player>
 double ofxLoopin::video::Engine<Player>::getDuration() {
-  return player.getDuration();
+  if ( hasDuration )
+    return player.getDuration();
+
+  return 0;
 }
 
 template <class Player>
@@ -132,15 +146,36 @@ void ofxLoopin::video::Engine<Player>::setFrame(int frame) {
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::drawToBuffer( ofxLoopinBuffer * buffer ) {
+
+
   ofRectangle bounds = ofRectangle( 0,0, player.getWidth(), player.getHeight() );
   buffer->defaultSize( bounds );
 
+  ofTexture * tex = player.getTexturePtr();
+
+  if ( tex != nullptr ) {
+    // cerr << "TEXTURE!!! :)" << endl;
+  }
+
+  ofPixels & pixels = player.getPixels();
+
+  if ( !pixels.getWidth() || !pixels.getHeight() )
+    return;
+
   if ( !buffer->begin() ) {
-    // TODO: Error here
     return;
   }
 
-  player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  ofTexture texture;
+  texture.allocate( pixels );
+  // cerr << "Drawing " << bounds << endl;
+
+
+
+  texture.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
 
   buffer->end();  
 }
