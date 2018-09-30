@@ -179,9 +179,9 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   ofTexture * tex = engine->getTexturePtr();
 
-  if ( tex != nullptr ) {
-    cerr << "TEXTURE!!! :)" << endl;
-  }
+  // if ( tex != nullptr ) {
+  //   cerr << "TEXTURE!!! :)" << endl;
+  // }
 
   ofPixels & pixels = engine->getPixels();
 

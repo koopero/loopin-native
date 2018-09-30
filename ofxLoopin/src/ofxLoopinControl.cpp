@@ -16,7 +16,7 @@ void ofxLoopinControl::update() {
 
 
 ofJson ofxLoopinControl::read() {
-  ofJson value = ofJson();
+  ofJson value = ofJson::object();
   readToValue( value );
   return value;
 };
