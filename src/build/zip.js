@@ -14,10 +14,10 @@ async function zip( build ) {
   let cwd = build.resolve( build.project.root, 'bin' )
   let filelist = await glob( '*', { cwd } )
 
-  await fs.mkdirs( build.resolve( build.upload.dir ) )
+  await fs.mkdirs( build.resolve( build.release.dir ) )
   
   await tar.c( {
-    file: build.resolve( build.upload.dir, build.project.zipName ),
+    file: build.resolve( build.release.dir, build.project.zipName ),
     cwd,
     gzip: true,
     follow: true,
