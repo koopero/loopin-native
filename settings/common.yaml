@@ -30,5 +30,8 @@ addons:
   ofxOsc:
     enable: true
 
+  ofxJSON:
+    enable: true
+
   # ofxGStreamer:
   #   git: https://github.com/koopero/ofxGStreamer
