@@ -14,6 +14,8 @@ public:
   void draw( const ofRectangle & area );
   ofRectangle getBounds();
 
+  virtual void renderBuffer( ofxLoopinBuffer * buffer );
+
 protected:
   void addSubControls() {
     addSubControl( "text", new ofxLoopinControlValue( &text ) );
