@@ -52,17 +52,20 @@ void ofxLoopinMeshBase::setIndices( const ofJson & val ) {
   if ( val.is_array() ) {
     std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
     meshIndices.resize( val.size() );
+
+    for ( int index = 0; index < val.size(); index ++ ) {
+      setIndex( index, val[index] );
+    }
   }
 
   if ( val.is_object() ) {
-  // if ( val.is_object() || val.is_array() ) {
     for( auto it = val.begin(); it != val.end() ; it++) {
       string key = it.key();
       std::stringstream ss( key );
       int index = -1;
       ss >> index;
       if ( index != -1 )
-        setIndex( index, *it );
+        setIndex( index, it.value() );
     }
   }
 }
