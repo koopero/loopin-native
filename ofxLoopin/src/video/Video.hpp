@@ -7,7 +7,7 @@
 
 
 #include "ofVideoPlayer.h"
-#include "ofGstVideoPlayer.h"
+// #include "ofGstVideoPlayer.h"
 
 
 // #include "./Engine.cpp"
@@ -21,7 +21,7 @@ namespace ofxLoopin { namespace video {
 
 // typedef Engine<ofxHAPAVPlayer> VideoEngine; 
 // typedef Engine<ofGstVideoPlayer> VideoEngine; 
-typedef ofGstVideoPlayer VideoEngine; 
+typedef ofVideoPlayer VideoEngine; 
 
 // typedef Engine<ofAVFoundationPlayer> VideoEngine; 
 
