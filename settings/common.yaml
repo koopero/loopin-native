@@ -27,11 +27,11 @@ addons:
   ofxKinect:
     enable: true
 
-  ofxOsc:
-    enable: true
+  # ofxOsc:
+  #  enable: true
 
-  ofxJSON:
-    enable: true
+  # ofxJSON:
+  #  git: https://github.com/jeffcrouse/ofxJSON
 
   # ofxGStreamer:
   #   git: https://github.com/koopero/ofxGStreamer
