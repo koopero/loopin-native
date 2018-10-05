@@ -31,7 +31,7 @@ function download( build ) {
 
     data = data.body
 
-    await fs.writeFileAsync( dest, data, null )
+    await fs.outputFileAsync( dest, data, null )
   }
 
   function deleteExisting() {
