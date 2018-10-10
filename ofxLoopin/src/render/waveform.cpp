@@ -29,13 +29,41 @@ void main() \n\
 #endif
 ) ;
 
+ofxLoopinShader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopinShader(
+// name
+"scroller",
+// frag
+#ifndef TARGET_OPENGLES
+"#version 150 \n\
+uniform float red; \n\
+uniform float green; \n\
+uniform float blue; \n\
+uniform float alpha; \n\
+out vec4 OUT; \n\
+void main() \n\
+{ \n\
+  OUT = vec4( red, green, blue, alpha ); \n\
+} \n\
+"
+#else
+"varying vec2 srcCoord; \n\
+uniform sampler2D srcSampler; \n\
+void main() \n\
+{ \n\
+  gl_FragColor = texture2D( srcSampler, srcCoord ); \n\
+  gl_FragColor.b += 0.02; \n\
+} \n\
+"
+#endif
+) ;
+
 ofJson ofxLoopin::render::waveform::infoGet() {
   ofJson result;
 
   ofSoundStream stream;
   std::vector<ofSoundDevice> devices = stream.getDeviceList();
   int ji = 0;
-  for ( int i = 0; i < devices.size(); i ++ ) {
+  for ( unsigned int i = 0; i < devices.size(); i ++ ) {
     if ( !devices[i].inputChannels )
       continue;
     result["devices"][ji]["deviceID"] = devices[i].deviceID;
@@ -108,6 +136,7 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
       for ( int i = sampleStart; ( i == sampleStart || i < sampleEnd ) && i < samples.getNumFrames(); i ++ ) {
         int ssSign = 0;
         float ssValue = samples.getSample( i, channel );
+        // ssValue += test;
         computeSample( ssValue, ssSign );
 
         if ( !sampleSign )
@@ -115,7 +144,14 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
         sample = max( sample, ssValue );
       }
-      drawSample( x, channel, sample * sampleSign );
+
+      sample *= (float) sampleSign;
+
+      if ( phase.getEnumValue() == PHASE_BOTH ) {
+        sample = sample * 0.5 + 0.5;
+      }
+
+      drawSample( x, channel, sample );
     }
   }
 
@@ -139,21 +175,24 @@ void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * bu
 
   buffer->flip();
   buffer->begin();
-
-  ofSetupScreen();
-  glDisable( GL_CULL_FACE );
-  ofDisableBlendMode();
-  ofDisableDepthTest();
+  scrollShader.begin();
+  // ofSetupScreen();
+  // glDisable( GL_CULL_FACE );
+  // ofDisableBlendMode();
+  // ofDisableDepthTest();
+  ofEnableBlendMode( OF_BLENDMODE_DISABLED );
 
   int y = ofxLoopin::render::waveform_imp::y;
   int channels = ofxLoopin::render::waveform_imp::channels;
 
   // Make sure everything else in the buffer is preserved.
   if ( y > 0 || y + channels < bufferHeight ) {
+    // texture->bind( scrollShader );
     texture->draw( 0, 0 );
   }
 
   texture->drawSubsection( offset, y, bufferWidth, channels, 0, y, bufferWidth, channels );
+  scrollShader.end();
   buffer->end();
 }
 

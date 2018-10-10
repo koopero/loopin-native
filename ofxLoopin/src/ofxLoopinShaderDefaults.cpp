@@ -6,7 +6,6 @@
 const string ofxLoopinShaderDefaults::GLES_VERT = "\
   precision highp float; \
   uniform mat4 modelViewProjectionMatrix; \
-  uniform mat4 srcMatrix; \
   uniform sampler2D srcSampler; \
   attribute vec4 position; \
   attribute vec2 texcoord; \
@@ -14,7 +13,6 @@ const string ofxLoopinShaderDefaults::GLES_VERT = "\
   void main() \
   { \
     srcCoord = vec2(texcoord.x, texcoord.y); \
-    srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy; \
     gl_Position = modelViewProjectionMatrix * position; \
   } \
 ";

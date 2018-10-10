@@ -36,6 +36,7 @@ public:
   ofxLoopinControlNumber duration = 0;
   ofxLoopinControlNumber squelch = 0;
   ofxLoopinControlNumber gain = 1;
+  ofxLoopinControlNumber test = 0;
   ofxLoopinControlInt y = 0;
   ofxLoopinControlInt channels = 2;
   ofxLoopinControlInt deviceID = 0;
@@ -72,6 +73,7 @@ protected:
 
     addSubControl("squelch", &squelch );
     addSubControl("gain", &gain);
+    addSubControl("test", &test );
     addSubControl("duration", &duration );
     addSubControl("channels", &channels );
     addSubControl("y", &y );
@@ -79,6 +81,8 @@ protected:
   };
 
   static ofxLoopinShader shader;
+  static ofxLoopinShader scrollShader;
+
 };
 /** loopin/type/waveform
 sub:

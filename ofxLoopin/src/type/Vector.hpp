@@ -47,19 +47,19 @@ protected:
 
   void patchLocal( const ofJson & val ) {
     if ( val.is_number() ) {
-      for ( int axis = 0; axis < LENGTH && axis < 3; axis ++ )
+      for ( unsigned int axis = 0; axis < LENGTH && axis < 3; axis ++ )
         setAxis( axis, val );
     }
 
     if ( val.is_array() ) {
-      for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
+      for ( unsigned int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
         setAxis( valIndex, val[ valIndex ]);
       }
     }
 
     if ( val.is_object() ) {
       for( auto it = val.begin(); it != val.end() ; it++) {
-        // int axis = keyToAxis( it.key() );
+        // unsigned int axis = keyToAxis( it.key() );
         // setAxis( axis, (*it) );
       }
     }
