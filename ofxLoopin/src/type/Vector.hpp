@@ -58,9 +58,10 @@ protected:
     }
 
     if ( val.is_object() ) {
-      for( auto it = val.begin(); it != val.end() ; it++) {
-        // unsigned int axis = keyToAxis( it.key() );
-        // setAxis( axis, (*it) );
+      ofJson ob = val;
+      for( ofJson::iterator it = ob.begin(); it != ob.end() ; it++) {
+        int axis = keyToAxis( it.key() );
+        setAxis( axis, it.value() );
       }
     }
   };
