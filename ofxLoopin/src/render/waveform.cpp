@@ -29,33 +29,7 @@ void main() \n\
 #endif
 ) ;
 
-ofxLoopinShader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopinShader(
-// name
-"scroller",
-// frag
-#ifndef TARGET_OPENGLES
-"#version 150 \n\
-uniform float red; \n\
-uniform float green; \n\
-uniform float blue; \n\
-uniform float alpha; \n\
-out vec4 OUT; \n\
-void main() \n\
-{ \n\
-  OUT = vec4( red, green, blue, alpha ); \n\
-} \n\
-"
-#else
-"varying vec2 srcCoord; \n\
-uniform sampler2D srcSampler; \n\
-void main() \n\
-{ \n\
-  gl_FragColor = texture2D( srcSampler, srcCoord ); \n\
-  gl_FragColor.b += 0.02; \n\
-} \n\
-"
-#endif
-) ;
+ofxLoopinShader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopinShader();
 
 ofJson ofxLoopin::render::waveform::infoGet() {
   ofJson result;
@@ -125,6 +99,8 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
   ofSetupScreen();
   shader.begin();
 
+  float testAmount = test;
+
   for ( int channel = 0; channel < channels; channel++ ) {
     for ( int x = 0; x < size && x < bufferWidth; x ++ ) {
 
@@ -133,10 +109,22 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
       float sample = 0.0;
       int sampleSign = 0;
+
+      if ( testAmount ) {
+        double testPhase = renderingFrame.time + ( float ) x / size * _samplesDuration;
+        testPhase *= 440.0;
+        sample = testAmount * cos( testPhase );
+        sample *= max( 0.0, cos( renderingFrame.time * 6.1 ) );
+        
+        if ( sample != 0.0 )
+          sampleSign = sample / fabs( sample );
+
+        sample = fabs( sample );
+      }
+
       for ( int i = sampleStart; ( i == sampleStart || i < sampleEnd ) && i < samples.getNumFrames(); i ++ ) {
         int ssSign = 0;
         float ssValue = samples.getSample( i, channel );
-        // ssValue += test;
         computeSample( ssValue, ssSign );
 
         if ( !sampleSign )
@@ -144,6 +132,8 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
         sample = max( sample, ssValue );
       }
+
+
 
       sample *= (float) sampleSign;
 
@@ -191,6 +181,7 @@ void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * bu
     texture->draw( 0, 0 );
   }
 
+  texture->setTextureMinMagFilter( GL_NEAREST, GL_NEAREST );
   texture->drawSubsection( offset, y, bufferWidth, channels, 0, y, bufferWidth, channels );
   scrollShader.end();
   buffer->end();
