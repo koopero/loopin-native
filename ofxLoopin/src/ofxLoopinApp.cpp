@@ -36,6 +36,10 @@ void ofxLoopinApp::setup () {
 
   ofSetFrameRate( 60 );
   ofSetVerticalSync( true );
+
+  #ifdef TARGET_OPENGLES
+		ofHideCursor();
+	#endif
 }
 
 void ofxLoopinApp::update() {
