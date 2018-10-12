@@ -63,11 +63,21 @@ protected:
       _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
     }
 
-    if ( value.count("title")
-      && value["title"].is_string()
-    ) {
-      _window->setWindowTitle( value["title"].get<std::string>() );
+    if ( value.count("cursor") ) {
+      if ( ofxLoopinJSONToBool( value["cursor"] ) ) {
+        _window->showCursor();
+      } else {
+        _window->hideCursor();
+      }
     }
+
+    #ifndef TARGET_OPENGLES
+      if ( value.count("title")
+        && value["title"].is_string()
+      ) {
+        _window->setWindowTitle( value["title"].get<std::string>() );
+      }
+    #endif
 
     bool setSize = false;
     bool setPosition = false;
