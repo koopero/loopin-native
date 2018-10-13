@@ -19,10 +19,14 @@ void ofxLoopinText::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( !buffer->begin() )
     return;
 
+  shaderDefault.begin();
+
   if ( clear ) {
     ofClear( 0, 0, 0, 0 );
   }
 
   draw( bounds );
+  shaderDefault.end();
+
   buffer->end();
 }

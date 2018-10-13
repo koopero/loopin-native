@@ -1,5 +1,7 @@
 #include "ofxLoopinRender.h"
 
+ofxLoopinShader ofxLoopinRender::shaderDefault = ofxLoopinShader("shaderDefault") ;
+
 ofxLoopinBuffer * ofxLoopinRender::getBuffer( const string & key, bool create ) {
 
   assert( root );

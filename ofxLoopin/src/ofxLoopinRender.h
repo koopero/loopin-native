@@ -83,6 +83,8 @@ protected:
   }
 
   ofxLoopinBuffer * getBuffer( const string & key, bool create = false );
+
+  static ofxLoopinShader shaderDefault; 
 };
 
 class ofxLoopinRenderList {
