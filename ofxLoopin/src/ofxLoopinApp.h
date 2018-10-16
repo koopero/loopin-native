@@ -250,6 +250,8 @@ protected:
     }
   }
 
+  static ofxLoopinShader shaderDefault; 
+
 private:
   int exitAfterFrames = 0;
 

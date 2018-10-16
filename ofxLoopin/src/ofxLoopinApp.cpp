@@ -1,5 +1,8 @@
 #include "ofxLoopinApp.h"
 
+ofxLoopinShader ofxLoopinApp::shaderDefault = ofxLoopinShader("shaderDefault") ;
+
+
 ofxLoopinApp::ofxLoopinApp () {
 
 }
@@ -65,10 +68,15 @@ void ofxLoopinApp::updateLocal() {
 void ofxLoopinApp::draw() {
   ofClear( 12,0,16,255);
 
+  shaderDefault.begin();
+
   show.draw();
 
   osd.show = show.getBufferDescription();
   osd.draw();
+
+  shaderDefault.end();
+
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {

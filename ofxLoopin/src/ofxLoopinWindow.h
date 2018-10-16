@@ -29,8 +29,6 @@ sub/height:
   min: 16
   max: 8192
   markers: [ 16, 32, 64, 128, 256, 512, 720, 1080, 2048 ]
-
-
 */
 
 class ofxLoopinWindow : public ofxLoopinControl, public ofxLoopinHasInfo {
