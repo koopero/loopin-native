@@ -29,6 +29,7 @@
 #include "render/waveform.hpp"
 #include "ofxLoopinWindow.h"
 #include "ofxLoopinSyphon.h"
+#include "grabber/Grabber.hpp"
 
 
 #include "ofMain.h"
@@ -151,6 +152,8 @@ public:
   ofxLoopinSyphonRoot syphon;
   #endif
 
+  ofxLoopin::grabber::GrabberList grabbers;
+
 
   ofxLoopinInfo info;
   // openFrameWorks master overrides.
@@ -201,6 +204,8 @@ protected:
     addSubControl( "render", &renders );
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
+    addSubControl( "grabber", &grabbers );
+
 
     #ifdef LOOPIN_SYPHON
     addSubControl( "syphon", &syphon );
@@ -221,6 +226,8 @@ protected:
     renderLists.push_back( &texts );
     renderLists.push_back( &kinects );
     renderLists.push_back( &videos );
+    renderLists.push_back( &grabbers );
+
     renderLists.push_back( &renders );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );
