@@ -1,9 +1,9 @@
 #include "./show.hpp"
 
 ofxLoopinShader ofxLoopin::Show::alphaDivideShader = ofxLoopinShader(
-#ifndef TARGET_OPENGLES
 // name
 "alphaDivide",
+#ifndef TARGET_OPENGLES
 // frag
 "#version 150 \n\
 uniform sampler2D srcSampler; \n\
@@ -16,14 +16,22 @@ void main() \n\
 } \n\
 "
 #else
-#warning "Alpha divide on OpenGL ES not supported"
+"precision highp float; \n\
+uniform sampler2D srcSampler; \n\
+varying vec2 srcCoord; \n\
+void main(){ \n\
+  gl_FragColor = texture2D(srcSampler, srcCoord); \n\
+  gl_FragColor.rgb /= gl_FragColor.a; \n\
+} \n\
+"
 #endif
 );
 
 ofxLoopinShader ofxLoopin::Show::alphaShowShader = ofxLoopinShader(
-#ifndef TARGET_OPENGLES
 // name
 "alphaShow",
+#ifndef TARGET_OPENGLES
+
 // frag
 "#version 150 \n\
 uniform sampler2D srcSampler; \n\
@@ -39,7 +47,17 @@ void main() \n\
 } \n\
 "
 #else
-#warning "Alpha divide on OpenGL ES not supported"
+"precision highp float; \n\
+uniform sampler2D srcSampler; \n\
+varying vec2 srcCoord; \n\
+void main(){ \n\
+  vec4 c = texture2D(srcSampler, srcCoord); \n\
+  gl_FragColor.r = c.a; \n\
+  gl_FragColor.g = c.a; \n\
+  gl_FragColor.b = c.a; \n\
+  gl_FragColor.a = c.a; \n\
+} \n\
+"
 #endif
 );
 
@@ -52,7 +70,6 @@ void ofxLoopin::Show::addSubControls() {
   alpha.setEnumKey("multiply", MULTIPLY );
   alpha.setEnumKey("divide", DIVIDE );
   alpha.setEnumKey("show", SHOW );
-
 
   addSubControl("alpha", &alpha );
 }
@@ -84,14 +101,15 @@ void ofxLoopin::Show::draw() {
 
   description << " ( " << texture->getWidth() << "x" << texture->getHeight();
   description << " " << bufferP->format.getKey();
+  description << " alpha: " << alpha.getKey();
   description << " )";
   _bufferDescription = description.str();
   texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
   texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
 
   switch( alpha.getEnumValue() ) {
-      case IGNOREX:
-      ofDisableBlendMode();
+    case IGNOREX:
+      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
       texture->draw( area );
     break;
 
@@ -102,7 +120,7 @@ void ofxLoopin::Show::draw() {
     break;
 
     case DIVIDE:
-      ofDisableBlendMode();
+      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
       alphaDivideShader.begin();
       bindSpecific( &alphaDivideShader, "src", 0 );
       texture->draw( area );
@@ -110,7 +128,7 @@ void ofxLoopin::Show::draw() {
     break;
 
     case SHOW:
-      ofDisableBlendMode();
+      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
       alphaShowShader.begin();
       bindSpecific( &alphaShowShader, "src", 0 );
       texture->draw( area );
