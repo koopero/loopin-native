@@ -19,3 +19,41 @@ ofJson ofxLoopin::grabber::GrabberList::infoGet() {
 
   return result;
 }
+
+
+void ofxLoopin::grabber::Grabber::refreshSetup() {
+  if ( 
+    _setupWidth != (int) width ||
+    _setupHeight != (int) height ||
+    _setupDeviceID != (int) deviceID
+  ) {
+    bool useTexture = true;
+
+    grabber.setDeviceID( deviceID );
+    grabber.setup( width, height, useTexture );
+
+    if ( grabber.isInitialized() ) {
+      ofxLoopinEvent event;
+      event.type = "open";
+      event.data["width"] = grabber.getWidth();
+      event.data["height"] = grabber.getHeight();
+      dispatch( event );
+    }
+    
+    _setupWidth = width;
+    _setupHeight = height;
+    _setupDeviceID = deviceID;
+  }
+}
+
+ofRectangle ofxLoopin::grabber::Grabber::getBounds() {
+
+}
+
+void ofxLoopin::grabber::Grabber::renderBuffer ( ofxLoopinBuffer * buffer ) {
+  refreshSetup();
+  grabber.update();
+
+  ofTexture & texture = grabber.getTexture();
+  buffer->setTexture( texture, true );
+}
