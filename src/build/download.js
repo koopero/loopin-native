@@ -5,10 +5,10 @@ const _ = require('lodash')
     , fs = Promise.promisifyAll( require('fs-extra'))
     , got = require('got')
 
-function download( build ) {
-  return ensureZip()
-  .then( deleteExisting )
-  .then( unpack )
+async function download( build ) {
+  await ensureZip()
+  await deleteExisting()
+  await unpack()
 
   async function ensureZip( ) {
     const zip_name = build.project.zipName

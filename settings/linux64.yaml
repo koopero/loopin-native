@@ -1,1 +1,3 @@
-# Nothing here
+openframeworks:
+  zipName: of_v${openframeworks.version}_linux64gcc6_release.tar.gz
+  root: lib/of_v${settings.openframeworks.version}_linux64gcc6_release
