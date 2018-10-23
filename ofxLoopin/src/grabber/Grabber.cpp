@@ -27,13 +27,19 @@ void ofxLoopin::grabber::Grabber::refreshSetup() {
     _setupHeight != (int) height ||
     _setupDeviceID != (int) deviceID
   ) {
+    ofxLoopinEvent event;
     bool useTexture = true;
+
+    event.type = "captureStart";
+    dispatch( event );
 
     grabber.setDeviceID( deviceID );
     grabber.setup( width, height, useTexture );
 
+    event.type = "captureEnd";
+    dispatch( event );
+
     if ( grabber.isInitialized() ) {
-      ofxLoopinEvent event;
       event.type = "open";
       event.data["width"] = grabber.getWidth();
       event.data["height"] = grabber.getHeight();
@@ -47,7 +53,15 @@ void ofxLoopin::grabber::Grabber::refreshSetup() {
 }
 
 ofRectangle ofxLoopin::grabber::Grabber::getBounds() {
+  int _width = grabber.getWidth();
+  int _height = grabber.getHeight();
 
+  if ( !_width || !_height ) {
+    _width = width;
+    _height = height;
+  }
+
+  return ofRectangle( 0, 0, _width, _height );
 }
 
 void ofxLoopin::grabber::Grabber::renderBuffer ( ofxLoopinBuffer * buffer ) {
