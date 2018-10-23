@@ -41,8 +41,6 @@ out vec4 vertColour;\n\
 void main()\n\
 {\n\
     srcCoord = vec2(texcoord.x, texcoord.y);\n\
-    srcCoord = (srcMatrix*vec4(srcCoord.x,srcCoord.y,0,1)).xy;\n\
-    // vertColour = color;\n\
     vertColour = vec4(1,1,1,1);\n\
     gl_Position = modelViewProjectionMatrix * position;\n\
 }\n\
