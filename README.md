@@ -119,7 +119,7 @@ loopin-native --dev --verbose --test
 
 ### Requirements
 
-[XCode](https://developer.apple.com/xcode/) is required on Mac.
+[XCode](https://developer.apple.com/xcode/) is required on Mac. **Currently, there seems to be an incompatibility between openFrameworks and XCode 10.x.x, so 9.x.x must be used.**
 
 [Visual Studio Community 2017](https://visualstudio.microsoft.com/vs/community/) is required on Windows.
 
