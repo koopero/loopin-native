@@ -129,7 +129,7 @@ GLint ofxLoopin::pixels::Render::getFormat() {
       break;
     }
 
-    return isFloat ? GL_RGB32F_ARB :
+    return isFloat ? GL_RGBA32F_ARB :
       hasAlpha ? GL_RGBA8 : GL_RGB8;
   #endif
 }
