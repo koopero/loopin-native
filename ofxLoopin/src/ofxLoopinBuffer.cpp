@@ -165,7 +165,7 @@ void ofxLoopinBuffer::end() {
   }
 }
 
-void ofxLoopinBuffer::readLocal( Json::Value & value ) {
+void ofxLoopinBuffer::readLocal( ofJson & value ) {
   int index = getReadIndex();
   ofFbo & buffer = buffers[index];
 

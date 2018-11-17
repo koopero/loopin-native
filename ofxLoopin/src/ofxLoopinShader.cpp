@@ -1,6 +1,6 @@
 #include "ofxLoopinShader.h"
 
-void ofxLoopinShader::patchLocalAfter( const Json::Value & value ) {
+void ofxLoopinShader::patchLocalAfter( const ofJson & value ) {
   refresh( false );
 };
 
@@ -74,7 +74,7 @@ void ofxLoopinShader::applyUniformInt( const string & name, int value ){
 }
 
 void ofxLoopinShader::applyUniformVec2( const string & name, ofVec2f value ){
-  shader.setUniform3f( name, value );
+  shader.setUniform2f( name, value );
 }
 
 void ofxLoopinShader::applyUniformVec3( const string & name, ofVec3f value ){
@@ -86,7 +86,7 @@ void ofxLoopinShader::applyUniformVec4( const string & name, ofVec4f value ){
 }
 
 void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
-  // cerr << "applyUniformsPass " << passIndex << " " << passTotal << endl;
+  // std::cerr << "applyUniformsPass " << passIndex << " " << passTotal << endl;
   applyUniformInt( "passIndex", passIndex );
   applyUniformInt( "passTotal", passTotal );
   applyUniformFloat( "passDensity", 1.0 / (float) passTotal );

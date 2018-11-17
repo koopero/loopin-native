@@ -1,3 +1,3 @@
 #include "ofxLoopinFile.h"
 
-vector<Poco::Path> ofxLoopinFile::_paths = vector<Poco::Path>();
+std::vector<string> ofxLoopinFile::_paths = vector<string>();

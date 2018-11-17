@@ -15,9 +15,9 @@ public:
 private:
   void threadedFunction();
 
-  void mergeValue (Json::Value& a, Json::Value& b);
+  void mergeValue (ofJson& a, ofJson& b);
 
-  Json::Value value;
+  ofJson value;
   ofxTCPServer server;
-  vector<string> buffers;
+  std::vector<string> buffers;
 }

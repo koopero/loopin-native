@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ofxJSON.h"
-
+#include "ofJson.h"
 #include "ofxLoopinEvent.h"
 
 #include <iostream>
@@ -14,7 +13,7 @@ public:
 
   };
 
-  void patch( const Json::Value & val );
+  void patch( const ofJson & val );
 
   virtual void update();
 
@@ -30,25 +29,25 @@ public:
 
   ofxLoopinRoot * root = NULL;
 
-  Json::Value read();
+  ofJson read();
 
   ofxLoopinControl * walk ( const string & path );
 
-  void readToValue( Json::Value & value );
+  void readToValue( ofJson & value );
 
-  map< string, ofxLoopinControl *> getSubs() { return subs; };
+  std::map< string, ofxLoopinControl *> getSubs() { return subs; };
 
 protected:
 
   virtual void updateLocal() {};
-  virtual void patchKey( string key, const Json::Value & val ) {};
-  virtual void patchSubs( const Json::Value & value ) {};
-  virtual void patchLocal( const Json::Value & value ) {};
-  virtual void patchLocalAfter( const Json::Value & value ) {};
-  virtual void patchString( const string & value ) {};
+  virtual void patchKey( string key, const ofJson & val );
+  virtual void patchSubs( ofJson & value ) {};
+  virtual void patchLocal( const ofJson & value ) {};
+  virtual void patchLocalAfter( const ofJson & value ) {};
+  virtual void patchString( string value ) {};
 
-  virtual void readLocal( Json::Value & value ) {};
-  virtual void readSubs( Json::Value & value );
+  virtual void readLocal( ofJson & value ) {};
+  virtual void readSubs( ofJson & value );
 
   void addSubControl( ofxLoopinControl * control );
   void addSubControl( string key, ofxLoopinControl * control );
@@ -57,8 +56,8 @@ protected:
 
 private:
 
-  vector <ofxLoopinControl *> subsUnkeyed;
-  map< string, ofxLoopinControl *> subs;
+  std::vector <ofxLoopinControl *> subsUnkeyed;
+  std::map< string, ofxLoopinControl *> subs;
 
 
 public:

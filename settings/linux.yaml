@@ -2,7 +2,18 @@ openframeworks:
   zipName: of_v${openframeworks.version}_${platform}_release.tar.gz
   projectGenerator: apps/projectGenerator/commandLine/bin/projectGenerator
   projectGeneratorPath: apps/projectGenerator/commandLine
+#   gitTarball: 
+
+# openframeworks:
+#   version: 0.9.8
+#   releaseURL: http://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
 
 binary:
   executable: ${name}
   package: ${name}
+
+make: make
+
+addons:
+  ofxJSON:
+    git: https://github.com/jeffcrouse/ofxJSON

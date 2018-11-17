@@ -54,14 +54,14 @@ public:
   }
 
 protected:
-  void patchString( const string & value ) {
+  void patchString( string value ) {
     if ( _enumMap.count( value ) ) {
       _key = value;
       _value = _enumMap[value];
     }
   };
 
-  void readLocal( Json::Value & value ) {
+  void readLocal( ofJson & value ) {
     value = _key;
   };
 

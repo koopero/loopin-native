@@ -2,8 +2,7 @@
 
 #include "ofThread.h"
 #include "ofUtils.h"
-
-#include "ofxJSON.h"
+#include "ofJson.h"
 
 #include "ofxLoopinEvent.h"
 
@@ -17,17 +16,17 @@ public:
   void start();
   void stop();
 
-  Json::Value getValue();
+  ofJson getValue();
 
 
 private:
   void threadedFunction();
 
-  void mergeValue (Json::Value& a, Json::Value& b);
+  void mergeValue (ofJson& a, ofJson& b);
 
-  Json::Value value;
+  ofJson value;
 
 private:
-  Json::FastWriter jsonWriter;
-  vector<string> lines_;
+  // Json::FastWriter jsonWriter;
+  std::vector<string> lines_;
 };

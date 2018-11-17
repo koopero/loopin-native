@@ -1,8 +1,9 @@
 #include "ofxLoopinRender.h"
 
+ofxLoopinShader ofxLoopinRender::shaderDefault = ofxLoopinShader("shaderDefault") ;
+
 ofxLoopinBuffer * ofxLoopinRender::getBuffer( const string & key, bool create ) {
 
-  // cerr << "ofxLoopinRender::getBuffer " << key << endl;
   assert( root );
 
   auto has = dynamic_cast<ofxLoopinHasBuffers *> ( root );

@@ -63,19 +63,19 @@ void ofxLoopin::pixels::Render::addSubControls() {
 
 };
 
-void ofxLoopin::pixels::Render::patchLocal( const Json::Value & value ) {
+void ofxLoopin::pixels::Render::patchLocal( const ofJson & value ) {
   if (
-   value.isObject() && (
-     value.isMember("data")
-     || value.isMember("format")
-     || value.isMember("channels")
+   value.is_object() && (
+     value.count("data")
+     || value.count("format")
+     || value.count("channels")
    )
   ) {
     _isDirty = true;
   }
 }
 
-void ofxLoopin::pixels::Render::patchString( const string & value ) {
+void ofxLoopin::pixels::Render::patchString( string value ) {
   data = value;
   _isDirty = true;
 }
@@ -130,7 +130,7 @@ GLint ofxLoopin::pixels::Render::getFormat() {
       break;
     }
 
-    return isFloat ? GL_RGB32F_ARB :
+    return isFloat ? GL_RGBA32F_ARB :
       hasAlpha ? GL_RGBA8 : GL_RGB8;
   #endif
 }

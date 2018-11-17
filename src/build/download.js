@@ -3,37 +3,35 @@ module.exports = download
 const _ = require('lodash')
     , Promise = require('bluebird')
     , fs = Promise.promisifyAll( require('fs-extra'))
-    , glob = Promise.promisify( require('glob') )
-    , path = require('path')
-    , os = require('os')
-    , Download = require('download')
-    , downloadStatus = require('download-status')
+    , got = require('got')
 
+async function download( build ) {
+  await ensureZip()
+  await deleteExisting()
+  await unpack()
 
-function download( build ) {
-  return ensureZip()
-  .then( deleteExisting )
-  .then( unpack )
-
-  function ensureZip( ) {
+  async function ensureZip( ) {
     const zip_name = build.project.zipName
-        , release_url = build.templatize( 'ofxLoopin.releaseURL' )
+        , releaseURL = build.templatize( 'ofxLoopin.releaseURL' )
         , downloadDir = build.resolve( build.download.dir )
+        , dest = build.resolve( downloadDir, zip_name )
 
     if ( fs.existsSync( build.resolve( downloadDir, zip_name ) ) )
       return Promise.resolve( true )
 
 
     build.log('cd', downloadDir )
-    build.log('wget', release_url )
+    build.log('wget', releaseURL )
 
-    var download = new Download({strip: 1})
-        .get( release_url, downloadDir )
+    let data = await got.get( releaseURL, { 
+      // This is somewhat dangerous.
+      rejectUnauthorized: false,
+      encoding: null
+    } )
 
-    if ( !build.quiet )
-        download = download.use(downloadStatus())
+    data = data.body
 
-    return Promise.fromCallback( ( callback ) => download.run( callback ) )
+    await fs.outputFileAsync( dest, data, null )
   }
 
   function deleteExisting() {
@@ -54,18 +52,8 @@ function download( build ) {
       file: build.resolve( build.download.dir, build.project.zipName ),
       cwd: build.resolve( build.project.root, 'bin' ),
       unlink: true,
-      // gzip: true,
-      // follow: true,
-      // portable: false,
+      gzip: true,
     } ) )
-
-    // var decompress = new Decompress({})
-    //   .src( source )
-    //   .dest( dest )
-    //
-    // decompress = decompress.use(Decompress.zip({}))
-    //
-    // return Promise.fromCallback( ( callback ) => decompress.run( callback ) )
   }
 
 }

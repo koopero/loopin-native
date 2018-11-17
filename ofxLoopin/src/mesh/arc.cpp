@@ -17,9 +17,9 @@ void ofxLoopin::mesh::arc::generateArc( int index ) {
   int rows = ofxLoopin::mesh::arc::rows.getValueInt();
   bool split =  ofxLoopin::mesh::arc::split.getValue();
 
-  // cerr << endl << "generateArc " << cols << " " << rows << endl;
+  // std::cerr << endl << "generateArc " << cols << " " << rows << endl;
 
-  vector<int> lastIndexC;
+  std::vector<int> lastIndexC;
   lastIndexC.resize( cols );
 
   int firstIndexB, lastIndexA, lastIndexD;
@@ -96,7 +96,7 @@ int ofxLoopin::mesh::arc::generateArcVertex( int index, int col, int row, float 
   float u = (float) col / (float) cols;
   float v = (float) row / (float) rows;
 
-  float a = ( u * span/360.0 + rotate / 360.0 ) * 2.0 * M_PI;
+  float a = ( u * span/360.0 + rotate / 360.0 ) * 2.0 * 3.141592654;
   float r = v * (radius-inner) + inner;
 
   float s = sin(a);

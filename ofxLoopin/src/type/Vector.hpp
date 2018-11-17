@@ -36,7 +36,7 @@ public:
     }
   }
 
-  void setAxis( int axis, const Json::Value & val ) {
+  void setAxis( int axis, ofJson & val ) {
     if ( axis >= 0 && axis < LENGTH ) {
       component[axis].patch( val );
     }
@@ -45,22 +45,23 @@ public:
 protected:
   void updateLocal() {};
 
-  void patchLocal( const Json::Value & val ) {
-    if ( val.isNumeric() ) {
-      for ( int axis = 0; axis < LENGTH && axis < 3; axis ++ )
+  void patchLocal( const ofJson & val ) {
+    if ( val.is_number() ) {
+      for ( unsigned int axis = 0; axis < LENGTH && axis < 3; axis ++ )
         setAxis( axis, val );
     }
 
-    if ( val.isArray() ) {
-      for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
+    if ( val.is_array() ) {
+      for ( unsigned int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
         setAxis( valIndex, val[ valIndex ]);
       }
     }
 
-    if ( val.isObject() ) {
-      for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
-        int axis = keyToAxis( it.key().asString() );
-        setAxis( axis, (*it) );
+    if ( val.is_object() ) {
+      ofJson ob = val;
+      for( ofJson::iterator it = ob.begin(); it != ob.end() ; it++) {
+        int axis = keyToAxis( it.key() );
+        setAxis( axis, it.value() );
       }
     }
   };
@@ -79,8 +80,8 @@ protected:
     return -1;
   }
 
-  void readLocal( Json::Value & jsonValue ) {
-    jsonValue = Json::Value( Json::ValueType::arrayValue );
+  void readLocal( ofJson & jsonValue ) {
+    jsonValue = ofJson::array();
     for ( int axis = 0; axis < LENGTH; axis++ )
       jsonValue[axis] = getAxis( axis );
   };

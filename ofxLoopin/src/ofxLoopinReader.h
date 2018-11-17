@@ -5,5 +5,5 @@
 
 class ofxLoopinReader : public ofxLoopinControl {
 protected:
-  void patchString( const string & value );
+  void patchString( string value );
 };

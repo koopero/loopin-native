@@ -9,19 +9,28 @@ function command( cmd, args, opt ) {
   opt = opt || {}
 
   if ( build.verbose ) {
-    opt.stdio = [ 'pipe', process.stdout, process.stderr ]
+    opt.stdio = opt.stdio || [ 'pipe', process.stdout, process.stderr ]
   }
 
+  opt.env = Object.assign( 
+    {},
+    process.env,
+    build.env,
+    opt.env
+  )
+
+  opt.cwd = opt.cwd || build.resolve()
+
   return Promise.fromCallback( function ( cb ) {
-    const process = spawn( cmd, args, opt )
-    build.log( cmd, args.join(' ') )
+    const proc = spawn( cmd, args, opt )
+    build.log( cmd, { args: args.join(' '), opt } )
 
     if ( !build.verbose ) {
-      process.stderr.on('data', (d) => build.warn( String( d ) ) )
-      process.stdout.on('data', (d) => build.log( String( d ) ) )
+      proc.stderr && proc.stderr.on('data', (d) => build.warn( String( d ) ) )
+      proc.stdout && proc.stdout.on('data', (d) => build.log( String( d ) ) )
     }
 
-    process.on('close', function ( code ) {
+    proc.on('close', function ( code ) {
       if ( code ) {
         cb( 'Called utility returned non-zero exit code' )
       } else {

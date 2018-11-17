@@ -29,13 +29,15 @@ void main() \n\
 #endif
 ) ;
 
-Json::Value ofxLoopin::render::waveform::infoGet() {
-  Json::Value result;
+ofxLoopinShader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopinShader();
+
+ofJson ofxLoopin::render::waveform::infoGet() {
+  ofJson result;
 
   ofSoundStream stream;
-  vector<ofSoundDevice> devices = stream.getDeviceList();
+  std::vector<ofSoundDevice> devices = stream.getDeviceList();
   int ji = 0;
-  for ( int i = 0; i < devices.size(); i ++ ) {
+  for ( unsigned int i = 0; i < devices.size(); i ++ ) {
     if ( !devices[i].inputChannels )
       continue;
     result["devices"][ji]["deviceID"] = devices[i].deviceID;
@@ -97,6 +99,8 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
   ofSetupScreen();
   shader.begin();
 
+  float testAmount = test;
+
   for ( int channel = 0; channel < channels; channel++ ) {
     for ( int x = 0; x < size && x < bufferWidth; x ++ ) {
 
@@ -105,6 +109,19 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
       float sample = 0.0;
       int sampleSign = 0;
+
+      if ( testAmount ) {
+        double testPhase = renderingFrame.time + ( float ) x / size * _samplesDuration;
+        testPhase *= 440.0;
+        sample = testAmount * cos( testPhase );
+        sample *= max( 0.0, cos( renderingFrame.time * 6.1 ) );
+        
+        if ( sample != 0.0 )
+          sampleSign = sample / fabs( sample );
+
+        sample = fabs( sample );
+      }
+
       for ( int i = sampleStart; ( i == sampleStart || i < sampleEnd ) && i < samples.getNumFrames(); i ++ ) {
         int ssSign = 0;
         float ssValue = samples.getSample( i, channel );
@@ -115,7 +132,16 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
 
         sample = max( sample, ssValue );
       }
-      drawSample( x, channel, sample * sampleSign );
+
+
+
+      sample *= (float) sampleSign;
+
+      if ( phase.getEnumValue() == PHASE_BOTH ) {
+        sample = sample * 0.5 + 0.5;
+      }
+
+      drawSample( x, channel, sample );
     }
   }
 
@@ -139,21 +165,25 @@ void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * bu
 
   buffer->flip();
   buffer->begin();
-
-  ofSetupScreen();
-  glDisable( GL_CULL_FACE );
-  ofDisableBlendMode();
-  ofDisableDepthTest();
+  scrollShader.begin();
+  // ofSetupScreen();
+  // glDisable( GL_CULL_FACE );
+  // ofDisableBlendMode();
+  // ofDisableDepthTest();
+  ofEnableBlendMode( OF_BLENDMODE_DISABLED );
 
   int y = ofxLoopin::render::waveform_imp::y;
   int channels = ofxLoopin::render::waveform_imp::channels;
 
   // Make sure everything else in the buffer is preserved.
   if ( y > 0 || y + channels < bufferHeight ) {
+    // texture->bind( scrollShader );
     texture->draw( 0, 0 );
   }
 
+  texture->setTextureMinMagFilter( GL_NEAREST, GL_NEAREST );
   texture->drawSubsection( offset, y, bufferWidth, channels, 0, y, bufferWidth, channels );
+  scrollShader.end();
   buffer->end();
 }
 

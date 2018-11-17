@@ -9,16 +9,16 @@ public:
   ofxLoopinControlValue( int * target ) : targ_int( target ) {} ;
   ofxLoopinControlValue( bool * target ) : targ_bool( target ) {} ;
 
-  Json::Value value;
+  ofJson value;
 
   int getValueInt() {
-    return value.asInt();
+    return value.get<int>();
   };
 
 protected:
-  void patchLocal( const Json::Value & value );
+  void patchLocal( const ofJson & value );
 
-  void readLocal( Json::Value & value );
+  void readLocal( ofJson & value );
 
 
 private:

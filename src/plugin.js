@@ -1,6 +1,7 @@
 module.exports = loopinNative
 
 const _ = require('lodash')
+const treeKill = require('tree-kill')
 
 function loopinNative( options ) {
   const loopin = this
@@ -10,8 +11,19 @@ function loopinNative( options ) {
   loopin.plugin('bootstrap')
 
   loopin.hookAdd('bootstrap', () => start( options ) )
+  loopin.hookAdd('close', () => close() )
+
+  var _process
 
   return
+
+  async function close() {
+    if ( _process ) {
+      treeKill( _process.pid )
+
+      _process = null;
+    }
+  }
 
   function start( options ) {
     options = _.merge( { verbose: true }, options )
@@ -21,6 +33,7 @@ function loopinNative( options ) {
 
     return Promise.resolve( resolveProcess() )
     .then( function ( process ) {
+      _process = process
       loopin.plugin( require('./stdio'), {
         proc: process,
         verbose: !!options.verbose

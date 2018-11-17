@@ -53,7 +53,7 @@ public:
   virtual void draw( const ofRectangle & area ) {};
 
   virtual ofRectangle getBounds() {
-
+    return ofRectangle(0,0,0,0);
   };
 
 protected:
@@ -83,6 +83,8 @@ protected:
   }
 
   ofxLoopinBuffer * getBuffer( const string & key, bool create = false );
+
+  static ofxLoopinShader shaderDefault; 
 };
 
 class ofxLoopinRenderList {

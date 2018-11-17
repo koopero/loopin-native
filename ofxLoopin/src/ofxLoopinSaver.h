@@ -19,7 +19,7 @@ public:
     ofImageQualityType qualityLevel = OF_IMAGE_QUALITY_BEST
   );
 
-  vector<ofxLoopinEvent> flushEvents();
+  std::vector<ofxLoopinEvent> flushEvents();
 
 private:
   string dest_;
@@ -28,7 +28,7 @@ private:
   ofImageQualityType qualityLevel_;
   ofxLoopinEvent event_;
 
-  vector<ofxLoopinEvent> events_;
+  std::vector<ofxLoopinEvent> events_;
 
   void threadedFunction();
 
@@ -49,8 +49,8 @@ public:
 protected:
   void updateLocal();
 
-  void patchLocal( const Json::Value & value );
-  void patchString( const string & value );
+  void patchLocal( const ofJson & value );
+  void patchString( string value );
 
   void addSubControls() {
     addSubControl("dest", new ofxLoopinControlValue( &dest ) );

@@ -16,7 +16,7 @@ function builder( settings ) {
   _.extend( build, settings )
 
   build.resolve = function () {
-    return path.resolve.apply( path, _.concat( [build.root], arguments ) )
+    return path.resolve.apply( path, _.concat( [build.root], _.filter( arguments ) ) )
   }
   build.command = require('./command').bind( build )
 
