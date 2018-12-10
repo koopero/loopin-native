@@ -6,7 +6,7 @@
 
 #include <string>
 #include <vector>
-#include "filesystem/path.hpp"
+#include "boost/filesystem/path.hpp"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ public:
 
       ofFile _file = ofFile( pathAbs );
       if ( _file.exists() ) {
-        return pathAbs.native();
+        return pathAbs.string();
       }
     }
 
@@ -35,7 +35,7 @@ public:
     auto pathAbs = boost::filesystem::absolute( path, dir );
     // pathAbs = pathAbs.resolve( path );
     // ofFile _file = ofFile( pathAbs );
-    return pathAbs.native();
+    return pathAbs.string();
   };
 
   static string root() {

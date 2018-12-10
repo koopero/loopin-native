@@ -19,6 +19,10 @@ sub:
 class ofxLoopinShader : public ofxLoopinControl {
 public:
   ofxLoopinShader() {};
+  ofxLoopinShader( string _key ) {
+    key = _key;
+  };
+
   ofxLoopinShader( string _key, string defaultFragSource ) {
     key = _key;
     frag.data = defaultFragSource;
@@ -68,7 +72,7 @@ public:
 protected:
   void refresh( bool sendNeedEvent = true );
   void addSubControls();
-  void patchLocalAfter( const Json::Value & value );
+  void patchLocalAfter( const ofJson & value );
 
   bool _initialized = false;
 };

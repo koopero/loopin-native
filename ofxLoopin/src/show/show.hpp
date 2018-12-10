@@ -7,16 +7,18 @@
   type: texture
 */
 namespace ofxLoopin {
+
+  
 class Show : public ofxLoopinTexture {
 public:
   enum Alpha {
-    IGNORE,
+    IGNOREX,
     MULTIPLY,
     DIVIDE,
     SHOW
   };
 
-  ofxLoopinControlEnum<Alpha,IGNORE> alpha;
+  ofxLoopinControlEnum<Alpha,IGNOREX> alpha;
 
   void draw();
 

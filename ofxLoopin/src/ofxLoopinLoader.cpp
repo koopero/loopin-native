@@ -3,11 +3,11 @@
 #include "ofxLoopinFile.h"
 
 
-void ofxLoopinLoader::patchLocal( const Json::Value & value ) {
+void ofxLoopinLoader::patchLocal( const ofJson & value ) {
   bool shouldLoad = false;
 
-  if ( value.isString() ) {
-    filePath = value.asString();
+  if ( value.is_string() ) {
+    filePath = value.get<std::string>();
     shouldLoad = true;
   }
 

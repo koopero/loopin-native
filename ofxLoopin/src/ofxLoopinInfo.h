@@ -7,7 +7,7 @@
 
 class ofxLoopinInfo : public ofxLoopinControl {
 protected:
-  void readLocal( Json::Value & value );
-  Json::Value getInfo();
-  Json::Value getInfoKey( const string & key );
+  void readLocal( ofJson & value );
+  ofJson getInfo();
+  ofJson getInfoKey( const string & key );
 };

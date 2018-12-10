@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ofMain.h"
+
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinShader.h"
@@ -76,7 +78,7 @@ public:
 
 protected:
   void updateLocal();
-  void readLocal( Json::Value & value );
+  void readLocal( ofJson & value );
 
   void addSubControls();
 

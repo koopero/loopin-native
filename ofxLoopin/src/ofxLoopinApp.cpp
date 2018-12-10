@@ -1,5 +1,8 @@
 #include "ofxLoopinApp.h"
 
+ofxLoopinShader ofxLoopinApp::shaderDefault = ofxLoopinShader("shaderDefault") ;
+
+
 ofxLoopinApp::ofxLoopinApp () {
 
 }
@@ -10,18 +13,18 @@ void ofxLoopinApp::dispatch ( ofxLoopinEvent & event ) {
 
 
 std::string getcwd_string( void ) {
-   char buff[PATH_MAX];
-   getcwd( buff, PATH_MAX );
-   std::string cwd( buff );
-   return cwd;
+   return boost::filesystem::current_path().string();
 }
 
 
 ofxLoopinApp::ofxLoopinApp ( int argc, char* argv[] ) {
+  startFromArgs( argc, argv );
+}
+
+void ofxLoopinApp::startFromArgs( int argc, char* argv[] ) {
   ofxLoopinFile::addPath( getcwd_string() );
   ofxLoopinFile::addPath( ofToDataPath("ofxLoopin/", true ) );
 }
-
 
 
 void ofxLoopinApp::setup () {
@@ -36,6 +39,10 @@ void ofxLoopinApp::setup () {
 
   ofSetFrameRate( 60 );
   ofSetVerticalSync( true );
+
+  #ifdef TARGET_OPENGLES
+		ofHideCursor();
+	#endif
 }
 
 void ofxLoopinApp::update() {
@@ -59,14 +66,17 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
+  ofClear( 12,0,16,255);
 
-
-  ofClear( 0.05,0,0.1,0);
+  shaderDefault.begin();
 
   show.draw();
 
   osd.show = show.getBufferDescription();
   osd.draw();
+
+  shaderDefault.end();
+
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {

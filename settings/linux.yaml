@@ -11,3 +11,9 @@ openframeworks:
 binary:
   executable: ${name}
   package: ${name}
+
+make: make
+
+addons:
+  ofxJSON:
+    git: https://github.com/jeffcrouse/ofxJSON

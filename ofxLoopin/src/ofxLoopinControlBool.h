@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofxLoopinControl.h"
-#include "util/json.hpp"
+#include "util/ofxLoopinJSON.hpp"
 
 class ofxLoopinControlBool : public ofxLoopinControl {
 public:
@@ -24,11 +24,11 @@ protected:
 
   bool  value         = false;
 
-  void patchLocal( const Json::Value & jsonValue ) {
+  void patchLocal( const ofJson & jsonValue ) {
     value = ofxLoopinJSONToBool( jsonValue );
   };
 
-  void readLocal( Json::Value & jsonValue ) {
-    jsonValue = Json::Value( value );
+  void readLocal( ofJson & jsonValue ) {
+    jsonValue = ofJson( value );
   };
 };

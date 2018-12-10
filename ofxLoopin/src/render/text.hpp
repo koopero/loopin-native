@@ -23,7 +23,7 @@ protected:
     addSubControl( "text", new ofxLoopinControlValue( &text ) );
   }
 
-  void patchString( const string & value ) {
+  void patchString( string value ) {
     text = value;
   };
 };

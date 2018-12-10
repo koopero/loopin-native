@@ -5,7 +5,7 @@
 
 class ofxLoopinHasInfo {
 public:
-  virtual Json::Value infoGet() {
-    return Json::nullValue;
+  virtual ofJson infoGet() {
+    return ofJson();
   };
 };

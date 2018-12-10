@@ -1,6 +1,6 @@
 #include "ofxLoopinShader.h"
 
-void ofxLoopinShader::patchLocalAfter( const Json::Value & value ) {
+void ofxLoopinShader::patchLocalAfter( const ofJson & value ) {
   refresh( false );
 };
 

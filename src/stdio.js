@@ -54,7 +54,8 @@ function loopinStdio( { proc, verbose = false } ) {
   function onPatch( value, path ) {
     value = H.wrap( value, path )
     const json = JSON.stringify( value )
-    proc.stdin.write( json+'\n' )
+    if ( json )
+      proc.stdin.write( json+'\n' )
   }
 
   function warn ( line ) {

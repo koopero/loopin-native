@@ -48,46 +48,50 @@ void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c
 // Other stuff
 //
 
-void ofxLoopinMeshBase::setIndices( const Json::Value & val ) {
-  if ( val.isArray() ) {
+void ofxLoopinMeshBase::setIndices( const ofJson & val ) {
+  if ( val.is_array() ) {
     std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
     meshIndices.resize( val.size() );
+
+    for ( int index = 0; index < val.size(); index ++ ) {
+      setIndex( index, val[index] );
+    }
   }
 
-  if ( val.isObject() || val.isArray() ) {
-    for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
-      string key = it.key().asString();
+  if ( val.is_object() ) {
+    for( auto it = val.begin(); it != val.end() ; it++) {
+      string key = it.key();
       std::stringstream ss( key );
       int index = -1;
       ss >> index;
       if ( index != -1 )
-        setIndex( index, *it );
+        setIndex( index, it.value() );
     }
   }
 }
 
-void ofxLoopinMeshBase::setIndex( int index, const Json::Value &val ) {
+void ofxLoopinMeshBase::setIndex( int index, const ofJson & val ) {
   std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
 
   if ( index >= meshIndices.size() )
     meshIndices.resize( index + 1 );
 
-  if ( val.isInt() ) {
-    int indexValue = val.asInt();
+  if ( val.is_number() ) {
+    int indexValue = val.get<int>();
     meshIndices[index] = indexValue;
   }
 }
 
-void ofxLoopinMeshBase::setVertices( const Json::Value & val ) {
-  if ( val.isArray() ) {
+void ofxLoopinMeshBase::setVertices( const ofJson & val ) {
+  if ( val.is_array() ) {
     for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
       setVertexElements( valIndex, val[valIndex] );
     }
   }
 
-  if ( val.isObject() ) {
-    for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
-      string key = it.key().asString();
+  if ( val.is_object() ) {
+    for( auto it = val.begin(); it != val.end() ; it++) {
+      string key = it.key();
       std::stringstream ss( key );
       int vertIndex = -1;
       ss >> vertIndex;
@@ -97,21 +101,21 @@ void ofxLoopinMeshBase::setVertices( const Json::Value & val ) {
   }
 }
 
-void ofxLoopinMeshBase::setVertexElements( int vertIndex, const Json::Value &val ) {
-  if ( val.isArray() ) {
+void ofxLoopinMeshBase::setVertexElements( int vertIndex, const ofJson & val ) {
+  if ( val.is_array() ) {
     for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
-      if ( val[valIndex].isNumeric() )
-        setVertexElement( vertIndex, valIndex, val[valIndex].asFloat() );
+      if ( val[valIndex].is_number() )
+        setVertexElement( vertIndex, valIndex, val[valIndex].get<float>() );
     }
   }
 
-  if ( val.isObject() ) {
-    for( Json::ValueIterator it = val.begin(); it != val.end() ; it++) {
-      if ( !(*it).isNumeric() )
+  if ( val.is_object() ) {
+    for( auto it = val.begin(); it != val.end() ; it++) {
+      if ( !(*it).is_number() )
         continue;
 
-      float valFloat = (*it).asFloat();
-      setVertexElement( vertIndex, vertexKeyToAxis( it.key().asString() ), valFloat );
+      float valFloat = (*it).get<float>();
+      setVertexElement( vertIndex, vertexKeyToAxis( it.key() ), valFloat );
     }
   }
 }

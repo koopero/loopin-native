@@ -12,11 +12,18 @@ function command( cmd, args, opt ) {
     opt.stdio = opt.stdio || [ 'pipe', process.stdout, process.stderr ]
   }
 
+  opt.env = Object.assign( 
+    {},
+    process.env,
+    build.env,
+    opt.env
+  )
+
   opt.cwd = opt.cwd || build.resolve()
 
   return Promise.fromCallback( function ( cb ) {
     const proc = spawn( cmd, args, opt )
-    build.log( cmd, args.join(' ') )
+    build.log( cmd, { args: args.join(' '), opt } )
 
     if ( !build.verbose ) {
       proc.stderr && proc.stderr.on('data', (d) => build.warn( String( d ) ) )

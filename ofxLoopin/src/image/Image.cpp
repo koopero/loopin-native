@@ -30,7 +30,7 @@ void ofxLoopinImage::load( string filePath ) {
   if ( status ) {
     event.type = "done";
     event.data["loaded"] = true;
-    event.data["error"] = Json::Value::null;
+    event.data["error"] = ofJson();
     event.data["width"] = texture.getWidth();
     event.data["height"] = texture.getHeight();
   } else {

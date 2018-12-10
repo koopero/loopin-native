@@ -7,13 +7,11 @@ project:
 download:
   dir: download/
 
-upload:
-  dir: upload/
-
-# http://openframeworks.cc/versions/v0.9.8/of_v0.9.8_osx_release.zip
+release:
+  dir: release/
 
 ofxLoopin:
-  releaseURL: http://aws-website-loopintech-ofamp.s3-website-us-east-1.amazonaws.com/bin/${project.zipName}
+  releaseURL: https://github.com/koopero/loopin-native/releases/download/${version}/${project.zipName}
 
 openframeworks:
   version: 0.10.0
@@ -23,10 +21,17 @@ openframeworks:
 
 
 addons:
-  ofxKinect:
-    enable: true
   ofxLoopin:
     packageLink: ./ofxLoopin
-  ofxJSON:
-    git: https://github.com/jefftimesten/ofxJSON.git
 
+  ofxKinect:
+    enable: true
+
+  # ofxOsc:
+  #  enable: true
+
+  # ofxJSON:
+  #  git: https://github.com/jeffcrouse/ofxJSON
+
+  # ofxGStreamer:
+  #   git: https://github.com/koopero/ofxGStreamer

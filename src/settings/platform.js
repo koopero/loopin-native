@@ -1,11 +1,5 @@
 module.exports = { defaultPlatform, validatePlatform }
 
-const SUPPORTED = [
-  'linux64',
-  'linuxarmv6l',
-  'osx'
-]
-
 const os = require('os')
     , _ = require('lodash')
 
@@ -31,6 +25,11 @@ function validatePlatform( platform ) {
 
     case 'osx':
       if ( os.platform() != 'darwin' )
+        throw new Error( `Cross-compilation not supported.` )
+    break
+
+    case 'win32':
+      if ( os.platform() != 'win32' )
         throw new Error( `Cross-compilation not supported.` )
     break
 

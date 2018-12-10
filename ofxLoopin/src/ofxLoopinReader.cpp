@@ -1,6 +1,6 @@
 #include "ofxLoopinReader.h"
 
-void ofxLoopinReader::patchString( const string & value ) {
+void ofxLoopinReader::patchString( string value ) {
   ofxLoopinControl * target = root->walk( value );
   ofxLoopinEvent event;
   event.type = "read";
@@ -13,7 +13,7 @@ void ofxLoopinReader::patchString( const string & value ) {
   if ( target ) {
     event.data = target->read();
   } else {
-    event.data = Json::Value( Json::nullValue );
+    event.data = ofJson();
   }
 
   dispatch( event );

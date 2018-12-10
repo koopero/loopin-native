@@ -1,8 +1,7 @@
 #pragma once
 
-#include "ofxJSON.h"
-
 #include <string>
+#include "ofJson.h"
 
 using std::string;
 
@@ -16,7 +15,7 @@ public:
 
   string type;
   string path;
-  Json::Value data = Json::objectValue;
+  ofJson data = ofJson::object();
 
   static ofxLoopinEvent fileNotFound( const string & file );
 

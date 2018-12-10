@@ -1,0 +1,11 @@
+openframeworks:
+  zipName: of_v${openframeworks.version}_vs2017_release.zip
+  projectGenerator: projectGenerator-vs/resources/app/app/projectGenerator.exe
+
+binary:
+  executable: ${name}.exe
+
+
+make: msbuild.exe 
+makeArgs: 
+  - /property:Configuration=Release

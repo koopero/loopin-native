@@ -7,7 +7,29 @@ binary:
   executable: ${name}.app/Contents/MacOS/${name}
   package: ${name}.app
 
+env: 
+  ARCHS_STANDARD: x86_64
 
-# addons:
-#   ofxSyphon:
-#     git: https://github.com/astellato/ofxSyphon.git
+
+make: xcodebuild
+
+addons:
+  ofxSyphon:
+    git: https://github.com/astellato/ofxSyphon.git
+    commit: OpenFrameworks-0.10
+
+  # Has huge dependensy tree.. 
+  # ofxGstRTP:
+  #   git: https://github.com/koopero/ofxGstRTP
+
+  # Doesn't work that well...
+  # ofxThreadedVideo:
+  #   git: https://github.com/gameoverhack/ofxThreadedVideo.git
+
+  # Didn't work at all, unfortunately.
+  # ofxHAPAVPlayer:
+  #   git: https://github.com/koopero/ofxHAPAVPlayer.git
+
+  # No go.
+  # ofxAVFVideoPlayer:
+  #   git: https://github.com/kronick/ofxAVFVideoPlayer.git

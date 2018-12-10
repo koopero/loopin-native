@@ -1,6 +1,6 @@
 {
   "name": "loopin-native",
-  "version": "0.9.1",
+  "version": "0.10.0-beta",
   "description": "Native binary renderer for Loopin",
   "main": "src/plugin.js",
   "bin": {
@@ -18,15 +18,15 @@
     "fs-extra": "^4.0.2",
     "getos": "^3.1.0",
     "glob": "^7.0.3",
+    "glob-promise": "^3.4.0",
     "got": "^8.3.1",
     "is-root": "^2.0.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.13.1",
     "loopin": "^0.9.0",
-    "ssl-root-cas": "^1.2.5",
     "tar": "^4.0.1",
-    "treebird": "^0.2.3",
-    "zip-dir": "^1.0.2"
+    "tree-kill": "^1.2.0",
+    "treebird": "^0.2.3"
   },
   "repository": {
     "type": "git",

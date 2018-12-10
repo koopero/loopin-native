@@ -34,11 +34,11 @@ protected:
 
   string findDefaultFile();
 
-  void patchLocal( const Json::Value & value ) {
+  void patchLocal( const ofJson & value ) {
     dataIsNew = true;
   }
 
-  void patchString( const string & str ) {
+  void patchString( string str ) {
     data = str;
     dataIsNew = true;
   };
@@ -47,7 +47,7 @@ protected:
 
   /* Heuristically determine whether a given string is
     a filename or GLSL source. */
-  bool isStringGLSL( const string & str );
+  bool is_stringGLSL( const string & str );
 
 
 };
