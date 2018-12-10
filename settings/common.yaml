@@ -14,7 +14,7 @@ ofxLoopin:
   releaseURL: https://github.com/koopero/loopin-native/releases/download/${version}/${project.zipName}
 
 openframeworks:
-  version: 0.10.0
+  version: 0.10.1
   releaseURL: https://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
   zipPath: download/${settings.openframeworks.zipName}
   root: lib/of_v${settings.openframeworks.version}_${settings.platform}_release
