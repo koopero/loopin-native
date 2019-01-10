@@ -6,7 +6,7 @@
 #include "ofxLoopinRoot.h"
 #include "ofxLoopinShader.h"
 #include "ofxLoopinTransform2D.h"
-
+#include "type/Vector.hpp"
 
 
 #include "ofMatrix4x4.h"
@@ -67,6 +67,8 @@ public:
   ofxLoopinControlNumber roll;
   ofxLoopinControlNumber pitch;
   ofxLoopinControlNumber yaw;
+
+  ofxLoopin::type::Vector<3> translate;
 
 
   ofMatrix4x4 getModel() { return model; };
@@ -152,6 +154,9 @@ protected:
     addSubControl("roll", &roll );
     addSubControl("pitch", &pitch );
     addSubControl("yaw", &yaw );
+
+    addSubControl("translate", &translate );
+
   }
 };
 

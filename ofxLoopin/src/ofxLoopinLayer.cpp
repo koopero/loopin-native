@@ -138,6 +138,7 @@ void ofxLoopinLayer::renderStyle() {
     glPointSize( pointSize );
   } else {
     ofDisablePointSprites();
+    glPointSize( 0 );
   }
 
   ofEnableBlendMode( blend.getEnumValue() );
