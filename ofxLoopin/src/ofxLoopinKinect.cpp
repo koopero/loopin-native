@@ -50,6 +50,8 @@ void main() \n\
 
 void ofxLoopinKinect::addSubControls() {
 
+  addSubControl( "deviceID", new ofxLoopinControlValue( &deviceId ) );
+
   addSubControl( "tilt", &tilt );
   addSubControl( "infrared", &infrared );
 
@@ -107,7 +109,8 @@ void ofxLoopinKinect::updateLocal() {
       if ( root ) dispatch( event );
 
       kinect->init( infrared, true, true );
-      kinect->open();
+      cerr << "***** Kinect opening " << deviceId << endl;
+      kinect->open( deviceId );
 
       event.type = "captureEnd";
       if ( root ) dispatch( event );
