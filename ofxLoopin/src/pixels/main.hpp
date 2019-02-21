@@ -30,6 +30,7 @@ public:
 
   enum Input {
     INPUT_CHANGE,
+    INPUT_NONE,
     INPUT_ALWAYS
   };
 

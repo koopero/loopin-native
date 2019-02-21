@@ -50,6 +50,7 @@ void ofxLoopin::pixels::Render::addSubControls() {
 
   input.setEnumKey( "change", INPUT_CHANGE );
   input.setEnumKey( "always", INPUT_ALWAYS );
+  input.setEnumKey( "none", INPUT_NONE );
   addSubControl("input", &input );
 
   output.setEnumKey( "none", OUTPUT_NONE );
@@ -88,7 +89,7 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   bool inputIsFresh = decodeInput();
 
-  if ( input.getEnumValue() == INPUT_CHANGE && !inputIsFresh )
+  if ( input.getEnumValue() == INPUT_NONE || ( input.getEnumValue() == INPUT_CHANGE && !inputIsFresh) )
     return;
 
   ofRectangle bounds = getBounds();
