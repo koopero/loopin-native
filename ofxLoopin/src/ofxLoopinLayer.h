@@ -45,6 +45,8 @@ public:
   ofxLoopinClock clockControl;
   int passes = 1;
   ofxLoopinControlNumber pointSize;
+  ofxLoopinControlNumber order;
+
 
   enum Clear {
     NONE,
@@ -68,7 +70,7 @@ public:
   ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
-  ofxLoopinRenders<ofxLoopinLayer> layers;
+  ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
   // ofxLoopin::interface::Blend blend;
   ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
   ofxLoopinControlEnum<GLenum,0> face;
@@ -147,6 +149,8 @@ protected:
     addSubControl( "blend", &blend );
 
     addSubControl( "aspect", &aspect );
+    addSubControl( "order", &order );
+
   }
 
   void renderClear();

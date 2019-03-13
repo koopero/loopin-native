@@ -104,3 +104,35 @@ public:
     }
   }
 };
+
+
+template <class Render>
+class ofxLoopinOrderedRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
+public:
+  void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
+
+    std::vector<Render*> list;
+    for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {
+      list.push_back( &it->second );
+    }
+
+    if ( !list.size() )
+      return;
+
+    std::stable_sort( list.begin(), list.end(), compareRenderOrder );
+
+    // std::cerr << "render order " << std::endl;
+
+    for ( auto it=list.begin(); it!=list.end(); ++it) {
+      Render *render = *it;
+      // std::cerr << "order " << (float)render->order << std::endl;
+      render->render( frame, _buffer );
+    }
+  }
+
+private:
+  static bool compareRenderOrder( Render * a, Render * b ) {
+    return ((float)(a->order.getValueFloat()) < (float)(b->order.getValueFloat()));
+  }
+
+};
