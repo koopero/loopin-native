@@ -12,6 +12,8 @@
 #include "ofxLoopinTransform2D.h"
 
 #include "ofxLoopinControlNumber.h"
+#include "./type/Enable.hpp"
+
 
 #include "ofAppRunner.h"
 #include "ofMatrix4x4.h"
@@ -46,6 +48,7 @@ public:
   int passes = 1;
   ofxLoopinControlNumber pointSize;
   ofxLoopinControlNumber order;
+  ofxLoopin::type::Enable enable;
 
 
   enum Clear {
@@ -150,6 +153,8 @@ protected:
 
     addSubControl( "aspect", &aspect );
     addSubControl( "order", &order );
+    addSubControl( "enable", &enable );
+
 
   }
 

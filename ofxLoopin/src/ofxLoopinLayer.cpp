@@ -3,6 +3,8 @@
 #include <assert.h>
 
 void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
+  if ( !enable.isEnabledOnce() )
+    return;
 
   if ( !buffer ) {
     buffer = getBuffer( true );

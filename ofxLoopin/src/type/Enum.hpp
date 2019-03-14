@@ -45,9 +45,14 @@ public:
       _key = key;
 
     _enumMap[key] = value;
-    key = enumMungeString( key );
-    _enumMungeMap[key] = value;
+    // key = enumMungeString( key );
+    // _enumMapMunge[key] = value;
   }
+
+  void enumAddOption( bool key, TYPE value ) {
+    _enumMapBool[key] = value;
+  }
+
 
   TYPE enumGetValue() const {
     return _value;
@@ -61,6 +66,18 @@ protected:
     }
   };
 
+  void patchLocal ( const ofJson & val ) {
+    if ( val.is_boolean() ) {
+      patchBool( val.get<bool>() );
+    }
+  }
+
+  void patchBool( bool value ) {
+    if ( _enumMapBool.count( value ) ) {
+      _value = _enumMapBool[value];
+    }
+  }
+
   void readLocal( ofJson & value ) {
     value = _key;
   };
@@ -70,6 +87,7 @@ protected:
   string _key;
   TYPE _value = DEFAULT;
   map<string,TYPE> _enumMap;
-  map<string,TYPE> _enumMungeMap;
+  map<bool,TYPE> _enumMapBool;
+  map<string,TYPE> _enumMapMunge;
 
 }; } }
