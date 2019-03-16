@@ -61,14 +61,13 @@ void ofxLoopin::pixels::Render::encodeNumeric( float divider ) {
 }
 
 void ofxLoopin::pixels::Render::encodeHex( int digits ) {
-  static char charset[] = "0123456789abcef";
+  char charset[] = "0123456789abcdef";
   data.resize( floats.size() * digits );
 
   for( int index = 0; index < floats.size(); index ++ ) {
     float valueF = floats[index];
     valueF = valueF > 1 ? 1 : valueF < 0 ? 0 : valueF;
-    unsigned char valueC = valueF * 255;
-
+    uint8_t valueC = valueF * 255;
     data[ index * digits ] = charset[(valueC >> 4) & 0xf];
     if ( digits == 2 )
       data[ index * digits + 1 ] = charset[valueC & 0xf];
