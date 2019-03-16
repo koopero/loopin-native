@@ -68,6 +68,7 @@ void ofxLoopin::pixels::Render::encodeHex( int digits ) {
     float valueF = floats[index];
     valueF = valueF > 1 ? 1 : valueF < 0 ? 0 : valueF;
     uint8_t valueC = valueF * 255;
+
     data[ index * digits ] = charset[(valueC >> 4) & 0xf];
     if ( digits == 2 )
       data[ index * digits + 1 ] = charset[valueC & 0xf];

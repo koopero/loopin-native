@@ -49,9 +49,10 @@ void ofxLoopin::pixels::Render::decodeHex( int digits ) {
   int digit = 0;
   float divider = pow(16, digits ) - 1;
   for ( int inputIndex = 0; inputIndex < data.size(); ++inputIndex ) {
-    valueI *= 0xF;
+    valueI *= 16;
     char inputChar = data[inputIndex];
     bool valid = false;
+
     if ( inputChar >= '0' && inputChar <= '9' ) {
       valueI += inputChar - '0';
       valid = true;
@@ -67,9 +68,9 @@ void ofxLoopin::pixels::Render::decodeHex( int digits ) {
       continue;
 
     digit ++;
+
     if ( digit == digits ) {
       digit = 0;
-
       float valueF = (float) valueI / (float) divider;
       floats.push_back( valueF );
       valueI = 0;
