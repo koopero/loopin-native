@@ -10,8 +10,8 @@ public:
 
   bool enumKeyFromValue();
 
-  Enum<TYPE,DEFAULT>() {};
-  Enum<TYPE,DEFAULT>( TYPE value ) : _value( value ) { enumKeyFromValue(); };
+  Enum<TYPE,DEFAULT>() { enumAddOptions(); };
+  // Enum<TYPE,DEFAULT>( TYPE value ) : _value( value ) { enumKeyFromValue(); };
   TYPE operator()() const { return _value; };
   operator TYPE() const { return _value; };
   void operator= ( const TYPE & value ) { _value = value; }
@@ -38,7 +38,6 @@ public:
     }
   }
 
-
   void enumAddOption( string key, TYPE value ) {
     // Set the default value first.
     if ( !_key.size() )
@@ -49,7 +48,7 @@ public:
     // _enumMapMunge[key] = value;
   }
 
-  void enumAddOption( bool key, TYPE value ) {
+  void enumAddOptionBool( bool key, TYPE value ) {
     _enumMapBool[key] = value;
   }
 
@@ -86,8 +85,13 @@ protected:
 
   string _key;
   TYPE _value = DEFAULT;
-  map<string,TYPE> _enumMap;
-  map<bool,TYPE> _enumMapBool;
-  map<string,TYPE> _enumMapMunge;
+  std::map<string,TYPE> _enumMap;
+  std::map<bool,TYPE> _enumMapBool;
+  std::map<string,TYPE> _enumMapMunge;
 
+  void addSubControls() {
+    enumAddOptions();
+  };
+
+  virtual void enumAddOptions() {};
 }; } }

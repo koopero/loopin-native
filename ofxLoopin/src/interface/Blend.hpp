@@ -17,17 +17,35 @@ public:
 
   void addSubControls() {
     addSubControl("equation", &equation );
+    addSubControl("srcRGB", &srcRGB );
+    addSubControl("srcAlpha", &srcAlpha );
+    addSubControl("dstRGB", &dstRGB );
+    addSubControl("dstAlpha", &dstAlpha );
   };
 
   void patchString( string str ) {
+    std::string presetKey = str; 
+    std::transform(presetKey.begin(), presetKey.end(), presetKey.begin(), ::tolower);
 
+    if ( BLEND_PRESETS.count( presetKey ) ) {
+      patch( BLEND_PRESETS[ presetKey ] );
+    }
   };
 
   void apply() {
     // glBlendColor( colour.r, colour.g, colour.b, colour.a );
-    glBlendEquation( equation );
-    glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
+    if ( (GLenum) equation == GL_NONE ) {
+      glDisable( GL_BLEND );
+    } else {
+      glEnable( GL_BLEND );
+      glBlendEquation( equation );
+      glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
+      // glBlendFuncSeparate( GL_ONE, GL_ONE, GL_ONE, GL_ONE );
+    }
+
   }
+protected:
+  static const ofJson BLEND_PRESETS;
 };
 } }
 

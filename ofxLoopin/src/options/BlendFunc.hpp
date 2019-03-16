@@ -4,8 +4,11 @@
 namespace ofxLoopin { namespace options {
 class BlendFunc : public type::GLEnum {
 protected: void enumAddOptions() {
-  // GLEnumAddOption(GL_ZERO);
-  // GLEnumAddOption(GL_ONE);
+  // std::cerr << "enumAddOptions()" << std::endl;
+  enumAddOption("GL_ONE",GL_ONE);
+  // EnumGLIntAddOption(GL_ONE);
+  // EnumGLIntAddOption(GL_ZERO);
+
   // GLEnumAddOption(GL_SRC_COLOR);
   // GLEnumAddOption(GL_ONE_MINUS_SRC_COLOR);
   // GLEnumAddOption(GL_DST_COLOR);

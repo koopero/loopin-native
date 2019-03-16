@@ -143,7 +143,8 @@ void ofxLoopinLayer::renderStyle() {
     ofDisablePointSprites();
   }
 
-  ofEnableBlendMode( blend.getEnumValue() );
+  // ofEnableBlendMode( blend.getEnumValue() );
+  blend.apply();
   ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
 
   GLenum face_ = face.getEnumValue();

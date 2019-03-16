@@ -15,10 +15,10 @@ public:
   Enable() {
     enumAddOption("yes", ENABLE_YES );
     enumAddOption("no", ENABLE_NO );
-    enumAddOption("once", ENABLE_NO );
+    enumAddOption("once", ENABLE_ONCE );
 
-    enumAddOption( false, ENABLE_NO );
-    enumAddOption( true, ENABLE_YES );
+    enumAddOptionBool( false, ENABLE_NO );
+    enumAddOptionBool( true, ENABLE_YES );
 
   };
 

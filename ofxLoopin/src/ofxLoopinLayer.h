@@ -13,6 +13,7 @@
 
 #include "ofxLoopinControlNumber.h"
 #include "./type/Enable.hpp"
+#include "./interface/Blend.hpp"
 
 
 #include "ofAppRunner.h"
@@ -69,13 +70,11 @@ public:
 
   ofxLoopinControlNumber aspect;
 
-
   ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
   ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
-  // ofxLoopin::interface::Blend blend;
-  ofxLoopinControlEnum<ofBlendMode,OF_BLENDMODE_DISABLED> blend;
+  ofxLoopin::interface::Blend blend;
   ofxLoopinControlEnum<GLenum,0> face;
 
 
@@ -133,24 +132,7 @@ protected:
     addSubControl( "clear", &clear );
 
     addSubControl( "depth", &depthTest );
-
-    /** loopin/type/layer/sub/blend
-      options:
-        - none
-        - alpha
-        - add
-        - subtract
-        - multiply
-        - screen
-    */
-    blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
-    blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
-    blend.setEnumKey("add", OF_BLENDMODE_ADD );
-    blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
-    blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
-    blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
     addSubControl( "blend", &blend );
-
     addSubControl( "aspect", &aspect );
     addSubControl( "order", &order );
     addSubControl( "enable", &enable );
