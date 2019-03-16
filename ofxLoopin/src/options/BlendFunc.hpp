@@ -4,28 +4,25 @@
 namespace ofxLoopin { namespace options {
 class BlendFunc : public type::GLEnum {
 protected: void enumAddOptions() {
-  // std::cerr << "enumAddOptions()" << std::endl;
-  enumAddOption("GL_ONE",GL_ONE);
-  // EnumGLIntAddOption(GL_ONE);
-  // EnumGLIntAddOption(GL_ZERO);
-
-  // GLEnumAddOption(GL_SRC_COLOR);
-  // GLEnumAddOption(GL_ONE_MINUS_SRC_COLOR);
-  // GLEnumAddOption(GL_DST_COLOR);
-  // GLEnumAddOption(GL_ONE_MINUS_DST_COLOR);
-  // GLEnumAddOption(GL_SRC_ALPHA);
-  // GLEnumAddOption(GL_ONE_MINUS_SRC_ALPHA);
-  // GLEnumAddOption(GL_DST_ALPHA);
-  // GLEnumAddOption(GL_ONE_MINUS_DST_ALPHA);
-  // GLEnumAddOption(GL_CONSTANT_COLOR);
-  // GLEnumAddOption(GL_ONE_MINUS_CONSTANT_COLOR);
-  // GLEnumAddOption(GL_CONSTANT_ALPHA);
-  // GLEnumAddOption(GL_ONE_MINUS_CONSTANT_ALPHA);
-  // GLEnumAddOption(GL_SRC_ALPHA_SATURATE);
-  // GLEnumAddOption(GL_SRC1_COLOR);
-  // GLEnumAddOption(GL_ONE_MINUS_SRC_COLOR);
-  // GLEnumAddOption(GL_SRC1_ALPHA);
-  // GLEnumAddOption(GL_ONE_MINUS_SRC_ALPHA);
+  EnumGLIntAddOption(GL_ONE);
+  EnumGLIntAddOption(GL_ZERO);
+  EnumGLIntAddOption(GL_SRC_COLOR);
+  EnumGLIntAddOption(GL_ONE_MINUS_SRC_COLOR);
+  EnumGLIntAddOption(GL_DST_COLOR);
+  EnumGLIntAddOption(GL_ONE_MINUS_DST_COLOR);
+  EnumGLIntAddOption(GL_SRC_ALPHA);
+  EnumGLIntAddOption(GL_ONE_MINUS_SRC_ALPHA);
+  EnumGLIntAddOption(GL_DST_ALPHA);
+  EnumGLIntAddOption(GL_ONE_MINUS_DST_ALPHA);
+  EnumGLIntAddOption(GL_CONSTANT_COLOR);
+  EnumGLIntAddOption(GL_ONE_MINUS_CONSTANT_COLOR);
+  EnumGLIntAddOption(GL_CONSTANT_ALPHA);
+  EnumGLIntAddOption(GL_ONE_MINUS_CONSTANT_ALPHA);
+  EnumGLIntAddOption(GL_SRC_ALPHA_SATURATE);
+  EnumGLIntAddOption(GL_SRC1_COLOR);
+  EnumGLIntAddOption(GL_ONE_MINUS_SRC_COLOR);
+  EnumGLIntAddOption(GL_SRC1_ALPHA);
+  EnumGLIntAddOption(GL_ONE_MINUS_SRC_ALPHA);
 };
 };
 }}

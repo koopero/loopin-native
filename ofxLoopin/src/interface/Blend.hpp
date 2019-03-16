@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ofxLoopinControl.h"
+#include "../type/Colour.hpp"
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
@@ -8,7 +9,7 @@
 namespace ofxLoopin { namespace interface {
 class Blend : public ofxLoopinControl {
 public:
-  // Colour    colour;
+  type::Colour colour;
   options::BlendEquation equation;
   options::BlendFunc srcRGB;
   options::BlendFunc dstRGB;
@@ -16,6 +17,7 @@ public:
   options::BlendFunc dstAlpha;
 
   void addSubControls() {
+    addSubControl("colour", &colour );
     addSubControl("equation", &equation );
     addSubControl("srcRGB", &srcRGB );
     addSubControl("srcAlpha", &srcAlpha );
@@ -33,17 +35,16 @@ public:
   };
 
   void apply() {
-    // glBlendColor( colour.r, colour.g, colour.b, colour.a );
     if ( (GLenum) equation == GL_NONE ) {
       glDisable( GL_BLEND );
     } else {
       glEnable( GL_BLEND );
+      glBlendColor( colour.getAxis(0), colour.getAxis(1), colour.getAxis(2), colour.getAxis(3) );
       glBlendEquation( equation );
       glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
-      // glBlendFuncSeparate( GL_ONE, GL_ONE, GL_ONE, GL_ONE );
     }
-
-  }
+  };
+  
 protected:
   static const ofJson BLEND_PRESETS;
 };

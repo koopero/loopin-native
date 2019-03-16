@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "../ofxLoopinControl.h"
+#include "../ofxLoopinControlNumber.h"
+
 
 namespace ofxLoopin { namespace type {
 
