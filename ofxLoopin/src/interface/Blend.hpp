@@ -25,7 +25,32 @@ public:
     addSubControl("dstAlpha", &dstAlpha );
   };
 
-  void patchString( string str ) {
+  void apply() {
+    if ( (GLenum) equation == GL_NONE ) {
+      glDisable( GL_BLEND );
+    } else {
+      glEnable( GL_BLEND );
+      glBlendEquation( equation );
+      glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
+      glBlendColor( colour.getAxis(0), colour.getAxis(1), colour.getAxis(2), colour.getAxis(3) );
+      // std::cerr << "apply colour " << colour.getAxis(0) << "," << colour.getAxis(1) << "," << colour.getAxis(2) << "," << colour.getAxis(3) << std::endl;
+    }
+  };
+  
+protected:
+  static const ofJson BLEND_PRESETS;
+
+  void patchString( string str ) override {
+    patchPreset( str );
+  };
+
+  void patchLocal( const ofJson & value ) override {
+    if ( value.is_object() && value.count("preset") && value["preset"].is_string() ) {
+      patchPreset( value["preset"].get<std::string>() );
+    }
+  };
+
+  void patchPreset( string str ) {
     std::string presetKey = str; 
     std::transform(presetKey.begin(), presetKey.end(), presetKey.begin(), ::tolower);
 
@@ -34,19 +59,6 @@ public:
     }
   };
 
-  void apply() {
-    if ( (GLenum) equation == GL_NONE ) {
-      glDisable( GL_BLEND );
-    } else {
-      glEnable( GL_BLEND );
-      glBlendColor( colour.getAxis(0), colour.getAxis(1), colour.getAxis(2), colour.getAxis(3) );
-      glBlendEquation( equation );
-      glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
-    }
-  };
-  
-protected:
-  static const ofJson BLEND_PRESETS;
 };
 } }
 

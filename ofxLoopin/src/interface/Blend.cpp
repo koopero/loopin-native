@@ -25,13 +25,6 @@ const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
     { "dstRGB", "GL_ONE" },
     { "dstAlpha", "GL_ONE" },
   } },
-  { "min", {
-    { "equation", "GL_MIN" },
-    { "srcRGB", "GL_ONE" },
-    { "srcAlpha", "GL_ONE" },
-    { "dstRGB", "GL_ONE" },
-    { "dstAlpha", "GL_ONE" },
-  } },
   { "max", {
     { "equation", "GL_MAX" },
     { "srcRGB", "GL_ONE" },
@@ -39,7 +32,20 @@ const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
     { "dstRGB", "GL_ONE" },
     { "dstAlpha", "GL_ONE" },
   } },
-
+  { "min", {
+    { "equation", "GL_MIN" },
+    { "srcRGB", "GL_ONE" },
+    { "srcAlpha", "GL_ONE" },
+    { "dstRGB", "GL_ONE" },
+    { "dstAlpha", "GL_ONE" },
+  } },
+  { "mix", {
+    { "equation", "GL_FUNC_ADD" },
+    { "srcRGB", "GL_CONSTANT_COLOR" },
+    { "srcAlpha", "GL_CONSTANT_ALPHA" },
+    { "dstRGB", "GL_ONE_MINUS_CONSTANT_COLOR" },
+    { "dstAlpha", "GL_ONE_MINUS_CONSTANT_ALPHA" },
+  } },
 };
     /** loopin/type/layer/sub/blend
       options:
