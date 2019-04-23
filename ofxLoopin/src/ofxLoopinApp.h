@@ -115,7 +115,7 @@ public:
   /** loopin/root/kinect
     map: kinect
   */
-  ofxLoopinRenders<ofxLoopinLayer> renders;
+  ofxLoopinOrderedRenders<ofxLoopinLayer> renders;
 
   // pixels/:buffer - pixels
   /** loopin/root/pixels

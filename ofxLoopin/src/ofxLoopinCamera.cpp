@@ -32,7 +32,7 @@ void ofxLoopinCamera::calculate() {
   projection.makePerspectiveMatrix( fov, fabs( bufferAspect ), _near, _far );
   projection.scale( zoomLin, zoomLin, 1 );
 
-  float layerAspect = getLayerAspect();
+  // float layerAspect = getLayerAspect();
   // if ( fabs(layerAspect) < fabs(bufferAspect) )
   //   projection.scale( fabs( layerAspect ) / fabs( bufferAspect ), fabs( layerAspect ) / fabs( bufferAspect ), 1 );
 

@@ -10,8 +10,8 @@ public:
 
   bool enumKeyFromValue();
 
-  Enum<TYPE,DEFAULT>() {};
-  Enum<TYPE,DEFAULT>( TYPE value ) : _value( value ) { enumKeyFromValue(); };
+  Enum<TYPE,DEFAULT>() { enumAddOptions(); };
+  // Enum<TYPE,DEFAULT>( TYPE value ) : _value( value ) { enumKeyFromValue(); };
   TYPE operator()() const { return _value; };
   operator TYPE() const { return _value; };
   void operator= ( const TYPE & value ) { _value = value; }
@@ -38,16 +38,20 @@ public:
     }
   }
 
-
   void enumAddOption( string key, TYPE value ) {
     // Set the default value first.
     if ( !_key.size() )
       _key = key;
 
     _enumMap[key] = value;
-    key = enumMungeString( key );
-    _enumMungeMap[key] = value;
+    // key = enumMungeString( key );
+    // _enumMapMunge[key] = value;
   }
+
+  void enumAddOptionBool( bool key, TYPE value ) {
+    _enumMapBool[key] = value;
+  }
+
 
   TYPE enumGetValue() const {
     return _value;
@@ -61,6 +65,18 @@ protected:
     }
   };
 
+  void patchLocal ( const ofJson & val ) {
+    if ( val.is_boolean() ) {
+      patchBool( val.get<bool>() );
+    }
+  }
+
+  void patchBool( bool value ) {
+    if ( _enumMapBool.count( value ) ) {
+      _value = _enumMapBool[value];
+    }
+  }
+
   void readLocal( ofJson & value ) {
     value = _key;
   };
@@ -69,7 +85,13 @@ protected:
 
   string _key;
   TYPE _value = DEFAULT;
-  map<string,TYPE> _enumMap;
-  map<string,TYPE> _enumMungeMap;
+  std::map<string,TYPE> _enumMap;
+  std::map<bool,TYPE> _enumMapBool;
+  std::map<string,TYPE> _enumMapMunge;
 
+  void addSubControls() {
+    enumAddOptions();
+  };
+
+  virtual void enumAddOptions() {};
 }; } }

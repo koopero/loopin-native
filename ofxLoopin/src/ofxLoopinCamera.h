@@ -59,7 +59,7 @@ class ofxLoopinCamera : public ofxLoopinControl {
 public:
   ofxLoopinControlNumber zoom = ofxLoopinControlNumber(0);
   ofxLoopinControlNumber distance = ofxLoopinControlNumber(1);
-  ofxLoopinControlNumber fov = ofxLoopinControlNumber(32);
+  ofxLoopinControlNumber fov = ofxLoopinControlNumber(32); 
   ofxLoopinControlNumber dof = ofxLoopinControlNumber(16);
   ofxLoopinControlNumber focus;
 

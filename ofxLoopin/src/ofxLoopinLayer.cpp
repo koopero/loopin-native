@@ -3,6 +3,8 @@
 #include <assert.h>
 
 void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
+  if ( !enable.isEnabledOnce() )
+    return;
 
   if ( !buffer ) {
     buffer = getBuffer( true );
@@ -137,11 +139,12 @@ void ofxLoopinLayer::renderStyle() {
     ofEnablePointSprites();
     glPointSize( pointSize );
   } else {
+    glPointSize( 1 );
     ofDisablePointSprites();
-    glPointSize( 0 );
   }
 
-  ofEnableBlendMode( blend.getEnumValue() );
+  // ofEnableBlendMode( blend.getEnumValue() );
+  blend.apply();
   ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
 
   GLenum face_ = face.getEnumValue();

@@ -1,11 +1,8 @@
 #pragma once
 
-
-
 #include "ofxLoopinBuffer.h"
 #include "ofxLoopinControl.h"
 #include "ofxLoopinFrame.h"
-
 
 class ofxLoopinRoot : public ofxLoopinControl, public ofxLoopinHasBuffers {
 public:
