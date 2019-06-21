@@ -61,19 +61,3 @@ protected:
 
 };
 } }
-
-    /** loopin/type/layer/sub/blend
-      options:
-        - none
-        - alpha
-        - add
-        - subtract
-        - multiply
-        - screen
-    */
-    // blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
-    // blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
-    // blend.setEnumKey("add", OF_BLENDMODE_ADD );
-    // blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
-    // blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
-    // blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
