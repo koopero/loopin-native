@@ -35,21 +35,19 @@ class Settings {
   }
 }
 
-const OPTIONS = require('boptions')({
-  'root': '',
-  'title': 'ofxLoopin',
-  'version': pkg.version,
-  'dev': false,
-  'quiet': false,
-  'verbose': false,
-  'useEnv': true,
-  'env': false,
-  'addons': {}
-})
-
 function settings( options ) {
   const settings = new Settings()
-  _.defaults( settings, OPTIONS( arguments ) )
+  _.defaults( settings, {
+    'root': '',
+    'title': 'ofxLoopin',
+    'version': pkg.version,
+    'dev': false,
+    'quiet': false,
+    'verbose': false,
+    'useEnv': true,
+    'env': false,
+    'addons': {}
+  } )
 
   let root = ( settings.useEnv && process.env['LOOPIN_NATIVE_ROOT'] ) || options.root
 
