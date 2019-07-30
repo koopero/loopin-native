@@ -9,8 +9,11 @@ protected: void enumAddOptions() {
   EnumGLIntAddOption(GL_ZERO);
   EnumGLIntAddOption(GL_FUNC_SUBTRACT);
   EnumGLIntAddOption(GL_FUNC_REVERSE_SUBTRACT);
+
+  #ifndef TARGET_OPENGLES
   EnumGLIntAddOption(GL_MIN);
   EnumGLIntAddOption(GL_MAX);
+  #endif
 };
 };
 }}

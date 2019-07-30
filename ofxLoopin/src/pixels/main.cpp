@@ -214,8 +214,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
 
     ofDrawRectangle( x,y,1,1);
     // ofDrawTriangle( x,y,x,y,x,y);
-
-    cerr << "RenderFloats " << x << ", " << y << " " << pixel.b << endl;
+    // cerr << "RenderFloats " << x << ", " << y << " " << pixel.b << endl;
 
 
     x ++;

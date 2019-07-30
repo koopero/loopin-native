@@ -7,10 +7,13 @@ void ofxLoopinClock::readLocal( ofJson & value ) {
 }
 
 void ofxLoopinClock::applyUniforms( ofShader & shader ) {
+  // cerr << "ClockUniforms " << path << " " << frame.index << endl;
   shader.setUniform1i( "clockIndex", frame.index );
   shader.setUniform1f( "clockTime", frame.time );
   shader.setUniform1f( "clockDelta", frame.delta );
 }
+
+
 void ofxLoopinClock::addSubControls() {
   if ( !isClockGlobal() ) {
     mode.setEnumKey("none", ofxLoopinFrame::Mode::NONE );

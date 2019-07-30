@@ -19,10 +19,13 @@ protected: void enumAddOptions() {
   EnumGLIntAddOption(GL_CONSTANT_ALPHA);
   EnumGLIntAddOption(GL_ONE_MINUS_CONSTANT_ALPHA);
   EnumGLIntAddOption(GL_SRC_ALPHA_SATURATE);
-  EnumGLIntAddOption(GL_SRC1_COLOR);
   EnumGLIntAddOption(GL_ONE_MINUS_SRC_COLOR);
-  EnumGLIntAddOption(GL_SRC1_ALPHA);
   EnumGLIntAddOption(GL_ONE_MINUS_SRC_ALPHA);
+
+  #ifndef TARGET_OPENGLES
+  EnumGLIntAddOption(GL_SRC1_COLOR);
+  EnumGLIntAddOption(GL_SRC1_ALPHA);
+  #endif
 };
 };
 }}
