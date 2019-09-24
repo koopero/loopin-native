@@ -65,6 +65,8 @@ void ofxLoopin::pixels::Render::addSubControls() {
 };
 
 void ofxLoopin::pixels::Render::patchLocal( const ofJson & value ) {
+  box.patch( value );
+  
   if (
    value.is_object() && (
      value.count("data")
