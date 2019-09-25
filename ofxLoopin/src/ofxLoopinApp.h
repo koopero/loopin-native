@@ -15,7 +15,7 @@
 #include "image/Image.hpp"
 #include "ofxLoopinCamera.h"
 #include "ofxLoopinInfo.h"
-#include "ofxLoopinKinect.h"
+#include "kinect/Kinect.hpp"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinOSD.h"
@@ -97,7 +97,7 @@ public:
   /** loopin/root/kinect
     map: kinect
   */
-  ofxLoopinRenders<ofxLoopinKinect> kinects;
+  ofxLoopinRenders<ofxLoopin::kinect::Kinect> kinects;
 
   // text/:buffer
   /** loopin/root/text

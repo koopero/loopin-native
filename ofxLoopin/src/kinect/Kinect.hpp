@@ -5,17 +5,18 @@
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinShader.h"
+#include "../type/Enable.hpp"
 
 
 #include "ofxKinect.h"
 
-/** loopin/type/kinect
-sub/tilt:
+/** loopin/type/ofxLoopinKinect
+subs/tilt:
   type: number
   min: -30
   max: 30
 
-sub/output:
+subs/output:
   type: options
   options:
     - both
@@ -23,7 +24,7 @@ sub/output:
     - video
     - alpha
 
-sub/led:
+subs/led:
   type: options
   options:
     - default
@@ -34,13 +35,16 @@ sub/led:
     - blinkGreen
     - blinkYellowRed
 
-sub/infrared:
+subs/infrared:
   type: bool
 
 **/
 
-class ofxLoopinKinect : public ofxLoopinRender {
+namespace ofxLoopin { namespace kinect {
+class Kinect : public ofxLoopinRender {
 public:
+  ofxLoopin::type::Enable enable;
+
   int deviceId = -1;
   int fill = 0;
 
@@ -52,14 +56,14 @@ public:
   };
 
   ofxLoopinControlEnum<ofxKinect::LedMode, ofxKinect::LedMode::LED_DEFAULT> led;
-  ofxLoopinControlEnum<ofxLoopinKinect::Output, OUTPUT_BOTH> output;
+  ofxLoopinControlEnum<Output, OUTPUT_BOTH> output;
   ofxLoopinControlBool infrared;
-
+  ofxLoopinControlBool registration;
 
   ofxLoopinControlNumber tilt;
 
   void updateTilt() {
-    float tilt = ofxLoopinKinect::tilt;
+    float tilt = ofxLoopin::kinect::Kinect::tilt;
 
     if ( tilt != kinect->getTargetCameraTiltAngle() ) {
       kinect->setCameraTiltAngle( tilt );
@@ -99,6 +103,7 @@ private:
   void drawDepth( const ofRectangle & crop, const ofRectangle & area );
   void drawBoth( const ofRectangle & area );
 
+  void closeKinect();
 
   static ofxLoopinShader _bothShader;
 

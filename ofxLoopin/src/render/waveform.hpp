@@ -8,6 +8,7 @@
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinShader.h"
+#include "../type/Enable.hpp"
 
 
 #include <mutex>
@@ -25,13 +26,15 @@ public:
 
 class waveform_imp : public ofxLoopinRender, public ofBaseSoundInput {
 public:
+  ofxLoopin::type::Enable enable;
+
   enum Phase {
     PHASE_ABS,
     PHASE_POS,
     PHASE_NEG,
     PHASE_BOTH
   };
-
+  
   ofxLoopinControlEnum<waveform_imp::Phase, PHASE_ABS> phase;
   ofxLoopinControlNumber duration = 0;
   ofxLoopinControlNumber squelch = 0;
@@ -61,6 +64,9 @@ protected:
   void drawSample( int x, int y, float sample );
 
   void addSubControls() {
+    enable.setKey("no");
+
+    addSubControl("enable", &enable );
 
     addSubControl("buffer", &buffer );
     addSubControl("deviceID", &deviceID );
@@ -83,6 +89,7 @@ protected:
   static ofxLoopinShader shader;
   static ofxLoopinShader scrollShader;
 
+  void closeStream();
 };
 /** loopin/type/waveform
 sub:

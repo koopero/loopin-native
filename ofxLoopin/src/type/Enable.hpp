@@ -27,14 +27,23 @@ public:
       return true; 
 
     if ( _value == ENABLE_ONCE ) {
-      ofxLoopinEvent event;
-      event.type = "done";
-      dispatch( event );
-      _value = ENABLE_NO;
+      resetOnce();
       return true;
     }
 
     return false;
   }  
+
+  bool isEnabled() {
+    // Promise to call resetOnce()! 
+    return _value == ENABLE_YES || _value == ENABLE_ONCE;
+  }
+
+  void resetOnce() {
+    ofxLoopinEvent event;
+    event.type = "done";
+    dispatch( event );
+    _value = ENABLE_NO;
+  }
 };
 }};

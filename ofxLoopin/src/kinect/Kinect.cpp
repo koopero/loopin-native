@@ -2,7 +2,7 @@
 #include "ofGraphics.h"
 
 
-ofxLoopinShader ofxLoopinKinect::_bothShader = ofxLoopinShader(
+ofxLoopinShader ofxLoopin::kinect::Kinect::_bothShader = ofxLoopinShader(
 #ifndef TARGET_OPENGLES
 // name
 "kinectBoth",
@@ -48,12 +48,17 @@ void main() \n\
 #endif
 );
 
-void ofxLoopinKinect::addSubControls() {
+void ofxLoopin::kinect::Kinect::addSubControls() {
+
+  addSubControl( "enable", &enable );
+
 
   addSubControl( "deviceID", new ofxLoopinControlValue( &deviceId ) );
 
   addSubControl( "tilt", &tilt );
   addSubControl( "infrared", &infrared );
+  addSubControl( "registration", &registration );
+
 
   led.setEnumKey("default", ofxKinect::LedMode::LED_DEFAULT );
   led.setEnumKey("off", ofxKinect::LedMode::LED_OFF );
@@ -73,16 +78,23 @@ void ofxLoopinKinect::addSubControls() {
   addSubControl( "output", &output );
 };
 
-void ofxLoopinKinect::updateLocal() {
+void ofxLoopin::kinect::Kinect::updateLocal() {
+  if ( !enable.isEnabled() ) {
+    closeKinect();
+    return;
+  }
+
+
   if ( !kinect ) {
     kinect = new ofxKinect();
     kinect->init();
-    kinect->setRegistration( false );
   }
 
   if ( !kinect ) {
     return;
   }
+
+
 
   bool shouldOpen = !kinect->isConnected();
   ofxLoopinEvent event;
@@ -91,7 +103,7 @@ void ofxLoopinKinect::updateLocal() {
     ( kinect->getDeviceId() != deviceId && deviceId != -1 );
 
   // Open if infrared has changed
-  bool infrared = ofxLoopinKinect::infrared.getValue();
+  bool infrared = ofxLoopin::kinect::Kinect::infrared.getValue();
   shouldOpen = shouldOpen ||
     ( infrared != _modeInfrared );
 
@@ -116,7 +128,7 @@ void ofxLoopinKinect::updateLocal() {
       if ( root ) dispatch( event );
 
       _modeInfrared = infrared;
-    }
+    } else if ( )
   }
 
 
@@ -124,7 +136,6 @@ void ofxLoopinKinect::updateLocal() {
 
   if ( kinect->isConnected() && !status ) {
     status = true;
-
     event.type = "open";
     readLocal( event.data );
     dispatch( event );
@@ -142,9 +153,17 @@ void ofxLoopinKinect::updateLocal() {
   updateLed();
   updateTilt();
 
+  kinect->setRegistration( registration );
+
 };
 
-ofxLoopinBuffer * ofxLoopinKinect::renderDepth() {
+void ofxLoopin::kinect::Kinect::closeKinect() {
+  if ( kinect && kinect->isConnected() ) {
+    kinect->clear();
+  }
+}
+
+ofxLoopinBuffer * ofxLoopin::kinect::Kinect::renderDepth() {
   if ( !kinect )
     return NULL;
 
@@ -173,7 +192,7 @@ ofxLoopinBuffer * ofxLoopinKinect::renderDepth() {
 }
 
 
-void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::kinect::Kinect::renderBuffer( ofxLoopinBuffer * buffer ) {
   if ( !kinect || !kinect->isConnected() )
     return;
 
@@ -198,7 +217,7 @@ void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
   int width = buffer->getWidth();
   int height = buffer->getHeight();
 
-  Output outputType = ofxLoopinKinect::output.getEnumValue();
+  Output outputType = ofxLoopin::kinect::Kinect::output.getEnumValue();
   switch ( outputType ) {
     case OUTPUT_BOTH:
       drawVideo( cropVideo, ofRectangle( 0, 0, width / 2, height ) );
@@ -219,10 +238,10 @@ void ofxLoopinKinect::renderBuffer( ofxLoopinBuffer * buffer ) {
   }
 
   buffer->end();
-
+  enable.resetOnce();
 };
 
-void ofxLoopinKinect::drawVideo( const ofRectangle & crop, const ofRectangle & area ) {
+void ofxLoopin::kinect::Kinect::drawVideo( const ofRectangle & crop, const ofRectangle & area ) {
   if ( !kinect->isFrameNewVideo() )
     return;
 
@@ -236,7 +255,7 @@ void ofxLoopinKinect::drawVideo( const ofRectangle & crop, const ofRectangle & a
   );
 }
 
-void ofxLoopinKinect::drawDepth( const ofRectangle & crop, const ofRectangle & area ) {
+void ofxLoopin::kinect::Kinect::drawDepth( const ofRectangle & crop, const ofRectangle & area ) {
   if ( !kinect->isFrameNewDepth() )
     return;
 
@@ -252,7 +271,7 @@ void ofxLoopinKinect::drawDepth( const ofRectangle & crop, const ofRectangle & a
   );
 };
 
-void ofxLoopinKinect::drawBoth( const ofRectangle & area ) {
+void ofxLoopin::kinect::Kinect::drawBoth( const ofRectangle & area ) {
   ofShader & shader = _bothShader.shader;
   ofSetupScreen();
 
@@ -283,7 +302,7 @@ void ofxLoopinKinect::drawBoth( const ofRectangle & area ) {
   depthTexture.unbind();
 };
 
-void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::kinect::Kinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
   #ifndef TARGET_OPENGLES
     // Use some 16-bit buffers for real GL
     GLint formatRGBDeep  = GL_RGB16;
@@ -320,7 +339,7 @@ void ofxLoopinKinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
 
 };
 
-void ofxLoopinKinect::readLocal( ofJson & value ) {
+void ofxLoopin::kinect::Kinect::readLocal( ofJson & value ) {
   if ( kinect ) {
     value["open"]   = kinect->isConnected();
     value["id"]     = kinect->getDeviceId();

@@ -49,7 +49,19 @@ ofJson ofxLoopin::render::waveform::infoGet() {
   return result;
 }
 
+void ofxLoopin::render::waveform_imp::closeStream() {
+  if ( streamIsOpen ) {
+    soundStream.close();
+    streamIsOpen = false;
+  }
+}
+
 void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
+  if ( !enable.isEnabledOnce() ) {
+    closeStream();
+    return;
+  }
+
   // Ensure the soundstream is running
   int channels = (int) ofxLoopin::render::waveform_imp::channels;
 
