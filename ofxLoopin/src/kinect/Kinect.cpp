@@ -1,4 +1,4 @@
-#include "ofxLoopinKinect.h"
+#include "./Kinect.hpp"
 #include "ofGraphics.h"
 
 
@@ -100,12 +100,16 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
   ofxLoopinEvent event;
   // Open if deviceId has changed
   shouldOpen = shouldOpen ||
-    ( kinect->getDeviceId() != deviceId && deviceId != -1 );
+    ( kinect->getDeviceId() != deviceId && deviceId != -1 ); 
 
   // Open if infrared has changed
   bool infrared = ofxLoopin::kinect::Kinect::infrared.getValue();
   shouldOpen = shouldOpen ||
     ( infrared != _modeInfrared );
+
+  bool registration = ofxLoopin::kinect::Kinect::registration.getValue();
+  shouldOpen = shouldOpen ||
+    ( registration != _modeRegistration );
 
   float now = ofGetElapsedTimef();
 
@@ -121,6 +125,8 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
       if ( root ) dispatch( event );
 
       kinect->init( infrared, true, true );
+      kinect->setRegistration( (bool) registration );
+
       cerr << "***** Kinect opening " << deviceId << endl;
       kinect->open( deviceId );
 
@@ -128,9 +134,9 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
       if ( root ) dispatch( event );
 
       _modeInfrared = infrared;
-    } else if ( )
+      _modeRegistration = registration;
+    } 
   }
-
 
   kinect->update();
 
@@ -153,7 +159,6 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
   updateLed();
   updateTilt();
 
-  kinect->setRegistration( registration );
 
 };
 

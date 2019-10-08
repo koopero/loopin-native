@@ -40,10 +40,12 @@ public:
   }
 
   void resetOnce() {
-    ofxLoopinEvent event;
-    event.type = "done";
-    dispatch( event );
-    _value = ENABLE_NO;
+    if ( _value == ENABLE_ONCE ) {
+      ofxLoopinEvent event;
+      event.type = "done";
+      dispatch( event );
+      _value = ENABLE_NO;
+    }
   }
 };
 }};

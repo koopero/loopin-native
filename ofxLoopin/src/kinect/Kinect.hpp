@@ -94,6 +94,8 @@ private:
 
   ofxKinect::LedMode _modeLed = ofxKinect::LedMode::LED_DEFAULT;
   bool _modeInfrared = false;
+  bool _modeRegistration = false;
+
   int _modeTilt = 0;
   float _triedOpening = -100; // From ofGetElapsedTimef()
 
@@ -108,3 +110,4 @@ private:
   static ofxLoopinShader _bothShader;
 
 };
+}};
