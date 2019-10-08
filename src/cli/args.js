@@ -98,4 +98,5 @@ parser.addArgument(
   }
 )
 
-module.exports = parser.parseArgs()
+const args = parser.parseArgs()
+module.exports = args

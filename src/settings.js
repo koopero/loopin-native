@@ -37,6 +37,9 @@ class Settings {
 
 function settings( options ) {
   const settings = new Settings()
+
+  _.merge( settings, options )
+  
   _.defaults( settings, {
     'root': '',
     'title': 'ofxLoopin',

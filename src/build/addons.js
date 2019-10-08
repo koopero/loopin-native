@@ -18,7 +18,7 @@ function addons( build ) {
     addon['dest'] = build.resolve( build.openframeworks.root, 'addons/'+key )
 
 
-    build.log('#addon', key )
+    build.warn('#addon', key )
 
     if ( exists() ) {
       return
