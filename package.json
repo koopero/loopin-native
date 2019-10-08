@@ -1,13 +1,13 @@
 {
   "name": "loopin-native",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Native binary renderer for Loopin",
   "main": "src/plugin.js",
   "bin": {
     "loopin-native": "src/cli.js"
   },
   "scripts": {},
-  "author": "Samm Cooper <samm@sublight.ca>",
+  "author": "Samm Cooper <samm@hfour.ca>",
   "license": "MIT",
   "dependencies": {
     "arg-parse": "^1.0.0",
