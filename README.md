@@ -102,7 +102,7 @@ After this, Loopin applications, whether using pre-compiled binaries or in dev m
 
 The procedure for installation on generic Linux should work. A few PI-specific notes:
 
-* Use [raspbian lite](https://www.raspberrypi.org/downloads/raspbian/) image.
+* Use [Raspbian Stretch Lite](http://ftp.ubuntu-tw.org/mirror/raspbian-downloads/raspbian_lite/images/raspbian_lite-2019-04-09/) image. *Raspbian Buster has changed packages, making it incompatible with openframeworks 0.10.1.*
 * Don't install desktop!
 * Installer currently forces armv6 architecture.
 * For compatibility reasons, binaries are not distributed for Raspberry PI, so developer mode is forced.
@@ -119,9 +119,9 @@ loopin-native --dev --verbose --test
 
 ### Requirements
 
-[XCode](https://developer.apple.com/xcode/) is required on Mac. **Currently, there seems to be an incompatibility between openFrameworks and XCode 10.x.x, so 9.x.x must be used.**
+[XCode](https://developer.apple.com/xcode/) is required on Mac. **XCode 10.x.x and 9.x.x must be used. XCode 11 is currently unsupported. Turn auto-update off!**
 
-[Visual Studio Community 2017](https://visualstudio.microsoft.com/vs/community/) is required on Windows.
+[Visual Studio Community 2017](https://visualstudio.microsoft.com/vs/community/) is required on Windows. 
 
 ## Potential Troubles
 
