@@ -15,10 +15,10 @@ public:
     NONE
   };
 
-  int   index = -1;
-  float time  = 0.0;
-  float delta = 0.0;
-  float speed = 1.0;
+  int    index = -1;
+  double time  = 0.0;
+  float  delta = 0.0;
+  float  speed = 1.0;
   Mode  mode  = NONE;
 
   ofxLoopinEvent asEvent();
@@ -31,4 +31,11 @@ public:
     return !(*this == other);
   };
 
+  double timeDayFract() {
+    return std::fmod( time, 24*60*60 );
+  };
+
+  float timeDayWhole() {
+    return floor( time / (24*60*60) );
+  }
 };

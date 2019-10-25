@@ -115,14 +115,6 @@ void ofxLoopinShader::applyUniformsGlobalClock() {
   applyUniformFloat( "clockGlobalDelta", frame.delta );
 }
 
-
-void ofxLoopinShader::applyUniformsFrame() {
-  ofxLoopinFrame frame = root->frame;
-  applyUniformInt( "clockIndex", frame.index );
-  applyUniformFloat( "clockTime", frame.time );
-  applyUniformFloat( "clockDelta", frame.delta );
-}
-
 void ofxLoopinShader::applyUniformPointSize( float pointSize ) {
   applyUniformFloat( "pointSize", pointSize );
   applyUniformFloat( "pointDensity", 1.0 / pointSize / pointSize );
