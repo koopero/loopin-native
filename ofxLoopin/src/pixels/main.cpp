@@ -187,7 +187,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
   // ofFill();
   for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 
-    ofFloatColor pixel( 0,0,0,0.5 );
+    ofFloatColor pixel( 0,0,0,1.0 );
 
     for ( int channelIndex = 0; channelIndex < numChannels && i < floats.size(); channelIndex ++ ) {
       char channelKey = channels[channelIndex];
