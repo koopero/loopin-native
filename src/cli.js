@@ -22,7 +22,7 @@ if ( args.env ) {
   promise = promise.then( () => {
     const setEnv = ( key, value ) => {
       process.env[key] = value
-      // console.log( `export ${key}=${value}`)
+      console.log( `export ${key}=${value}`)
     }
 
     setEnv( 'LOOPIN_NATIVE_ROOT', build.root )
