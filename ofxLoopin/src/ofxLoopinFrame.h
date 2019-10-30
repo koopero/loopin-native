@@ -19,6 +19,7 @@ public:
   float time  = 0.0;
   float delta = 0.0;
   float speed = 1.0;
+  float rate = 60.0;
   Mode  mode  = NONE;
 
   ofxLoopinEvent asEvent();

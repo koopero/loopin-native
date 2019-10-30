@@ -19,47 +19,127 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
   // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
 
   if ( value.is_object() && value.count("file") && value["file"].is_string() ) {
-    string videoPath = value["file"].get<std::string>();
-    string absPath = ofxLoopinFile::find( videoPath );
-    // std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
-
-    wasLoaded = false;
-    if ( absPath.size() ) {
-      engine->load( absPath );
-    } else {
-      ofxLoopinEvent event;
-      event.type = "error";
-      dispatch( event );
-    }
+    loadFile ( value["file"].get<std::string>() );
   }
 
   // std::cerr << "ofxLoopin::video::Video::patchLocal after " << endl;
-
 };
+
+void ofxLoopin::video::Video::loadFile( const string & file ) {
+  string videoPath = file;
+  string absPath = ofxLoopinFile::find( videoPath );
+
+  wasLoaded = false;
+  if ( absPath.size() ) {
+    engine->load( absPath );
+  } else {
+    ofxLoopinEvent event;
+    event.type = "error";
+    dispatch( event );
+  }
+};
+
 
 void ofxLoopin::video::Video::patchString( string value ) {
   ofJson patch;
-  patch["src"] = value;
+  patch["file"] = value;
   patchLocal( patch );
 };
 
+void ofxLoopin::video::Video::onLoaded() {
+  engine->loadClock( clock );
+  ofxLoopinEvent event;
+  event.type = "loaded";
+  dispatch( event );
+  wasLoaded = true;
+}
+
 void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
-  
-  engine->drawToBuffer( buffer ); 
+  if ( !engine->isLoaded() || engine->isPaused() ) {
+    // std::cerr << "no delta "<< endl;
+    renderingFrame.delta = 0;
+  }
 
-  // if ( !wasLoaded && engine->isLoaded() ) {
-  //   ofxLoopinEvent event;
-  //   event.type = "loaded";
-  //   dispatch( event );
-  //   wasLoaded = true;
+  clock.advance( renderingFrame );
+
+  bool sendSyncEvent = false;
+
+  float speed = clock.speed;
+  // engine->setSpeed( speed );
+
+  if ( clock.shouldSync() ) {
+    engine->setFrame( clock.syncFrame() );
+    sendSyncEvent = true;
+  }
+
+  switch( clock.mode.getEnumValue() ) {
+    case ofxLoopinFrame::Mode::STEP:
+      engine->setSpeed(0);
+      if ( clock.frame.delta && !sendSyncEvent ) {
+        // cerr << "next Frame " << endl;
+        engine->nextFrame();
+      }
+    break;
+
+    case ofxLoopinFrame::Mode::TIME:
+      engine->setSpeed( clock.frame.speed );
+    break;
+
+    case ofxLoopinFrame::Mode::FRAME:
+      engine->setSpeed(0);
+      engine->nextFrame();
+    break;
+
+    default:
+    case ofxLoopinFrame::Mode::STOP:
+      engine->setSpeed(0);
+    break;
+  }
+
+  engine->update();
+  engine->updateClock( clock );
+
+  if ( engine->isFrameNew() ) {
+    // cerr << "Frame is new" << endl;
+  } else {
+    return;
+  }
+
+  // if ( engine->isPlaying() ) {
+
+  // } else {
+  //   cerr << "Not playing" << endl;
+  //   return;
   // }
 
-  // if ( !engine->isLoaded() || engine->isPaused() ) {
-  //   // std::cerr << "no delta "<< endl;
-  //   renderingFrame.delta = 0;
-  // }
+  ofRectangle bounds = engine->getBounds();
+  buffer->defaultSize( bounds );
 
-  // clock.advance( renderingFrame );
+  if ( !buffer->begin() ) {
+    return;
+  }
+
+  engine->draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+  buffer->end();  
+
+  // engine->drawToBuffer( buffer ); 
+
+  if ( !wasLoaded && engine->isLoaded() ) {
+    onLoaded();
+  }
+
+  if ( sendSyncEvent ) {
+    ofxLoopinEvent event;
+    event.type = "sync";
+    dispatch( event );    
+  }
+
+  if ( engine->getIsMovieDone() ) {
+    ofxLoopinEvent event;
+    event.type = "ended";
+    dispatch( event );    
+  }
+
 
   // if ( !engine->isLoaded() ) 
   //   return;
@@ -73,137 +153,100 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   // clock.frame.time = engine->getTime();
 
-  // if ( !engine->isFrameNew() )
-  //   return;
-
-  // if ( buffer == nullptr )
-  //   buffer = getBuffer( true );
-  
-  // assert( buffer );
-
-  // ofRectangle bounds = ofRectangle( 0,0, engine->getWidth(), engine->getHeight() );
-  // buffer->defaultSize( bounds );
-
-  // ofTexture * tex = engine->getTexturePtr();
-
-  // // if ( tex != nullptr ) {
-  // //   cerr << "TEXTURE!!! :)" << endl;
-  // // }
-
-  // ofPixels & pixels = engine->getPixels();
-
-  // if ( !pixels.getWidth() || !pixels.getHeight() )
-  //   return;
-
-  // if ( !buffer->begin() ) {
-  //   return;
-  // }
 
 
-  // ofTexture texture;
-  // texture.allocate( pixels );
-  // // cerr << "Drawing " << bounds << endl;
-
-
-
-  // texture.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  // // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  // buffer->end();  
 };
 
 
-bool ofxLoopin::video::Video::videoSync() {
-  int numFrames = engine->getTotalNumFrames();
+// bool ofxLoopin::video::Video::videoSync() {
+//   int numFrames = engine->getTotalNumFrames();
 
-  if ( !numFrames )
-    return true;
-
-
-  float duration = engine->getDuration();
-  double rate = numFrames / duration;
-  clock.rate = rate;
-
-  double syncTo = clock.frame.time;
-  syncTo = fmod( syncTo, duration );
-  if ( syncTo < 0 )
-    syncTo += duration;
-
-  int syncFrame = syncTo / duration * numFrames;
+//   if ( !numFrames )
+//     return true;
 
 
-  ofxLoopinEvent event;
-  event.type = "videoFrame";
+//   float duration = engine->getDuration();
+//   double rate = numFrames / duration;
+//   clock.rate = rate;
 
-  int frame = engine->getCurrentFrame();
+//   double syncTo = clock.frame.time;
+//   syncTo = fmod( syncTo, duration );
+//   if ( syncTo < 0 )
+//     syncTo += duration;
 
-
-  int syncTolerance = 10;
-  bool shouldDispatch = false;
-
-  switch( clock.mode.getEnumValue() ) {
-    case ofxLoopinFrame::Mode::STEP:
-      engine->setSpeed(0);
-      // engine->update();
-
-      if ( clock.frame.speed ) {
-        syncFrame = frame + 1;
-        syncFrame = syncFrame % numFrames;
-        syncTo = syncFrame / rate;
-        syncTolerance = 0;
-        shouldDispatch = true;
-      }
+//   int syncFrame = syncTo / duration * numFrames;
 
 
-    break;
+//   ofxLoopinEvent event;
+//   event.type = "videoFrame";
 
-    case ofxLoopinFrame::Mode::TIME:
-    case ofxLoopinFrame::Mode::FRAME:
-
-      // engine->setSpeed( clock.frame.speed );
-
-      if ( !engine->isPlaying() ) {
-        // cerr << "ofxLoopin::video::Video::videoSync playing " << clock.frame.speed << endl;
-        engine->play();
-      }
-      // engine->update();
-    break;
-
-    default:
-
-    break;
-  }
-  float position = engine->getPosition();
-  double time = position * duration;
-
-  event.data["rate"] = rate;
-  event.data["running"] = (bool) clock.running;
-  event.data["frame"] = frame;
-  event.data["frameSpeed"] = clock.frame.speed;
-  event.data["time"] = time;
-  // event.data["sync"] = sync;
-  event.data["syncTo"] = syncTo;
+//   int frame = engine->getCurrentFrame();
 
 
-  event.data["position"] = position;
-  event.data["clock"]["time"] = clock.frame.time;
+//   int syncTolerance = 10;
+//   bool shouldDispatch = false;
+
+//   switch( clock.mode.getEnumValue() ) {
+//     case ofxLoopinFrame::Mode::STEP:
+//       engine->setSpeed(0);
+//       // engine->update();
+
+//       if ( clock.frame.speed ) {
+//         syncFrame = frame + 1;
+//         syncFrame = syncFrame % numFrames;
+//         syncTo = syncFrame / rate;
+//         syncTolerance = 0;
+//         shouldDispatch = true;
+//       }
+
+//     break;
+
+//     case ofxLoopinFrame::Mode::TIME:
+//     case ofxLoopinFrame::Mode::FRAME:
+
+//       // engine->setSpeed( clock.frame.speed );
+
+//       if ( !engine->isPlaying() ) {
+//         // cerr << "ofxLoopin::video::Video::videoSync playing " << clock.frame.speed << endl;
+//         engine->play();
+//       }
+//       // engine->update();
+//     break;
+
+//     default:
+
+//     break;
+//   }
+//   float position = engine->getPosition();
+//   double time = position * duration;
+
+//   event.data["rate"] = rate;
+//   event.data["running"] = (bool) clock.running;
+//   event.data["frame"] = frame;
+//   event.data["frameSpeed"] = clock.frame.speed;
+//   event.data["time"] = time;
+//   // event.data["sync"] = sync;
+//   event.data["syncTo"] = syncTo;
 
 
-  int sync = syncFrame - frame;
-  if ( abs( sync ) > syncTolerance ) {
-    event.data["syncFrame"] = syncFrame;
-
-    if ( sync == 1 ) {
-      engine->nextFrame();
-    } else {
-      engine->setFrame( syncFrame );
-    }
+//   event.data["position"] = position;
+//   event.data["clock"]["time"] = clock.frame.time;
 
 
-    time = syncFrame / rate;
-  }
+//   int sync = syncFrame - frame;
+//   if ( abs( sync ) > syncTolerance ) {
+//     event.data["syncFrame"] = syncFrame;
 
-  return true;
-}
+//     if ( sync == 1 ) {
+//       engine->nextFrame();
+//     } else {
+//       engine->setFrame( syncFrame );
+//     }
+
+
+//     time = syncFrame / rate;
+//   }
+
+//   return true;
+// }
 

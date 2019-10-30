@@ -8,6 +8,7 @@
 #include "ofVideoPlayer.h"
 
 
+#include "./VideoClock.hpp"
 #include "./Engine.hpp"
 
 namespace ofxLoopin { namespace video {
@@ -17,7 +18,7 @@ typedef Engine<ofVideoPlayer> VideoEngine;
 class Video : public ofxLoopinRender {
 public:
   ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
-  ofxLoopinClock clock;
+  VideoClock clock;
 
 protected:
   void patchLocal( const ofJson & value );
@@ -46,5 +47,9 @@ protected:
 private:
   VideoEngine * engine = new VideoEngine();
   bool wasLoaded = false;
+  void loadFile( const string & file );
+  void setEngine() {
+  };
+  void onLoaded();
 };
 }};

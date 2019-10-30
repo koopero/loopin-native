@@ -1,5 +1,6 @@
 #pragma once
 
+#include "./VideoClock.hpp"
 #include "../ofxLoopinBuffer.h"
 
 namespace ofxLoopin { namespace video {
@@ -7,8 +8,6 @@ namespace ofxLoopin { namespace video {
 template <class Player>
 class Engine {
 public:
-  void update();
-
   void load( string file );
   void play();
   void pause();
@@ -16,9 +15,16 @@ public:
   double getTime() const;
   double getTime( int frame ) const ;
   float getPosition() const;
-  int getCurrentFrame() const;
+  double getDuration() const;
+  double getFrameRate() const {
+    return float( getTotalNumFrames() ) / getDuration();
+  };
+
+  int getCurrentFrame() const {
+    return player.getCurrentFrame();
+  };
   int getTotalNumFrames() const;
-  double getDuration();
+  ofRectangle getBounds() const { return ofRectangle( 0,0, player.getWidth(), player.getHeight() ); };
   void setSpeed( float speed );
   void setPlaying( bool playing );
   bool isReady() const;
@@ -28,34 +34,37 @@ public:
   bool isLoading() const;
   bool isSeeking() const;
   bool isPlaying() const;
-
+  bool getIsMovieDone() const { return player.getIsMovieDone(); };
   void nextFrame();
   void setFrame(int frame);
   void drawToBuffer( ofxLoopinBuffer * buffer );
+  void update() { player.update(); };
+  void draw(float x, float y, float w, float h) { player.draw( x,y,w,h ); };
+
+
+  void loadClock( VideoClock & clock ) {
+    clock.duration = getDuration();
+    clock.rate = getFrameRate();
+  };
+
+  void updateClock( VideoClock & clock ) {
+    clock.frame.time = getTime();
+    clock.index = getCurrentFrame();
+    // cerr << "engine.updateClock " << clock.index  << endl;
+  };
 protected:
   Player player;
-  bool hasDuration;
 };
 
 }};
 
 
-
-template <class Player>
-void ofxLoopin::video::Engine<Player>::update() {
-  player.update();
-}
-
 template <class Player>
 void ofxLoopin::video::Engine<Player>::load( string file ) {
-  // player.setUseTexture( true );
-  player.setPixelFormat( OF_PIXELS_RGB );
-  // player.loadAsync( file );
-  // player.initTextureCache();
-  ofSetLogLevel(OF_LOG_VERBOSE);
-  // std::cerr << "VIDEO LOAD " << file << std::endl;
+  player.setUseTexture( true );
+  // player.setPixelFormat( OF_PIXELS_RGB );
   player.load( file );
-  // player.stop();
+  player.play();
 }
 
 template <class Player>
@@ -90,22 +99,13 @@ float ofxLoopin::video::Engine<Player>::getPosition() const {
 }
 
 template <class Player>
-int ofxLoopin::video::Engine<Player>::getCurrentFrame() const {
-  // TODO
-  return 0;
-}
-
-template <class Player>
 int ofxLoopin::video::Engine<Player>::getTotalNumFrames() const {
   return player.getTotalNumFrames();
 }
 
 template <class Player>
-double ofxLoopin::video::Engine<Player>::getDuration() {
-  if ( hasDuration )
-    return player.getDuration();
-
-  return 0;
+double ofxLoopin::video::Engine<Player>::getDuration() const {
+  return player.getDuration();
 }
 
 template <class Player>
@@ -165,39 +165,7 @@ void ofxLoopin::video::Engine<Player>::nextFrame() {
 
 template <class Player>
 void ofxLoopin::video::Engine<Player>::setFrame(int frame) {
-
+  // cerr << "player.setFrame " << frame << endl;
+  player.setFrame( frame );
 }
 
-template <class Player>
-void ofxLoopin::video::Engine<Player>::drawToBuffer( ofxLoopinBuffer * buffer ) {
-  ofRectangle bounds = ofRectangle( 0,0, player.getWidth(), player.getHeight() );
-  buffer->defaultSize( bounds );
-
-  ofTexture * tex = player.getTexturePtr();
-
-  if ( tex != nullptr ) {
-    // cerr << "TEXTURE!!! :)" << endl;
-  }
-
-  // ofPixels & pixels = player.getPixels();
-
-  // if ( !pixels.getWidth() || !pixels.getHeight() )
-  //   return;
-
-  if ( !buffer->begin() ) {
-    return;
-  }
-
-
-  // ofTexture texture;
-  // texture.allocate( pixels );
-  // // cerr << "Drawing " << bounds << endl;
-
-
-
-  tex->draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  // // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  buffer->end();  
-}
