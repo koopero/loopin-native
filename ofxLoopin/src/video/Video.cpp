@@ -18,15 +18,14 @@
 void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
   // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
 
-  if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
-    string videoPath = value["src"].get<std::string>();
+  if ( value.is_object() && value.count("file") && value["file"].is_string() ) {
+    string videoPath = value["file"].get<std::string>();
     string absPath = ofxLoopinFile::find( videoPath );
     // std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
 
     wasLoaded = false;
-    if ( true || absPath.size() ) {
-
-      engine->load( videoPath );
+    if ( absPath.size() ) {
+      engine->load( absPath );
     } else {
       ofxLoopinEvent event;
       event.type = "error";
@@ -42,6 +41,76 @@ void ofxLoopin::video::Video::patchString( string value ) {
   ofJson patch;
   patch["src"] = value;
   patchLocal( patch );
+};
+
+void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
+  
+  engine->drawToBuffer( buffer ); 
+
+  // if ( !wasLoaded && engine->isLoaded() ) {
+  //   ofxLoopinEvent event;
+  //   event.type = "loaded";
+  //   dispatch( event );
+  //   wasLoaded = true;
+  // }
+
+  // if ( !engine->isLoaded() || engine->isPaused() ) {
+  //   // std::cerr << "no delta "<< endl;
+  //   renderingFrame.delta = 0;
+  // }
+
+  // clock.advance( renderingFrame );
+
+  // if ( !engine->isLoaded() ) 
+  //   return;
+
+  // // videoSync();
+  // // engine->play();
+
+  // auto before = ofGetElapsedTimeMicros();
+  // engine->update();
+  // auto after = ofGetElapsedTimeMicros();
+
+  // clock.frame.time = engine->getTime();
+
+  // if ( !engine->isFrameNew() )
+  //   return;
+
+  // if ( buffer == nullptr )
+  //   buffer = getBuffer( true );
+  
+  // assert( buffer );
+
+  // ofRectangle bounds = ofRectangle( 0,0, engine->getWidth(), engine->getHeight() );
+  // buffer->defaultSize( bounds );
+
+  // ofTexture * tex = engine->getTexturePtr();
+
+  // // if ( tex != nullptr ) {
+  // //   cerr << "TEXTURE!!! :)" << endl;
+  // // }
+
+  // ofPixels & pixels = engine->getPixels();
+
+  // if ( !pixels.getWidth() || !pixels.getHeight() )
+  //   return;
+
+  // if ( !buffer->begin() ) {
+  //   return;
+  // }
+
+
+  // ofTexture texture;
+  // texture.allocate( pixels );
+  // // cerr << "Drawing " << bounds << endl;
+
+
+
+  // texture.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  // // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+
+  // buffer->end();  
 };
 
 
@@ -138,72 +207,3 @@ bool ofxLoopin::video::Video::videoSync() {
   return true;
 }
 
-
-void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
-  
-  if ( !wasLoaded && engine->isLoaded() ) {
-    ofxLoopinEvent event;
-    event.type = "loaded";
-    dispatch( event );
-    wasLoaded = true;
-  }
-
-  if ( !engine->isLoaded() || engine->isPaused() ) {
-    // std::cerr << "no delta "<< endl;
-    renderingFrame.delta = 0;
-  }
-
-  clock.advance( renderingFrame );
-
-  if ( !engine->isLoaded() ) 
-    return;
-
-  // videoSync();
-  // engine->play();
-
-  auto before = ofGetElapsedTimeMicros();
-  engine->play();
-  engine->update();
-  auto after = ofGetElapsedTimeMicros();
-
-//  clock.frame.time = engine->getTime();
-
-  // if ( !engine->isFrameNew() )
-  //   return;
-
-  if ( buffer == nullptr )
-    buffer = getBuffer( true );
-  
-  assert( buffer );
-
-  ofRectangle bounds = ofRectangle( 0,0, engine->getWidth(), engine->getHeight() );
-  buffer->defaultSize( bounds );
-
-  ofTexture * tex = engine->getTexturePtr();
-
-  // if ( tex != nullptr ) {
-  //   cerr << "TEXTURE!!! :)" << endl;
-  // }
-
-  ofPixels & pixels = engine->getPixels();
-
-  if ( !pixels.getWidth() || !pixels.getHeight() )
-    return;
-
-  if ( !buffer->begin() ) {
-    return;
-  }
-
-
-  ofTexture texture;
-  texture.allocate( pixels );
-  // cerr << "Drawing " << bounds << endl;
-
-
-
-  texture.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  // player.draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-
-  buffer->end();  
-};
