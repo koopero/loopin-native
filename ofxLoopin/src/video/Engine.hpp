@@ -45,6 +45,7 @@ public:
   void loadClock( VideoClock & clock ) {
     clock.duration = getDuration();
     clock.rate = getFrameRate();
+    clock.frames = getTotalNumFrames();
   };
 
   void updateClock( VideoClock & clock ) {

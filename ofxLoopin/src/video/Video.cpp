@@ -62,7 +62,6 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   clock.advance( renderingFrame );
 
-  bool sendSyncEvent = false;
 
   float speed = clock.speed;
   // engine->setSpeed( speed );
@@ -132,6 +131,7 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
     ofxLoopinEvent event;
     event.type = "sync";
     dispatch( event );    
+    sendSyncEvent = false;
   }
 
   if ( engine->getIsMovieDone() ) {

@@ -47,6 +47,7 @@ protected:
 private:
   VideoEngine * engine = new VideoEngine();
   bool wasLoaded = false;
+  bool sendSyncEvent = false;
   void loadFile( const string & file );
   void setEngine() {
   };

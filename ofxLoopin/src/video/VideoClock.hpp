@@ -6,6 +6,7 @@ class VideoClock : public ofxLoopinClock {
 public:
   double duration;
   int index;
+  int frames;
 
   void syncTime( double time ) {
     frame.time = time;
@@ -19,6 +20,12 @@ public:
     _syncToFrame = index;
     _syncNext = true;
   }
+
+  void syncPosition( float position ) {
+    position = fmod( position, 1.0 );
+    syncIndex( float( frames ) * position );
+  }
+
 
   bool shouldSync() {
     if ( _syncNext ) {
@@ -51,6 +58,10 @@ protected:
     if ( value.is_object() ) {
       if ( value.count("time") && value["time"].is_number() ) {
         syncTime( value["time"].get<double>() );
+      }
+
+      if ( value.count("position") && value["position"].is_number() ) {
+        syncPosition( value["position"].get<double>() );
       }
 
       if ( ofxLoopinJSONToBool( value, "advance" ) ) {
