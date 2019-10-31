@@ -18,7 +18,7 @@
 #include "kinect/Kinect.hpp"
 #include "ofxLoopinLayer.h"
 #include "ofxLoopinMesh.h"
-#include "ofxLoopinOSD.h"
+#include "window/OSD.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
 #include "ofxLoopinShaders.h"
@@ -146,7 +146,7 @@ public:
   /** loopin/root/osd
     type: osd
   */
-  ofxLoopinOSD osd;
+  ofxLoopin::window::OSD osd;
   
   #ifdef LOOPIN_SYPHON
   ofxLoopinSyphonRoot syphon;
