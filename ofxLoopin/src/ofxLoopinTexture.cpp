@@ -1,12 +1,12 @@
 #include "ofxLoopinTexture.h"
 
 
-void ofxLoopinTexture::bindToShader( ofxLoopinShader * shader ) {
+void ofxLoopinTexture::bindToShader( ofxLoopin::shader::Shader * shader ) {
   bindSpecific( shader, key, shader->_textureLocation++ );
 }
 
 
-void ofxLoopinTexture::bindSpecific( ofxLoopinShader * shader, string key, int location ) {
+void ofxLoopinTexture::bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location ) {
   ofMatrix4x4 matrix;
   shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
 

@@ -4,7 +4,7 @@
 
 #include "ofxLoopinControlBool.h"
 #include "ofxLoopinRender.h"
-#include "ofxLoopinShader.h"
+#include "../shader/Shader.hpp"
 #include "../type/Enable.hpp"
 
 
@@ -107,7 +107,7 @@ private:
 
   void closeKinect();
 
-  static ofxLoopinShader _bothShader;
+  static ofxLoopin::shader::Shader _bothShader;
 
 };
 }};

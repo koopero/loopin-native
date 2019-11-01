@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinShader.h"
+#include "ofxLoopin::shader::Shader.h"
 #include "ofVec2f.h"
 
 class ofxLoopinAspect {
@@ -12,7 +12,7 @@ public:
 
   void calculate();
 
-  void setUniforms( ofxLoopinShader * shader );
+  void setUniforms( ofxLoopin::shader::Shader * shader );
 
   float toCamera();
   float toTransform();

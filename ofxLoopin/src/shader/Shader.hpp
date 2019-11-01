@@ -4,7 +4,8 @@
 #include "ofxLoopinFile.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMeshBase.h"
-#include "ofxLoopinShaderElement.h"
+#include "./ShaderElement.hpp"
+
 #include "ofShader.h"
 
 /** loopin/type/shader
@@ -15,21 +16,21 @@ sub:
   frag:
     type: shaderElement
 */
-
-class ofxLoopinShader : public ofxLoopinControl {
+namespace ofxLoopin { namespace shader {
+class Shader : public ofxLoopinControl {
 public:
-  ofxLoopinShader() {};
-  ofxLoopinShader( string _key ) {
+  Shader() {};
+  Shader( string _key ) {
     key = _key;
   };
 
-  ofxLoopinShader( string _key, string defaultFragSource ) {
+  Shader( string _key, string defaultFragSource ) {
     key = _key;
     frag.data = defaultFragSource;
     frag.dataIsNew = true;
   };
 
-  ofxLoopinShader( string _key, string defaultVertSource, string defaultFragSource ) {
+  Shader( string _key, string defaultVertSource, string defaultFragSource ) {
     key = _key;
     frag.data = defaultFragSource;
     frag.dataIsNew = true;
@@ -40,8 +41,8 @@ public:
 
   ofShader shader;
 
-  ofxLoopinShaderElement vert;
-  ofxLoopinShaderElement frag;
+  ShaderElement vert;
+  ShaderElement frag;
 
   int _textureLocation;
 
@@ -76,3 +77,4 @@ protected:
 
   bool _initialized = false;
 };
+}};

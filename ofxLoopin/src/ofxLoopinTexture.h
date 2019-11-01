@@ -4,7 +4,7 @@
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinRef.h"
 #include "ofxLoopinRoot.h"
-#include "ofxLoopinShader.h"
+#include "./shader/Shader.hpp"
 #include "ofxLoopinUniform.h"
 
 /** loopin/type/texture/subs/:
@@ -46,8 +46,8 @@ public:
     return false;
   }
 
-  void bindToShader( ofxLoopinShader * shader );
-  void bindSpecific( ofxLoopinShader * shader, string key, int location );
+  void bindToShader( ofxLoopin::shader::Shader * shader );
+  void bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location );
   void unbind();
 
 

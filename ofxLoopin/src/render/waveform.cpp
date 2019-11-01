@@ -1,6 +1,6 @@
 #include "waveform.hpp"
 
-ofxLoopinShader ofxLoopin::render::waveform_imp::shader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::render::waveform_imp::shader = ofxLoopin::shader::Shader(
 // name
 "solidRGBA",
 // frag
@@ -29,7 +29,7 @@ void main() \n\
 #endif
 ) ;
 
-ofxLoopinShader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopinShader();
+ofxLoopin::shader::Shader ofxLoopin::render::waveform_imp::scrollShader = ofxLoopin::shader::Shader();
 
 ofJson ofxLoopin::render::waveform::infoGet() {
   ofJson result;

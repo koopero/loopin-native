@@ -21,7 +21,7 @@
 #include "window/OSD.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
-#include "ofxLoopinShaders.h"
+#include "./shader/Shaders.hpp"
 #include "show/show.hpp"
 #include "ofxLoopinText.h"
 #include "video/Video.hpp"
@@ -41,7 +41,7 @@
 class ofxLoopinApp :
   public ofBaseApp,
   public ofxLoopinRoot,
-  public ofxLoopinHasShaders,
+  public ofxLoopin::shader::HasShaders,
   public ofxLoopinHasMeshes,
   public ofxLoopinHasCameras,
   public ofxLoopinHasUniforms
@@ -257,7 +257,7 @@ protected:
     }
   }
 
-  static ofxLoopinShader shaderDefault; 
+  static ofxLoopin::shader::Shader shaderDefault; 
 
 private:
   int exitAfterFrames = 0;

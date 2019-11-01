@@ -7,7 +7,7 @@
 #include "ofxLoopinRender.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
-#include "ofxLoopinShader.h"
+#include "../shader/Shader.hpp"
 #include "../type/Box.hpp"
 
 
@@ -97,7 +97,7 @@ protected:
   void maybeOutputBuffer( ofxLoopinBuffer * buffer );
   void addSubControls();
 
-  static ofxLoopinShader shader;
+  static ofxLoopin::shader::Shader shader;
 };
 
 

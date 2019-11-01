@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinShader.h"
+#include "./shader/Shader.hpp"
 #include "ofxLoopinControlNumeric.h"
 #include "./type/Vector.hpp"
 
@@ -8,7 +8,7 @@
 
 class ofxLoopinUniform {
 public:
-  virtual void bindToShader( ofxLoopinShader * shader ) {};
+  virtual void bindToShader( ofxLoopin::shader::Shader * shader ) {};
   virtual void unbind() {};
 
 };
@@ -18,7 +18,7 @@ class ofxLoopinUniformFloat :
   public ofxLoopinControlNumeric
 {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     float value = getValueFloat();
     shader->applyUniformFloat( key, value );
   };
@@ -29,7 +29,7 @@ class ofxLoopinUniformInt :
   public ofxLoopinControlNumeric
 {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     int value = getValueInt();
     shader->applyUniformInt( key, value );
   };
@@ -40,7 +40,7 @@ class ofxLoopinUniformVec2 :
   public ofxLoopin::type::Vector<2>
 {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     shader->applyUniformVec2( key, getValueVec2() );
   };
 };
@@ -50,7 +50,7 @@ class ofxLoopinUniformVec3 :
   public ofxLoopin::type::Vector<3>
 {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     shader->applyUniformVec3( key, getValueVec3() );
   };
 };
@@ -60,7 +60,7 @@ class ofxLoopinUniformVec4 :
   public ofxLoopin::type::Vector<4>
 {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     shader->applyUniformVec4( key, getValueVec4() );
   };
 };

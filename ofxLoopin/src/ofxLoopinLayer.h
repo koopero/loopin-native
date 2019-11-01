@@ -14,6 +14,8 @@
 #include "ofxLoopinControlNumber.h"
 #include "./type/Enable.hpp"
 #include "./interface/Blend.hpp"
+#include "./shader/Shader.hpp"
+
 
 
 #include "ofAppRunner.h"
@@ -151,7 +153,7 @@ protected:
   void resetUniforms();
 
   ofxLoopinBuffer * _buffer = nullptr;
-  ofxLoopinShader * _shader = nullptr;
+  ofxLoopin::shader::Shader * _shader = nullptr;
   ofxLoopinMesh * _mesh = nullptr;
   ofxLoopinCamera * _camera = nullptr;
 

@@ -1,18 +1,16 @@
-#include "ofxLoopinShader.h"
+#include "./shader/Shader.hpp"
 
-void ofxLoopinShader::patchLocalAfter( const ofJson & value ) {
+void ofxLoopin::shader::Shader::patchLocalAfter( const ofJson & value ) {
   refresh( false );
 };
 
-void ofxLoopinShader::addSubControls() {
+void ofxLoopin::shader::Shader::addSubControls() {
   addSubControl("vert", &vert );
   addSubControl("frag", &frag );
 };
 
 
-
-
-void ofxLoopinShader::refresh( bool sendNeedEvent ) {
+void ofxLoopin::shader::Shader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 
   if ( !_initialized ) {
@@ -26,7 +24,6 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
     }
     _initialized = true;
   }
-
 
   vert.load();
   frag.load();
@@ -55,37 +52,37 @@ void ofxLoopinShader::refresh( bool sendNeedEvent ) {
   }
 }
 
-void ofxLoopinShader::begin() {
+void ofxLoopin::shader::Shader::begin() {
   refresh();
   shader.begin();
   _textureLocation = 1;
 }
 
-void ofxLoopinShader::end() {
+void ofxLoopin::shader::Shader::end() {
   shader.end();
 }
 
-void ofxLoopinShader::applyUniformFloat( const string & name, double value ) {
+void ofxLoopin::shader::Shader::applyUniformFloat( const string & name, double value ) {
   shader.setUniform1f( name, value );
 }
 
-void ofxLoopinShader::applyUniformInt( const string & name, int value ){
+void ofxLoopin::shader::Shader::applyUniformInt( const string & name, int value ){
   shader.setUniform1i( name, value );
 }
 
-void ofxLoopinShader::applyUniformVec2( const string & name, ofVec2f value ){
+void ofxLoopin::shader::Shader::applyUniformVec2( const string & name, ofVec2f value ){
   shader.setUniform2f( name, value );
 }
 
-void ofxLoopinShader::applyUniformVec3( const string & name, ofVec3f value ){
+void ofxLoopin::shader::Shader::applyUniformVec3( const string & name, ofVec3f value ){
   shader.setUniform3f( name, value );
 }
 
-void ofxLoopinShader::applyUniformVec4( const string & name, ofVec4f value ){
+void ofxLoopin::shader::Shader::applyUniformVec4( const string & name, ofVec4f value ){
   shader.setUniform4f( name, value );
 }
 
-void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
+void ofxLoopin::shader::Shader::applyUniformsPass( int passIndex, int passTotal ) {
   // std::cerr << "applyUniformsPass " << passIndex << " " << passTotal << endl;
   applyUniformInt( "passIndex", passIndex );
   applyUniformInt( "passTotal", passTotal );
@@ -93,7 +90,7 @@ void ofxLoopinShader::applyUniformsPass( int passIndex, int passTotal ) {
   applyUniformFloat( "passX", (float) passIndex / (float) passTotal );
 }
 
-void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::shader::Shader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   applyUniformFloat( "bufferAspect", buffer->getAspect() );
   applyUniformInt( "bufferWidth", buffer->getWidth() );
   applyUniformInt( "bufferHeight", buffer->getHeight() );
@@ -101,14 +98,14 @@ void ofxLoopinShader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
   applyUniformInt( "bufferCols", buffer->cols.getValueInt() );
 }
 
-void ofxLoopinShader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
+void ofxLoopin::shader::Shader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
   applyUniformFloat( "meshAspect", mesh->aspect );
   applyUniformInt( "meshCount", mesh->meta_count );
   applyUniformInt( "meshRows", mesh->meta_rows );
   applyUniformInt( "meshCols", mesh->meta_cols );
 }
 
-void ofxLoopinShader::applyUniformsGlobalClock() {
+void ofxLoopin::shader::Shader::applyUniformsGlobalClock() {
   ofxLoopinFrame frame = root->frame;
   applyUniformInt( "clockGlobalIndex", frame.index );
   applyUniformFloat( "clockGlobalTime", frame.time );
@@ -116,14 +113,14 @@ void ofxLoopinShader::applyUniformsGlobalClock() {
 }
 
 
-void ofxLoopinShader::applyUniformsFrame() {
+void ofxLoopin::shader::Shader::applyUniformsFrame() {
   ofxLoopinFrame frame = root->frame;
   applyUniformInt( "clockIndex", frame.index );
   applyUniformFloat( "clockTime", frame.time );
   applyUniformFloat( "clockDelta", frame.delta );
 }
 
-void ofxLoopinShader::applyUniformPointSize( float pointSize ) {
+void ofxLoopin::shader::Shader::applyUniformPointSize( float pointSize ) {
   applyUniformFloat( "pointSize", pointSize );
   applyUniformFloat( "pointDensity", 1.0 / pointSize / pointSize );
 }

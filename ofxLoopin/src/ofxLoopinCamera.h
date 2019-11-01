@@ -4,7 +4,7 @@
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinRoot.h"
-#include "ofxLoopinShader.h"
+#include "./shader/Shader.hpp"
 #include "ofxLoopinTransform2D.h"
 #include "type/Vector.hpp"
 
@@ -133,7 +133,7 @@ private:
   void loadMatrixes();
 
 
-  void setUniforms( ofxLoopinShader * shader ) {
+  void setUniforms( ofxLoopin::shader::Shader * shader ) {
     shader->shader.setUniform1f( "cameraFOV", ofxLoopinCamera::fov );
   }
 

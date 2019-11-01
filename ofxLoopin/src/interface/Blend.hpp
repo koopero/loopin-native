@@ -16,7 +16,7 @@ public:
   options::BlendFunc srcAlpha;
   options::BlendFunc dstAlpha;
 
-  void addSubControls() {
+  void addSubControls() override {
     addSubControl("colour", &colour );
     addSubControl("equation", &equation );
     addSubControl("srcRGB", &srcRGB );

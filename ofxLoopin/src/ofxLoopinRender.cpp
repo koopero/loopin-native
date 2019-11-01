@@ -1,6 +1,6 @@
 #include "ofxLoopinRender.h"
 
-ofxLoopinShader ofxLoopinRender::shaderDefault = ofxLoopinShader("shaderDefault") ;
+ofxLoopin::shader::Shader ofxLoopinRender::shaderDefault = ofxLoopin::shader::Shader("shaderDefault") ;
 
 ofxLoopinBuffer * ofxLoopinRender::getBuffer( const string & key, bool create ) {
 

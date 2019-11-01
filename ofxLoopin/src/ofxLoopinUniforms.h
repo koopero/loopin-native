@@ -3,14 +3,14 @@
 #include "ofxLoopinControl.h"
 #include "ofxLoopinControlNumeric.h"
 #include "ofxLoopinMap.h"
-#include "ofxLoopinShader.h"
+#include "./shader/Shader.hpp"
 #include "ofxLoopinTexture.h"
 #include "ofxLoopinUniform.h"
 
 template <class child_type>
 class ofxLoopinUniforms : public ofxLoopinMap<child_type> {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     for ( auto & it : ofxLoopinMap<child_type>::getMap() ) {
       const string & key = it.first;
       ofxLoopinUniform & uniform = it.second;
@@ -34,7 +34,7 @@ public:
 
 class ofxLoopinUniformSet : public ofxLoopinControl {
 public:
-  void bindToShader( ofxLoopinShader * shader ) {
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
     floats.bindToShader( shader );
     tex.bindToShader( shader );
     ints.bindToShader( shader );

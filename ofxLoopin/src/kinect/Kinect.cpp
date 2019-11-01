@@ -2,7 +2,7 @@
 #include "ofGraphics.h"
 
 
-ofxLoopinShader ofxLoopin::kinect::Kinect::_bothShader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::kinect::Kinect::_bothShader = ofxLoopin::shader::Shader(
 #ifndef TARGET_OPENGLES
 // name
 "kinectBoth",
@@ -174,7 +174,7 @@ ofxLoopinBuffer * ofxLoopin::kinect::Kinect::renderDepth() {
 
   ofTexture &depth = kinect->getDepthTexture();
 
-  // ofxLoopinShader * shader = ofxLoopinRender::shader.getPointer();
+  // ofxLoopin::shader::Shader * shader = ofxLoopinRender::shader.getPointer();
   // shader->begin();
 
   ofxLoopinBuffer * depthBuffer = getBuffer( key + ":depth", true );

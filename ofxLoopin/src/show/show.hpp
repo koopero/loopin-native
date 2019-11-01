@@ -28,8 +28,8 @@ public:
 
 protected:
   void addSubControls();
-  static ofxLoopinShader alphaDivideShader;
-  static ofxLoopinShader alphaShowShader;
+  static ofxLoopin::shader::Shader alphaDivideShader;
+  static ofxLoopin::shader::Shader alphaShowShader;
 
 
 private:

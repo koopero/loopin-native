@@ -1,26 +1,28 @@
 #pragma once
 
-#include "ofxLoopinShader.h"
+#include "./Shader.hpp"
 #include "ofxLoopinUniforms.h"
 
 
-class ofxLoopinShaderWithUniforms : public ofxLoopinShader {
+namespace ofxLoopin { namespace shader {
+class ShaderWithUniforms : public Shader {
 public:
   ofxLoopinUniformSet uniforms;
 
-  void applyUniformsSelf() {
+  void applyUniformsSelf() override {
     uniforms.bindToShader( this );
   };
-  void applyUniformsGlobal() {
+  void applyUniformsGlobal() override {
     auto has = dynamic_cast<ofxLoopinHasUniforms *> ( root );
     if ( has ) {
       has->uniforms.bindToShader( this );
     }
   };
 protected:
-  void addSubControls() {
+  void addSubControls() override {
     addSubControl( &uniforms );
     addSubControl("vert", &vert );
     addSubControl("frag", &frag );
   }
 };
+}};

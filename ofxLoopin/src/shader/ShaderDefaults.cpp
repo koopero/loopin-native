@@ -1,9 +1,6 @@
-#include "ofxLoopinShaderDefaults.h"
+#include "./ShaderDefaults.hpp"
 
-#define MULTI_LINE_STRING(a) #a
-
-
-const string ofxLoopinShaderDefaults::GLES_VERT = "\
+const string ofxLoopin::shader::ShaderDefaults::GLES_VERT = "\
   precision highp float; \
   uniform mat4 modelViewProjectionMatrix; \
   uniform sampler2D srcSampler; \
@@ -18,7 +15,7 @@ const string ofxLoopinShaderDefaults::GLES_VERT = "\
 ";
 
 
-const string ofxLoopinShaderDefaults::GLES_FRAG = "\
+const string ofxLoopin::shader::ShaderDefaults::GLES_FRAG = "\
   precision highp float; \
   uniform sampler2D srcSampler; \
   varying vec2 srcCoord; \
@@ -28,7 +25,7 @@ const string ofxLoopinShaderDefaults::GLES_FRAG = "\
   } \
 ";
 
-const string ofxLoopinShaderDefaults::GL_VERT = "\
+const string ofxLoopin::shader::ShaderDefaults::GL_VERT = "\
 #version 150\n\
 uniform mat4 modelViewProjectionMatrix;\n\
 uniform mat4 srcMatrix;\n\
@@ -48,7 +45,7 @@ void main()\n\
 
 
 
-const string ofxLoopinShaderDefaults::GL_FRAG = "\
+const string ofxLoopin::shader::ShaderDefaults::GL_FRAG = "\
   #version 150 \n\
   uniform sampler2D srcSampler; \n\
   in vec2 srcCoord; \n\

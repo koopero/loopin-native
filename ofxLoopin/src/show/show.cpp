@@ -1,6 +1,6 @@
 #include "./show.hpp"
 
-ofxLoopinShader ofxLoopin::Show::alphaDivideShader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::Show::alphaDivideShader = ofxLoopin::shader::Shader(
 // name
 "alphaDivide",
 #ifndef TARGET_OPENGLES
@@ -27,7 +27,7 @@ void main(){ \n\
 #endif
 );
 
-ofxLoopinShader ofxLoopin::Show::alphaShowShader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::Show::alphaShowShader = ofxLoopin::shader::Shader(
 // name
 "alphaShow",
 #ifndef TARGET_OPENGLES

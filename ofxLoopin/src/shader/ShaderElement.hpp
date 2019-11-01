@@ -1,14 +1,15 @@
 #pragma once
 
-#include "ofxLoopinLoader.h"
-#include "ofxLoopinControlValue.h"
+#include "../ofxLoopinLoader.h"
+#include "../ofxLoopinControlValue.h"
 
 /** loopin/type/shaderElement
 type: source
 sourceType: glsl
 */
 
-class ofxLoopinShaderElement : public ofxLoopinLoader {
+namespace ofxLoopin { namespace shader {
+class ShaderElement : public ofxLoopinLoader {
 public:
   string file;
   string data;
@@ -16,13 +17,11 @@ public:
   void load();
   void loadDefault();
 
-
   bool dataIsNew = false;
 
   bool isDataReady() {
     return data.size() > 0;
   }
-
 
 protected:
   string _loadedFile;
@@ -43,11 +42,8 @@ protected:
     dataIsNew = true;
   };
 
-
-
   /* Heuristically determine whether a given string is
     a filename or GLSL source. */
   bool is_stringGLSL( const string & str );
-
-
 };
+}};

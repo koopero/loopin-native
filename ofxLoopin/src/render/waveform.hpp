@@ -7,7 +7,7 @@
 #include "ofxLoopinControlEnum.h"
 #include "ofxLoopinControlNumber.h"
 #include "ofxLoopinRender.h"
-#include "ofxLoopinShader.h"
+#include "../shader/Shader.hpp"
 #include "../type/Enable.hpp"
 
 
@@ -86,8 +86,8 @@ protected:
 
   };
 
-  static ofxLoopinShader shader;
-  static ofxLoopinShader scrollShader;
+  static ofxLoopin::shader::Shader shader;
+  static ofxLoopin::shader::Shader scrollShader;
 
   void closeStream();
 };

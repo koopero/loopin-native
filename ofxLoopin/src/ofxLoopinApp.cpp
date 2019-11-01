@@ -1,6 +1,6 @@
 #include "ofxLoopinApp.h"
 
-ofxLoopinShader ofxLoopinApp::shaderDefault = ofxLoopinShader("shaderDefault") ;
+ofxLoopin::shader::Shader ofxLoopinApp::shaderDefault = ofxLoopin::shader::Shader("shaderDefault") ;
 
 
 ofxLoopinApp::ofxLoopinApp () {

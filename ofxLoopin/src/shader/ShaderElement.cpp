@@ -1,9 +1,9 @@
-#include "ofxLoopinShaderElement.h"
-#include "ofxLoopinFile.h"
-#include "ofxLoopinShaderDefaults.h"
+#include "./ShaderElement.hpp"
+#include "../ofxLoopinFile.h"
+#include "./ShaderDefaults.hpp"
 
 
-void ofxLoopinShaderElement::loadDefault() {
+void ofxLoopin::shader::ShaderElement::loadDefault() {
   // Already got data from ofxLoopinShader constructor
   if ( data.size() )
     return;
@@ -14,15 +14,15 @@ void ofxLoopinShaderElement::loadDefault() {
   if ( !file.size() ) {
     if ( key == "vert" ) {
       #ifdef TARGET_OPENGLES
-        data = ofxLoopinShaderDefaults::GLES_VERT;
+        data = ShaderDefaults::GLES_VERT;
       #else
-        data = ofxLoopinShaderDefaults::GL_VERT;
+        data = ShaderDefaults::GL_VERT;
       #endif
     } else if ( key == "frag" ) {
       #ifdef TARGET_OPENGLES
-        data = ofxLoopinShaderDefaults::GLES_FRAG;
+        data = ShaderDefaults::GLES_FRAG;
       #else
-        data = ofxLoopinShaderDefaults::GL_FRAG;
+        data = ShaderDefaults::GL_FRAG;
       #endif
     }
   }
@@ -30,7 +30,7 @@ void ofxLoopinShaderElement::loadDefault() {
   dataIsNew = true;
 }
 
-string ofxLoopinShaderElement::findDefaultFile() {
+string ofxLoopin::shader::ShaderElement::findDefaultFile() {
 
   #ifdef TARGET_OPENGLES
   string version = "es";
@@ -61,7 +61,7 @@ string ofxLoopinShaderElement::findDefaultFile() {
   return "";
 }
 
-void ofxLoopinShaderElement::load() {
+void ofxLoopin::shader::ShaderElement::load() {
   if ( _loadedFile == file )
     return;
 

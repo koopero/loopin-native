@@ -7,7 +7,7 @@
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinRef.h"
-#include "ofxLoopinShaders.h"
+#include "./shader/Shaders.hpp"
 #include "ofxLoopinUniforms.h"
 
 /** loopin/root/render/:
@@ -73,7 +73,7 @@ protected:
   };
 
   ofxLoopinUniformSet uniforms;
-  ofxLoopinRef<ofxLoopinShaderWithUniforms,ofxLoopinHasShaders> shader;
+  ofxLoopinRef<ofxLoopin::shader::ShaderWithUniforms,ofxLoopin::shader::HasShaders> shader;
 
   virtual ofxLoopinBuffer * getBuffer( bool create = false ) {
     if ( buffer.key.size() )
@@ -84,7 +84,7 @@ protected:
 
   ofxLoopinBuffer * getBuffer( const string & key, bool create = false );
 
-  static ofxLoopinShader shaderDefault; 
+  static ofxLoopin::shader::Shader shaderDefault; 
 };
 
 class ofxLoopinRenderList {

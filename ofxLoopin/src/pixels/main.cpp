@@ -1,11 +1,11 @@
 #include "./main.hpp"
 #include "ofxLoopinFile.h"
 
-ofxLoopinShader ofxLoopin::pixels::Render::shader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::pixels::Render::shader = ofxLoopin::shader::Shader(
 // name
 "solidRGBA",
 // frag
-#ifndef TARGET_OPENGLES:
+#ifndef TARGET_OPENGLES
 "#version 150 \n\
 uniform float red; \n\
 uniform float green; \n\
