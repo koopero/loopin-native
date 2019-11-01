@@ -40,9 +40,6 @@ if ( args.deps ) {
   promise = promise.then( () => process.exit() )
 }
 
-
-
-
 if ( args.zip ) {
   promise = promise.then( () => require('./build/zip')( build ) )
 } else if ( args.info ) {
