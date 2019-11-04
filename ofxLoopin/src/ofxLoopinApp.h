@@ -27,7 +27,7 @@
 #include "video/Video.hpp"
 #include "pixels/main.hpp"
 #include "render/waveform.hpp"
-#include "ofxLoopinWindow.h"
+#include "window/Window.hpp"
 #include "ofxLoopinSyphon.h"
 #include "grabber/Grabber.hpp"
 
@@ -72,9 +72,6 @@ public:
   */
   ofxLoopinClock clock;
 
-  // camera/ - Virtual cameras for 3D transforms
-  // ofxLoopinCameras cameras; // defined in ofxLoopinCamera
-
   // input/ - Input parameters
   /** loopin/root/input
     type: input
@@ -85,7 +82,7 @@ public:
   /** loopin/root/window
     type: window
   */
-  ofxLoopinWindow window;
+  ofxLoopin::window::Window window;
 
   // image/:buffer - Load image files
   /** loopin/root/image

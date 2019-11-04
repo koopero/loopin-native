@@ -9,7 +9,6 @@ void ofxLoopin::shader::Shader::addSubControls() {
   addSubControl("frag", &frag );
 };
 
-
 void ofxLoopin::shader::Shader::refresh( bool sendNeedEvent ) {
   ofxLoopinEvent event;
 

@@ -1,11 +1,10 @@
 #pragma once
-
 #include "ofMain.h"
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinHasInfo.h"
+#include "../ofxLoopinControl.h"
+#include "../ofxLoopinHasInfo.h"
 
-#include "util/ofxLoopinJSON.hpp"
+#include "../util/ofxLoopinJSON.hpp"
 
 
 /** loopin/type/window
@@ -31,7 +30,8 @@ sub/height:
   markers: [ 16, 32, 64, 128, 256, 512, 720, 1080, 2048 ]
 */
 
-class ofxLoopinWindow : public ofxLoopinControl, public ofxLoopinHasInfo {
+namespace ofxLoopin { namespace window {
+class Window : public ofxLoopinControl, public ofxLoopinHasInfo {
 public:
   int width = 0;
   int height = 0;
@@ -133,3 +133,4 @@ protected:
   void sizeToWindow();
 
 };
+}};

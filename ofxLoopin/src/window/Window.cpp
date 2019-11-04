@@ -1,6 +1,6 @@
-#include "ofxLoopinWindow.h"
+#include "./Window.hpp"
 
-ofJson ofxLoopinWindow::infoGet() {
+ofJson ofxLoopin::window::Window::infoGet() {
   ofJson result;
 
   shared_ptr<ofBaseGLRenderer> renderer = dynamic_pointer_cast<ofBaseGLRenderer>( ofGetCurrentRenderer() );
@@ -20,14 +20,14 @@ ofJson ofxLoopinWindow::infoGet() {
   return result;
 }
 
-void ofxLoopinWindow::setAppBaseWindow( ofAppBaseWindow * window ) {
+void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
   _window = window;
   if ( _window ) {
     sizeToWindow();
   }
 }
 
-void ofxLoopinWindow::readLocal( ofJson & value ) {
+void ofxLoopin::window::Window::readLocal( ofJson & value ) {
   if ( _window ) {
     value["fullscreen"] = (bool) _window->getWindowMode();
     value["width"] = width;
@@ -38,17 +38,17 @@ void ofxLoopinWindow::readLocal( ofJson & value ) {
   }
 };
 
-void ofxLoopinWindow::sizeFromWindow() {
+void ofxLoopin::window::Window::sizeFromWindow() {
   ofPoint size = _window->getWindowSize();
   width = size.x;
   height = size.y;
 }
 
-void ofxLoopinWindow::sizeToWindow() {
+void ofxLoopin::window::Window::sizeToWindow() {
   ofPoint size = _window->getWindowSize();
 
-  int width = ofxLoopinWindow::width;
-  int height = ofxLoopinWindow::height;
+  int width = ofxLoopin::window::Window::width;
+  int height = ofxLoopin::window::Window::height;
 
   width = width <= 0 ? size.x : width;
   height = height <= 0 ? size.y : height;
@@ -56,7 +56,7 @@ void ofxLoopinWindow::sizeToWindow() {
   _window->setWindowShape( width, height );
 }
 
-void ofxLoopinWindow::update() {
+void ofxLoopin::window::Window::update() {
   ofPoint pos = _window->getWindowPosition();
   if ( pos != _position ) {
     _position = pos;
