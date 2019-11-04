@@ -1,9 +1,9 @@
-#include "ofxLoopinControl.h"
-#include "ofxLoopinRoot.h"
+#include "./Control.hpp"
+#include "../ofxLoopinRoot.h"
 
-void ofxLoopinControl::update() {
+void ofxLoopin::control::Control::update() {
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
-    ofxLoopinControl * sub = it->second;
+    ofxLoopin::control::Control * sub = it->second;
     sub->update();
   }
 
@@ -15,13 +15,13 @@ void ofxLoopinControl::update() {
 };
 
 
-ofJson ofxLoopinControl::read() {
+ofJson ofxLoopin::control::Control::read() {
   ofJson value = ofJson::object();
   readToValue( value );
   return value;
 };
 
-void ofxLoopinControl::readToValue( ofJson & value ) {
+void ofxLoopin::control::Control::readToValue( ofJson & value ) {
   if ( value.is_object () ) {
     readSubs( value );
   }
@@ -30,10 +30,10 @@ void ofxLoopinControl::readToValue( ofJson & value ) {
 
 }
 
-void ofxLoopinControl::readSubs( ofJson & value ) {
+void ofxLoopin::control::Control::readSubs( ofJson & value ) {
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
     const string & key = it->first;
-    ofxLoopinControl * sub = it->second;
+    ofxLoopin::control::Control * sub = it->second;
 
     value[ key ] = sub->read();
   }
@@ -43,7 +43,7 @@ void ofxLoopinControl::readSubs( ofJson & value ) {
   }
 };
 
-void ofxLoopinControl::patch ( const ofJson & val ) {
+void ofxLoopin::control::Control::patch ( const ofJson & val ) {
   patchLocal( val );
 
   if ( val.is_string() ) {
@@ -55,13 +55,13 @@ void ofxLoopinControl::patch ( const ofJson & val ) {
   }
 
   if ( val.is_object() && !val.empty() && !val.is_array() ) {
-    typedef map<string, ofxLoopinControl *>::iterator it_type;
+    typedef map<string, ofxLoopin::control::Control *>::iterator it_type;
 
     for ( it_type it = subs.begin(); it != subs.end(); it ++ ) {
       string key = it->first;
 
       if ( val.count( key ) ) {
-        ofxLoopinControl * sub = it->second;
+        ofxLoopin::control::Control * sub = it->second;
         sub->patch( val[ key ] );
       }
     }
@@ -75,11 +75,11 @@ void ofxLoopinControl::patch ( const ofJson & val ) {
 
 }
 
-void ofxLoopinControl::patchKey( string key, const ofJson & val ) {
+void ofxLoopin::control::Control::patchKey( string key, const ofJson & val ) {
   
 }
 
-void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {
+void ofxLoopin::control::Control::dispatch( ofxLoopinEvent & event ) {
   if ( root ) {
     if ( !event.path.size() )
       event.path = path;
@@ -94,11 +94,11 @@ void ofxLoopinControl::dispatch( ofxLoopinEvent & event ) {
 }
 
 
-void ofxLoopinControl::addSubControl( ofxLoopinControl * control ) {
+void ofxLoopin::control::Control::addSubControl( ofxLoopin::control::Control * control ) {
   addSubControl( "", control );
 }
 
-void ofxLoopinControl::addSubControl( string key, ofxLoopinControl * control ) {
+void ofxLoopin::control::Control::addSubControl( string key, ofxLoopin::control::Control * control ) {
   control->path = path.size() && key.size() ? path + "/" + key : path.size() ? path : key ;
   control->key = key;
   control->root = root;
@@ -113,7 +113,7 @@ void ofxLoopinControl::addSubControl( string key, ofxLoopinControl * control ) {
   }
 }
 
-ofxLoopinControl * ofxLoopinControl::walk( const string & path ) {
+ofxLoopin::control::Control * ofxLoopin::control::Control::walk( const string & path ) {
   if ( !path.size() )
     return this;
 

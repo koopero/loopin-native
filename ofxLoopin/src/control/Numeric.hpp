@@ -1,9 +1,10 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./Control.hpp"
 #include "ofxLoopinFrame.h"
 
-class ofxLoopinControlNumeric : public ofxLoopinControl {
+namespace ofxLoopin { namespace control {
+class Numeric : public Control {
 public:
 
   void setTarget( bool   * target );
@@ -68,3 +69,4 @@ protected:
 private:
   float   oscValue();
 };
+}};

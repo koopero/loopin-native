@@ -1,13 +1,14 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./Control.hpp"
 
-class ofxLoopinControlValue : public ofxLoopinControl {
+namespace ofxLoopin { namespace control {
+class Value : public Control {
 public:
-  ofxLoopinControlValue() {};
-  ofxLoopinControlValue( string * target ) : targ_string( target ) {} ;
-  ofxLoopinControlValue( int * target ) : targ_int( target ) {} ;
-  ofxLoopinControlValue( bool * target ) : targ_bool( target ) {} ;
+  Value() {};
+  Value( string * target ) : targ_string( target ) {} ;
+  Value( int * target ) : targ_int( target ) {} ;
+  Value( bool * target ) : targ_bool( target ) {} ;
 
   ofJson value;
 
@@ -17,9 +18,7 @@ public:
 
 protected:
   void patchLocal( const ofJson & value );
-
   void readLocal( ofJson & value );
-
 
 private:
   bool    * targ_bool   = nullptr;
@@ -28,3 +27,4 @@ private:
   int     * targ_int    = nullptr;
   string  * targ_string = nullptr;
 };
+}};

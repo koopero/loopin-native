@@ -1,6 +1,6 @@
-#include "ofxLoopinControlValue.h"
+#include "./Value.hpp"
 
-void ofxLoopinControlValue::patchLocal( const ofJson & val ) {
+void ofxLoopin::control::Value::patchLocal( const ofJson & val ) {
   if ( targ_int ) {
     if ( val.is_number() ) {
       // There were traces here for a reason, but I don't remember what it was.
@@ -31,7 +31,7 @@ void ofxLoopinControlValue::patchLocal( const ofJson & val ) {
   }
 }
 
-void ofxLoopinControlValue::readLocal( ofJson & value ) {
+void ofxLoopin::control::Value::readLocal( ofJson & value ) {
   if ( targ_string ) {
     value = *targ_string;
   }

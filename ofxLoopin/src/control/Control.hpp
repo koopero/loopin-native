@@ -6,10 +6,12 @@
 #include <iostream>
 
 class ofxLoopinRoot;
-class ofxLoopinControl {
+
+namespace ofxLoopin { namespace control {
+class Control {
 public:
 
-  ~ofxLoopinControl() {
+  ~Control() {
 
   };
 
@@ -31,11 +33,11 @@ public:
 
   ofJson read();
 
-  ofxLoopinControl * walk ( const string & path );
+  Control * walk ( const string & path );
 
   void readToValue( ofJson & value );
 
-  std::map< string, ofxLoopinControl *> getSubs() { return subs; };
+  std::map< string, Control *> getSubs() { return subs; };
 
 protected:
 
@@ -49,15 +51,15 @@ protected:
   virtual void readLocal( ofJson & value ) {};
   virtual void readSubs( ofJson & value );
 
-  void addSubControl( ofxLoopinControl * control );
-  void addSubControl( string key, ofxLoopinControl * control );
+  void addSubControl( Control * control );
+  void addSubControl( string key, Control * control );
 
   virtual void addSubControls() {};
 
 private:
 
-  std::vector <ofxLoopinControl *> subsUnkeyed;
-  std::map< string, ofxLoopinControl *> subs;
+  std::vector <Control *> subsUnkeyed;
+  std::map< string, Control *> subs;
 
 
 public:
@@ -66,3 +68,4 @@ public:
   };
 
 };
+}};

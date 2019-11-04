@@ -1,13 +1,14 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinFrame.h"
+#include "./Control.hpp"
+#include "../ofxLoopinFrame.h"
 
-class ofxLoopinControlNumber : public ofxLoopinControl {
+namespace ofxLoopin { namespace control {
+class Number : public Control {
 public:
-  ofxLoopinControlNumber( double value ) : value( value ) {};
-  ofxLoopinControlNumber( int _value ) : value( _value ) {};
-  ofxLoopinControlNumber() {};
+  Number( double value ) : value( value ) {};
+  Number( int _value ) : value( _value ) {};
+  Number() {};
 
 
   double operator()() const { return value; };
@@ -77,3 +78,4 @@ protected:
     jsonValue = value;
   };
 };
+}};

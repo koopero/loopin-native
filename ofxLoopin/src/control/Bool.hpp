@@ -1,12 +1,13 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "util/ofxLoopinJSON.hpp"
+#include "./Control.hpp"
+#include "../util/ofxLoopinJSON.hpp"
 
-class ofxLoopinControlBool : public ofxLoopinControl {
+namespace ofxLoopin { namespace control {
+class Bool : public Control {
 public:
-  ofxLoopinControlBool( bool value ) : value( value ) {};
-  ofxLoopinControlBool() {};
+  Bool( bool value ) : value( value ) {};
+  Bool() {};
 
   operator bool() const { return value; };
 
@@ -32,3 +33,4 @@ protected:
     jsonValue = ofJson( value );
   };
 };
+}};
