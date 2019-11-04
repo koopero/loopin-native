@@ -8,7 +8,7 @@
 #include "../control/Value.hpp"
 
 #include "ofxLoopinRender.h"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "../control/Box.hpp"
 
 /** loopin/type/image:

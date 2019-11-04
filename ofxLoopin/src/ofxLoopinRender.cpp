@@ -8,7 +8,7 @@ ofxLoopinBuffer * ofxLoopinRender::getBuffer( const string & key, bool create ) 
 
   auto has = dynamic_cast<ofxLoopinHasBuffers *> ( root );
   assert( has );
-  ofxLoopinMap<ofxLoopinBuffer> * map = has->__getMap();
+  ofxLoopin::control::Map<ofxLoopinBuffer> * map = has->__getMap();
 
   return map->getByKey( key, create );
 }

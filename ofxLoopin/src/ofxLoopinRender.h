@@ -5,7 +5,7 @@
 #include "./control/Control.hpp"
 #include "./control/Event.hpp"
 #include "./clock/Frame.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "./control/Reference.hpp"
 #include "./shader/Shaders.hpp"
 #include "ofxLoopinUniforms.h"
@@ -94,10 +94,10 @@ public:
 
 
 template <class Render>
-class ofxLoopinRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
+class ofxLoopinRenders : public ofxLoopin::control::Map<Render>, public ofxLoopinRenderList {
 public:
   void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
-    for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {
+    for( auto it = ofxLoopin::control::Map<Render>::_map.begin(); it != ofxLoopin::control::Map<Render>::_map.end(); it++) {
       Render &render = it->second;
       string key = it->first;
       render.render( frame, _buffer );
@@ -107,12 +107,12 @@ public:
 
 
 template <class Render>
-class ofxLoopinOrderedRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
+class ofxLoopinOrderedRenders : public ofxLoopin::control::Map<Render>, public ofxLoopinRenderList {
 public:
   void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
 
     std::vector<Render*> list;
-    for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {
+    for( auto it = ofxLoopin::control::Map<Render>::_map.begin(); it != ofxLoopin::control::Map<Render>::_map.end(); it++) {
       list.push_back( &it->second );
     }
 

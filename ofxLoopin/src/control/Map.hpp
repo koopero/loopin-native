@@ -2,8 +2,9 @@
 
 #include "./control/Control.hpp"
 
+namespace ofxLoopin { namespace control {
 template <class child_type>
-class ofxLoopinMap : public ofxLoopin::control::Control {
+class Map : public Control {
 public:
   string defaultKey = "";
 
@@ -25,7 +26,7 @@ public:
 
   void update() {
     for( auto it = _map.begin(); it != _map.end(); it++) {
-      ofxLoopin::control::Control &item = it->second;
+      Control &item = it->second;
       item.update();
     }
   };
@@ -52,7 +53,7 @@ protected:
 
 
 template <class child_type>
-child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
+child_type * Map<child_type>::getByKey( string key, bool create ) {
 
   if ( !key.size() ) {
     if ( defaultKey.size() )
@@ -74,7 +75,7 @@ child_type * ofxLoopinMap<child_type>::getByKey( string key, bool create ) {
 }
 
 template <class child_type>
-void ofxLoopinMap<child_type>::patchKey( string key, const ofJson & val ) {
+void Map<child_type>::patchKey( string key, const ofJson & val ) {
   bool hasVal = !val.is_null();
   child_type * item = _map.count( key ) ? &_map[key] : NULL;
 
@@ -91,7 +92,5 @@ void ofxLoopinMap<child_type>::patchKey( string key, const ofJson & val ) {
     // patch
     item->patch( val );
   }
-
-
-
-}
+};
+}};

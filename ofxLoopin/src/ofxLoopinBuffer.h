@@ -6,7 +6,7 @@
 #include "./control/Number.hpp"
 #include "./control/Numeric.hpp"
 #include "./control/Event.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 
 #include "ofMain.h"
 #include "ofFbo.h"
@@ -175,7 +175,7 @@ private:
 
 };
 
-class ofxLoopinBuffers : public ofxLoopinMap<ofxLoopinBuffer> {
+class ofxLoopinBuffers : public ofxLoopin::control::Map<ofxLoopinBuffer> {
 
 };
 

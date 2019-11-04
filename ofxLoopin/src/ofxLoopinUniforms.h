@@ -2,16 +2,16 @@
 
 #include "./control/Control.hpp"
 #include "./control/Numeric.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinTexture.h"
 #include "ofxLoopinUniform.h"
 
 template <class child_type>
-class ofxLoopinUniforms : public ofxLoopinMap<child_type> {
+class ofxLoopinUniforms : public ofxLoopin::control::Map<child_type> {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
-    for ( auto & it : ofxLoopinMap<child_type>::getMap() ) {
+    for ( auto & it : ofxLoopin::control::Map<child_type>::getMap() ) {
       const string & key = it.first;
       ofxLoopinUniform & uniform = it.second;
 
@@ -24,7 +24,7 @@ public:
   };
 
   void unbind() {
-    for ( auto & it : ofxLoopinMap<child_type>::getMap() ) {
+    for ( auto & it : ofxLoopin::control::Map<child_type>::getMap() ) {
       ofxLoopinUniform & uniform = it.second;
       uniform.unbind();
     }

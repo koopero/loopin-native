@@ -6,7 +6,7 @@
 #include "./control/Enum.hpp"
 #include "ofxLoopinRender.h"
 #include "./clock/Frame.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 
 
 class ofxLoopinSaverThread : public ofThread {

@@ -2,7 +2,7 @@
 
 #include "./control/Control.hpp"
 #include "./control/Number.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "ofxLoopinRoot.h"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinTransform2D.h"
@@ -160,12 +160,12 @@ protected:
   }
 };
 
-class ofxLoopinCameras : public ofxLoopinMap<ofxLoopinCamera> {
+class ofxLoopinCameras : public ofxLoopin::control::Map<ofxLoopinCamera> {
 
 };
 
 class ofxLoopinHasCameras {
 public:
   ofxLoopinCameras cameras;
-  ofxLoopinMap<ofxLoopinCamera> * __getMap() { return &cameras; }
+  ofxLoopin::control::Map<ofxLoopinCamera> * __getMap() { return &cameras; }
 };

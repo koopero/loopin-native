@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofxLoopinMeshBase.h"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 
 #include "mesh/arc.h"
 #include "mesh/cube.h"
@@ -93,12 +93,12 @@ protected:
   };
 };
 
-class ofxLoopinMeshes : public ofxLoopinMap<ofxLoopinMesh> {
+class ofxLoopinMeshes : public ofxLoopin::control::Map<ofxLoopinMesh> {
 
 };
 
 class ofxLoopinHasMeshes {
 public:
   ofxLoopinMeshes meshes;
-  ofxLoopinMap<ofxLoopinMesh> * __getMap() { return &meshes; }
+  ofxLoopin::control::Map<ofxLoopinMesh> * __getMap() { return &meshes; }
 };

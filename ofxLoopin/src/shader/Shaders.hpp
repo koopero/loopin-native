@@ -1,14 +1,14 @@
 #pragma once
 
 #include "./ShaderWithUniforms.hpp"
-#include "../ofxLoopinMap.h"
+#include ".././control/Map.hpp"
 
 /** loopin/root/shader:
 map: shader
 */
 
 namespace ofxLoopin { namespace shader {
-class Shaders : public ofxLoopinMap<ShaderWithUniforms> {};
+class Shaders : public ofxLoopin::control::Map<ShaderWithUniforms> {};
 
 class HasShaders {
 public:

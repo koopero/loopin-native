@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "ofxLoopinRoot.h"
 #include <assert.h>
 
@@ -24,7 +24,7 @@ public:
       dispatch(event);
     }
 
-    ofxLoopinMap<TYPE> * map = has->__getMap();
+    ofxLoopin::control::Map<TYPE> * map = has->__getMap();
 
     if ( map == nullptr ) {
       ofxLoopin::control::Event event("mapFuckup");

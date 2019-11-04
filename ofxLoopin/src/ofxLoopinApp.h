@@ -5,7 +5,7 @@
 #include "./clock/Clock.hpp"
 #include "./clock/Frame.hpp"
 #include "ofxLoopinInput.h"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "./control/Reference.hpp"
 #include "ofxLoopinRoot.h"
 #include "ofxLoopinReader.h"

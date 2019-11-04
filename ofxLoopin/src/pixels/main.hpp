@@ -6,7 +6,7 @@
 #include "./control/Enum.hpp"
 #include "ofxLoopinRender.h"
 #include "../clock/Frame.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "../shader/Shader.hpp"
 #include "../control/Box.hpp"
 

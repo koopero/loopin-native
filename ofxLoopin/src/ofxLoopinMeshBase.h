@@ -3,7 +3,7 @@
 #include "./control/Control.hpp"
 #include "./control/Enum.hpp"
 #include "./control/Number.hpp"
-#include "ofxLoopinMap.h"
+#include "./control/Map.hpp"
 #include "util/ofxLoopinJSON.hpp"
 #include "ofMesh.h"
 
