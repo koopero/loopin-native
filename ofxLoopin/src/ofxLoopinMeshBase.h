@@ -2,7 +2,7 @@
 
 #include "./control/Control.hpp"
 #include "./control/Enum.hpp"
-#include "ofxLoopin::control::Number.h"
+#include "./control/Number.hpp"
 #include "ofxLoopinMap.h"
 #include "util/ofxLoopinJSON.hpp"
 #include "ofMesh.h"
@@ -56,7 +56,7 @@ public:
   ofxLoopin::control::Number aspect;
 
   void draw() {
-    _mesh.setMode( mode.getEnumValue() );
+    _mesh.setMode( mode );
     _mesh.draw();
   };
 
@@ -86,8 +86,8 @@ protected:
   virtual void addSubControls() {
     addSubControl("aspect", &aspect );
 
-    mode.setEnumKey("triangles", OF_PRIMITIVE_TRIANGLES );
-    mode.setEnumKey("points", OF_PRIMITIVE_POINTS );
+    mode.enumAddOption("triangles", OF_PRIMITIVE_TRIANGLES );
+    mode.enumAddOption("points", OF_PRIMITIVE_POINTS );
     addSubControl("mode", &mode );
   };
 

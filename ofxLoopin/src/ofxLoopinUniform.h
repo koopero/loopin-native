@@ -1,10 +1,8 @@
 #pragma once
 
 #include "./shader/Shader.hpp"
-#include "ofxLoopin::control::Numeric.h"
-#include "./type/Vector.hpp"
-
-
+#include "./control/Numeric.hpp"
+#include "./control/Vector.hpp"
 
 class ofxLoopinUniform {
 public:
@@ -37,7 +35,7 @@ public:
 
 class ofxLoopinUniformVec2 :
   public ofxLoopinUniform,
-  public ofxLoopin::type::Vector<2>
+  public ofxLoopin::control::Vector<2>
 {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
@@ -47,7 +45,7 @@ public:
 
 class ofxLoopinUniformVec3 :
   public ofxLoopinUniform,
-  public ofxLoopin::type::Vector<3>
+  public ofxLoopin::control::Vector<3>
 {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
@@ -57,7 +55,7 @@ public:
 
 class ofxLoopinUniformVec4 :
   public ofxLoopinUniform,
-  public ofxLoopin::type::Vector<4>
+  public ofxLoopin::control::Vector<4>
 {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {

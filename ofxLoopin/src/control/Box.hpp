@@ -2,7 +2,7 @@
 
 #include "./Vector.hpp"
 
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 
 class Box : public Vector<4> {
 public:

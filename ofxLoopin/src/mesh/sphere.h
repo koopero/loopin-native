@@ -1,7 +1,7 @@
 #include "./MeshGenerator.hpp"
 
-#include "../control/Number.h"
-#include "../control/Bool.h"
+#include "../control/Number.hpp"
+#include "../control/Bool.hpp"
 
 
 namespace ofxLoopin { namespace mesh {

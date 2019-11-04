@@ -1,13 +1,12 @@
 #pragma once
 
-#include "./control/Control.hpp"
-#include "../control/Number.h"
+#include "./Control.hpp"
+#include "./Number.hpp"
 
-
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 
 template <int LENGTH>
-class Vector : public ofxLoopin::control::Control {
+class Vector : public Control {
 public:
   Vector() {};
   ofxLoopin::control::Number component[LENGTH];

@@ -66,10 +66,10 @@ void ofxLoopin::Show::addSubControls() {
   wrapV.setEnumValue(GL_CLAMP_TO_EDGE );
   wrapH.setEnumValue(GL_CLAMP_TO_EDGE );
 
-  alpha.setEnumKey("ignore", IGNOREX );
-  alpha.setEnumKey("multiply", MULTIPLY );
-  alpha.setEnumKey("divide", DIVIDE );
-  alpha.setEnumKey("show", SHOW );
+  alpha.enumAddOption("ignore", IGNOREX );
+  alpha.enumAddOption("multiply", MULTIPLY );
+  alpha.enumAddOption("divide", DIVIDE );
+  alpha.enumAddOption("show", SHOW );
 
   addSubControl("alpha", &alpha );
 }

@@ -11,7 +11,7 @@ class ofxLoopinText : public ofxLoopinRender {
 public:
   string text = "hello, world";
   // ofxLoopinRef<operator::,ofxLoopinHasMeshes> mesh;
-  // ofxLoopin::control::ref<ofxLoopin::type::font> font;
+  // ofxLoopin::control::ref<ofxLoopin::control::font> font;
 
 
 

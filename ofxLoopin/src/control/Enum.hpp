@@ -1,8 +1,8 @@
 #pragma once
 
-#include "./control/Control.hpp"
+#include "./Control.hpp"
 
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 
 template <class TYPE, TYPE DEFAULT>
 class Enum : public ofxLoopin::control::Control {
@@ -16,6 +16,7 @@ public:
   operator TYPE() const { return _value; };
   void operator= ( const TYPE & value ) { _value = value; }
 
+  TYPE getEnumValue() const { return _value; };
 
   string getKey() const {
     return _key;
@@ -51,6 +52,11 @@ public:
   void enumAddOptionBool( bool key, TYPE value ) {
     _enumMapBool[key] = value;
   }
+
+  void enumAddOptionBool( bool key, string ref ) {
+    _enumMapBool[key] = _enumMap[ref];
+  }
+
 
 
   TYPE enumGetValue() const {

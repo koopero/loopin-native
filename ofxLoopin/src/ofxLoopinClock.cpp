@@ -16,15 +16,15 @@ void ofxLoopinClock::applyUniforms( ofShader & shader ) {
 
 void ofxLoopinClock::addSubControls() {
   if ( !isClockGlobal() ) {
-    mode.setEnumKey("none", ofxLoopinFrame::Mode::NONE );
+    mode.enumAddOption("none", ofxLoopinFrame::Mode::NONE );
     mode.setEnumValue( ofxLoopinFrame::Mode::NONE );
   }
 
-  mode.setEnumKey("time",   ofxLoopinFrame::Mode::TIME );
-  mode.setEnumKey("frame",  ofxLoopinFrame::Mode::FRAME );
-  mode.setEnumKey("step",   ofxLoopinFrame::Mode::STEP );
-  mode.setEnumKey("stop",   ofxLoopinFrame::Mode::STOP );
-  mode.setEnumKey("wall",   ofxLoopinFrame::Mode::WALL );
+  mode.enumAddOption("time",   ofxLoopinFrame::Mode::TIME );
+  mode.enumAddOption("frame",  ofxLoopinFrame::Mode::FRAME );
+  mode.enumAddOption("step",   ofxLoopinFrame::Mode::STEP );
+  mode.enumAddOption("stop",   ofxLoopinFrame::Mode::STOP );
+  mode.enumAddOption("wall",   ofxLoopinFrame::Mode::WALL );
 
   addSubControl("mode", &mode );
   addSubControl("rate", &rate );

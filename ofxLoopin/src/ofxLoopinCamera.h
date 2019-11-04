@@ -1,12 +1,12 @@
 #pragma once
 
 #include "./control/Control.hpp"
-#include "ofxLoopin::control::Number.h"
+#include "./control/Number.hpp"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinRoot.h"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinTransform2D.h"
-#include "type/Vector.hpp"
+#include "control/Vector.hpp"
 
 
 #include "ofMatrix4x4.h"
@@ -68,7 +68,7 @@ public:
   ofxLoopin::control::Number pitch;
   ofxLoopin::control::Number yaw;
 
-  ofxLoopin::type::Vector<3> translate;
+  ofxLoopin::control::Vector<3> translate;
 
 
   ofMatrix4x4 getModel() { return model; };

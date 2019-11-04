@@ -60,20 +60,20 @@ void ofxLoopin::kinect::Kinect::addSubControls() {
   addSubControl( "registration", &registration );
 
 
-  led.setEnumKey("default", ofxKinect::LedMode::LED_DEFAULT );
-  led.setEnumKey("off", ofxKinect::LedMode::LED_OFF );
-  led.setEnumKey("green", ofxKinect::LedMode::LED_GREEN );
-  led.setEnumKey("red", ofxKinect::LedMode::LED_RED );
-  led.setEnumKey("yellow", ofxKinect::LedMode::LED_YELLOW );
-  led.setEnumKey("blinkGreen", ofxKinect::LedMode::LED_BLINK_GREEN );
-  led.setEnumKey("blinkYellowRed", ofxKinect::LedMode::LED_BLINK_YELLOW_RED );
+  led.enumAddOption("default", ofxKinect::LedMode::LED_DEFAULT );
+  led.enumAddOption("off", ofxKinect::LedMode::LED_OFF );
+  led.enumAddOption("green", ofxKinect::LedMode::LED_GREEN );
+  led.enumAddOption("red", ofxKinect::LedMode::LED_RED );
+  led.enumAddOption("yellow", ofxKinect::LedMode::LED_YELLOW );
+  led.enumAddOption("blinkGreen", ofxKinect::LedMode::LED_BLINK_GREEN );
+  led.enumAddOption("blinkYellowRed", ofxKinect::LedMode::LED_BLINK_YELLOW_RED );
 
   addSubControl( "led", &led );
 
-  output.setEnumKey("both", OUTPUT_BOTH );
-  output.setEnumKey("video", OUTPUT_VIDEO );
-  output.setEnumKey("depth", OUTPUT_DEPTH );
-  output.setEnumKey("alpha", OUTPUT_ALPHA );
+  output.enumAddOption("both", OUTPUT_BOTH );
+  output.enumAddOption("video", OUTPUT_VIDEO );
+  output.enumAddOption("depth", OUTPUT_DEPTH );
+  output.enumAddOption("alpha", OUTPUT_ALPHA );
 
   addSubControl( "output", &output );
 };

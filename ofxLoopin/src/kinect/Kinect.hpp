@@ -5,7 +5,7 @@
 #include "../control/Bool.hpp"
 #include "ofxLoopinRender.h"
 #include "../shader/Shader.hpp"
-#include "../type/Enable.hpp"
+#include "../control/Enable.hpp"
 
 
 #include "ofxKinect.h"
@@ -43,7 +43,7 @@ subs/infrared:
 namespace ofxLoopin { namespace kinect {
 class Kinect : public ofxLoopinRender {
 public:
-  ofxLoopin::type::Enable enable;
+  ofxLoopin::control::Enable enable;
 
   int deviceId = -1;
   int fill = 0;

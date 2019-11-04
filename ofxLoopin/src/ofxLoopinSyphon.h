@@ -33,9 +33,9 @@ public:
 protected:
   void addSubControls() {
     ofxLoopinRender::addSubControls();
-    mode.setEnumKey( "client", MODE_CLIENT );
-    mode.setEnumKey( "server", MODE_SERVER );
-    mode.setEnumKey( "none", MODE_NONE );
+    mode.enumAddOption( "client", MODE_CLIENT );
+    mode.enumAddOption( "server", MODE_SERVER );
+    mode.enumAddOption( "none", MODE_NONE );
 
     addSubControl( "mode", &mode );
     addSubControl( "app", new ofxLoopin::control::Value( &app ) );

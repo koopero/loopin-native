@@ -43,9 +43,9 @@ protected:
   };
 
   void addSubControls() {
-    loop.setEnumKey( "none", OF_LOOP_NONE );
-    loop.setEnumKey( "loop", OF_LOOP_NORMAL );
-    loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
+    loop.enumAddOption( "none", OF_LOOP_NONE );
+    loop.enumAddOption( "loop", OF_LOOP_NORMAL );
+    loop.enumAddOption( "palindrome", OF_LOOP_PALINDROME );
 
     addSubControl( "loop", &loop );
 

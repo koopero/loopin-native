@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../control/Control.hpp"
-#include "../type/Colour.hpp"
+#include "../control/Colour.hpp"
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
@@ -9,7 +9,7 @@
 namespace ofxLoopin { namespace interface {
 class Blend : public ofxLoopin::control::Control {
 public:
-  type::Colour colour;
+  control::Colour colour;
   options::BlendEquation equation;
   options::BlendFunc srcRGB;
   options::BlendFunc dstRGB;

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "./control/Control.hpp"
+#include "./Control.hpp"
 #include "./Enum.hpp"
 
 #define EnumGLIntAddOption(I) enumAddOption( #I, I )
 
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 class GLEnum : public Enum<GLenum,GL_ZERO> {
 };
 } }

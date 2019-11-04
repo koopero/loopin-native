@@ -11,8 +11,8 @@
 #include "ofxLoopinTexture.h"
 #include "ofxLoopinTransform2D.h"
 
-#include "ofxLoopin::control::Number.h"
-#include "./type/Enable.hpp"
+#include "./control/Number.hpp"
+#include "./control/Enable.hpp"
 #include "./interface/Blend.hpp"
 #include "./shader/Shader.hpp"
 
@@ -50,7 +50,7 @@ public:
   ofxLoopinClock clockControl;
   ofxLoopin::control::Number pointSize;
   ofxLoopin::control::Number order;
-  ofxLoopin::type::Enable enable;
+  ofxLoopin::control::Enable enable;
 
 
   enum Clear {
@@ -117,20 +117,20 @@ protected:
         - front
         - back
     */
-    face.setEnumKey("both", 0 );
-    face.setEnumKey("front", GL_FRONT );
-    face.setEnumKey("back", GL_BACK );
+    face.enumAddOption("both", 0 );
+    face.enumAddOption("front", GL_FRONT );
+    face.enumAddOption("back", GL_BACK );
     addSubControl( "face", &face );
 
     addSubControl( "passes", &passes );
     addSubControl( "pointSize", &pointSize );
 
-    clear.setEnumKey("none",  NONE  );
-    clear.setEnumKey("depth", DEPTH );
-    clear.setEnumKey("rgba",  RGBA  );
-    clear.setEnumKey("both",  BOTH  );
-    clear.setKeyBool( true,   "both" );
-    clear.setKeyBool( false,  "none" );
+    clear.enumAddOption("none",  NONE  );
+    clear.enumAddOption("depth", DEPTH );
+    clear.enumAddOption("rgba",  RGBA  );
+    clear.enumAddOption("both",  BOTH  );
+    clear.enumAddOptionBool( true,   "both" );
+    clear.enumAddOptionBool( false,  "none" );
     addSubControl( "clear", &clear );
 
     addSubControl( "depth", &depthTest );

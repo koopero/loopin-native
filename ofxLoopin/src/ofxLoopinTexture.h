@@ -81,12 +81,12 @@ protected:
         - linear
         - nearest
     */
-    minFilter.setEnumKey( "nearest", GL_NEAREST );
-    minFilter.setEnumKey( "linear", GL_LINEAR );
+    minFilter.enumAddOption( "nearest", GL_NEAREST );
+    minFilter.enumAddOption( "linear", GL_LINEAR );
     addSubControl("minFilter", &minFilter );
 
-    magFilter.setEnumKey( "nearest", GL_NEAREST );
-    magFilter.setEnumKey( "linear", GL_LINEAR );
+    magFilter.enumAddOption( "nearest", GL_NEAREST );
+    magFilter.enumAddOption( "linear", GL_LINEAR );
     addSubControl("magFilter", &magFilter );
 
     /** loopin/type/textureWrap:
@@ -97,15 +97,15 @@ protected:
         - clamp
     */
 
-    wrapH.setEnumKey("repeat", GL_REPEAT );
-    wrapV.setEnumKey("repeat", GL_REPEAT );
+    wrapH.enumAddOption("repeat", GL_REPEAT );
+    wrapV.enumAddOption("repeat", GL_REPEAT );
 
-    wrapV.setEnumKey("clamp", GL_CLAMP_TO_EDGE );
-    wrapH.setEnumKey("clamp", GL_CLAMP_TO_EDGE );
+    wrapV.enumAddOption("clamp", GL_CLAMP_TO_EDGE );
+    wrapH.enumAddOption("clamp", GL_CLAMP_TO_EDGE );
 
     #ifndef TARGET_OPENGLES
-      wrapH.setEnumKey("none", GL_CLAMP_TO_BORDER );
-      wrapV.setEnumKey("none", GL_CLAMP_TO_BORDER );
+      wrapH.enumAddOption("none", GL_CLAMP_TO_BORDER );
+      wrapV.enumAddOption("none", GL_CLAMP_TO_BORDER );
     #endif
 
 

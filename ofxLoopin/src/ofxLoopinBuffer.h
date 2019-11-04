@@ -3,8 +3,8 @@
 #include "./control/Control.hpp"
 #include "./control/Bool.hpp"
 #include "./control/Enum.hpp"
-#include "ofxLoopin::control::Number.h"
-#include "ofxLoopin::control::Numeric.h"
+#include "./control/Number.hpp"
+#include "./control/Numeric.hpp"
 #include "ofxLoopinEvent.h"
 #include "ofxLoopinMap.h"
 
@@ -128,21 +128,21 @@ protected:
     addSubControl("aspect", &aspect );
 
     #ifndef TARGET_OPENGLES
-      format.setEnumKey("rgba", GL_RGBA8 );
-      format.setEnumKey("rgba8", GL_RGBA8 );
-      format.setEnumKey("rgba16", GL_RGBA16 );
-      format.setEnumKey("rgba32", GL_RGBA32F_ARB );
-      format.setEnumKey("rgba32f", GL_RGBA32F_ARB );
+      format.enumAddOption("rgba", GL_RGBA8 );
+      format.enumAddOption("rgba8", GL_RGBA8 );
+      format.enumAddOption("rgba16", GL_RGBA16 );
+      format.enumAddOption("rgba32", GL_RGBA32F_ARB );
+      format.enumAddOption("rgba32f", GL_RGBA32F_ARB );
 
-      format.setEnumKey("rgb", GL_RGB8 );
-      format.setEnumKey("rgb8", GL_RGB8 );
-      format.setEnumKey("rgb16", GL_RGB16 );
-      format.setEnumKey("rgb32", GL_RGB32F_ARB );
-      format.setEnumKey("rgb32f", GL_RGB32F_ARB );
+      format.enumAddOption("rgb", GL_RGB8 );
+      format.enumAddOption("rgb8", GL_RGB8 );
+      format.enumAddOption("rgb16", GL_RGB16 );
+      format.enumAddOption("rgb32", GL_RGB32F_ARB );
+      format.enumAddOption("rgb32f", GL_RGB32F_ARB );
     #else
       // Much more limited options under ES
-      format.setEnumKey("rgba", GL_RGBA );
-      format.setEnumKey("rgb", GL_RGB );
+      format.enumAddOption("rgba", GL_RGBA );
+      format.enumAddOption("rgb", GL_RGB );
     #endif
     addSubControl( "format", &format );
 

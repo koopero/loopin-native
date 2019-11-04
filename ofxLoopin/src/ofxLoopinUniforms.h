@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./control/Control.hpp"
-#include "ofxLoopin::control::Numeric.h"
+#include "./control/Numeric.hpp"
 #include "ofxLoopinMap.h"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinTexture.h"

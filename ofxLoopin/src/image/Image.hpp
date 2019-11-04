@@ -9,7 +9,7 @@
 
 #include "ofxLoopinRender.h"
 #include "ofxLoopinMap.h"
-#include "../type/Box.hpp"
+#include "../control/Box.hpp"
 
 /** loopin/type/image:
   trigger: true
@@ -27,8 +27,8 @@ public:
   }
   string src;
 
-  ofxLoopin::type::Box box;
-  ofxLoopin::type::Box crop;
+  ofxLoopin::control::Box box;
+  ofxLoopin::control::Box crop;
   ofxLoopin::control::Bool replace;
 
   void renderBuffer( ofxLoopinBuffer * buffer );

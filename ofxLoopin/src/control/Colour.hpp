@@ -1,6 +1,6 @@
 #include "./Vector.hpp"
 
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 class Colour : public Vector<4> {
 
 };

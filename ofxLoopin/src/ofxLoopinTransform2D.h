@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./control/Control.hpp"
-#include "ofxLoopin::control::Number.h"
+#include "./control/Number.hpp"
 
 #include "ofMatrix4x4.h"
 
@@ -66,8 +66,8 @@ public:
 
 protected:
   void addSubControls() {
-    mode.setEnumKey( "cover", ofxLoopinTransform2DMode::COVER );
-    mode.setEnumKey( "contain", ofxLoopinTransform2DMode::CONTAIN );
+    mode.enumAddOption( "cover", ofxLoopinTransform2DMode::COVER );
+    mode.enumAddOption( "contain", ofxLoopinTransform2DMode::CONTAIN );
 
     addSubControl( "mode", &mode );
     addSubControl( "x", &x );

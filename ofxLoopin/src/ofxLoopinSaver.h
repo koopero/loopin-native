@@ -56,16 +56,16 @@ protected:
     addSubControl("dest", new ofxLoopin::control::Value( &dest ) );
     // addSubControl("iterations", new ofxLoopin::control::Value( &iterations ) );
 
-    format.setEnumKey("png",  OF_IMAGE_FORMAT_PNG );
-    format.setEnumKey("jpeg", OF_IMAGE_FORMAT_JPEG );
-    format.setEnumKey("jpg",  OF_IMAGE_FORMAT_JPEG );
+    format.enumAddOption("png",  OF_IMAGE_FORMAT_PNG );
+    format.enumAddOption("jpeg", OF_IMAGE_FORMAT_JPEG );
+    format.enumAddOption("jpg",  OF_IMAGE_FORMAT_JPEG );
     addSubControl("format", &format);
 
-    quality.setEnumKey("best",OF_IMAGE_QUALITY_BEST);
-    quality.setEnumKey("high",OF_IMAGE_QUALITY_HIGH);
-    quality.setEnumKey("medium",OF_IMAGE_QUALITY_MEDIUM);
-    quality.setEnumKey("low",OF_IMAGE_QUALITY_LOW);
-    quality.setEnumKey("worst",OF_IMAGE_QUALITY_WORST);
+    quality.enumAddOption("best",OF_IMAGE_QUALITY_BEST);
+    quality.enumAddOption("high",OF_IMAGE_QUALITY_HIGH);
+    quality.enumAddOption("medium",OF_IMAGE_QUALITY_MEDIUM);
+    quality.enumAddOption("low",OF_IMAGE_QUALITY_LOW);
+    quality.enumAddOption("worst",OF_IMAGE_QUALITY_WORST);
     addSubControl("quality", &quality);
   };
 

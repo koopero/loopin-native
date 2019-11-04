@@ -67,9 +67,9 @@ const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
     */
 
 
-    // blend.setEnumKey("none", OF_BLENDMODE_DISABLED );
-    // blend.setEnumKey("alpha", OF_BLENDMODE_ALPHA );
-    // blend.setEnumKey("add", OF_BLENDMODE_ADD );
-    // blend.setEnumKey("subtract", OF_BLENDMODE_SUBTRACT );
-    // blend.setEnumKey("multiply", OF_BLENDMODE_MULTIPLY );
-    // blend.setEnumKey("screen", OF_BLENDMODE_SCREEN );
+    // blend.enumAddOption("none", OF_BLENDMODE_DISABLED );
+    // blend.enumAddOption("alpha", OF_BLENDMODE_ALPHA );
+    // blend.enumAddOption("add", OF_BLENDMODE_ADD );
+    // blend.enumAddOption("subtract", OF_BLENDMODE_SUBTRACT );
+    // blend.enumAddOption("multiply", OF_BLENDMODE_MULTIPLY );
+    // blend.enumAddOption("screen", OF_BLENDMODE_SCREEN );

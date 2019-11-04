@@ -1,8 +1,8 @@
 #pragma once
-#include "../type/GLEnum.hpp"
+#include "../control/GLEnum.hpp"
 
 namespace ofxLoopin { namespace options {
-class BlendEquation : public type::GLEnum {
+class BlendEquation : public ofxLoopin::control::GLEnum {
 protected: void enumAddOptions() {
   EnumGLIntAddOption(GL_FUNC_ADD);
   EnumGLIntAddOption(GL_NONE);

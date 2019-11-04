@@ -8,7 +8,7 @@
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
 #include "../shader/Shader.hpp"
-#include "../type/Box.hpp"
+#include "../control/Box.hpp"
 
 
 namespace ofxLoopin { namespace pixels {
@@ -51,7 +51,7 @@ public:
   // ofxLoopin::control::Int width = 0;
   // ofxLoopin::control::Int height = 0;
 
-  ofxLoopin::type::Box box;
+  ofxLoopin::control::Box box;
   ofxLoopin::control::Bool replace;
 
 

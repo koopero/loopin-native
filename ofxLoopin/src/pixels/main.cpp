@@ -41,22 +41,22 @@ void ofxLoopin::pixels::Render::addSubControls() {
 
   addSubControl("buffer", &buffer );
 
-  format.setEnumKey( "hex", FORMAT_HEX );
-  format.setEnumKey( "hex2", FORMAT_HEX2 );
-  format.setEnumKey( "float", FORMAT_FLOAT );
-  format.setEnumKey( "percent", FORMAT_PERCENT );
-  format.setEnumKey( "decimal", FORMAT_DECIMAL );
-  format.setEnumKey( "base64", FORMAT_BASE64 );
+  format.enumAddOption( "hex", FORMAT_HEX );
+  format.enumAddOption( "hex2", FORMAT_HEX2 );
+  format.enumAddOption( "float", FORMAT_FLOAT );
+  format.enumAddOption( "percent", FORMAT_PERCENT );
+  format.enumAddOption( "decimal", FORMAT_DECIMAL );
+  format.enumAddOption( "base64", FORMAT_BASE64 );
   addSubControl("format", &format );
 
-  input.setEnumKey( "change", INPUT_CHANGE );
-  input.setEnumKey( "always", INPUT_ALWAYS );
-  input.setEnumKey( "none", INPUT_NONE );
+  input.enumAddOption( "change", INPUT_CHANGE );
+  input.enumAddOption( "always", INPUT_ALWAYS );
+  input.enumAddOption( "none", INPUT_NONE );
   addSubControl("input", &input );
 
-  output.setEnumKey( "none", OUTPUT_NONE );
-  output.setEnumKey( "always", OUTPUT_ALWAYS );
-  output.setEnumKey( "once", OUTPUT_ONCE );
+  output.enumAddOption( "none", OUTPUT_NONE );
+  output.enumAddOption( "always", OUTPUT_ALWAYS );
+  output.enumAddOption( "once", OUTPUT_ONCE );
   addSubControl("output", &output );
 
   addSubControl("channels", new ofxLoopin::control::Value( &channels ) );

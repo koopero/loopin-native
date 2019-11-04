@@ -2,7 +2,7 @@
 
 #include "./Enum.hpp"
 
-namespace ofxLoopin { namespace type {
+namespace ofxLoopin { namespace control {
 
 enum EnableValues {
   ENABLE_NO,

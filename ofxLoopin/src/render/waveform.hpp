@@ -5,10 +5,10 @@
 #include "ofxLoopinHasInfo.h"
 #include "./control/Bool.hpp"
 #include "./control/Enum.hpp"
-#include "ofxLoopin::control::Number.h"
+#include "./control/Number.hpp"
 #include "ofxLoopinRender.h"
 #include "../shader/Shader.hpp"
-#include "../type/Enable.hpp"
+#include "../control/Enable.hpp"
 
 
 #include <mutex>
@@ -26,7 +26,7 @@ public:
 
 class waveform_imp : public ofxLoopinRender, public ofBaseSoundInput {
 public:
-  ofxLoopin::type::Enable enable;
+  ofxLoopin::control::Enable enable;
 
   enum Phase {
     PHASE_ABS,
@@ -71,10 +71,10 @@ protected:
     addSubControl("buffer", &buffer );
     addSubControl("deviceID", &deviceID );
 
-    phase.setEnumKey("abs", PHASE_ABS );
-    phase.setEnumKey("pos", PHASE_POS );
-    phase.setEnumKey("neg", PHASE_NEG );
-    phase.setEnumKey("both", PHASE_BOTH );
+    phase.enumAddOption("abs", PHASE_ABS );
+    phase.enumAddOption("pos", PHASE_POS );
+    phase.enumAddOption("neg", PHASE_NEG );
+    phase.enumAddOption("both", PHASE_BOTH );
     addSubControl("phase", &phase );
 
     addSubControl("squelch", &squelch );
