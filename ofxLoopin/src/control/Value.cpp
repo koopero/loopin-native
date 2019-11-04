@@ -20,7 +20,7 @@ void ofxLoopin::control::Value::patchLocal( const ofJson & val ) {
     }
   }
 
-  // ofxLoopinEvent event;
+  // ofxLoopin::control::Event event;
   // event.type = "VALUEPATH";
   // dispatch( event );
 

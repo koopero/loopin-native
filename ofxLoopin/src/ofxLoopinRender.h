@@ -3,7 +3,7 @@
 #include "ofGraphics.h"
 
 #include "./control/Control.hpp"
-#include "ofxLoopinEvent.h"
+#include "./control/Event.hpp"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinRef.h"

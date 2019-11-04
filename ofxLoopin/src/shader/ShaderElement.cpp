@@ -73,7 +73,7 @@ void ofxLoopin::shader::ShaderElement::load() {
   if ( !absPath.size() ) {
     // TODO: Error here
     _loadedFile = file;
-    auto errorEvent = ofxLoopinEvent::fileNotFound( filePath );
+    auto errorEvent = ofxLoopin::control::Event::fileNotFound( filePath );
 
     dispatch( errorEvent );
     return;
@@ -87,7 +87,7 @@ void ofxLoopin::shader::ShaderElement::load() {
   dataIsNew = true;
 
 
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   event.type = "loadFile";
   event.data["file"] = absPath;
   // event.data["data"] = data;

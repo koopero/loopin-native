@@ -26,7 +26,7 @@ void ofxLoopinSaver::patchString( string value ) {
 
 void ofxLoopinSaver::updateLocal( ) {
   if ( thread ) {
-    for( ofxLoopinEvent &event : thread->flushEvents() ) {
+    for( ofxLoopin::control::Event &event : thread->flushEvents() ) {
       dispatch( event );
     }
   }
@@ -38,7 +38,7 @@ void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
 
   iterations --;
 
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   event.data["dest"] = dest;
   event.data["quality"] = quality.getKey();
 
@@ -82,7 +82,7 @@ void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
 void ofxLoopinSaverThread::save(
   const string & dest,
   ofPixels data,
-  ofxLoopinEvent event,
+  ofxLoopin::control::Event event,
   ofImageFormat format,
   ofImageQualityType qualityLevel
 ) {
@@ -106,7 +106,7 @@ void ofxLoopinSaverThread::threadedFunction() {
     ofPixels data = data_;
     ofImageFormat format = format_;
     ofImageQualityType qualityLevel = qualityLevel_;
-    ofxLoopinEvent event = event_;
+    ofxLoopin::control::Event event = event_;
 
     dest_ = "";
     unlock();
@@ -133,9 +133,9 @@ void ofxLoopinSaverThread::threadedFunction() {
 
 }
 
-std::vector<ofxLoopinEvent> ofxLoopinSaverThread::flushEvents() {
+std::vector<ofxLoopin::control::Event> ofxLoopinSaverThread::flushEvents() {
   lock();
-  std::vector<ofxLoopinEvent> result = events_;
+  std::vector<ofxLoopin::control::Event> result = events_;
   events_.resize(0);
   unlock();
 

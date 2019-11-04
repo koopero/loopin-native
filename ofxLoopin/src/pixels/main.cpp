@@ -294,7 +294,7 @@ void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopinBuffer * buffer ) {
 }
 
 void ofxLoopin::pixels::Render::dispatchData() {
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   ofRectangle bounds = getBounds();
   event.type = "pixels";
   event.data["width"] = readWidth ? readWidth : (int) bounds.getWidth();

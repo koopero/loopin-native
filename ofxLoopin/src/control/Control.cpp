@@ -79,7 +79,7 @@ void ofxLoopin::control::Control::patchKey( string key, const ofJson & val ) {
   
 }
 
-void ofxLoopin::control::Control::dispatch( ofxLoopinEvent & event ) {
+void ofxLoopin::control::Control::dispatch( ofxLoopin::control::Event & event ) {
   if ( root ) {
     if ( !event.path.size() )
       event.path = path;

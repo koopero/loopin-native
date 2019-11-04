@@ -77,7 +77,7 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
       soundStream.setInput( *this );
       _deviceID = deviceID;
 
-      ofxLoopinEvent event = ofxLoopinEvent("open");
+      ofxLoopin::control::Event event = ofxLoopin::control::Event("open");
       event.data["deviceID"] = (int) deviceID;
       dispatch( event );
     }

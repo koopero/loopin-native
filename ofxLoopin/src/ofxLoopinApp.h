@@ -162,7 +162,7 @@ public:
 
   // Master event dispatcher.
   // Called by ofxLoopin::control::Control::dispatch
-  void dispatch( ofxLoopinEvent & event );
+  void dispatch( ofxLoopin::control::Event & event );
 
   void update();
 

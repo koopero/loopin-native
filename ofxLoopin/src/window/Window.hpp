@@ -45,7 +45,7 @@ protected:
   void patchKey( string key, ofJson & val ) {};
   void patchLocal( const ofJson & value ) {
 
-    ofxLoopinEvent event = ofxLoopinEvent("debug");
+    ofxLoopin::control::Event event = ofxLoopin::control::Event("debug");
 
     event.data["_window"] = 3;
 

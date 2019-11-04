@@ -2,7 +2,7 @@
 
 void ofxLoopinReader::patchString( string value ) {
   ofxLoopin::control::Control * target = root->walk( value );
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   event.type = "read";
 
   event.path = value;

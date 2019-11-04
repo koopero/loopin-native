@@ -35,7 +35,7 @@ protected:
   }
 
   void dispatchMouseEvent( const string & type, ofMouseEventArgs &args ) {
-    ofxLoopinEvent event;
+    ofxLoopin::control::Event event;
     event.type = type;
     event.data["x"] = (float) ofGetMouseX() / ofGetWindowWidth() * 2.0 - 1.0;
     event.data["y"] = (float) ofGetMouseY() / ofGetWindowHeight() * 2.0 - 1.0;

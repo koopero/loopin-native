@@ -41,7 +41,7 @@ public:
 
   void resetOnce() {
     if ( _value == ENABLE_ONCE ) {
-      ofxLoopinEvent event;
+      ofxLoopin::control::Event event;
       event.type = "done";
       dispatch( event );
       _value = ENABLE_NO;

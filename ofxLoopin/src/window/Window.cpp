@@ -60,7 +60,7 @@ void ofxLoopin::window::Window::update() {
   ofPoint pos = _window->getWindowPosition();
   if ( pos != _position ) {
     _position = pos;
-    ofxLoopinEvent event = ofxLoopinEvent("move");
+    ofxLoopin::control::Event event = ofxLoopin::control::Event("move");
     readLocal( event.data );
     dispatch( event );
   }

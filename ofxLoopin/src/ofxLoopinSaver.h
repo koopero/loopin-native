@@ -14,21 +14,21 @@ public:
   void save(
     const string & dest,
     ofPixels data,
-    ofxLoopinEvent event,
+    ofxLoopin::control::Event event,
     ofImageFormat format = OF_IMAGE_FORMAT_PNG,
     ofImageQualityType qualityLevel = OF_IMAGE_QUALITY_BEST
   );
 
-  std::vector<ofxLoopinEvent> flushEvents();
+  std::vector<ofxLoopin::control::Event> flushEvents();
 
 private:
   string dest_;
   ofPixels data_;
   ofImageFormat format_;
   ofImageQualityType qualityLevel_;
-  ofxLoopinEvent event_;
+  ofxLoopin::control::Event event_;
 
-  std::vector<ofxLoopinEvent> events_;
+  std::vector<ofxLoopin::control::Event> events_;
 
   void threadedFunction();
 

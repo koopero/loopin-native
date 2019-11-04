@@ -12,12 +12,12 @@ void ofxLoopinImage::load( string filePath ) {
   _loaded = filePath;
   _dirty = false;
 
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
 
   string absolutePath = ofxLoopinFile::find( filePath );
 
   if ( !absolutePath.size() ) {
-    auto errorEvent = ofxLoopinEvent::fileNotFound( filePath );
+    auto errorEvent = ofxLoopin::control::Event::fileNotFound( filePath );
     dispatch( errorEvent );
     return;
   }

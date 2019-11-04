@@ -9,7 +9,7 @@ bool EndsWith(const string& a, const string& b) {
     return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
 }
 
-void ofxLoopinStdio::dispatch ( const ofxLoopinEvent & event ) {
+void ofxLoopinStdio::dispatch ( const ofxLoopin::control::Event & event ) {
   ofJson json;
 
   string path = event.path;

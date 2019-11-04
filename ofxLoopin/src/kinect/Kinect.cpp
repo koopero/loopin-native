@@ -97,7 +97,7 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
 
 
   bool shouldOpen = !kinect->isConnected();
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   // Open if deviceId has changed
   shouldOpen = shouldOpen ||
     ( kinect->getDeviceId() != deviceId && deviceId != -1 ); 
@@ -148,7 +148,7 @@ void ofxLoopin::kinect::Kinect::updateLocal() {
   } else if ( !kinect->isConnected() && status ) {
     status = false;
 
-    ofxLoopinEvent event;
+    ofxLoopin::control::Event event;
     event.type = "close";
     dispatch( event );
   }

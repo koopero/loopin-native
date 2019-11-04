@@ -5,7 +5,7 @@
 #include "./control/Enum.hpp"
 #include "./control/Number.hpp"
 #include "./control/Numeric.hpp"
-#include "ofxLoopinEvent.h"
+#include "./control/Event.hpp"
 #include "ofxLoopinMap.h"
 
 #include "ofMain.h"

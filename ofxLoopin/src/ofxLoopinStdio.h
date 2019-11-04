@@ -4,14 +4,14 @@
 #include "ofUtils.h"
 #include "ofJson.h"
 
-#include "ofxLoopinEvent.h"
+#include "./control/Event.hpp"
 
 #include <iostream>
 
 class ofxLoopinStdio : public ofThread {
 public:
 
-  void dispatch( const ofxLoopinEvent & event );
+  void dispatch( const ofxLoopin::control::Event & event );
 
   void start();
   void stop();

@@ -22,7 +22,7 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
   buffer->defaultSize();
 
   if ( !buffer->ready() ) {
-    ofxLoopinEvent e = ofxLoopinEvent("bufferFault");
+    ofxLoopin::control::Event e = ofxLoopin::control::Event("bufferFault");
     dispatch( e );
     return;
   }

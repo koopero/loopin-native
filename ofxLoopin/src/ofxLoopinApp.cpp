@@ -7,7 +7,7 @@ ofxLoopinApp::ofxLoopinApp () {
 
 }
 
-void ofxLoopinApp::dispatch ( ofxLoopinEvent & event ) {
+void ofxLoopinApp::dispatch ( ofxLoopin::control::Event & event ) {
   stdio.dispatch( event );
 }
 
@@ -86,7 +86,7 @@ void ofxLoopinApp::draw() {
 
 
 void ofxLoopinApp::render() {
-  ofxLoopinEvent frameEvent = frame.asEvent();
+  ofxLoopin::control::Event frameEvent = frame.asEvent();
   dispatch( frameEvent );
 
   for( auto it = renderLists.begin(); it != renderLists.end(); it ++ ) {

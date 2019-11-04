@@ -2,7 +2,7 @@
 
 #include "ofUtils.h"
 
-#include "ofxLoopinEvent.h"
+#include "./control/Event.hpp"
 
 class ofxLoopinFrame {
 public:
@@ -21,7 +21,7 @@ public:
   float speed = 1.0;
   Mode  mode  = NONE;
 
-  ofxLoopinEvent asEvent();
+  ofxLoopin::control::Event asEvent();
 
   bool operator==(const ofxLoopinFrame &other) const {
     return index == other.index;

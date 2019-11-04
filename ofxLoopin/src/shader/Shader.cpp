@@ -10,7 +10,7 @@ void ofxLoopin::shader::Shader::addSubControls() {
 };
 
 void ofxLoopin::shader::Shader::refresh( bool sendNeedEvent ) {
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
 
   if ( !_initialized ) {
     vert.key = "vert";

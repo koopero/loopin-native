@@ -27,7 +27,7 @@ void ofxLoopin::grabber::Grabber::refreshSetup() {
     _setupHeight != (int) height ||
     _setupDeviceID != (int) deviceID
   ) {
-    ofxLoopinEvent event;
+    ofxLoopin::control::Event event;
     bool useTexture = true;
 
     event.type = "captureStart";

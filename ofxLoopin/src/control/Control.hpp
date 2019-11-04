@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofJson.h"
-#include "ofxLoopinEvent.h"
+#include "./Event.hpp"
 
 #include <iostream>
 
@@ -20,11 +20,11 @@ public:
   virtual void update();
 
   virtual void dispatch( string type ) {
-    ofxLoopinEvent event;
+    ofxLoopin::control::Event event;
     event.type = type;
     dispatch( event );
   };
-  virtual void dispatch( ofxLoopinEvent & event );
+  virtual void dispatch( ofxLoopin::control::Event & event );
 
   string path;
   string key;

@@ -12,21 +12,21 @@ public:
   TYPE * getPointer( bool create = true ) {
 
     if ( root == nullptr ){
-      ofxLoopinEvent event("rootFuckup");
+      ofxLoopin::control::Event event("rootFuckup");
       dispatch(event);
     };
 
     auto has = dynamic_cast<HAS *> ( root );
 
     if ( has == nullptr ) {
-      ofxLoopinEvent event("hasFuckup");
+      ofxLoopin::control::Event event("hasFuckup");
       dispatch(event);
     }
 
     ofxLoopinMap<TYPE> * map = has->__getMap();
 
     if ( map == nullptr ) {
-      ofxLoopinEvent event("mapFuckup");
+      ofxLoopin::control::Event event("mapFuckup");
       dispatch(event);
     }
 

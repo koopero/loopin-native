@@ -28,7 +28,7 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
 
       engine->load( videoPath );
     } else {
-      ofxLoopinEvent event;
+      ofxLoopin::control::Event event;
       event.type = "error";
       dispatch( event );
     }
@@ -64,7 +64,7 @@ bool ofxLoopin::video::Video::videoSync() {
   int syncFrame = syncTo / duration * numFrames;
 
 
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   event.type = "videoFrame";
 
   int frame = engine->getCurrentFrame();
@@ -142,7 +142,7 @@ bool ofxLoopin::video::Video::videoSync() {
 void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
   
   if ( !wasLoaded && engine->isLoaded() ) {
-    ofxLoopinEvent event;
+    ofxLoopin::control::Event event;
     event.type = "loaded";
     dispatch( event );
     wasLoaded = true;
