@@ -1,6 +1,6 @@
 #include "./OSD.hpp"
 
-void ofxLoopin::window::OSD::setFrame( const ofxLoopinFrame & frame ) {
+void ofxLoopin::window::OSD::setFrame( const ofxLoopin::clock::Frame & frame ) {
   _frame = frame;
 }
 

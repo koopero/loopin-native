@@ -4,8 +4,9 @@
 #include "ofxLoopinRoot.h"
 #include <assert.h>
 
+namespace ofxLoopin { namespace control {
 template <class TYPE, class HAS>
-class ofxLoopinRef : public ofxLoopin::control::Control {
+class Reference : public Control {
 public:
   string key;
 
@@ -52,3 +53,4 @@ protected:
 private:
 
 };
+}};

@@ -74,7 +74,7 @@ bool ofxLoopin::video::Video::videoSync() {
   bool shouldDispatch = false;
 
   switch( clock.mode.getEnumValue() ) {
-    case ofxLoopinFrame::Mode::STEP:
+    case ofxLoopin::clock::Frame::Mode::STEP:
       engine->setSpeed(0);
       // engine->update();
 
@@ -89,8 +89,8 @@ bool ofxLoopin::video::Video::videoSync() {
 
     break;
 
-    case ofxLoopinFrame::Mode::TIME:
-    case ofxLoopinFrame::Mode::FRAME:
+    case ofxLoopin::clock::Frame::Mode::TIME:
+    case ofxLoopin::clock::Frame::Mode::FRAME:
 
       // engine->setSpeed( clock.frame.speed );
 

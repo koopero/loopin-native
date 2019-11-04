@@ -1,39 +1,40 @@
-#include "ofxLoopinClock.h"
+#include "./Clock.hpp"
 
-ofxLoopinFrame ofxLoopinClock::globalFrame;
+ofxLoopin::clock::Frame ofxLoopin::clock::Clock::globalFrame;
 
-void ofxLoopinClock::readLocal( ofJson & value ) {
+void ofxLoopin::clock::Clock::readLocal( ofJson & value ) {
   value["time"] = frame.time;
 }
 
-void ofxLoopinClock::applyUniforms( ofShader & shader ) {
+void ofxLoopin::clock::Clock::applyUniforms( ofShader & shader ) {
   // cerr << "ClockUniforms " << path << " " << frame.index << endl;
   shader.setUniform1i( "clockIndex", frame.index );
   shader.setUniform1f( "clockTime", frame.time );
   shader.setUniform1f( "clockDelta", frame.delta );
 }
 
-
-void ofxLoopinClock::addSubControls() {
+void ofxLoopin::clock::Clock::addSubControls() {
   if ( !isClockGlobal() ) {
-    mode.enumAddOption("none", ofxLoopinFrame::Mode::NONE );
-    mode.setEnumValue( ofxLoopinFrame::Mode::NONE );
+    mode.enumAddOption("none", Frame::Mode::NONE );
+    mode.setEnumValue( Frame::Mode::NONE );
   }
 
-  mode.enumAddOption("time",   ofxLoopinFrame::Mode::TIME );
-  mode.enumAddOption("frame",  ofxLoopinFrame::Mode::FRAME );
-  mode.enumAddOption("step",   ofxLoopinFrame::Mode::STEP );
-  mode.enumAddOption("stop",   ofxLoopinFrame::Mode::STOP );
-  mode.enumAddOption("wall",   ofxLoopinFrame::Mode::WALL );
+  mode.enumAddOption("time",   Frame::Mode::TIME );
+  mode.enumAddOption("frame",  Frame::Mode::FRAME );
+  mode.enumAddOption("step",   Frame::Mode::STEP );
+  mode.enumAddOption("stop",   Frame::Mode::STOP );
+  mode.enumAddOption("wall",   Frame::Mode::WALL );
 
   addSubControl("mode", &mode );
   addSubControl("rate", &rate );
   addSubControl("speed", &speed );
 };
-bool ofxLoopinClock::isClockGlobal() {
+
+bool ofxLoopin::clock::Clock::isClockGlobal() {
   return ( path == "clock" );
 }
-void ofxLoopinClock::patchLocal( const ofJson & value ) {
+
+void ofxLoopin::clock::Clock::patchLocal( const ofJson & value ) {
   if ( value.is_number() ) {
     seek( value.get<double>() );
   }
@@ -63,13 +64,12 @@ void ofxLoopinClock::patchLocal( const ofJson & value ) {
   }
 }
 
-
-void ofxLoopinClock::reset() {
+void ofxLoopin::clock::Clock::reset() {
   frame.time = 0;
   nextDelta = 0;
 }
 
-void ofxLoopinClock::advance() {
+void ofxLoopin::clock::Clock::advance() {
   double delta = 1;
 
   if ( !running )
@@ -94,7 +94,7 @@ void ofxLoopinClock::advance() {
   }
 };
 
-void ofxLoopinClock::advance( const ofxLoopinFrame & parentFrame ) {
+void ofxLoopin::clock::Clock::advance( const Frame & parentFrame ) {
   frame.index = parentFrame.index;
   double delta = parentFrame.speed;
 
@@ -104,38 +104,38 @@ void ofxLoopinClock::advance( const ofxLoopinFrame & parentFrame ) {
   advanceDelta( delta * speed );
 };
 
-void ofxLoopinClock::advanceDelta( double speed ) {
+void ofxLoopin::clock::Clock::advanceDelta( double speed ) {
   double delta = nextDelta;
   double now = ofGetSystemTimeMicros() / 1000000.0;
 
   switch ( mode.getEnumValue() ) {
-    case ofxLoopinFrame::Mode::NONE:
+    case Frame::Mode::NONE:
       running = true;
       delta = globalFrame.delta;
     break;
 
-    case ofxLoopinFrame::Mode::WALL:
+    case Frame::Mode::WALL:
       running = true;
       delta = now - frame.time;
       speed = 1;
     break;
 
-    case ofxLoopinFrame::Mode::TIME:
+    case Frame::Mode::TIME:
       running = true;
       delta *= now - lastTime;
     break;
 
-    case ofxLoopinFrame::Mode::FRAME:
+    case Frame::Mode::FRAME:
       running = true;
       delta *= 1.0 / rate;
     break;
 
-    case ofxLoopinFrame::Mode::STEP:
+    case Frame::Mode::STEP:
       running = false;
       delta *= 1.0 / rate;
     break;
 
-    case ofxLoopinFrame::Mode::STOP:
+    case Frame::Mode::STOP:
       running = false;
     break;
 

@@ -2,12 +2,12 @@
 
 #include "ofxLoopinBuffer.h"
 #include "./control/Control.hpp"
-#include "ofxLoopinFrame.h"
+#include "./clock/Frame.hpp"
 
 class ofxLoopinRoot : public ofxLoopin::control::Control, public ofxLoopinHasBuffers {
 public:
   // string resolveFilePath( string path );
-  ofxLoopinFrame frame;
+  ofxLoopin::clock::Frame frame;
 
 
 protected:

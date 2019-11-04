@@ -3,13 +3,11 @@
 #include "ofAppRunner.h"
 #include "ofShader.h"
 
-#include "./control/Control.hpp"
-#include "./control/Bool.hpp"
-#include "./control/Enum.hpp"
-#include "./control/Number.hpp"
-#include "ofxLoopinFrame.h"
-
-#include "util/ofxLoopinJSON.hpp"
+#include "../control/Control.hpp"
+#include "../control/Enum.hpp"
+#include "../control/Number.hpp"
+#include "../util/ofxLoopinJSON.hpp"
+#include "./Frame.hpp"
 
 /** loopin/type/clock/sub
 
@@ -40,13 +38,14 @@ advance/:
 
 */
 
-class ofxLoopinClock : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace clock {
+class Clock : public ofxLoopin::control::Control {
 public:
-  ofxLoopinFrame frame;
+  Frame frame;
 
-  static ofxLoopinFrame globalFrame;
+  static Frame globalFrame;
 
-  ofxLoopin::control::Enum<ofxLoopinFrame::Mode,ofxLoopinFrame::Mode::TIME> mode;
+  ofxLoopin::control::Enum<Frame::Mode,Frame::Mode::TIME> mode;
   ofxLoopin::control::Number rate = 60.0;
   ofxLoopin::control::Number speed = 1.0;
 
@@ -55,7 +54,7 @@ public:
   double lastTime;
 
   void advance();
-  void advance( const ofxLoopinFrame & parentFrame );
+  void advance( const Frame & parentFrame );
   void reset();
 
 
@@ -80,3 +79,4 @@ protected:
   void readLocal( ofJson & value );
 
 };
+}};

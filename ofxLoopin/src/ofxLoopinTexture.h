@@ -2,7 +2,7 @@
 
 #include "ofxLoopinBuffer.h"
 #include "./control/Enum.hpp"
-#include "ofxLoopinRef.h"
+#include "./control/Reference.hpp"
 #include "ofxLoopinRoot.h"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinUniform.h"
@@ -28,7 +28,7 @@
 class ofxLoopinTexture : public ofxLoopin::control::Control, public ofxLoopinUniform {
 public:
 
-  ofxLoopinRef<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
+  ofxLoopin::control::Reference<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
 
   ofxLoopin::control::Enum<GLint,GL_NEAREST> minFilter;
   ofxLoopin::control::Enum<GLint,GL_NEAREST> magFilter;

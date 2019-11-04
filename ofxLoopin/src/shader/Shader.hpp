@@ -2,7 +2,7 @@
 
 #include "./control/Control.hpp"
 #include "ofxLoopinFile.h"
-#include "ofxLoopinFrame.h"
+#include "../clock/Frame.hpp"
 #include "ofxLoopinMeshBase.h"
 #include "./ShaderElement.hpp"
 

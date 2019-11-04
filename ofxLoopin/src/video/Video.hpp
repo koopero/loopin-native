@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofxLoopinBuffer.h"
-#include "ofxLoopinClock.h"
+#include "./clock/Clock.hpp"
 #include "ofxLoopinFile.h"
 #include "ofxLoopinRender.h"
 
@@ -30,7 +30,7 @@ typedef ofVideoPlayer VideoEngine;
 class Video : public ofxLoopinRender {
 public:
   ofxLoopin::control::Enum<ofLoopType, OF_LOOP_NONE> loop;
-  ofxLoopinClock clock;
+  ofxLoopin::clock::Clock clock;
 
 protected:
   void patchLocal( const ofJson & value );

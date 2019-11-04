@@ -4,9 +4,9 @@
 
 #include "./control/Control.hpp"
 #include "./control/Event.hpp"
-#include "ofxLoopinFrame.h"
+#include "./clock/Frame.hpp"
 #include "ofxLoopinMap.h"
-#include "ofxLoopinRef.h"
+#include "./control/Reference.hpp"
 #include "./shader/Shaders.hpp"
 #include "ofxLoopinUniforms.h"
 
@@ -16,12 +16,12 @@
 
 class ofxLoopinRender : public ofxLoopin::control::Control {
 public:
-  ofxLoopinRef<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
+  ofxLoopin::control::Reference<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
 
   int iterations = 1;
   bool clear = true;
 
-  virtual void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
+  virtual void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
     if ( frame == lastFrame )
       return;
 
@@ -61,9 +61,9 @@ protected:
   bool _createBuffer = true;
 
 
-  ofxLoopinFrame renderingFrame;
+  ofxLoopin::clock::Frame renderingFrame;
   ofxLoopinBuffer * renderingBuffer;
-  ofxLoopinFrame lastFrame;
+  ofxLoopin::clock::Frame lastFrame;
 
 
   void addSubControls() {
@@ -73,7 +73,7 @@ protected:
   };
 
   ofxLoopinUniformSet uniforms;
-  ofxLoopinRef<ofxLoopin::shader::ShaderWithUniforms,ofxLoopin::shader::HasShaders> shader;
+  ofxLoopin::control::Reference<ofxLoopin::shader::ShaderWithUniforms,ofxLoopin::shader::HasShaders> shader;
 
   virtual ofxLoopinBuffer * getBuffer( bool create = false ) {
     if ( buffer.key.size() )
@@ -89,14 +89,14 @@ protected:
 
 class ofxLoopinRenderList {
 public:
-  virtual void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {};
+  virtual void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {};
 };
 
 
 template <class Render>
 class ofxLoopinRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
 public:
-  void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
+  void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
     for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {
       Render &render = it->second;
       string key = it->first;
@@ -109,7 +109,7 @@ public:
 template <class Render>
 class ofxLoopinOrderedRenders : public ofxLoopinMap<Render>, public ofxLoopinRenderList {
 public:
-  void render( const ofxLoopinFrame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
+  void render( const ofxLoopin::clock::Frame & frame, ofxLoopinBuffer * _buffer = nullptr ) {
 
     std::vector<Render*> list;
     for( auto it = ofxLoopinMap<Render>::_map.begin(); it != ofxLoopinMap<Render>::_map.end(); it++) {

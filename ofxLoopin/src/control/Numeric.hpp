@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./Control.hpp"
-#include "ofxLoopinFrame.h"
+#include "../clock/Frame.hpp"
 
 namespace ofxLoopin { namespace control {
 class Numeric : public Control {

@@ -3,7 +3,7 @@
 #include "./control/Control.hpp"
 #include "./control/Value.hpp"
 #include "../ofxLoopinFile.h"
-#include "../ofxLoopinFrame.h"
+#include "../clock/Frame.hpp"
 
 #include "ofMain.h"
 
@@ -33,12 +33,12 @@ public:
   string hostname;
   string client;
 
-  void setFrame( const ofxLoopinFrame & frame );
+  void setFrame( const ofxLoopin::clock::Frame & frame );
   void draw();
 
 protected:
 
-  ofxLoopinFrame _frame;
+  ofxLoopin::clock::Frame _frame;
 
   void addSubControls() override;
 

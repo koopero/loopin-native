@@ -105,7 +105,7 @@ void ofxLoopin::shader::Shader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
 }
 
 void ofxLoopin::shader::Shader::applyUniformsGlobalClock() {
-  ofxLoopinFrame frame = root->frame;
+  ofxLoopin::clock::Frame frame = root->frame;
   applyUniformInt( "clockGlobalIndex", frame.index );
   applyUniformFloat( "clockGlobalTime", frame.time );
   applyUniformFloat( "clockGlobalDelta", frame.delta );
@@ -113,7 +113,7 @@ void ofxLoopin::shader::Shader::applyUniformsGlobalClock() {
 
 
 void ofxLoopin::shader::Shader::applyUniformsFrame() {
-  ofxLoopinFrame frame = root->frame;
+  ofxLoopin::clock::Frame frame = root->frame;
   applyUniformInt( "clockIndex", frame.index );
   applyUniformFloat( "clockTime", frame.time );
   applyUniformFloat( "clockDelta", frame.delta );

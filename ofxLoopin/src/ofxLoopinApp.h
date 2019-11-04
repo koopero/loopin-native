@@ -2,11 +2,11 @@
 
 
 #include "ofxLoopinBuffer.h"
-#include "ofxLoopinClock.h"
+#include "./clock/Clock.hpp"
+#include "./clock/Frame.hpp"
 #include "ofxLoopinInput.h"
-#include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
-#include "ofxLoopinRef.h"
+#include "./control/Reference.hpp"
 #include "ofxLoopinRoot.h"
 #include "ofxLoopinReader.h"
 #include "ofxLoopinStdio.h"
@@ -70,7 +70,7 @@ public:
   /** loopin/root/clock
     type: clock
   */
-  ofxLoopinClock clock;
+  ofxLoopin::clock::Clock clock;
 
   // input/ - Input parameters
   /** loopin/root/input

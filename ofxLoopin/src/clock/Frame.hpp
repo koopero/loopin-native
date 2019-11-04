@@ -1,10 +1,10 @@
 #pragma once
 
 #include "ofUtils.h"
+#include "../control/Event.hpp"
 
-#include "./control/Event.hpp"
-
-class ofxLoopinFrame {
+namespace ofxLoopin { namespace clock {
+class Frame {
 public:
   enum Mode {
     TIME,
@@ -23,12 +23,12 @@ public:
 
   ofxLoopin::control::Event asEvent();
 
-  bool operator==(const ofxLoopinFrame &other) const {
+  bool operator==(const Frame &other) const {
     return index == other.index;
   };
 
-  bool operator!=(const ofxLoopinFrame &other) const {
+  bool operator!=(const Frame &other) const {
     return !(*this == other);
   };
-
 };
+}};

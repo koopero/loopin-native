@@ -5,7 +5,7 @@
 
 #include "ofxLoopinCamera.h"
 #include "./control/Bool.hpp"
-#include "ofxLoopinClock.h"
+#include "./clock/Clock.hpp"
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinTexture.h"
@@ -47,7 +47,7 @@ aspect:
 
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
-  ofxLoopinClock clockControl;
+  ofxLoopin::clock::Clock clockControl;
   ofxLoopin::control::Number pointSize;
   ofxLoopin::control::Number order;
   ofxLoopin::control::Enable enable;
@@ -72,8 +72,8 @@ public:
 
   ofxLoopin::control::Number aspect;
 
-  ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
-  ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
+  ofxLoopin::control::Reference<ofxLoopinCamera,ofxLoopinHasCameras> camera;
+  ofxLoopin::control::Reference<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
   ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
   ofxLoopin::interface::Blend blend;

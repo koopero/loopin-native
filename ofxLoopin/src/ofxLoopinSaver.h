@@ -5,7 +5,7 @@
 
 #include "./control/Enum.hpp"
 #include "ofxLoopinRender.h"
-#include "ofxLoopinFrame.h"
+#include "./clock/Frame.hpp"
 #include "ofxLoopinMap.h"
 
 
@@ -69,7 +69,7 @@ protected:
     addSubControl("quality", &quality);
   };
 
-  ofxLoopinFrame lastFrame;
+  ofxLoopin::clock::Frame lastFrame;
 
   ofxLoopinSaverThread * thread;
 
