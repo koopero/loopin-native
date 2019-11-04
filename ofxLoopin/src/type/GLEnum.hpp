@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "./Enum.hpp"
 
 #define EnumGLIntAddOption(I) enumAddOption( #I, I )

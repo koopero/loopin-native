@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../ofxLoopinLoader.h"
-#include "../ofxLoopinControlValue.h"
+#include "./control/Value.hpp"
 
 /** loopin/type/shaderElement
 type: source
@@ -27,8 +27,8 @@ protected:
   string _loadedFile;
 
   void addSubControls() {
-    addSubControl( "file", new ofxLoopinControlValue( &file ) );
-    addSubControl( "data", new ofxLoopinControlValue( &data ) );
+    addSubControl( "file", new ofxLoopin::control::Value( &file ) );
+    addSubControl( "data", new ofxLoopin::control::Value( &data ) );
   };
 
   string findDefaultFile();

@@ -5,7 +5,7 @@
 #include <assert.h>
 
 template <class TYPE, class HAS>
-class ofxLoopinRef : public ofxLoopinControl {
+class ofxLoopinRef : public ofxLoopin::control::Control {
 public:
   string key;
 

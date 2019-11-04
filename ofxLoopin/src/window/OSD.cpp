@@ -27,9 +27,9 @@ void ofxLoopin::window::OSD::draw() {
 }
 
 void ofxLoopin::window::OSD::addSubControls() {
-  addSubControl( "enabled", new ofxLoopinControlValue( &enabled ) );
-  addSubControl( "text", new ofxLoopinControlValue( &text ) );
-  addSubControl( "client", new ofxLoopinControlValue( &client ) );
+  addSubControl( "enabled", new ofxLoopin::control::Value( &enabled ) );
+  addSubControl( "text", new ofxLoopin::control::Value( &text ) );
+  addSubControl( "client", new ofxLoopin::control::Value( &client ) );
 
   // Get hostname now, since this only happens once.
   char buf[256];

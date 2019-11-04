@@ -29,7 +29,7 @@ typedef ofVideoPlayer VideoEngine;
 
 class Video : public ofxLoopinRender {
 public:
-  ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
+  ofxLoopin::control::Enum<ofLoopType, OF_LOOP_NONE> loop;
   ofxLoopinClock clock;
 
 protected:

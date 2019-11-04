@@ -18,7 +18,7 @@ public:
 
 protected:
   void addSubControls() {
-    addSubControl( "text", new ofxLoopinControlValue( &text ) );
+    addSubControl( "text", new ofxLoopin::control::Value( &text ) );
   }
 
   void patchString( string value ) {

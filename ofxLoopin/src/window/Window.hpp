@@ -1,7 +1,7 @@
 #pragma once
 #include "ofMain.h"
 
-#include "../ofxLoopinControl.h"
+#include "../control/Control.hpp"
 #include "../ofxLoopinHasInfo.h"
 
 #include "../util/ofxLoopinJSON.hpp"
@@ -31,7 +31,7 @@ sub/height:
 */
 
 namespace ofxLoopin { namespace window {
-class Window : public ofxLoopinControl, public ofxLoopinHasInfo {
+class Window : public ofxLoopin::control::Control, public ofxLoopinHasInfo {
 public:
   int width = 0;
   int height = 0;

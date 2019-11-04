@@ -3,7 +3,7 @@
 #include "ofImage.h"
 #include "ofThread.h"
 
-#include "ofxLoopinControlEnum.h"
+#include "./control/Enum.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
@@ -41,8 +41,8 @@ public:
   string dest;
   int iterations = 0;
 
-  ofxLoopinControlEnum<ofImageFormat, OF_IMAGE_FORMAT_PNG> format;
-  ofxLoopinControlEnum<ofImageQualityType, OF_IMAGE_QUALITY_BEST> quality;
+  ofxLoopin::control::Enum<ofImageFormat, OF_IMAGE_FORMAT_PNG> format;
+  ofxLoopin::control::Enum<ofImageQualityType, OF_IMAGE_QUALITY_BEST> quality;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
 
@@ -53,8 +53,8 @@ protected:
   void patchString( string value );
 
   void addSubControls() {
-    addSubControl("dest", new ofxLoopinControlValue( &dest ) );
-    // addSubControl("iterations", new ofxLoopinControlValue( &iterations ) );
+    addSubControl("dest", new ofxLoopin::control::Value( &dest ) );
+    // addSubControl("iterations", new ofxLoopin::control::Value( &iterations ) );
 
     format.setEnumKey("png",  OF_IMAGE_FORMAT_PNG );
     format.setEnumKey("jpeg", OF_IMAGE_FORMAT_JPEG );

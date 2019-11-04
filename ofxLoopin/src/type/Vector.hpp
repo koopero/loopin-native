@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
-#include "../ofxLoopinControlNumber.h"
+#include "./control/Control.hpp"
+#include "../control/Number.h"
 
 
 namespace ofxLoopin { namespace type {
 
 template <int LENGTH>
-class Vector : public ofxLoopinControl {
+class Vector : public ofxLoopin::control::Control {
 public:
   Vector() {};
-  ofxLoopinControlNumber component[LENGTH];
+  ofxLoopin::control::Number component[LENGTH];
 
   float getAxis( int axis = 0, float defaultValue = 0.0 ) {
     if ( axis < 0 || axis > LENGTH )

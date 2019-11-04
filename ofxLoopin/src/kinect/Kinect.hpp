@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 
-#include "ofxLoopinControlBool.h"
+#include "../control/Bool.hpp"
 #include "ofxLoopinRender.h"
 #include "../shader/Shader.hpp"
 #include "../type/Enable.hpp"
@@ -55,12 +55,12 @@ public:
     OUTPUT_ALPHA
   };
 
-  ofxLoopinControlEnum<ofxKinect::LedMode, ofxKinect::LedMode::LED_DEFAULT> led;
-  ofxLoopinControlEnum<Output, OUTPUT_BOTH> output;
-  ofxLoopinControlBool infrared;
-  ofxLoopinControlBool registration;
+  ofxLoopin::control::Enum<ofxKinect::LedMode, ofxKinect::LedMode::LED_DEFAULT> led;
+  ofxLoopin::control::Enum<Output, OUTPUT_BOTH> output;
+  ofxLoopin::control::Bool infrared;
+  ofxLoopin::control::Bool registration;
 
-  ofxLoopinControlNumber tilt;
+  ofxLoopin::control::Number tilt;
 
   void updateTilt() {
     float tilt = ofxLoopin::kinect::Kinect::tilt;

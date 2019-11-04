@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofxLoopinHasInfo.h"
-#include "ofxLoopinControlNumber.h"
+#include "../control/Number.hpp"
 #include "ofxLoopinRender.h"
 
 #include "ofVideoGrabber.h"
@@ -11,9 +11,9 @@ namespace ofxLoopin { namespace grabber {
 
 class Grabber : public ofxLoopinRender {
 public:
-  ofxLoopinControlInt deviceID = 0;
-  ofxLoopinControlInt width    = 640;
-  ofxLoopinControlInt height   = 480;
+  control::Int deviceID = 0;
+  control::Int width    = 640;
+  control::Int height   = 480;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   ofRectangle getBounds();

@@ -2,7 +2,7 @@
 
 #include "ofGraphics.h"
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "ofxLoopinEvent.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
@@ -14,7 +14,7 @@
   map: layer
 */
 
-class ofxLoopinRender : public ofxLoopinControl {
+class ofxLoopinRender : public ofxLoopin::control::Control {
 public:
   ofxLoopinRef<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
 

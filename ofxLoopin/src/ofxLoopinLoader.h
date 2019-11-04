@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "ofxLoopinRoot.h"
 
-class ofxLoopinLoader : public ofxLoopinControl {
+class ofxLoopinLoader : public ofxLoopin::control::Control {
 public:
   virtual void load() {};
   string getFilePath();

@@ -161,7 +161,7 @@ public:
   void render ();
 
   // Master event dispatcher.
-  // Called by ofxLoopinControl::dispatch
+  // Called by ofxLoopin::control::Control::dispatch
   void dispatch( ofxLoopinEvent & event );
 
   void update();

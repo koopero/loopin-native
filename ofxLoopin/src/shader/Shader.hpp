@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "ofxLoopinFile.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMeshBase.h"
@@ -17,7 +17,7 @@ sub:
     type: shaderElement
 */
 namespace ofxLoopin { namespace shader {
-class Shader : public ofxLoopinControl {
+class Shader : public ofxLoopin::control::Control {
 public:
   Shader() {};
   Shader( string _key ) {

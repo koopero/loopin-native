@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlNumeric.h"
+#include "./control/Control.hpp"
+#include "ofxLoopin::control::Numeric.h"
 #include "ofxLoopinMap.h"
 #include "./shader/Shader.hpp"
 #include "ofxLoopinTexture.h"
@@ -32,7 +32,7 @@ public:
 
 };
 
-class ofxLoopinUniformSet : public ofxLoopinControl {
+class ofxLoopinUniformSet : public ofxLoopin::control::Control {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
     floats.bindToShader( shader );

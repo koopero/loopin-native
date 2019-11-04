@@ -1,18 +1,18 @@
 #include "./MeshGenerator.hpp"
 
-#include "../ofxLoopinControlNumber.h"
-#include "../ofxLoopinControlBool.h"
+#include "../control/Number.h"
+#include "../control/Bool.h"
 
 
 namespace ofxLoopin { namespace mesh {
 class sphere: public ofxLoopin::MeshGenerator {
 public:
-  ofxLoopinControlInt   count = 1;
-  ofxLoopinControlNumber radius = 1;
-  ofxLoopinControlNumber rotate = 0;
-  ofxLoopinControlInt   cols = 16;
-  ofxLoopinControlInt   rows = 32;
-  ofxLoopinControlBool  split = ofxLoopinControlBool( false );
+  ofxLoopin::control::Int   count = 1;
+  ofxLoopin::control::Number radius = 1;
+  ofxLoopin::control::Number rotate = 0;
+  ofxLoopin::control::Int   cols = 16;
+  ofxLoopin::control::Int   rows = 32;
+  ofxLoopin::control::Bool  split = ofxLoopin::control::Bool( false );
 
   void addSubControls() {
     addSubControl( "count",  &count );

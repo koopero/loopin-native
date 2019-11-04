@@ -3,10 +3,10 @@
 #include "ofAppRunner.h"
 #include "ofShader.h"
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlBool.h"
-#include "ofxLoopinControlEnum.h"
-#include "ofxLoopinControlNumber.h"
+#include "./control/Control.hpp"
+#include "./control/Bool.hpp"
+#include "./control/Enum.hpp"
+#include "./control/Number.hpp"
 #include "ofxLoopinFrame.h"
 
 #include "util/ofxLoopinJSON.hpp"
@@ -40,17 +40,17 @@ advance/:
 
 */
 
-class ofxLoopinClock : public ofxLoopinControl {
+class ofxLoopinClock : public ofxLoopin::control::Control {
 public:
   ofxLoopinFrame frame;
 
   static ofxLoopinFrame globalFrame;
 
-  ofxLoopinControlEnum<ofxLoopinFrame::Mode,ofxLoopinFrame::Mode::TIME> mode;
-  ofxLoopinControlNumber rate = 60.0;
-  ofxLoopinControlNumber speed = 1.0;
+  ofxLoopin::control::Enum<ofxLoopinFrame::Mode,ofxLoopinFrame::Mode::TIME> mode;
+  ofxLoopin::control::Number rate = 60.0;
+  ofxLoopin::control::Number speed = 1.0;
 
-  // ofxLoopinControlBool running = true;
+  // ofxLoopin::control::Bool running = true;
   bool running = true;
   double lastTime;
 

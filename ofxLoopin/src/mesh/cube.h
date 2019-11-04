@@ -1,13 +1,13 @@
 #include "./MeshGenerator.hpp"
 
-#include "../ofxLoopinControlNumber.h"
-#include "../ofxLoopinControlBool.h"
+#include "../control/Number.h"
+#include "../control/Bool.h"
 
 
 namespace ofxLoopin { namespace mesh {
 class cube : public ofxLoopin::MeshGenerator {
 public:
-  ofxLoopinControlInt   count = 1;
+  ofxLoopin::control::Int   count = 1;
 
 
   void addSubControls() {

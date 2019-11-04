@@ -7,7 +7,7 @@ void ofxLoopinInfo::readLocal( ofJson & value ) {
 ofJson ofxLoopinInfo::getInfo() {
   ofJson result;
 
-  map< string, ofxLoopinControl *> subs = root->getSubs();
+  map< string, ofxLoopin::control::Control *> subs = root->getSubs();
 
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {
     string key = it->first;
@@ -25,7 +25,7 @@ ofJson ofxLoopinInfo::getInfoKey( const string & key ) {
   if ( !root )
     return result;
 
-  map< string, ofxLoopinControl *> subs = root->getSubs();
+  map< string, ofxLoopin::control::Control *> subs = root->getSubs();
 
   if ( subs.count( key ) ) {
     ofxLoopinHasInfo * hasInfo = dynamic_cast<ofxLoopinHasInfo*>( subs[ key ] );

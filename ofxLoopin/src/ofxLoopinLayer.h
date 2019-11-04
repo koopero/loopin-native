@@ -4,14 +4,14 @@
 
 
 #include "ofxLoopinCamera.h"
-#include "ofxLoopinControlBool.h"
+#include "./control/Bool.hpp"
 #include "ofxLoopinClock.h"
 #include "ofxLoopinMesh.h"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinTexture.h"
 #include "ofxLoopinTransform2D.h"
 
-#include "ofxLoopinControlNumber.h"
+#include "ofxLoopin::control::Number.h"
 #include "./type/Enable.hpp"
 #include "./interface/Blend.hpp"
 #include "./shader/Shader.hpp"
@@ -48,8 +48,8 @@ aspect:
 class ofxLoopinLayer : public ofxLoopinRender {
 public:
   ofxLoopinClock clockControl;
-  ofxLoopinControlNumber pointSize;
-  ofxLoopinControlNumber order;
+  ofxLoopin::control::Number pointSize;
+  ofxLoopin::control::Number order;
   ofxLoopin::type::Enable enable;
 
 
@@ -60,24 +60,24 @@ public:
     BOTH
   };
 
-  ofxLoopinControlEnum<Clear,NONE> clear;
-  ofxLoopinControlBool advance = false;
-  ofxLoopinControlBool passAdvance = false;
-  ofxLoopinControlBool depthTest = false;
-  ofxLoopinControlInt  passes = 1;
+  ofxLoopin::control::Enum<Clear,NONE> clear;
+  ofxLoopin::control::Bool advance = false;
+  ofxLoopin::control::Bool passAdvance = false;
+  ofxLoopin::control::Bool depthTest = false;
+  ofxLoopin::control::Int  passes = 1;
 
 
   ofxLoopinTexture * src;
   ofxLoopinTransform2D transform;
 
-  ofxLoopinControlNumber aspect;
+  ofxLoopin::control::Number aspect;
 
   ofxLoopinRef<ofxLoopinCamera,ofxLoopinHasCameras> camera;
   ofxLoopinRef<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
 
   ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
   ofxLoopin::interface::Blend blend;
-  ofxLoopinControlEnum<GLenum,0> face;
+  ofxLoopin::control::Enum<GLenum,0> face;
 
 
   void renderBuffer( ofxLoopinBuffer * buffer );

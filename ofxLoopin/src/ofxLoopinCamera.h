@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlNumber.h"
+#include "./control/Control.hpp"
+#include "ofxLoopin::control::Number.h"
 #include "ofxLoopinMap.h"
 #include "ofxLoopinRoot.h"
 #include "./shader/Shader.hpp"
@@ -55,18 +55,18 @@ yaw:
   type: angle
 */
 
-class ofxLoopinCamera : public ofxLoopinControl {
+class ofxLoopinCamera : public ofxLoopin::control::Control {
 public:
-  ofxLoopinControlNumber zoom = ofxLoopinControlNumber(0);
-  ofxLoopinControlNumber distance = ofxLoopinControlNumber(1);
-  ofxLoopinControlNumber fov = ofxLoopinControlNumber(32); 
-  ofxLoopinControlNumber dof = ofxLoopinControlNumber(16);
-  ofxLoopinControlNumber focus;
+  ofxLoopin::control::Number zoom = ofxLoopin::control::Number(0);
+  ofxLoopin::control::Number distance = ofxLoopin::control::Number(1);
+  ofxLoopin::control::Number fov = ofxLoopin::control::Number(32); 
+  ofxLoopin::control::Number dof = ofxLoopin::control::Number(16);
+  ofxLoopin::control::Number focus;
 
 
-  ofxLoopinControlNumber roll;
-  ofxLoopinControlNumber pitch;
-  ofxLoopinControlNumber yaw;
+  ofxLoopin::control::Number roll;
+  ofxLoopin::control::Number pitch;
+  ofxLoopin::control::Number yaw;
 
   ofxLoopin::type::Vector<3> translate;
 

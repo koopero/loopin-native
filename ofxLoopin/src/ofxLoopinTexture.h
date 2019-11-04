@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofxLoopinBuffer.h"
-#include "ofxLoopinControlEnum.h"
+#include "./control/Enum.hpp"
 #include "ofxLoopinRef.h"
 #include "ofxLoopinRoot.h"
 #include "./shader/Shader.hpp"
@@ -25,16 +25,16 @@
 */
 
 
-class ofxLoopinTexture : public ofxLoopinControl, public ofxLoopinUniform {
+class ofxLoopinTexture : public ofxLoopin::control::Control, public ofxLoopinUniform {
 public:
 
   ofxLoopinRef<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
 
-  ofxLoopinControlEnum<GLint,GL_NEAREST> minFilter;
-  ofxLoopinControlEnum<GLint,GL_NEAREST> magFilter;
+  ofxLoopin::control::Enum<GLint,GL_NEAREST> minFilter;
+  ofxLoopin::control::Enum<GLint,GL_NEAREST> magFilter;
 
-  ofxLoopinControlEnum<GLint,GL_REPEAT> wrapH;
-  ofxLoopinControlEnum<GLint,GL_REPEAT> wrapV;
+  ofxLoopin::control::Enum<GLint,GL_REPEAT> wrapH;
+  ofxLoopin::control::Enum<GLint,GL_REPEAT> wrapV;
 
 
   bool hasTexture() {

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
+#include "./control/Control.hpp"
 
 namespace ofxLoopin { namespace type {
 
 template <class TYPE, TYPE DEFAULT>
-class Enum : public ofxLoopinControl {
+class Enum : public ofxLoopin::control::Control {
 public:
 
   bool enumKeyFromValue();

@@ -25,7 +25,7 @@ public:
     MODE_NONE
   };
 
-  ofxLoopinControlEnum<Mode, MODE_CLIENT> mode;
+  ofxLoopin::control::Enum<Mode, MODE_CLIENT> mode;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   ofRectangle getBounds();
@@ -38,8 +38,8 @@ protected:
     mode.setEnumKey( "none", MODE_NONE );
 
     addSubControl( "mode", &mode );
-    addSubControl( "app", new ofxLoopinControlValue( &app ) );
-    addSubControl( "name", new ofxLoopinControlValue( &name ) );
+    addSubControl( "app", new ofxLoopin::control::Value( &app ) );
+    addSubControl( "name", new ofxLoopin::control::Value( &name ) );
 
   }
   

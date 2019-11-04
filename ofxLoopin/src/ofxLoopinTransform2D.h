@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlNumber.h"
+#include "./control/Control.hpp"
+#include "ofxLoopin::control::Number.h"
 
 #include "ofMatrix4x4.h"
 
@@ -21,14 +21,14 @@ enum ofxLoopinTransform2DMode {
   COVER, CONTAIN
  };
 
-class ofxLoopinTransform2D : public ofxLoopinControl {
+class ofxLoopinTransform2D : public ofxLoopin::control::Control {
 public:
-  ofxLoopinControlNumber x;
-  ofxLoopinControlNumber y;
-  ofxLoopinControlNumber aspect = ofxLoopinControlNumber(1);
-  ofxLoopinControlNumber scale = ofxLoopinControlNumber(1);
-  ofxLoopinControlNumber rotate;
-  ofxLoopinControlEnum<ofxLoopinTransform2DMode,ofxLoopinTransform2DMode::COVER> mode;
+  ofxLoopin::control::Number x;
+  ofxLoopin::control::Number y;
+  ofxLoopin::control::Number aspect = ofxLoopin::control::Number(1);
+  ofxLoopin::control::Number scale = ofxLoopin::control::Number(1);
+  ofxLoopin::control::Number rotate;
+  ofxLoopin::control::Enum<ofxLoopinTransform2DMode,ofxLoopinTransform2DMode::COVER> mode;
 
   ofMatrix4x4 makeMatrix ( float layerAspect, float bufferAspect ) const  {
     // std::cerr << "transform2D::layerAspect " << layerAspect << endl;

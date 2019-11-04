@@ -46,7 +46,7 @@ void ofxLoopinApp::setup () {
 }
 
 void ofxLoopinApp::update() {
-  ofxLoopinControl::update();
+  ofxLoopin::control::Control::update();
 }
 
 void ofxLoopinApp::updateLocal() {

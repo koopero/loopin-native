@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
+#include "../control/Control.hpp"
 #include "../type/Colour.hpp"
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
 
 namespace ofxLoopin { namespace interface {
-class Blend : public ofxLoopinControl {
+class Blend : public ofxLoopin::control::Control {
 public:
   type::Colour colour;
   options::BlendEquation equation;

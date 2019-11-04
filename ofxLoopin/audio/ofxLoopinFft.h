@@ -2,7 +2,7 @@
 
 #include "ofxEasyFft.h"
 
-#include "ofxLoopinControlEnum.h"
+#include "../control/Enum.hpp"
 #include "ofxLoopinRender.h"
 
 class ofxLoopinFft : public ofxLoopinRender {

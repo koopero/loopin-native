@@ -59,8 +59,8 @@ void ofxLoopin::pixels::Render::addSubControls() {
   output.setEnumKey( "once", OUTPUT_ONCE );
   addSubControl("output", &output );
 
-  addSubControl("channels", new ofxLoopinControlValue( &channels ) );
-  addSubControl("data", new ofxLoopinControlValue( &data ) );
+  addSubControl("channels", new ofxLoopin::control::Value( &channels ) );
+  addSubControl("data", new ofxLoopin::control::Value( &data ) );
 
 };
 

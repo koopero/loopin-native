@@ -3,7 +3,7 @@
 #include "ofImage.h"
 #include "ofThread.h"
 
-#include "ofxLoopinControlEnum.h"
+#include "./control/Enum.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinFrame.h"
 #include "ofxLoopinMap.h"
@@ -28,7 +28,7 @@ public:
     FORMAT_PERCENT
   };
 
-  ofxLoopinControlEnum<Format, FORMAT_BASE64> format;
+  ofxLoopin::control::Enum<Format, FORMAT_BASE64> format;
 
   enum Input {
     INPUT_CHANGE,
@@ -36,7 +36,7 @@ public:
     INPUT_ALWAYS
   };
 
-  ofxLoopinControlEnum<Input, INPUT_CHANGE> input;
+  ofxLoopin::control::Enum<Input, INPUT_CHANGE> input;
 
   enum Output {
     OUTPUT_NONE,
@@ -44,15 +44,15 @@ public:
     OUTPUT_ONCE
   };
 
-  ofxLoopinControlEnum<Output, OUTPUT_NONE> output;
+  ofxLoopin::control::Enum<Output, OUTPUT_NONE> output;
 
   string channels = "rgb";
 
-  // ofxLoopinControlInt width = 0;
-  // ofxLoopinControlInt height = 0;
+  // ofxLoopin::control::Int width = 0;
+  // ofxLoopin::control::Int height = 0;
 
   ofxLoopin::type::Box box;
-  ofxLoopinControlBool replace;
+  ofxLoopin::control::Bool replace;
 
 
   string data;

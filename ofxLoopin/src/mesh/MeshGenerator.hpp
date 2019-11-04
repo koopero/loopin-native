@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "ofxLoopinMeshBase.h"
 
 
@@ -8,7 +8,7 @@
 #include "util/ofxLoopinJSON.hpp"
 
 namespace ofxLoopin {
-  class MeshGenerator : public ofxLoopinControl {
+  class MeshGenerator : public ofxLoopin::control::Control {
   public:
     ofxLoopinMeshBase * mesh = nullptr;
 

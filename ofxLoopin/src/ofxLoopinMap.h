@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 
 template <class child_type>
-class ofxLoopinMap : public ofxLoopinControl {
+class ofxLoopinMap : public ofxLoopin::control::Control {
 public:
   string defaultKey = "";
 
@@ -25,7 +25,7 @@ public:
 
   void update() {
     for( auto it = _map.begin(); it != _map.end(); it++) {
-      ofxLoopinControl &item = it->second;
+      ofxLoopin::control::Control &item = it->second;
       item.update();
     }
   };

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
-#include "../ofxLoopinControlValue.h"
+#include "./control/Control.hpp"
+#include "./control/Value.hpp"
 #include "../ofxLoopinFile.h"
 #include "../ofxLoopinFrame.h"
 
@@ -17,7 +17,7 @@
 
 namespace ofxLoopin { namespace window {
 
-class OSD : public ofxLoopinControl {
+class OSD : public ofxLoopin::control::Control {
 public:
   bool enabled = true;
 

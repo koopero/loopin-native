@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ofxLoopinControlEnum.h"
+#include "./control/Enum.hpp"
 #include "ofxLoopinTexture.h"
 
 /** loopin/type/show:
@@ -18,7 +18,7 @@ public:
     SHOW
   };
 
-  ofxLoopinControlEnum<Alpha,IGNOREX> alpha;
+  ofxLoopin::control::Enum<Alpha,IGNOREX> alpha;
 
   void draw();
 

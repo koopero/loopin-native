@@ -44,10 +44,10 @@ protected:
 };
 
 
-class ofxLoopinControlInt : public ofxLoopinControl {
+class Int : public Control {
 public:
-  ofxLoopinControlInt( int _value ) : value( _value ) {};
-  ofxLoopinControlInt() {};
+  Int( int _value ) : value( _value ) {};
+  Int() {};
 
   int operator()() const { return (int) value; };
   operator int() const { return (int) value; };

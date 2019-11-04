@@ -53,7 +53,7 @@ void ofxLoopin::kinect::Kinect::addSubControls() {
   addSubControl( "enable", &enable );
 
 
-  addSubControl( "deviceID", new ofxLoopinControlValue( &deviceId ) );
+  addSubControl( "deviceID", new ofxLoopin::control::Value( &deviceId ) );
 
   addSubControl( "tilt", &tilt );
   addSubControl( "infrared", &infrared );

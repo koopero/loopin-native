@@ -3,9 +3,10 @@
 #include "ofImage.h"
 #include "ofTexture.h"
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlBool.h"
-// #include "ofxLoopinLoader.h"
+#include "../control/Control.hpp"
+#include "../control/Bool.hpp"
+#include "../control/Value.hpp"
+
 #include "ofxLoopinRender.h"
 #include "ofxLoopinMap.h"
 #include "../type/Box.hpp"
@@ -28,7 +29,7 @@ public:
 
   ofxLoopin::type::Box box;
   ofxLoopin::type::Box crop;
-  ofxLoopinControlBool replace;
+  ofxLoopin::control::Bool replace;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void load( string filePath );
@@ -46,7 +47,7 @@ protected:
     addSubControl("crop", &crop );
     addSubControl("replace", &replace );
 
-    addSubControl("src", new ofxLoopinControlValue( &src ) );
+    addSubControl("src", new ofxLoopin::control::Value( &src ) );
   };
 
 private:

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./shader/Shader.hpp"
-#include "ofxLoopinControlNumeric.h"
+#include "ofxLoopin::control::Numeric.h"
 #include "./type/Vector.hpp"
 
 
@@ -15,7 +15,7 @@ public:
 
 class ofxLoopinUniformFloat :
   public ofxLoopinUniform,
-  public ofxLoopinControlNumeric
+  public ofxLoopin::control::Numeric
 {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
@@ -26,7 +26,7 @@ public:
 
 class ofxLoopinUniformInt :
   public ofxLoopinUniform,
-  public ofxLoopinControlNumeric
+  public ofxLoopin::control::Numeric
 {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
+#include "./control/Control.hpp"
 #include "ofxLoopinHasInfo.h"
 #include "ofxLoopinRoot.h"
 
 
-class ofxLoopinInfo : public ofxLoopinControl {
+class ofxLoopinInfo : public ofxLoopin::control::Control {
 protected:
   void readLocal( ofJson & value );
   ofJson getInfo();

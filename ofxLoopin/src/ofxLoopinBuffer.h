@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlBool.h"
-#include "ofxLoopinControlEnum.h"
-#include "ofxLoopinControlNumber.h"
-#include "ofxLoopinControlNumeric.h"
+#include "./control/Control.hpp"
+#include "./control/Bool.hpp"
+#include "./control/Enum.hpp"
+#include "ofxLoopin::control::Number.h"
+#include "ofxLoopin::control::Numeric.h"
 #include "ofxLoopinEvent.h"
 #include "ofxLoopinMap.h"
 
@@ -48,24 +48,24 @@ format:
 **/
 
 
-class ofxLoopinBuffer : public ofxLoopinControl {
+class ofxLoopinBuffer : public ofxLoopin::control::Control {
 public:
   int boundIndex = -1;
 
 
   // Pixel size of buffer
-  ofxLoopinControlNumeric _width;
-  ofxLoopinControlNumeric _height;
-  ofxLoopinControlBool useDepth;
-  ofxLoopinControlInt   cols = 1;
-  ofxLoopinControlInt   rows = 1;
+  ofxLoopin::control::Numeric _width;
+  ofxLoopin::control::Numeric _height;
+  ofxLoopin::control::Bool useDepth;
+  ofxLoopin::control::Int   cols = 1;
+  ofxLoopin::control::Int   rows = 1;
 
-  ofxLoopinControlNumber aspect = 1;
+  ofxLoopin::control::Number aspect = 1;
 
   #ifndef TARGET_OPENGLES
-    ofxLoopinControlEnum<int,GL_RGBA8> format;
+    ofxLoopin::control::Enum<int,GL_RGBA8> format;
   #else
-    ofxLoopinControlEnum<int,GL_RGBA> format;
+    ofxLoopin::control::Enum<int,GL_RGBA> format;
   #endif
 
   bool ready() {

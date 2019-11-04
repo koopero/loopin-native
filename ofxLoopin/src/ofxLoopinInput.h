@@ -5,7 +5,7 @@
 
 #include "ofMain.h"
 
-class ofxLoopinInput : public ofxLoopinControl {
+class ofxLoopinInput : public ofxLoopin::control::Control {
 public:
   // openFrameworks mouse events
   void mouseMoved(ofMouseEventArgs & args) {

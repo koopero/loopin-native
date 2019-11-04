@@ -1,14 +1,14 @@
 #include "./MeshGenerator.hpp"
 
-#include "../ofxLoopinControlNumber.h"
-#include "../ofxLoopinControlBool.h"
+#include "../control/Number.h"
+#include "../control/Bool.h"
 
 
 namespace ofxLoopin { namespace mesh {
 class scatter : public ofxLoopin::MeshGenerator {
 public:
-  ofxLoopinControlInt   seed = -1;
-  ofxLoopinControlInt   count = 256;
+  ofxLoopin::control::Int   seed = -1;
+  ofxLoopin::control::Int   count = 256;
 
   void addSubControls() {
     addSubControl( "seed", &seed );

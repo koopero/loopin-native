@@ -1,17 +1,17 @@
 #include "./MeshGenerator.hpp"
 
-#include "../ofxLoopinControlNumber.h"
-#include "../ofxLoopinControlBool.h"
+#include "../control/Number.h"
+#include "../control/Bool.h"
 
 
 namespace ofxLoopin { namespace mesh {
 class plane : public ofxLoopin::MeshGenerator {
 public:
-  ofxLoopinControlInt   count = 1;
-  ofxLoopinControlInt   cols = 1;
-  ofxLoopinControlInt   rows = 1;
-  ofxLoopinControlBool  split = ofxLoopinControlBool( false );
-  ofxLoopinControlBool  weave = ofxLoopinControlBool( false );
+  ofxLoopin::control::Int   count = 1;
+  ofxLoopin::control::Int   cols = 1;
+  ofxLoopin::control::Int   rows = 1;
+  ofxLoopin::control::Bool  split = ofxLoopin::control::Bool( false );
+  ofxLoopin::control::Bool  weave = ofxLoopin::control::Bool( false );
 
   void addSubControls() {
     addSubControl( "count", &count );

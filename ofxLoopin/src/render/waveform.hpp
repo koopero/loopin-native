@@ -3,9 +3,9 @@
 #include "ofSoundStream.h"
 
 #include "ofxLoopinHasInfo.h"
-#include "ofxLoopinControlBool.h"
-#include "ofxLoopinControlEnum.h"
-#include "ofxLoopinControlNumber.h"
+#include "./control/Bool.hpp"
+#include "./control/Enum.hpp"
+#include "ofxLoopin::control::Number.h"
 #include "ofxLoopinRender.h"
 #include "../shader/Shader.hpp"
 #include "../type/Enable.hpp"
@@ -35,14 +35,14 @@ public:
     PHASE_BOTH
   };
   
-  ofxLoopinControlEnum<waveform_imp::Phase, PHASE_ABS> phase;
-  ofxLoopinControlNumber duration = 0;
-  ofxLoopinControlNumber squelch = 0;
-  ofxLoopinControlNumber gain = 1;
-  ofxLoopinControlNumber test = 0;
-  ofxLoopinControlInt y = 0;
-  ofxLoopinControlInt channels = 2;
-  ofxLoopinControlInt deviceID = 0;
+  ofxLoopin::control::Enum<waveform_imp::Phase, PHASE_ABS> phase;
+  ofxLoopin::control::Number duration = 0;
+  ofxLoopin::control::Number squelch = 0;
+  ofxLoopin::control::Number gain = 1;
+  ofxLoopin::control::Number test = 0;
+  ofxLoopin::control::Int y = 0;
+  ofxLoopin::control::Int channels = 2;
+  ofxLoopin::control::Int deviceID = 0;
 
   void renderBuffer( ofxLoopinBuffer * buffer );
   void audioIn(ofSoundBuffer &buffer);

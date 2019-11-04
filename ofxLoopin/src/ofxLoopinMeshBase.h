@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlEnum.h"
-#include "ofxLoopinControlNumber.h"
+#include "./control/Control.hpp"
+#include "./control/Enum.hpp"
+#include "ofxLoopin::control::Number.h"
 #include "ofxLoopinMap.h"
 #include "util/ofxLoopinJSON.hpp"
 #include "ofMesh.h"
@@ -51,16 +51,16 @@ scatter:
       default: -1
 */
 
-class ofxLoopinMeshBase : public ofxLoopinControl {
+class ofxLoopinMeshBase : public ofxLoopin::control::Control {
 public:
-  ofxLoopinControlNumber aspect;
+  ofxLoopin::control::Number aspect;
 
   void draw() {
     _mesh.setMode( mode.getEnumValue() );
     _mesh.draw();
   };
 
-  ofxLoopinControlEnum<ofPrimitiveMode,OF_PRIMITIVE_TRIANGLES> mode;
+  ofxLoopin::control::Enum<ofPrimitiveMode,OF_PRIMITIVE_TRIANGLES> mode;
 
   void erase();
 
