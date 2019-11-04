@@ -5,7 +5,7 @@
 
 
 namespace ofxLoopin { namespace mesh {
-class arc: public ofxLoopin::MeshGenerator {
+class arc: public ofxLoopin::mesh::MeshGenerator {
 public:
   ofxLoopin::control::Int   count = 1;
   ofxLoopin::control::Number radius = 1;

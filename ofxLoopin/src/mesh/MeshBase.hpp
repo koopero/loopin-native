@@ -51,7 +51,8 @@ scatter:
       default: -1
 */
 
-class ofxLoopinMeshBase : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace mesh {
+class MeshBase : public ofxLoopin::control::Control {
 public:
   ofxLoopin::control::Number aspect;
 
@@ -108,3 +109,4 @@ protected:
   int vertexKeyToAxis( const string &key );
   void setVertexElement( int index, int axis, float value );
 };
+}};

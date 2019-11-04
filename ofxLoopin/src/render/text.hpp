@@ -10,7 +10,7 @@
 class ofxLoopinText : public ofxLoopinRender {
 public:
   string text = "hello, world";
-  // ofxLoopin::control::Reference<operator::,ofxLoopinHasMeshes> mesh;
+  // ofxLoopin::control::Reference<operator::,ofxLoopin::mesh::HasMeshes> mesh;
   // ofxLoopin::control::ref<ofxLoopin::control::font> font;
 
 

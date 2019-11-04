@@ -5,7 +5,7 @@
 
 
 namespace ofxLoopin { namespace mesh {
-class scatter : public ofxLoopin::MeshGenerator {
+class scatter : public ofxLoopin::mesh::MeshGenerator {
 public:
   ofxLoopin::control::Int   seed = -1;
   ofxLoopin::control::Int   count = 256;

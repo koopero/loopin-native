@@ -5,7 +5,7 @@
 
 
 namespace ofxLoopin { namespace mesh {
-class plane : public ofxLoopin::MeshGenerator {
+class plane : public ofxLoopin::mesh::MeshGenerator {
 public:
   ofxLoopin::control::Int   count = 1;
   ofxLoopin::control::Int   cols = 1;

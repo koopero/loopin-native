@@ -5,7 +5,7 @@
 
 
 namespace ofxLoopin { namespace mesh {
-class sphere: public ofxLoopin::MeshGenerator {
+class sphere: public ofxLoopin::mesh::MeshGenerator {
 public:
   ofxLoopin::control::Int   count = 1;
   ofxLoopin::control::Number radius = 1;

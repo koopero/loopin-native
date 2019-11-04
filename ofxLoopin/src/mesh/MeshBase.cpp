@@ -1,14 +1,14 @@
-#include "ofxLoopinMeshBase.h"
+#include "./MeshBase.hpp"
 
-void ofxLoopinMeshBase::setModeTriangles() {
+void ofxLoopin::mesh::MeshBase::setModeTriangles() {
   mode.setKey("triangles");
 
 }
-void ofxLoopinMeshBase::setModePoints() {
+void ofxLoopin::mesh::MeshBase::setModePoints() {
   mode.setKey("points");
 }
 
-void ofxLoopinMeshBase::erase() {
+void ofxLoopin::mesh::MeshBase::erase() {
   _mesh.getIndices().resize(0);
   _mesh.getVertices().resize(0);
   _mesh.getTexCoords().resize(0);
@@ -16,7 +16,7 @@ void ofxLoopinMeshBase::erase() {
   _mesh.getNormals().resize(0);
 };
 
-int ofxLoopinMeshBase::addVertex(
+int ofxLoopin::mesh::MeshBase::addVertex(
   float x, float y, float z,
   float u, float v,
   float r, float g, float b, float a,
@@ -35,7 +35,7 @@ int ofxLoopinMeshBase::addVertex(
 
 
 
-void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c ) {
+void ofxLoopin::mesh::MeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c ) {
   // std::cerr << "addTriangle " << a << " " << b << " " << c << endl;
 
   std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
@@ -48,7 +48,7 @@ void ofxLoopinMeshBase::addTriangle( ofIndexType a, ofIndexType b, ofIndexType c
 // Other stuff
 //
 
-void ofxLoopinMeshBase::setIndices( const ofJson & val ) {
+void ofxLoopin::mesh::MeshBase::setIndices( const ofJson & val ) {
   if ( val.is_array() ) {
     std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
     meshIndices.resize( val.size() );
@@ -70,7 +70,7 @@ void ofxLoopinMeshBase::setIndices( const ofJson & val ) {
   }
 }
 
-void ofxLoopinMeshBase::setIndex( int index, const ofJson & val ) {
+void ofxLoopin::mesh::MeshBase::setIndex( int index, const ofJson & val ) {
   std::vector<ofIndexType> & meshIndices = _mesh.getIndices();
 
   if ( index >= meshIndices.size() )
@@ -82,7 +82,7 @@ void ofxLoopinMeshBase::setIndex( int index, const ofJson & val ) {
   }
 }
 
-void ofxLoopinMeshBase::setVertices( const ofJson & val ) {
+void ofxLoopin::mesh::MeshBase::setVertices( const ofJson & val ) {
   if ( val.is_array() ) {
     for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
       setVertexElements( valIndex, val[valIndex] );
@@ -101,7 +101,7 @@ void ofxLoopinMeshBase::setVertices( const ofJson & val ) {
   }
 }
 
-void ofxLoopinMeshBase::setVertexElements( int vertIndex, const ofJson & val ) {
+void ofxLoopin::mesh::MeshBase::setVertexElements( int vertIndex, const ofJson & val ) {
   if ( val.is_array() ) {
     for ( int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
       if ( val[valIndex].is_number() )
@@ -120,7 +120,7 @@ void ofxLoopinMeshBase::setVertexElements( int vertIndex, const ofJson & val ) {
   }
 }
 
-int ofxLoopinMeshBase::vertexKeyToAxis( const string &key ) {
+int ofxLoopin::mesh::MeshBase::vertexKeyToAxis( const string &key ) {
   if ( key == "x" || key == "0" ) return 0;
   if ( key == "y" || key == "1" ) return 1;
   if ( key == "z" || key == "2" ) return 2;
@@ -149,7 +149,7 @@ int ofxLoopinMeshBase::vertexKeyToAxis( const string &key ) {
 // normal x: 9
 // normal y: 10
 // normal z: 11
-void ofxLoopinMeshBase::setVertexElement( int index, int axis, float value ) {
+void ofxLoopin::mesh::MeshBase::setVertexElement( int index, int axis, float value ) {
   if ( axis < 0 ) {
     // Unknown axis
   } else if ( axis < 3 ) {

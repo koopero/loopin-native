@@ -1,15 +1,13 @@
 #pragma once
 
-#include "ofxLoopinMeshBase.h"
-#include "./control/Map.hpp"
+#include "./MeshBase.hpp"
+#include "../control/Map.hpp"
 
-#include "mesh/arc.h"
-#include "mesh/cube.h"
-#include "mesh/plane.h"
-#include "mesh/scatter.h"
-#include "mesh/sphere.h"
-
-
+#include "./arc.h"
+#include "./cube.h"
+#include "./plane.h"
+#include "./scatter.h"
+#include "./sphere.h"
 
 #include "ofMesh.h"
 
@@ -57,7 +55,8 @@ scatter:
       default: -1
 */
 
-class ofxLoopinMesh: public ofxLoopinMeshBase {
+namespace ofxLoopin { namespace mesh {
+class Mesh: public MeshBase {
 public:
   ofxLoopin::mesh::plane plane;
   ofxLoopin::mesh::scatter scatter;
@@ -65,16 +64,14 @@ public:
   ofxLoopin::mesh::arc arc;
   ofxLoopin::mesh::sphere sphere;
 
-
-
-  ofxLoopinMesh() {
+  Mesh() {
     // std::cerr << "init mesh" << endl;
     plane.mesh = this;
     plane.generate();
   };
 protected:
   void addSubControls() {
-    ofxLoopinMeshBase::addSubControls();
+    MeshBase::addSubControls();
 
     plane.mesh = this;
     addSubControl("plane", &plane );
@@ -93,12 +90,13 @@ protected:
   };
 };
 
-class ofxLoopinMeshes : public ofxLoopin::control::Map<ofxLoopinMesh> {
+class Meshes : public control::Map<Mesh> {
 
 };
 
-class ofxLoopinHasMeshes {
+class HasMeshes {
 public:
-  ofxLoopinMeshes meshes;
-  ofxLoopin::control::Map<ofxLoopinMesh> * __getMap() { return &meshes; }
+  Meshes meshes;
+  control::Map<Mesh> * __getMap() { return &meshes; }
 };
+}};

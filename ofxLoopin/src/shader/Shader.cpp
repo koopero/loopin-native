@@ -97,7 +97,7 @@ void ofxLoopin::shader::Shader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) 
   applyUniformInt( "bufferCols", buffer->cols.getValueInt() );
 }
 
-void ofxLoopin::shader::Shader::applyUniformsMesh( ofxLoopinMeshBase * mesh ) {
+void ofxLoopin::shader::Shader::applyUniformsMesh( mesh::MeshBase * mesh ) {
   applyUniformFloat( "meshAspect", mesh->aspect );
   applyUniformInt( "meshCount", mesh->meta_count );
   applyUniformInt( "meshRows", mesh->meta_rows );

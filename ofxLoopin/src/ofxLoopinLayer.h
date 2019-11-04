@@ -6,7 +6,7 @@
 #include "ofxLoopinCamera.h"
 #include "./control/Bool.hpp"
 #include "./clock/Clock.hpp"
-#include "ofxLoopinMesh.h"
+#include "./mesh/Mesh.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinTexture.h"
 #include "ofxLoopinTransform2D.h"
@@ -73,7 +73,7 @@ public:
   ofxLoopin::control::Number aspect;
 
   ofxLoopin::control::Reference<ofxLoopinCamera,ofxLoopinHasCameras> camera;
-  ofxLoopin::control::Reference<ofxLoopinMesh,ofxLoopinHasMeshes> mesh;
+  ofxLoopin::control::Reference<ofxLoopin::mesh::Mesh,ofxLoopin::mesh::HasMeshes> mesh;
 
   ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
   ofxLoopin::interface::Blend blend;
@@ -154,7 +154,7 @@ protected:
 
   ofxLoopinBuffer * _buffer = nullptr;
   ofxLoopin::shader::Shader * _shader = nullptr;
-  ofxLoopinMesh * _mesh = nullptr;
+  ofxLoopin::mesh::Mesh * _mesh = nullptr;
   ofxLoopinCamera * _camera = nullptr;
 
 private:

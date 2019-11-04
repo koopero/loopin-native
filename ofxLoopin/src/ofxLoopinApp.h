@@ -17,7 +17,7 @@
 #include "ofxLoopinInfo.h"
 #include "kinect/Kinect.hpp"
 #include "ofxLoopinLayer.h"
-#include "ofxLoopinMesh.h"
+#include "./mesh/Mesh.hpp"
 #include "window/OSD.hpp"
 #include "ofxLoopinRender.h"
 #include "ofxLoopinSaver.h"
@@ -42,7 +42,7 @@ class ofxLoopinApp :
   public ofBaseApp,
   public ofxLoopinRoot,
   public ofxLoopin::shader::HasShaders,
-  public ofxLoopinHasMeshes,
+  public ofxLoopin::mesh::HasMeshes,
   public ofxLoopinHasCameras,
   public ofxLoopinHasUniforms
 {

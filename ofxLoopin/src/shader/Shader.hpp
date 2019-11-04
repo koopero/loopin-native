@@ -2,8 +2,8 @@
 
 #include "./control/Control.hpp"
 #include "ofxLoopinFile.h"
+#include "../mesh/MeshBase.hpp"
 #include "../clock/Frame.hpp"
-#include "ofxLoopinMeshBase.h"
 #include "./ShaderElement.hpp"
 
 #include "ofShader.h"
@@ -38,7 +38,6 @@ public:
     vert.dataIsNew = true;
   };
 
-
   ofShader shader;
 
   ShaderElement vert;
@@ -65,7 +64,7 @@ public:
 
   void applyUniformsPass( int passIndex, int passTotal );
   void applyUniformsBuffer( ofxLoopinBuffer * buffer );
-  void applyUniformsMesh( ofxLoopinMeshBase * mesh );
+  void applyUniformsMesh( ofxLoopin::mesh::MeshBase * mesh );
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );
   void applyUniformsGlobalClock();
