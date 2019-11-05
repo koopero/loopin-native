@@ -4,15 +4,15 @@
 #include "./control/Numeric.hpp"
 #include "./control/Vector.hpp"
 
-class ofxLoopinUniform {
+namespace ofxLoopin { namespace shader { 
+class Uniform {
 public:
   virtual void bindToShader( ofxLoopin::shader::Shader * shader ) {};
   virtual void unbind() {};
-
 };
 
-class ofxLoopinUniformFloat :
-  public ofxLoopinUniform,
+class UniformFloat :
+  public Uniform,
   public ofxLoopin::control::Numeric
 {
 public:
@@ -22,8 +22,8 @@ public:
   };
 };
 
-class ofxLoopinUniformInt :
-  public ofxLoopinUniform,
+class UniformInt :
+  public Uniform,
   public ofxLoopin::control::Numeric
 {
 public:
@@ -33,8 +33,8 @@ public:
   };
 };
 
-class ofxLoopinUniformVec2 :
-  public ofxLoopinUniform,
+class UniformVec2 :
+  public Uniform,
   public ofxLoopin::control::Vector<2>
 {
 public:
@@ -43,8 +43,8 @@ public:
   };
 };
 
-class ofxLoopinUniformVec3 :
-  public ofxLoopinUniform,
+class UniformVec3 :
+  public Uniform,
   public ofxLoopin::control::Vector<3>
 {
 public:
@@ -53,8 +53,8 @@ public:
   };
 };
 
-class ofxLoopinUniformVec4 :
-  public ofxLoopinUniform,
+class UniformVec4 :
+  public Uniform,
   public ofxLoopin::control::Vector<4>
 {
 public:
@@ -62,3 +62,4 @@ public:
     shader->applyUniformVec4( key, getValueVec4() );
   };
 };
+}};

@@ -89,7 +89,7 @@ void ofxLoopin::shader::Shader::applyUniformsPass( int passIndex, int passTotal 
   applyUniformFloat( "passX", (float) passIndex / (float) passTotal );
 }
 
-void ofxLoopin::shader::Shader::applyUniformsBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::shader::Shader::applyUniformsBuffer( ofxLoopin::base::Buffer * buffer ) {
   applyUniformFloat( "bufferAspect", buffer->getAspect() );
   applyUniformInt( "bufferWidth", buffer->getWidth() );
   applyUniformInt( "bufferHeight", buffer->getHeight() );

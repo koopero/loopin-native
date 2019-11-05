@@ -1,6 +1,6 @@
-#include "ofxLoopinCamera.h"
+#include "./Camera.hpp"
 
-void ofxLoopinCamera::calculate() {
+void ofxLoopin::render::Camera::calculate() {
 
   model.makeIdentityMatrix();
   // std::cerr << "camera::getMeshAspect() " << getMeshAspect() << endl;
@@ -8,7 +8,7 @@ void ofxLoopinCamera::calculate() {
   model.scale( getMeshAspect(), 1, 1 );
 
 
-  float fov = ofxLoopinCamera::fov;
+  float fov = ofxLoopin::render::Camera::fov;
   float dist = 1.0 / tanf(PI * fov / 360.0f);
 
   float zoomLin = pow( 2, zoom );
@@ -18,10 +18,10 @@ void ofxLoopinCamera::calculate() {
   view.rotate( pitch, 1, 0, 0 );
   view.rotate( roll, 0, 0, 1 );
 
-  view.translate( 0, 0, -dist * (double) ofxLoopinCamera::distance );
+  view.translate( 0, 0, -dist * (double) ofxLoopin::render::Camera::distance );
 
-  float focus = ofxLoopinCamera::focus;
-  float dof = ofxLoopinCamera::dof;
+  float focus = ofxLoopin::render::Camera::focus;
+  float dof = ofxLoopin::render::Camera::dof;
 
   float bufferAspect = getBufferAspect();
   // float bufferAspect = 1.0;
@@ -43,7 +43,7 @@ void ofxLoopinCamera::calculate() {
     projection.scale( -1, 1, 1 );
   }
 
-  // std::cerr << "ofxLoopinCamera::make\n"
+  // std::cerr << "ofxLoopin::render::Camera::make\n"
   //      << "near:\n" << near << "\n"
   //      << "far:\n" << far << "\n"
   //      << "focus:\n" << focus << "\n"
@@ -56,7 +56,7 @@ void ofxLoopinCamera::calculate() {
 
 }
 
-  void ofxLoopinCamera::loadMatrixes() {
+  void ofxLoopin::render::Camera::loadMatrixes() {
     auto renderer = ofGetCurrentRenderer();
 
     renderer->matrixMode( OF_MATRIX_MODELVIEW );

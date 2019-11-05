@@ -1,5 +1,5 @@
 #include "./ShaderElement.hpp"
-#include "../ofxLoopinFile.h"
+#include "../base/File.hpp"
 #include "./ShaderDefaults.hpp"
 
 
@@ -43,19 +43,19 @@ string ofxLoopin::shader::ShaderElement::findDefaultFile() {
   string type = key;
 
   // shader/foo.150.frag
-  file = ofxLoopinFile::find( "shader/"+key+"."+version+"."+type );
+  file = ofxLoopin::base::File::find( "shader/"+key+"."+version+"."+type );
   if ( file.size() ) return file;
 
   // shader/foo.frag
-  file = ofxLoopinFile::find( "shader/"+key+"."+type );
+  file = ofxLoopin::base::File::find( "shader/"+key+"."+type );
   if ( file.size() ) return file;
 
   // shader/foo.150.glsl
-  file = ofxLoopinFile::find( "shader/"+key+"."+version+".glsl" );
+  file = ofxLoopin::base::File::find( "shader/"+key+"."+version+".glsl" );
   if ( file.size() ) return file;
 
   // shader/foo.glsl
-  file = ofxLoopinFile::find( "shader/"+key+".glsl" );
+  file = ofxLoopin::base::File::find( "shader/"+key+".glsl" );
   if ( file.size() ) return file;
 
   return "";
@@ -68,7 +68,7 @@ void ofxLoopin::shader::ShaderElement::load() {
   if ( !file.size() )
     return;
 
-  string absPath = ofxLoopinFile::find( file );
+  string absPath = ofxLoopin::base::File::find( file );
 
   if ( !absPath.size() ) {
     // TODO: Error here

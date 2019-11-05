@@ -2,7 +2,7 @@
 #include "ofMain.h"
 
 #include "../control/Control.hpp"
-#include "../ofxLoopinHasInfo.h"
+#include "../base/HasInfo.hpp"
 
 #include "../util/ofxLoopinJSON.hpp"
 
@@ -31,7 +31,7 @@ sub/height:
 */
 
 namespace ofxLoopin { namespace window {
-class Window : public ofxLoopin::control::Control, public ofxLoopinHasInfo {
+class Window : public ofxLoopin::control::Control, public ofxLoopin::base::HasInfo {
 public:
   int width = 0;
   int height = 0;

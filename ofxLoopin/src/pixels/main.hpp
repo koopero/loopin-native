@@ -4,7 +4,7 @@
 #include "ofThread.h"
 
 #include "./control/Enum.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 #include "../clock/Frame.hpp"
 #include "./control/Map.hpp"
 #include "../shader/Shader.hpp"
@@ -15,9 +15,9 @@ namespace ofxLoopin { namespace pixels {
 
 class Render;
 
-class Map : public ofxLoopinRenders<Render> {};
+class Map : public ofxLoopin::render::Renders<Render> {};
 
-class Render : public ofxLoopinRender {
+class Render : public ofxLoopin::render::Render {
 public:
   enum Format {
     FORMAT_HEX,
@@ -58,15 +58,15 @@ public:
   string data;
   std::vector<float> floats;
 
-  void bufferToFloats( ofxLoopinBuffer * buffer );
+  void bufferToFloats( ofxLoopin::base::Buffer * buffer );
 
 
   ofRectangle getBounds();
   GLint getFormat();
-  void renderBuffer( ofxLoopinBuffer * buffer );
-  void renderFloats( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderFloats( ofxLoopin::base::Buffer * buffer );
 
-  void outputPixels( ofxLoopinBuffer * buffer );
+  void outputPixels( ofxLoopin::base::Buffer * buffer );
 
 protected:
   string _lastPixels;
@@ -94,7 +94,7 @@ protected:
 
   void dispatchData();
 
-  void maybeOutputBuffer( ofxLoopinBuffer * buffer );
+  void maybeOutputBuffer( ofxLoopin::base::Buffer * buffer );
   void addSubControls();
 
   static ofxLoopin::shader::Shader shader;

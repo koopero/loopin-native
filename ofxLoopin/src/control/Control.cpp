@@ -1,5 +1,5 @@
 #include "./Control.hpp"
-#include "../ofxLoopinRoot.h"
+#include "../base/Root.hpp"
 
 void ofxLoopin::control::Control::update() {
   for ( auto it = subs.begin(); it != subs.end(); it ++ ) {

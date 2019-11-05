@@ -1,9 +1,8 @@
-#include "ofxLoopinLoader.h"
+#include "./Loader.hpp"
+#include "./File.hpp"
 
-#include "ofxLoopinFile.h"
 
-
-void ofxLoopinLoader::patchLocal( const ofJson & value ) {
+void ofxLoopin::base::Loader::patchLocal( const ofJson & value ) {
   bool shouldLoad = false;
 
   if ( value.is_string() ) {
@@ -17,6 +16,6 @@ void ofxLoopinLoader::patchLocal( const ofJson & value ) {
 };
 
 
-string ofxLoopinLoader::getFilePath() {
-  return ofxLoopinFile::find( filePath );
+string ofxLoopin::base::Loader::getFilePath() {
+  return ofxLoopin::base::File::find( filePath );
 };

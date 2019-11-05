@@ -3,18 +3,18 @@
 //#include "interface/Blend.hpp"
 
 
-#include "ofxLoopinCamera.h"
-#include "./control/Bool.hpp"
-#include "./clock/Clock.hpp"
-#include "./mesh/Mesh.hpp"
-#include "ofxLoopinRender.h"
-#include "ofxLoopinTexture.h"
-#include "ofxLoopinTransform2D.h"
+#include "./Camera.hpp"
+#include "../control/Bool.hpp"
+#include "../clock/Clock.hpp"
+#include "../mesh/Mesh.hpp"
+#include "../render/Render.hpp"
+#include "../shader/Texture.hpp"
+#include "./Transform2D.hpp"
 
-#include "./control/Number.hpp"
-#include "./control/Enable.hpp"
-#include "./interface/Blend.hpp"
-#include "./shader/Shader.hpp"
+#include "../control/Number.hpp"
+#include "../control/Enable.hpp"
+#include "../interface/Blend.hpp"
+#include "../shader/Shader.hpp"
 
 
 
@@ -43,9 +43,8 @@ aspect:
   max: 2
 */
 
-
-
-class ofxLoopinLayer : public ofxLoopinRender {
+namespace ofxLoopin { namespace render {
+class Layer : public Render {
 public:
   ofxLoopin::clock::Clock clockControl;
   ofxLoopin::control::Number pointSize;
@@ -66,25 +65,24 @@ public:
   ofxLoopin::control::Bool depthTest = false;
   ofxLoopin::control::Int  passes = 1;
 
-
-  ofxLoopinTexture * src;
-  ofxLoopinTransform2D transform;
+  ofxLoopin::shader::Texture * src;
+  ofxLoopin::render::Transform2D transform;
 
   ofxLoopin::control::Number aspect;
 
-  ofxLoopin::control::Reference<ofxLoopinCamera,ofxLoopinHasCameras> camera;
+  ofxLoopin::control::Reference<Camera,HasCameras> camera;
   ofxLoopin::control::Reference<ofxLoopin::mesh::Mesh,ofxLoopin::mesh::HasMeshes> mesh;
 
-  ofxLoopinOrderedRenders<ofxLoopinLayer> layers;
+  ofxLoopin::render::OrderedRenders<Layer> layers;
   ofxLoopin::interface::Blend blend;
   ofxLoopin::control::Enum<GLenum,0> face;
 
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 protected:
   void addSubControls() {
-    ofxLoopinRender::addSubControls();
+    ofxLoopin::render::Render::addSubControls();
 
     bool isTop = true;
 
@@ -138,8 +136,6 @@ protected:
     addSubControl( "aspect", &aspect );
     addSubControl( "order", &order );
     addSubControl( "enable", &enable );
-
-
   }
 
   void renderClear();
@@ -152,10 +148,11 @@ protected:
   void resetStyle();
   void resetUniforms();
 
-  ofxLoopinBuffer * _buffer = nullptr;
+  ofxLoopin::base::Buffer * _buffer = nullptr;
   ofxLoopin::shader::Shader * _shader = nullptr;
   ofxLoopin::mesh::Mesh * _mesh = nullptr;
-  ofxLoopinCamera * _camera = nullptr;
+  ofxLoopin::render::Camera * _camera = nullptr;
 
 private:
 };
+}};

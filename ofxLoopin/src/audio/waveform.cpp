@@ -56,7 +56,7 @@ void ofxLoopin::render::waveform_imp::closeStream() {
   }
 }
 
-void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !enable.isEnabledOnce() ) {
     closeStream();
     return;
@@ -162,7 +162,7 @@ void ofxLoopin::render::waveform_imp::renderBuffer( ofxLoopinBuffer * buffer ) {
   samples.clear();
 }
 
-void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopinBuffer * buffer, int offset ) {
+void ofxLoopin::render::waveform_imp::renderScrollExisting( ofxLoopin::base::Buffer * buffer, int offset ) {
   int bufferWidth = buffer->getWidth();
   int bufferHeight = buffer->getHeight();
 

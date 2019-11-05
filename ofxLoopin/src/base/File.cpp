@@ -1,3 +1,3 @@
-#include "ofxLoopinFile.h"
+#include "./File.hpp"
 
-std::vector<string> ofxLoopinFile::_paths = vector<string>();
+std::vector<string> ofxLoopin::base::File::_paths = vector<string>();

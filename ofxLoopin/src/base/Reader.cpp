@@ -1,6 +1,6 @@
-#include "ofxLoopinReader.h"
+#include "./Reader.hpp"
 
-void ofxLoopinReader::patchString( string value ) {
+void ofxLoopin::base::Reader::patchString( string value ) {
   ofxLoopin::control::Control * target = root->walk( value );
   ofxLoopin::control::Event event;
   event.type = "read";

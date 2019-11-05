@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 #include "../control/Bool.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 #include "../shader/Shader.hpp"
 #include "../control/Enable.hpp"
 
@@ -41,7 +41,7 @@ subs/infrared:
 **/
 
 namespace ofxLoopin { namespace kinect {
-class Kinect : public ofxLoopinRender {
+class Kinect : public ofxLoopin::render::Render {
 public:
   ofxLoopin::control::Enable enable;
 
@@ -77,7 +77,7 @@ public:
     }
   }
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 
 protected:
@@ -88,7 +88,7 @@ protected:
 
 private:
   ofxKinect * kinect;
-  ofxLoopinBuffer * renderDepth();
+  ofxLoopin::base::Buffer * renderDepth();
 
   bool status;
 
@@ -99,7 +99,7 @@ private:
   int _modeTilt = 0;
   float _triedOpening = -100; // From ofGetElapsedTimef()
 
-  void renderBufferParams( ofxLoopinBuffer * buffer );
+  void renderBufferParams( ofxLoopin::base::Buffer * buffer );
 
   void drawVideo( const ofRectangle & crop, const ofRectangle & area );
   void drawDepth( const ofRectangle & crop, const ofRectangle & area );

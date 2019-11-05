@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ofxLoopinLoader.h"
+#include "../base/Loader.hpp"
 #include "./control/Value.hpp"
 
 /** loopin/type/shaderElement
@@ -9,7 +9,7 @@ sourceType: glsl
 */
 
 namespace ofxLoopin { namespace shader {
-class ShaderElement : public ofxLoopinLoader {
+class ShaderElement : public ofxLoopin::base::Loader {
 public:
   string file;
   string data;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../ofxLoopinBuffer.h"
+#include "../base/Buffer.hpp"
 
 namespace ofxLoopin { namespace video {
 
@@ -31,7 +31,7 @@ public:
 
   void nextFrame();
   void setFrame(int frame);
-  void drawToBuffer( ofxLoopinBuffer * buffer );
+  void drawToBuffer( ofxLoopin::base::Buffer * buffer );
 protected:
   Player player;
   bool hasDuration;

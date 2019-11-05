@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ofxLoopinBuffer.h"
-#include "./clock/Clock.hpp"
-#include "ofxLoopinFile.h"
-#include "ofxLoopinRender.h"
+#include "../base/Buffer.hpp"
+#include "../clock/Clock.hpp"
+#include "../base/File.hpp"
+#include "../render/Render.hpp"
 
 
 #include "ofVideoPlayer.h"
@@ -27,7 +27,7 @@ typedef ofVideoPlayer VideoEngine;
 
 
 
-class Video : public ofxLoopinRender {
+class Video : public ofxLoopin::render::Render {
 public:
   ofxLoopin::control::Enum<ofLoopType, OF_LOOP_NONE> loop;
   ofxLoopin::clock::Clock clock;
@@ -36,7 +36,7 @@ protected:
   void patchLocal( const ofJson & value );
   void patchString( string value );
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   void readLocal( ofJson & value ) {
     value["position"] = engine->getPosition();
     value["frame"] = engine->getCurrentFrame();

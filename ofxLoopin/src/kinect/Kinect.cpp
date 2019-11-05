@@ -168,16 +168,16 @@ void ofxLoopin::kinect::Kinect::closeKinect() {
   }
 }
 
-ofxLoopinBuffer * ofxLoopin::kinect::Kinect::renderDepth() {
+ofxLoopin::base::Buffer * ofxLoopin::kinect::Kinect::renderDepth() {
   if ( !kinect )
     return NULL;
 
   ofTexture &depth = kinect->getDepthTexture();
 
-  // ofxLoopin::shader::Shader * shader = ofxLoopinRender::shader.getPointer();
+  // ofxLoopin::shader::Shader * shader = ofxLoopin::render::Render::shader.getPointer();
   // shader->begin();
 
-  ofxLoopinBuffer * depthBuffer = getBuffer( key + ":depth", true );
+  ofxLoopin::base::Buffer * depthBuffer = getBuffer( key + ":depth", true );
   depthBuffer->setSize( 640, 480 );
 
   depthBuffer->begin();
@@ -197,7 +197,7 @@ ofxLoopinBuffer * ofxLoopin::kinect::Kinect::renderDepth() {
 }
 
 
-void ofxLoopin::kinect::Kinect::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::kinect::Kinect::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !kinect || !kinect->isConnected() )
     return;
 
@@ -288,7 +288,7 @@ void ofxLoopin::kinect::Kinect::drawBoth( const ofRectangle & area ) {
     shader.setUniformTexture( "videoSampler", videoTexture, 2 );
   }
 
-  ofxLoopinBuffer * depthBuffer = renderDepth();
+  ofxLoopin::base::Buffer * depthBuffer = renderDepth();
   ofTexture &depthTexture = kinect->getDepthTexture();
   if ( depthTexture.isAllocated() ) {
     depthTexture.setTextureWrap( GL_CLAMP_TO_EDGE, GL_CLAMP_TO_EDGE );
@@ -307,7 +307,7 @@ void ofxLoopin::kinect::Kinect::drawBoth( const ofRectangle & area ) {
   depthTexture.unbind();
 };
 
-void ofxLoopin::kinect::Kinect::renderBufferParams( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::kinect::Kinect::renderBufferParams( ofxLoopin::base::Buffer * buffer ) {
   #ifndef TARGET_OPENGLES
     // Use some 16-bit buffers for real GL
     GLint formatRGBDeep  = GL_RGB16;

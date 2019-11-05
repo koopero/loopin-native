@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ofxLoopinBuffer.h"
+#include "../base/Buffer.hpp"
 #include "./control/Enum.hpp"
 #include "./control/Reference.hpp"
-#include "ofxLoopinRoot.h"
+#include "../base/Root.hpp"
 #include "./shader/Shader.hpp"
-#include "ofxLoopinUniform.h"
+#include "./Uniform.hpp"
 
 /** loopin/type/texture/subs/:
   buffer:
@@ -24,11 +24,11 @@
     type: textureWrap
 */
 
-
-class ofxLoopinTexture : public ofxLoopin::control::Control, public ofxLoopinUniform {
+namespace ofxLoopin { namespace shader {
+class Texture : public ofxLoopin::control::Control, public Uniform {
 public:
 
-  ofxLoopin::control::Reference<ofxLoopinBuffer,ofxLoopinHasBuffers> buffer;
+  ofxLoopin::control::Reference<ofxLoopin::base::Buffer,ofxLoopin::base::HasBuffers> buffer;
 
   ofxLoopin::control::Enum<GLint,GL_NEAREST> minFilter;
   ofxLoopin::control::Enum<GLint,GL_NEAREST> magFilter;
@@ -38,7 +38,7 @@ public:
 
 
   bool hasTexture() {
-    ofxLoopinBuffer * bufferP = buffer.getPointer();
+    ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
     if ( bufferP ) {
       return bufferP->isAllocated();
     }
@@ -114,5 +114,5 @@ protected:
   };
 
   int _boundLocation = -1;
-
 };
+}};

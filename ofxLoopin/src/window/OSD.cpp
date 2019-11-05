@@ -10,7 +10,7 @@ void ofxLoopin::window::OSD::draw() {
 
   string str = text.size() ? text : defaultString;
   templatize( str, "fps", ofGetFrameRate() );
-  templatize( str, "files", ofxLoopinFile::root() );
+  templatize( str, "files", ofxLoopin::base::File::root() );
   templatize( str, "show", show );
   templatize( str, "hostname", hostname );
   templatize( str, "client", client );

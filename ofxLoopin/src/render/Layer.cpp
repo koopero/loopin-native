@@ -1,8 +1,8 @@
-#include "ofxLoopinLayer.h"
+#include "./Layer.hpp"
 
 #include <assert.h>
 
-void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
+void ofxLoopin::render::Layer::renderBuffer( ofxLoopin::base::Buffer * buffer )  {
   if ( !enable.isEnabledOnce() )
     return;
 
@@ -38,7 +38,7 @@ void ofxLoopinLayer::renderBuffer( ofxLoopinBuffer * buffer )  {
 
 }
 
-void ofxLoopinLayer::renderClear()  {
+void ofxLoopin::render::Layer::renderClear()  {
   if ( clear.getEnumValue() == NONE )
     return;
 
@@ -71,7 +71,7 @@ void ofxLoopinLayer::renderClear()  {
 }
 
 
-void ofxLoopinLayer::renderSelf( )  {
+void ofxLoopin::render::Layer::renderSelf( )  {
   _buffer->begin();
   _shader->begin();
 
@@ -101,10 +101,10 @@ void ofxLoopinLayer::renderSelf( )  {
 
 };
 
-bool ofxLoopinLayer::renderSetup() {
-  _shader = ofxLoopinLayer::shader.getPointer();
-  _mesh = ofxLoopinLayer::mesh.getPointer();
-  _camera = ofxLoopinLayer::camera.getPointer();
+bool ofxLoopin::render::Layer::renderSetup() {
+  _shader = ofxLoopin::render::Layer::shader.getPointer();
+  _mesh = ofxLoopin::render::Layer::mesh.getPointer();
+  _camera = ofxLoopin::render::Layer::camera.getPointer();
 
   if ( !_shader ) { dispatch("shaderFault"); return false; }
   if ( !_mesh ) { dispatch("meshFault"); return false; }
@@ -113,7 +113,7 @@ bool ofxLoopinLayer::renderSetup() {
   return true;
 }
 
-void ofxLoopinLayer::renderUniforms() {
+void ofxLoopin::render::Layer::renderUniforms() {
   _shader->applyUniformsDefaults();
   _shader->applyUniformsGlobalClock();
   _shader->applyUniformPointSize( pointSize );
@@ -125,7 +125,7 @@ void ofxLoopinLayer::renderUniforms() {
   //
   // Set Aspects
   //
-  _camera->setLayerAspect( ofxLoopinLayer::aspect );
+  _camera->setLayerAspect( ofxLoopin::render::Layer::aspect );
   _camera->setBufferAspect( _buffer->getArea(), _buffer->aspect );
   _camera->setMeshAspect( _mesh->aspect );
   _camera->setTransform( transform );
@@ -133,8 +133,8 @@ void ofxLoopinLayer::renderUniforms() {
   _camera->setUniforms( _shader );
 }
 
-void ofxLoopinLayer::renderStyle() {
-  float pointSize = ofxLoopinLayer::pointSize;
+void ofxLoopin::render::Layer::renderStyle() {
+  float pointSize = ofxLoopin::render::Layer::pointSize;
   if ( pointSize > 0.0 ) {
     ofEnablePointSprites();
     glPointSize( pointSize );
@@ -145,7 +145,7 @@ void ofxLoopinLayer::renderStyle() {
 
   // ofEnableBlendMode( blend.getEnumValue() );
   blend.apply();
-  ofSetDepthTest( ofxLoopinLayer::depthTest.getValue() );
+  ofSetDepthTest( ofxLoopin::render::Layer::depthTest.getValue() );
 
   GLenum face_ = face.getEnumValue();
 
@@ -158,17 +158,17 @@ void ofxLoopinLayer::renderStyle() {
   }
 }
 
-void ofxLoopinLayer::resetStyle() {
+void ofxLoopin::render::Layer::resetStyle() {
   glDisable( GL_CULL_FACE );
   ofDisablePointSprites();
   ofSetDepthTest( false );
 }
 
-void ofxLoopinLayer::resetUniforms() {
+void ofxLoopin::render::Layer::resetUniforms() {
   uniforms.unbind();
 
 }
 
-void ofxLoopinLayer::renderUniformsPerPass( int pass ) {
+void ofxLoopin::render::Layer::renderUniformsPerPass( int pass ) {
   _shader->applyUniformsPass( pass, passes );
 };

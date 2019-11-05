@@ -1,12 +1,10 @@
-#include "ofxLoopinTexture.h"
+#include "./Texture.hpp"
 
-
-void ofxLoopinTexture::bindToShader( ofxLoopin::shader::Shader * shader ) {
+void ofxLoopin::shader::Texture::bindToShader( ofxLoopin::shader::Shader * shader ) {
   bindSpecific( shader, key, shader->_textureLocation++ );
 }
 
-
-void ofxLoopinTexture::bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location ) {
+void ofxLoopin::shader::Texture::bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location ) {
   ofMatrix4x4 matrix;
   shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
 
@@ -15,7 +13,7 @@ void ofxLoopinTexture::bindSpecific( ofxLoopin::shader::Shader * shader, string 
 
   _boundLocation = location;
 
-  ofxLoopinBuffer * bufferP = buffer.getPointer();
+  ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
 
   if ( !bufferP )
     return;
@@ -38,11 +36,11 @@ void ofxLoopinTexture::bindSpecific( ofxLoopin::shader::Shader * shader, string 
   shader->shader.setUniform1i( key + "Height", texture->getHeight() );
 }
 
-void ofxLoopinTexture::unbind() {
+void ofxLoopin::shader::Texture::unbind() {
   if ( _boundLocation != -1 ) {
     _boundLocation = -1;
 
-    ofxLoopinBuffer * bufferP = buffer.getPointer();
+    ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
 
     if ( !bufferP )
       return;

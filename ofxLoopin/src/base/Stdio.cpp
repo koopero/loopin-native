@@ -1,6 +1,6 @@
-#include "ofxLoopinStdio.h"
+#include "./Stdio.hpp"
 
-void ofxLoopinStdio::start () {
+void ofxLoopin::base::Stdio::start () {
   startThread();
 }
 
@@ -9,7 +9,7 @@ bool EndsWith(const string& a, const string& b) {
     return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
 }
 
-void ofxLoopinStdio::dispatch ( const ofxLoopin::control::Event & event ) {
+void ofxLoopin::base::Stdio::dispatch ( const ofxLoopin::control::Event & event ) {
   ofJson json;
 
   string path = event.path;
@@ -24,7 +24,7 @@ void ofxLoopinStdio::dispatch ( const ofxLoopin::control::Event & event ) {
 }
 
 
-void ofxLoopinStdio::threadedFunction () {
+void ofxLoopin::base::Stdio::threadedFunction () {
   while ( isThreadRunning() ) {
     string line;
 
@@ -40,7 +40,7 @@ void ofxLoopinStdio::threadedFunction () {
   }
 }
 
-ofJson ofxLoopinStdio::getValue() {
+ofJson ofxLoopin::base::Stdio::getValue() {
   lock();
   value.clear();
 
@@ -58,7 +58,7 @@ ofJson ofxLoopinStdio::getValue() {
 
 
 
-void ofxLoopinStdio::mergeValue(ofJson& a, ofJson& b) {
+void ofxLoopin::base::Stdio::mergeValue(ofJson& a, ofJson& b) {
   // a.merge_patch( b );
   if ( b.is_object() && !a.is_object() )
     a = ofJson();

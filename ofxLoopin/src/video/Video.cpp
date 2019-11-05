@@ -20,7 +20,7 @@ void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
 
   if ( value.is_object() && value.count("src") && value["src"].is_string() ) {
     string videoPath = value["src"].get<std::string>();
-    string absPath = ofxLoopinFile::find( videoPath );
+    string absPath = ofxLoopin::base::File::find( videoPath );
     // std::cerr << "ofxLoopin::video::Video::patchLocal loading " << videoPath << " " << absPath << endl;
 
     wasLoaded = false;
@@ -139,7 +139,7 @@ bool ofxLoopin::video::Video::videoSync() {
 }
 
 
-void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::video::Video::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   
   if ( !wasLoaded && engine->isLoaded() ) {
     ofxLoopin::control::Event event;

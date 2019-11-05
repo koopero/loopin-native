@@ -1,8 +1,8 @@
-#include "ofxLoopinSyphon.h"
+#include "./Syphon.hpp"
 
 #ifdef LOOPIN_SYPHON
 
-ofJson ofxLoopinSyphonRoot::infoGet() {
+ofJson ofxLoopin::misc::SyphonRoot::infoGet() {
   ofJson result;
   ofJson servers = ofJson::array();
   for ( int i = 0; i < syphonServerDirectory.size(); i ++ ) {
@@ -18,13 +18,13 @@ ofJson ofxLoopinSyphonRoot::infoGet() {
 };
 
 
-ofRectangle ofxLoopinSyphon::getBounds() {
+ofRectangle ofxLoopin::misc::Syphon::getBounds() {
   return ofRectangle( 0, 0, 640, 480 );
 
   return ofRectangle( 0, 0, syphonClient.getWidth(), syphonClient.getHeight() );
 }
 
-void ofxLoopinSyphon::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::misc::Syphon::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   maybeOutputBuffer( buffer );
 
 
@@ -33,34 +33,26 @@ void ofxLoopinSyphon::renderBuffer( ofxLoopinBuffer * buffer ) {
     return;
   }
 
-  // if ( name != syphonClient.getServerName() ) {
-  //   syphonClient.setServerName( name );
-  // }
-
-  // if (  ) {
-  //   syphonClient.setApplicationName( app );
-  // }
-
   if ( !syphonClient.isSetup() ) 
     syphonClient.setup();
 
   if ( name != syphonClient.getServerName() || app != syphonClient.getApplicationName() ) {
-    // cerr << "ofxLoopinSyphon::renderBuffer init client " << endl;
+    // cerr << "ofxLoopin::misc::Syphon::renderBuffer init client " << endl;
     syphonClient.set( name, app );
   }
 
-  // cerr << "ofxLoopinSyphon::renderBuffer " << name << " ap: " << syphonClient.getApplicationName() << " " << app << " " << getBounds() << endl;
+  // cerr << "ofxLoopin::misc::Syphon::renderBuffer " << name << " ap: " << syphonClient.getApplicationName() << " " << app << " " << getBounds() << endl;
 
   syphonClient.bind();
   ofTexture & texture = syphonClient.getTexture();
   ofRectangle bounds = ofRectangle( 0,0, texture.getWidth(), texture.getHeight() );
-  // cerr << "ofxLoopinSyphon::renderBuffer " << name << " ap: " << syphonClient.getApplicationName() << " " << app << " " << bounds << endl;
+  // cerr << "ofxLoopin::misc::Syphon::renderBuffer " << name << " ap: " << syphonClient.getApplicationName() << " " << app << " " << bounds << endl;
 
   buffer->setTexture( texture, true );
   syphonClient.unbind();
 }
 
-void ofxLoopinSyphon::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::misc::Syphon::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     return;

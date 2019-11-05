@@ -47,8 +47,8 @@ format:
     - rgb
 **/
 
-
-class ofxLoopinBuffer : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace base {
+class Buffer : public ofxLoopin::control::Control {
 public:
   int boundIndex = -1;
 
@@ -175,12 +175,15 @@ private:
 
 };
 
-class ofxLoopinBuffers : public ofxLoopin::control::Map<ofxLoopinBuffer> {
+bool BufferCompareSettings( const ofFbo::Settings &a, const ofFbo::Settings &b );
+
+class Buffers : public ofxLoopin::control::Map<Buffer> {
 
 };
 
-class ofxLoopinHasBuffers {
+class HasBuffers {
 public:
-  ofxLoopinBuffers buffers;
-  ofxLoopinBuffers * __getMap() { return &buffers; }
+  Buffers buffers;
+  Buffers * __getMap() { return &buffers; }
 };
+}};

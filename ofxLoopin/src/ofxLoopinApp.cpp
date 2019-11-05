@@ -22,8 +22,8 @@ ofxLoopinApp::ofxLoopinApp ( int argc, char* argv[] ) {
 }
 
 void ofxLoopinApp::startFromArgs( int argc, char* argv[] ) {
-  ofxLoopinFile::addPath( getcwd_string() );
-  ofxLoopinFile::addPath( ofToDataPath("ofxLoopin/", true ) );
+  ofxLoopin::base::File::addPath( getcwd_string() );
+  ofxLoopin::base::File::addPath( ofToDataPath("ofxLoopin/", true ) );
 }
 
 

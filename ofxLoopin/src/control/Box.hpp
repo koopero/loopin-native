@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./Vector.hpp"
+#include "ofGraphics.h"
 
 namespace ofxLoopin { namespace control {
 

@@ -6,10 +6,9 @@
 #include "../control/Control.hpp"
 #include "../control/Bool.hpp"
 #include "../control/Value.hpp"
-
-#include "ofxLoopinRender.h"
-#include "./control/Map.hpp"
+#include "../control/Map.hpp"
 #include "../control/Box.hpp"
+#include "../render/Render.hpp"
 
 /** loopin/type/image:
   trigger: true
@@ -20,9 +19,10 @@
         - image/png
 */
 
-class ofxLoopinImage : public ofxLoopinRender {
+namespace ofxLoopin { namespace image {
+class Image : public ofxLoopin::render::Render {
 public:
-  ofxLoopinImage() {
+  Image() {
     _createBuffer = false;
   }
   string src;
@@ -31,7 +31,7 @@ public:
   ofxLoopin::control::Box crop;
   ofxLoopin::control::Bool replace;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   void load( string filePath );
 
 protected:
@@ -57,3 +57,4 @@ private:
   string _loaded;
 
 };
+}};

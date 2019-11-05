@@ -1,6 +1,6 @@
-#include "ofxLoopinRoot.h"
+#include "./Root.hpp"
 
-void ofxLoopinRoot::addRootControls () {
+void ofxLoopin::base::Root::addRootControls () {
   root = this;
   addSubControl("buffer", &buffers );
 }

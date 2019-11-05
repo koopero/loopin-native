@@ -1,13 +1,13 @@
-#include "ofxLoopinBuffer.h"
+#include "./Buffer.hpp"
 
 
-bool ofxLoopinBuffer::isAllocated( size_t index ) {
+bool ofxLoopin::base::Buffer::isAllocated( size_t index ) {
   ofFbo & buffer = buffers[ index ];
   return buffer.isAllocated();
 }
 
 
-ofTexture * ofxLoopinBuffer::getTexture( size_t index ) {
+ofTexture * ofxLoopin::base::Buffer::getTexture( size_t index ) {
   if ( !isAllocated( index ) ) {
     return nullptr;
   }
@@ -17,11 +17,11 @@ ofTexture * ofxLoopinBuffer::getTexture( size_t index ) {
   return &buffer.getTexture();
 }
 
-ofFbo & ofxLoopinBuffer::getFbo() {
+ofFbo & ofxLoopin::base::Buffer::getFbo() {
   return buffers[getReadIndex()];
 }
 
-void ofxLoopinBuffer::setTexture( const ofTexture & texture, bool resize ) {
+void ofxLoopin::base::Buffer::setTexture( const ofTexture & texture, bool resize ) {
   if ( resize || sizeIsDefault() )
     setSize( texture.getWidth(), texture.getHeight() );
 
@@ -32,7 +32,7 @@ void ofxLoopinBuffer::setTexture( const ofTexture & texture, bool resize ) {
   }
 }
 
-void ofxLoopinBuffer::setSize( int width, int height, GLint format ) {
+void ofxLoopin::base::Buffer::setSize( int width, int height, GLint format ) {
   width = width > MAX_SIZE ? MAX_SIZE : width < 0 ? 0 : width;
   height = height > MAX_SIZE ? MAX_SIZE : height < 0 ? 0 : height;
 
@@ -40,41 +40,41 @@ void ofxLoopinBuffer::setSize( int width, int height, GLint format ) {
   _height.setValueHard( height );
 
   if ( format != -1 ) {
-    ofxLoopinBuffer::format.setEnumValue( format );
+    ofxLoopin::base::Buffer::format.setEnumValue( format );
   }
 }
 
-ofRectangle ofxLoopinBuffer::getArea() {
+ofRectangle ofxLoopin::base::Buffer::getArea() {
   return ofRectangle( 0,0, getWidth(), getHeight() );
 }
 
-int ofxLoopinBuffer::getWidth() {
+int ofxLoopin::base::Buffer::getWidth() {
   return _width.getValueInt();
 }
 
-int ofxLoopinBuffer::getHeight() {
+int ofxLoopin::base::Buffer::getHeight() {
   return _height.getValueInt();
 }
 
-ofVec2f ofxLoopinBuffer::getSize() {
+ofVec2f ofxLoopin::base::Buffer::getSize() {
   return ofVec2f( getWidth(), getHeight() );
 }
 
-bool ofxLoopinBuffer::sizeIsDefault() {
+bool ofxLoopin::base::Buffer::sizeIsDefault() {
   return getWidth() <= 0 || getHeight() <= 0;
 }
 
-void ofxLoopinBuffer::defaultSize( ofRectangle area ) {
+void ofxLoopin::base::Buffer::defaultSize( ofRectangle area ) {
   if ( sizeIsDefault() ) {
     setSize( area.getWidth(), area.getHeight() );
   }
 }
 
-void ofxLoopinBuffer::flip() {
+void ofxLoopin::base::Buffer::flip() {
   curIndex = curIndex ? 0 : 1;
 }
 
-size_t ofxLoopinBuffer::getReadIndex() {
+size_t ofxLoopin::base::Buffer::getReadIndex() {
   if ( lastWroteIndex >= 0 && lastWroteIndex != boundIndex ) {
     return lastWroteIndex;
   }
@@ -83,12 +83,12 @@ size_t ofxLoopinBuffer::getReadIndex() {
   return readIndex;
 }
 
-size_t ofxLoopinBuffer::getWriteIndex() {
+size_t ofxLoopin::base::Buffer::getWriteIndex() {
   return curIndex;
 }
 
 // Replace ofFbo::Settings operator!=, since it's noisy.
-bool ofxLoopinBufferCompareSettings( const ofFbo::Settings &a, const ofFbo::Settings &b ) {
+bool ofxLoopin::base::BufferCompareSettings( const ofFbo::Settings &a, const ofFbo::Settings &b ) {
   if ( a.width != b.width ) return false;
   if ( a.height != b.height ) return false;
   if ( a.useDepth != b.useDepth ) return false;
@@ -97,10 +97,10 @@ bool ofxLoopinBufferCompareSettings( const ofFbo::Settings &a, const ofFbo::Sett
   return true;
 }
 
-bool ofxLoopinBuffer::allocate( int index ) {
+bool ofxLoopin::base::Buffer::allocate( int index ) {
   int width = getWidth();
   int height = getHeight();
-  int format = ofxLoopinBuffer::format.getEnumValue();
+  int format = ofxLoopin::base::Buffer::format.getEnumValue();
 
   width = width > MAX_SIZE ? MAX_SIZE : width < 0 ? 0 : width;
   height = height > MAX_SIZE ? MAX_SIZE : height < 0 ? 0 : height;
@@ -117,7 +117,7 @@ bool ofxLoopinBuffer::allocate( int index ) {
   settings.useDepth = useDepth.getValue();
 
   if ( !buffer.isAllocated()
-    || !ofxLoopinBufferCompareSettings( settings, _bufferSettings[index] )
+    || !ofxLoopin::base::BufferCompareSettings( settings, _bufferSettings[index] )
   ) {
     buffer.allocate( settings );
 
@@ -131,7 +131,7 @@ bool ofxLoopinBuffer::allocate( int index ) {
   return width && height && buffer.isAllocated();
 }
 
-void ofxLoopinBuffer::draw( int width, int height, int x, int y ) {
+void ofxLoopin::base::Buffer::draw( int width, int height, int x, int y ) {
   int index = getReadIndex();
   ofFbo & buffer = buffers[index];
 
@@ -141,7 +141,7 @@ void ofxLoopinBuffer::draw( int width, int height, int x, int y ) {
   }
 }
 
-bool ofxLoopinBuffer::begin() {
+bool ofxLoopin::base::Buffer::begin() {
   int index = getWriteIndex();
 
   if ( !allocate( index ) )
@@ -155,7 +155,7 @@ bool ofxLoopinBuffer::begin() {
   return true;
 }
 
-void ofxLoopinBuffer::end() {
+void ofxLoopin::base::Buffer::end() {
   if ( boundIndex >= 0 ) {
     ofFbo & buffer = buffers[boundIndex];
     lastWroteIndex = boundIndex;
@@ -165,7 +165,7 @@ void ofxLoopinBuffer::end() {
   }
 }
 
-void ofxLoopinBuffer::readLocal( ofJson & value ) {
+void ofxLoopin::base::Buffer::readLocal( ofJson & value ) {
   int index = getReadIndex();
   ofFbo & buffer = buffers[index];
 

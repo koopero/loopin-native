@@ -1,19 +1,20 @@
 #pragma once
 
-#include "./control/Control.hpp"
-#include "./control/Numeric.hpp"
-#include "./control/Map.hpp"
-#include "./shader/Shader.hpp"
-#include "ofxLoopinTexture.h"
-#include "ofxLoopinUniform.h"
+#include "../control/Control.hpp"
+#include "../control/Numeric.hpp"
+#include "../control/Map.hpp"
+#include "./Shader.hpp"
+#include "./Texture.hpp"
+#include "./Uniform.hpp"
 
+namespace ofxLoopin { namespace shader {
 template <class child_type>
-class ofxLoopinUniforms : public ofxLoopin::control::Map<child_type> {
+class Uniforms : public ofxLoopin::control::Map<child_type> {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
     for ( auto & it : ofxLoopin::control::Map<child_type>::getMap() ) {
       const string & key = it.first;
-      ofxLoopinUniform & uniform = it.second;
+      Uniform & uniform = it.second;
 
       GLint location = shader->shader.getUniformLocation( key );
       // std::cerr << "bindToShader " << key << " " << location << endl;
@@ -25,14 +26,14 @@ public:
 
   void unbind() {
     for ( auto & it : ofxLoopin::control::Map<child_type>::getMap() ) {
-      ofxLoopinUniform & uniform = it.second;
+      Uniform & uniform = it.second;
       uniform.unbind();
     }
   }
 
 };
 
-class ofxLoopinUniformSet : public ofxLoopin::control::Control {
+class UniformSet : public ofxLoopin::control::Control {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
     floats.bindToShader( shader );
@@ -47,13 +48,12 @@ public:
     tex.unbind();
   }
 
-
-  ofxLoopinUniforms<ofxLoopinUniformFloat> floats;
-  ofxLoopinUniforms<ofxLoopinUniformInt> ints;
-  ofxLoopinUniforms<ofxLoopinUniformVec2> vec2s;
-  ofxLoopinUniforms<ofxLoopinUniformVec3> vec3s;
-  ofxLoopinUniforms<ofxLoopinUniformVec4> vec4s;
-  ofxLoopinUniforms<ofxLoopinTexture> tex;
+  Uniforms<UniformFloat> floats;
+  Uniforms<UniformInt> ints;
+  Uniforms<UniformVec2> vec2s;
+  Uniforms<UniformVec3> vec3s;
+  Uniforms<UniformVec4> vec4s;
+  Uniforms<Texture> tex;
 
 protected:
   void addSubControls() {
@@ -75,7 +75,8 @@ private:
 };
 
 
-class ofxLoopinHasUniforms {
+class HasUniforms {
 public:
-  ofxLoopinUniformSet uniforms;
+  UniformSet uniforms;
 };
+}};

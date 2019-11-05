@@ -5,9 +5,13 @@
 
 #include <iostream>
 
-class ofxLoopinRoot;
 
-namespace ofxLoopin { namespace control {
+namespace ofxLoopin { 
+namespace base {
+  class Root;
+};
+
+namespace control {
 class Control {
 public:
 
@@ -29,7 +33,7 @@ public:
   string path;
   string key;
 
-  ofxLoopinRoot * root = NULL;
+  ofxLoopin::base::Root * root = NULL;
 
   ofJson read();
 

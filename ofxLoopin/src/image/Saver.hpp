@@ -4,12 +4,12 @@
 #include "ofThread.h"
 
 #include "./control/Enum.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 #include "./clock/Frame.hpp"
 #include "./control/Map.hpp"
 
-
-class ofxLoopinSaverThread : public ofThread {
+namespace ofxLoopin { namespace image {
+class SaverThread : public ofThread {
 public:
   void save(
     const string & dest,
@@ -34,7 +34,7 @@ private:
 
 };
 
-class ofxLoopinSaver : public ofxLoopinRender {
+class Saver : public ofxLoopin::render::Render {
 public:
 
   string pattern;
@@ -44,7 +44,7 @@ public:
   ofxLoopin::control::Enum<ofImageFormat, OF_IMAGE_FORMAT_PNG> format;
   ofxLoopin::control::Enum<ofImageQualityType, OF_IMAGE_QUALITY_BEST> quality;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 protected:
   void updateLocal();
@@ -71,6 +71,6 @@ protected:
 
   ofxLoopin::clock::Frame lastFrame;
 
-  ofxLoopinSaverThread * thread;
-
+  SaverThread * thread;
 };
+}};

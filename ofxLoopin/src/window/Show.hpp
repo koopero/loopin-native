@@ -1,15 +1,13 @@
 #pragma once
 
 #include "./control/Enum.hpp"
-#include "ofxLoopinTexture.h"
+#include "../shader/Texture.hpp"
 
 /** loopin/type/show:
   type: texture
 */
-namespace ofxLoopin {
-
-  
-class Show : public ofxLoopinTexture {
+namespace ofxLoopin { namespace window {
+class Show : public ofxLoopin::shader::Texture {
 public:
   enum Alpha {
     IGNOREX,
@@ -36,4 +34,4 @@ private:
   string _bufferDescription;
 };
 // end namespace
-};
+}};

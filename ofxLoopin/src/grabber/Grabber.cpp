@@ -64,7 +64,7 @@ ofRectangle ofxLoopin::grabber::Grabber::getBounds() {
   return ofRectangle( 0, 0, _width, _height );
 }
 
-void ofxLoopin::grabber::Grabber::renderBuffer ( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::grabber::Grabber::renderBuffer ( ofxLoopin::base::Buffer * buffer ) {
   refreshSetup();
   grabber.update();
 

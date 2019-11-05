@@ -1,7 +1,6 @@
 #pragma once
 
 #include "./control/Control.hpp"
-#include "ofxLoopinFile.h"
 #include "../mesh/MeshBase.hpp"
 #include "../clock/Frame.hpp"
 #include "./ShaderElement.hpp"
@@ -63,7 +62,7 @@ public:
 
 
   void applyUniformsPass( int passIndex, int passTotal );
-  void applyUniformsBuffer( ofxLoopinBuffer * buffer );
+  void applyUniformsBuffer( ofxLoopin::base::Buffer * buffer );
   void applyUniformsMesh( ofxLoopin::mesh::MeshBase * mesh );
   void applyUniformsFrame();
   void applyUniformPointSize( float pointSize );

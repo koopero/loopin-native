@@ -10,7 +10,8 @@
 
 using namespace std;
 
-class ofxLoopinFile {
+namespace ofxLoopin { namespace base { 
+class File {
 public:
   static void addPath( const string & path ) {
     _paths.push_back( path );
@@ -44,3 +45,4 @@ public:
 private:
   static std::vector<string> _paths;
 };
+}};

@@ -1,16 +1,15 @@
-#include "ofxLoopinSaver.h"
-#include "ofxLoopinFile.h"
+#include "./Saver.hpp"
+#include "../base/File.hpp"
 
-
-void ofxLoopinSaver::patchLocal( const ofJson & value ) {
-  // std::cerr << "ofxLoopinSaver::patchLocal " << value << endl;
+void ofxLoopin::image::Saver::patchLocal( const ofJson & value ) {
+  // std::cerr << "ofxLoopin::image::Saver::patchLocal " << value << endl;
   if (
     value.is_object()
     && value.count( "dest" )
     && value["dest"].is_string()
     && !value.count( "iterations" )
   ) {
-    // std::cerr << "ofxLoopinSaver::patchLocal" << endl;
+    // std::cerr << "ofxLoopin::image::Saver::patchLocal" << endl;
     iterations = iterations ? iterations : 1;
     // iterations = 1;
   }
@@ -18,13 +17,13 @@ void ofxLoopinSaver::patchLocal( const ofJson & value ) {
 
 
 
-void ofxLoopinSaver::patchString( string value ) {
+void ofxLoopin::image::Saver::patchString( string value ) {
   dest = value;
   iterations = iterations > 0 ? iterations : 1;
   // iterations = 1;
 }
 
-void ofxLoopinSaver::updateLocal( ) {
+void ofxLoopin::image::Saver::updateLocal( ) {
   if ( thread ) {
     for( ofxLoopin::control::Event &event : thread->flushEvents() ) {
       dispatch( event );
@@ -32,7 +31,7 @@ void ofxLoopinSaver::updateLocal( ) {
   }
 }
 
-void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::image::Saver::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !iterations )
     return;
 
@@ -51,10 +50,10 @@ void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
   }
 
   if ( !thread ) {
-    thread = new ofxLoopinSaverThread();
+    thread = new ofxLoopin::image::SaverThread();
   }
 
-  string destAbs = ofxLoopinFile::target( dest );
+  string destAbs = ofxLoopin::base::File::target( dest );
 
   ofPixels pixels;
   ofFbo &fbo = buffer->getFbo();
@@ -79,7 +78,7 @@ void ofxLoopinSaver::renderBuffer( ofxLoopinBuffer * buffer ) {
 }
 
 
-void ofxLoopinSaverThread::save(
+void ofxLoopin::image::SaverThread::save(
   const string & dest,
   ofPixels data,
   ofxLoopin::control::Event event,
@@ -99,7 +98,7 @@ void ofxLoopinSaverThread::save(
   }
 }
 
-void ofxLoopinSaverThread::threadedFunction() {
+void ofxLoopin::image::SaverThread::threadedFunction() {
   while( isThreadRunning() ) {
     lock();
     string dest = dest_;
@@ -133,7 +132,7 @@ void ofxLoopinSaverThread::threadedFunction() {
 
 }
 
-std::vector<ofxLoopin::control::Event> ofxLoopinSaverThread::flushEvents() {
+std::vector<ofxLoopin::control::Event> ofxLoopin::image::SaverThread::flushEvents() {
   lock();
   std::vector<ofxLoopin::control::Event> result = events_;
   events_.resize(0);

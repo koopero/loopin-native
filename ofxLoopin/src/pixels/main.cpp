@@ -1,5 +1,4 @@
 #include "./main.hpp"
-#include "ofxLoopinFile.h"
 
 ofxLoopin::shader::Shader ofxLoopin::pixels::Render::shader = ofxLoopin::shader::Shader(
 // name
@@ -87,7 +86,7 @@ void ofxLoopin::pixels::Render::updateLocal( ) {
 
 }
 
-void ofxLoopin::pixels::Render::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   maybeOutputBuffer( buffer );
 
   bool inputIsFresh = decodeInput();
@@ -162,7 +161,7 @@ ofRectangle ofxLoopin::pixels::Render::getBounds() {
   return ofRectangle( box.getAxis(0), box.getAxis(1), width, height );
 }
 
-void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer->begin() ) {
     return;
   }
@@ -235,7 +234,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
 
 
 
-void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     return;
@@ -252,7 +251,7 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
   dispatchData();
 }
 
-void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopin::base::Buffer * buffer ) {
   #ifndef TARGET_OPENGLES
     ofFloatPixels pixels;
   #else

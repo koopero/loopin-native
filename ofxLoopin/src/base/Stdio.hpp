@@ -4,11 +4,12 @@
 #include "ofUtils.h"
 #include "ofJson.h"
 
-#include "./control/Event.hpp"
+#include "../control/Event.hpp"
 
 #include <iostream>
 
-class ofxLoopinStdio : public ofThread {
+namespace ofxLoopin { namespace base {
+class Stdio : public ofThread {
 public:
 
   void dispatch( const ofxLoopin::control::Event & event );
@@ -30,3 +31,4 @@ private:
   // Json::FastWriter jsonWriter;
   std::vector<string> lines_;
 };
+}};

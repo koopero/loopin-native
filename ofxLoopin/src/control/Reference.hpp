@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./control/Map.hpp"
-#include "ofxLoopinRoot.h"
+#include "../base/Root.hpp"
 #include <assert.h>
 
 namespace ofxLoopin { namespace control {

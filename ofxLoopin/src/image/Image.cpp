@@ -1,20 +1,20 @@
 #include "./Image.hpp"
-#include "ofxLoopinFile.h"
+#include "../base/File.hpp"
 
 
-void ofxLoopinImage::updateLocal() {
+void ofxLoopin::image::Image::updateLocal() {
   // TODO
 
 }
 
-void ofxLoopinImage::load( string filePath ) {
+void ofxLoopin::image::Image::load( string filePath ) {
 
   _loaded = filePath;
   _dirty = false;
 
   ofxLoopin::control::Event event;
 
-  string absolutePath = ofxLoopinFile::find( filePath );
+  string absolutePath = ofxLoopin::base::File::find( filePath );
 
   if ( !absolutePath.size() ) {
     auto errorEvent = ofxLoopin::control::Event::fileNotFound( filePath );
@@ -41,7 +41,7 @@ void ofxLoopinImage::load( string filePath ) {
 }
 
 
-void ofxLoopinImage::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::image::Image::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( src != _loaded || _dirty ) {
     load( src );
   }

@@ -1,26 +1,26 @@
 #pragma once
 
-#include "ofxLoopinHasInfo.h"
+#include "../base/HasInfo.hpp"
 #include "../control/Number.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 
 #include "ofVideoGrabber.h"
 #include "ofJson.h"
 
 namespace ofxLoopin { namespace grabber {
 
-class Grabber : public ofxLoopinRender {
+class Grabber : public ofxLoopin::render::Render {
 public:
   control::Int deviceID = 0;
   control::Int width    = 640;
   control::Int height   = 480;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   ofRectangle getBounds();
 
 protected:
   void addSubControls() {
-    ofxLoopinRender::addSubControls();
+    ofxLoopin::render::Render::addSubControls();
 
     addSubControl( "width", &width );
     addSubControl( "height", &height );
@@ -36,7 +36,7 @@ protected:
   ofVideoGrabber grabber;
 };
 
-class GrabberList : public ofxLoopinRenders<Grabber>, public ofxLoopinHasInfo {
+class GrabberList : public ofxLoopin::render::Renders<Grabber>, public ofxLoopin::base::HasInfo {
 public:
   ofJson infoGet();  
 };

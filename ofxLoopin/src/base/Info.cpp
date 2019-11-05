@@ -1,10 +1,10 @@
-#include "ofxLoopinInfo.h"
+#include "./Info.hpp"
 
-void ofxLoopinInfo::readLocal( ofJson & value ) {
+void ofxLoopin::base::Info::readLocal( ofJson & value ) {
   value = getInfo();
 }
 
-ofJson ofxLoopinInfo::getInfo() {
+ofJson ofxLoopin::base::Info::getInfo() {
   ofJson result;
 
   map< string, ofxLoopin::control::Control *> subs = root->getSubs();
@@ -19,7 +19,7 @@ ofJson ofxLoopinInfo::getInfo() {
   return result;
 }
 
-ofJson ofxLoopinInfo::getInfoKey( const string & key ) {
+ofJson ofxLoopin::base::Info::getInfoKey( const string & key ) {
   ofJson result;
 
   if ( !root )
@@ -28,7 +28,7 @@ ofJson ofxLoopinInfo::getInfoKey( const string & key ) {
   map< string, ofxLoopin::control::Control *> subs = root->getSubs();
 
   if ( subs.count( key ) ) {
-    ofxLoopinHasInfo * hasInfo = dynamic_cast<ofxLoopinHasInfo*>( subs[ key ] );
+    ofxLoopin::base::HasInfo * hasInfo = dynamic_cast<ofxLoopin::base::HasInfo*>( subs[ key ] );
 
     if ( hasInfo ) {
       result = hasInfo->infoGet();

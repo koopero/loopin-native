@@ -11,7 +11,7 @@ void ofxLoopinAudioAnalyzer::audioIn( ofSoundBuffer &buffer ) {
   audioAnalyzer.analyze( buffer );
 }
 
-void ofxLoopinAudioAnalyzer::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopinAudioAnalyzer::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   // Ensure the soundstream is running
   if ( !streamIsOpen ) {
     soundStream.printDeviceList();

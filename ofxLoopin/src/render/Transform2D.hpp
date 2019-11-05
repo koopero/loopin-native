@@ -17,18 +17,20 @@
 
 */
 
-enum ofxLoopinTransform2DMode {
+namespace ofxLoopin { namespace render {
+
+enum Transform2DMode {
   COVER, CONTAIN
  };
 
-class ofxLoopinTransform2D : public ofxLoopin::control::Control {
+class Transform2D : public ofxLoopin::control::Control {
 public:
   ofxLoopin::control::Number x;
   ofxLoopin::control::Number y;
   ofxLoopin::control::Number aspect = ofxLoopin::control::Number(1);
   ofxLoopin::control::Number scale = ofxLoopin::control::Number(1);
   ofxLoopin::control::Number rotate;
-  ofxLoopin::control::Enum<ofxLoopinTransform2DMode,ofxLoopinTransform2DMode::COVER> mode;
+  ofxLoopin::control::Enum<Transform2DMode,Transform2DMode::COVER> mode;
 
   ofMatrix4x4 makeMatrix ( float layerAspect, float bufferAspect ) const  {
     // std::cerr << "transform2D::layerAspect " << layerAspect << endl;
@@ -36,16 +38,16 @@ public:
 
     ofMatrix4x4 mat;
     float ourAspect = aspect;
-    float scale = ofxLoopinTransform2D::scale;
+    float scale = Transform2D::scale;
 
     switch ( mode.getEnumValue() ) {
-      case ofxLoopinTransform2DMode::COVER:
+      case Transform2DMode::COVER:
         if ( fabs(layerAspect) < fabs(bufferAspect) ) {
           scale *= bufferAspect / layerAspect;
         }
       break;
 
-      case ofxLoopinTransform2DMode::CONTAIN:
+      case Transform2DMode::CONTAIN:
         if ( fabs(layerAspect) > fabs(bufferAspect) ) {
           scale /= layerAspect / bufferAspect;
         }
@@ -66,8 +68,8 @@ public:
 
 protected:
   void addSubControls() {
-    mode.enumAddOption( "cover", ofxLoopinTransform2DMode::COVER );
-    mode.enumAddOption( "contain", ofxLoopinTransform2DMode::CONTAIN );
+    mode.enumAddOption( "cover", Transform2DMode::COVER );
+    mode.enumAddOption( "contain", Transform2DMode::CONTAIN );
 
     addSubControl( "mode", &mode );
     addSubControl( "x", &x );
@@ -78,3 +80,4 @@ protected:
 
   };
 };
+}};

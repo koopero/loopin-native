@@ -147,7 +147,7 @@ void ofxLoopin::video::Engine<Player>::setFrame(int frame) {
 
 
 template <class Player>
-void ofxLoopin::video::Engine<Player>::drawToBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::video::Engine<Player>::drawToBuffer( ofxLoopin::base::Buffer * buffer ) {
 
 
   ofRectangle bounds = ofRectangle( 0,0, player.getWidth(), player.getHeight() );

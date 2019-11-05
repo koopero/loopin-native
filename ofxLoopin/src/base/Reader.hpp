@@ -1,9 +1,11 @@
 #pragma once
 
-#include "./control/Control.hpp"
-#include "ofxLoopinRoot.h"
+#include "../control/Control.hpp"
+#include "./Root.hpp"
 
-class ofxLoopinReader : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace base {
+class Reader : public ofxLoopin::control::Control {
 protected:
   void patchString( string value );
 };
+}};

@@ -1,6 +1,6 @@
-#include "./show.hpp"
+#include "./Show.hpp"
 
-ofxLoopin::shader::Shader ofxLoopin::Show::alphaDivideShader = ofxLoopin::shader::Shader(
+ofxLoopin::shader::Shader ofxLoopin::window::Show::alphaDivideShader = ofxLoopin::shader::Shader(
 // name
 "alphaDivide",
 #ifndef TARGET_OPENGLES
@@ -27,7 +27,7 @@ void main(){ \n\
 #endif
 );
 
-ofxLoopin::shader::Shader ofxLoopin::Show::alphaShowShader = ofxLoopin::shader::Shader(
+ofxLoopin::shader::Shader ofxLoopin::window::Show::alphaShowShader = ofxLoopin::shader::Shader(
 // name
 "alphaShow",
 #ifndef TARGET_OPENGLES
@@ -61,8 +61,8 @@ void main(){ \n\
 #endif
 );
 
-void ofxLoopin::Show::addSubControls() {
-  ofxLoopinTexture::addSubControls();
+void ofxLoopin::window::Show::addSubControls() {
+  ofxLoopin::shader::Texture::addSubControls();
   wrapV.setEnumValue(GL_CLAMP_TO_EDGE );
   wrapH.setEnumValue(GL_CLAMP_TO_EDGE );
 
@@ -75,7 +75,7 @@ void ofxLoopin::Show::addSubControls() {
 }
 
 
-void ofxLoopin::Show::draw() {
+void ofxLoopin::window::Show::draw() {
   stringstream description;
 
   description << buffer.key;
@@ -88,7 +88,7 @@ void ofxLoopin::Show::draw() {
 
   ofRectangle area = ofRectangle( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
-  ofxLoopinBuffer * bufferP = buffer.getPointer();
+  ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
   ofTexture * texture = bufferP->getTexture();
 
   if ( !texture || !texture->isAllocated() ) {

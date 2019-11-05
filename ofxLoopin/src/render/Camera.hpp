@@ -1,12 +1,12 @@
 #pragma once
 
-#include "./control/Control.hpp"
-#include "./control/Number.hpp"
-#include "./control/Map.hpp"
-#include "ofxLoopinRoot.h"
-#include "./shader/Shader.hpp"
-#include "ofxLoopinTransform2D.h"
-#include "control/Vector.hpp"
+#include "../control/Control.hpp"
+#include "../control/Number.hpp"
+#include "../control/Map.hpp"
+#include "../base/Root.hpp"
+#include "../shader/Shader.hpp"
+#include "./Transform2D.hpp"
+#include "../control/Vector.hpp"
 
 
 #include "ofMatrix4x4.h"
@@ -55,7 +55,11 @@ yaw:
   type: angle
 */
 
-class ofxLoopinCamera : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace render {
+
+class Layer;
+
+class Camera : public ofxLoopin::control::Control {
 public:
   ofxLoopin::control::Number zoom = ofxLoopin::control::Number(0);
   ofxLoopin::control::Number distance = ofxLoopin::control::Number(1);
@@ -86,7 +90,7 @@ public:
 
   void calculate();
 
-friend class ofxLoopinLayer;
+friend class ofxLoopin::render::Layer;
 private:
   float _aspectBuffer = 0;
   float _aspectMesh = 0;
@@ -126,7 +130,7 @@ private:
 
 
 
-  void setTransform( ofxLoopinTransform2D const & _transform ) {
+  void setTransform( Transform2D const & _transform ) {
     transform = _transform.makeMatrix( getLayerAspect(), getBufferAspect() );
   }
 
@@ -134,7 +138,7 @@ private:
 
 
   void setUniforms( ofxLoopin::shader::Shader * shader ) {
-    shader->shader.setUniform1f( "cameraFOV", ofxLoopinCamera::fov );
+    shader->shader.setUniform1f( "cameraFOV", Camera::fov );
   }
 
 
@@ -156,16 +160,16 @@ protected:
     addSubControl("yaw", &yaw );
 
     addSubControl("translate", &translate );
-
   }
 };
 
-class ofxLoopinCameras : public ofxLoopin::control::Map<ofxLoopinCamera> {
+class Cameras : public ofxLoopin::control::Map<Camera> {
 
 };
 
-class ofxLoopinHasCameras {
+class HasCameras {
 public:
-  ofxLoopinCameras cameras;
-  ofxLoopin::control::Map<ofxLoopinCamera> * __getMap() { return &cameras; }
+  Cameras cameras;
+  ofxLoopin::control::Map<Camera> * __getMap() { return &cameras; }
 };
+}};

@@ -2,7 +2,7 @@
 
 #include "./control/Control.hpp"
 #include "./control/Value.hpp"
-#include "../ofxLoopinFile.h"
+#include "../base/File.hpp"
 #include "../clock/Frame.hpp"
 
 #include "ofMain.h"

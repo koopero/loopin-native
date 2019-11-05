@@ -10,10 +10,11 @@
 #include "ofxSyphonClient.h"
 #include "ofxSyphonServer.h"
 
-#include "ofxLoopinRender.h"
-#include "ofxLoopinHasInfo.h"
+#include "../render/Render.hpp"
+#include "../base/HasInfo.hpp"
 
-class ofxLoopinSyphon : public ofxLoopinRender {
+namespace ofxLoopin { namespace misc {
+class Syphon : public ofxLoopin::render::Render {
 public:
   string app = "Loopin";
   string name;
@@ -27,12 +28,12 @@ public:
 
   ofxLoopin::control::Enum<Mode, MODE_CLIENT> mode;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   ofRectangle getBounds();
 
 protected:
   void addSubControls() {
-    ofxLoopinRender::addSubControls();
+    ofxLoopin::render::Render::addSubControls();
     mode.enumAddOption( "client", MODE_CLIENT );
     mode.enumAddOption( "server", MODE_SERVER );
     mode.enumAddOption( "none", MODE_NONE );
@@ -43,7 +44,7 @@ protected:
 
   }
   
-  void maybeOutputBuffer( ofxLoopinBuffer * buffer );
+  void maybeOutputBuffer( ofxLoopin::base::Buffer * buffer );
 
 
 private:
@@ -51,9 +52,9 @@ private:
 	ofxSyphonClient syphonClient;
 };
 
-class ofxLoopinSyphonRoot : public ofxLoopinRenders<ofxLoopinSyphon>, public ofxLoopinHasInfo {
+class SyphonRoot : public ofxLoopin::render::Renders<Syphon>, public ofxLoopin::base::HasInfo {
 public:
-  ofxLoopinSyphonRoot() {
+  SyphonRoot() {
     syphonServerDirectory.setup();
   };
   ofJson infoGet();
@@ -61,7 +62,6 @@ public:
 private: 
   ofxSyphonServerDirectory syphonServerDirectory;  
 };
-
-
+}};
 
 #endif

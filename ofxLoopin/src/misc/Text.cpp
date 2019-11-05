@@ -1,15 +1,15 @@
-#include "ofxLoopinText.h"
+#include "./Text.hpp"
 
-ofRectangle ofxLoopinText::getBounds() {
+ofRectangle ofxLoopin::misc::Text::getBounds() {
   return ofRectangle( 0, 0, 8 * text.size(), 12 );
 }
 
-void ofxLoopinText::draw( const ofRectangle & area ) {
+void ofxLoopin::misc::Text::draw( const ofRectangle & area ) {
   ofDrawBitmapString( text, 0, 10 );
 }
 
 
-void ofxLoopinText::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::misc::Text::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer )
     return;
 

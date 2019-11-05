@@ -5,7 +5,8 @@
 
 #include "ofMain.h"
 
-class ofxLoopinInput : public ofxLoopin::control::Control {
+namespace ofxLoopin { namespace base {
+class Input : public ofxLoopin::control::Control {
 public:
   // openFrameworks mouse events
   void mouseMoved(ofMouseEventArgs & args) {
@@ -46,3 +47,4 @@ protected:
     dispatch( event );
   }
 };
+}};

@@ -3,11 +3,11 @@
 #include "ofxEasyFft.h"
 
 #include "../control/Enum.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 
-class ofxLoopinFft : public ofxLoopinRender {
+class ofxLoopinFft : public ofxLoopin::render::Render {
 public:
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
   ofRectangle getBounds();
 
@@ -17,6 +17,6 @@ protected:
 
 
   void addSubControls() {
-    ofxLoopinRender::addSubControls();
+    ofxLoopin::render::Render::addSubControls();
   };
 };

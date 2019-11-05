@@ -2,11 +2,11 @@
 
 #include "ofSoundStream.h"
 
-#include "ofxLoopinHasInfo.h"
+#include "../base/HasInfo.hpp"
 #include "./control/Bool.hpp"
 #include "./control/Enum.hpp"
 #include "./control/Number.hpp"
-#include "ofxLoopinRender.h"
+#include "../render/Render.hpp"
 #include "../shader/Shader.hpp"
 #include "../control/Enable.hpp"
 
@@ -19,12 +19,12 @@ namespace ofxLoopin { namespace render {
 
 class waveform_imp;
 
-class waveform : public ofxLoopinRenders<waveform_imp>, public ofxLoopinHasInfo {
+class waveform : public ofxLoopin::render::Renders<waveform_imp>, public ofxLoopin::base::HasInfo {
 public:
   ofJson infoGet();
 };
 
-class waveform_imp : public ofxLoopinRender, public ofBaseSoundInput {
+class waveform_imp : public ofxLoopin::render::Render, public ofBaseSoundInput {
 public:
   ofxLoopin::control::Enable enable;
 
@@ -44,7 +44,7 @@ public:
   ofxLoopin::control::Int channels = 2;
   ofxLoopin::control::Int deviceID = 0;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   void audioIn(ofSoundBuffer &buffer);
 
   ofRectangle getBounds();
@@ -58,7 +58,7 @@ protected:
   ofSoundStream soundStream;
   ofSoundBuffer samples;
 
-  void renderScrollExisting( ofxLoopinBuffer * buffer, int offset );
+  void renderScrollExisting( ofxLoopin::base::Buffer * buffer, int offset );
 
   void computeSample( float & sample, int & sign );
   void drawSample( int x, int y, float sample );

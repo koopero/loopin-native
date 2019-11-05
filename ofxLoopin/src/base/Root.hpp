@@ -1,10 +1,11 @@
 #pragma once
 
-#include "ofxLoopinBuffer.h"
+#include "./Buffer.hpp"
 #include "./control/Control.hpp"
 #include "./clock/Frame.hpp"
 
-class ofxLoopinRoot : public ofxLoopin::control::Control, public ofxLoopinHasBuffers {
+namespace ofxLoopin { namespace base {
+class Root : public ofxLoopin::control::Control, public ofxLoopin::base::HasBuffers {
 public:
   // string resolveFilePath( string path );
   ofxLoopin::clock::Frame frame;
@@ -13,3 +14,4 @@ public:
 protected:
   void addRootControls();
 };
+}};
