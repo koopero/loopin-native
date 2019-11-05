@@ -40,7 +40,6 @@ public:
   void update() { player.update(); };
   void draw(float x, float y, float w, float h) { player.draw( x,y,w,h ); };
 
-
   void loadClock( VideoClock & clock ) {
     clock.duration = getDuration();
     clock.rate = getFrameRate();
@@ -52,6 +51,7 @@ public:
     clock.index = getCurrentFrame();
     // cerr << "engine.updateClock " << clock.index  << endl;
   };
+
 protected:
   Player player;
 };
@@ -62,6 +62,7 @@ protected:
 template <class Player>
 void ofxLoopin::video::Engine<Player>::load( string file ) {
   player.setUseTexture( true );
+  player.setLoopState( OF_LOOP_NONE );
   // player.setPixelFormat( OF_PIXELS_RGB );
   player.load( file );
   player.play();

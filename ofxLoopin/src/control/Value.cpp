@@ -3,9 +3,6 @@
 void ofxLoopin::control::Value::patchLocal( const ofJson & val ) {
   if ( targ_int ) {
     if ( val.is_number() ) {
-      // There were traces here for a reason, but I don't remember what it was.
-      // cout << "targ_int " << val.get<int>() << endl;
-      // cout << "targ_int_targ " << (uint64_t) targ_int  << endl;
       *targ_int = val.get<int>();
     } else if ( val.is_boolean() ) {
       *targ_int = val.get<bool>() ? 1 : 0;
@@ -19,10 +16,6 @@ void ofxLoopin::control::Value::patchLocal( const ofJson & val ) {
       *targ_bool = val.get<bool>();
     }
   }
-
-  // ofxLoopin::control::Event event;
-  // event.type = "VALUEPATH";
-  // dispatch( event );
 
   if ( targ_string ) {
     if ( val.is_string() ) {

@@ -2,6 +2,8 @@
 
 #include "../base/Buffer.hpp"
 #include "../clock/Clock.hpp"
+#include "../control/Filename.hpp"
+
 #include "../base/File.hpp"
 #include "../render/Render.hpp"
 
@@ -17,29 +19,20 @@ typedef Engine<ofVideoPlayer> VideoEngine;
 
 class Video : public ofxLoopin::render::Render {
 public:
-  ofxLoopin::control::Enum<ofLoopType, OF_LOOP_NONE> loop;
+  control::Filename file;
   VideoClock clock;
 
 protected:
-  void patchLocal( const ofJson & value );
-  void patchString( string value );
+  void patchLocalAfter( const ofJson & value ) override;
+  void patchString( string value ) override;
 
-  void renderBuffer( ofxLoopin::base::Buffer * buffer );
-  void readLocal( ofJson & value ) {
-    value["position"] = engine->getPosition();
-    value["frame"] = engine->getCurrentFrame();
-  };
+  void renderBuffer( base::Buffer * buffer );
 
   void addSubControls() {
-    loop.enumAddOption( "none", OF_LOOP_NONE );
-    loop.enumAddOption( "loop", OF_LOOP_NORMAL );
-    loop.enumAddOption( "palindrome", OF_LOOP_PALINDROME );
-
-    addSubControl( "loop", &loop );
-
+    addSubControl( "buffer", &buffer );
+    addSubControl( "file", &file );
     addSubControl( "clock", &clock );
     clock.mode.setKey("time");
-
   }
 
   bool videoSync();
@@ -48,7 +41,7 @@ private:
   VideoEngine * engine = new VideoEngine();
   bool wasLoaded = false;
   bool sendSyncEvent = false;
-  void loadFile( const string & file );
+  void loadFile();
   void setEngine() {
   };
   void onLoaded();

@@ -1,24 +1,28 @@
 #include "./Video.hpp"
 
-void ofxLoopin::video::Video::patchLocal( const ofJson & value ) {
-  // std::cerr << "ofxLoopin::video::Video::patchLocal " << value << endl;
-
-  if ( value.is_object() && value.count("file") && value["file"].is_string() ) {
-    loadFile ( value["file"].get<std::string>() );
+void ofxLoopin::video::Video::patchLocalAfter( const ofJson & value ) {
+  if ( file.hasChanged() ) {
+    loadFile ();
   }
-
-  // std::cerr << "ofxLoopin::video::Video::patchLocal after " << endl;
 };
 
-void ofxLoopin::video::Video::loadFile( const string & file ) {
-  string videoPath = file;
-  string absPath = ofxLoopin::base::File::find( videoPath );
+void ofxLoopin::video::Video::loadFile() {
+  string absPath = file.fileAbsolute();
+  control::Event event;
+
 
   wasLoaded = false;
   if ( absPath.size() ) {
+
+    event.type = "captureStart";
+    dispatch( event );
+
     engine->load( absPath );
+
+    event.type = "captureEnd";
+    dispatch( event );
+
   } else {
-    control::Event event;
     event.type = "error";
     dispatch( event );
   }
@@ -26,9 +30,7 @@ void ofxLoopin::video::Video::loadFile( const string & file ) {
 
 
 void ofxLoopin::video::Video::patchString( string value ) {
-  ofJson patch;
-  patch["file"] = value;
-  patchLocal( patch );
+  file.patch( value );
 };
 
 void ofxLoopin::video::Video::onLoaded() {
@@ -81,47 +83,43 @@ void ofxLoopin::video::Video::renderBuffer( base::Buffer * buffer ) {
   }
 
   engine->update();
+  bool frameIsNew = engine->isFrameNew();
+  bool shouldDraw = frameIsNew;
+
+
+  if ( shouldDraw ) {
+    ofRectangle bounds = engine->getBounds();
+    buffer->defaultSize( bounds );
+
+    if ( buffer->begin() ) {
+      engine->draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
+      buffer->end();  
+
+      if ( !wasLoaded && engine->isLoaded() ) {
+        onLoaded();
+      }
+    }
+  } else if ( !clock.ignoreStale() ) {
+    return;
+  }
+
   engine->updateClock( clock );
-
-  if ( engine->isFrameNew() ) {
-    // cerr << "Frame is new" << endl;
-  } else {
-    return;
-  }
-
-  // if ( engine->isPlaying() ) {
-
-  // } else {
-  //   cerr << "Not playing" << endl;
-  //   return;
-  // }
-
-  ofRectangle bounds = engine->getBounds();
-  buffer->defaultSize( bounds );
-
-  if ( !buffer->begin() ) {
-    return;
-  }
-
-  engine->draw( 0, 0, buffer->getWidth(), buffer->getHeight() );
-  buffer->end();  
-
-  // engine->drawToBuffer( buffer ); 
-
-  if ( !wasLoaded && engine->isLoaded() ) {
-    onLoaded();
-  }
+  sendSyncEvent = sendSyncEvent || clock.checkEnd();
 
   if ( sendSyncEvent ) {
     control::Event event;
     event.type = "sync";
+    event.data["clock"] = clock.read();
     dispatch( event );    
     sendSyncEvent = false;
   }
 
-  if ( engine->getIsMovieDone() ) {
-    control::Event event;
-    event.type = "ended";
-    dispatch( event );    
-  }
+
+
+  // if ( isDone ) {
+  //   control::Event event;
+  //   event.type = "ended";
+  //   event.data["clock"] = clock.read();
+  //   dispatch( event );    
+  // }
 };
