@@ -1,8 +1,8 @@
 #pragma once
-#include "ofxLoopinClock.h"
+#include "../clock/Clock.hpp"
 
 namespace ofxLoopin { namespace video {
-class VideoClock : public ofxLoopinClock {
+class VideoClock : public clock::Clock {
 public:
   double duration;
   int index;
@@ -44,10 +44,9 @@ protected:
   bool _syncNext = true;
   int _syncToFrame = -1;
 
-  void readLocal( ofJson & value ) {
+  void readLocal( ofJson & value ) override {
     value["duration"] = duration;
     value["index"] = index;
-
   };
 
   void patchLocal( const ofJson & value ) override  {
