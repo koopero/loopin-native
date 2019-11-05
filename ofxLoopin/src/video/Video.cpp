@@ -72,7 +72,7 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
   }
 
   switch( clock.mode.getEnumValue() ) {
-    case ofxLoopinFrame::Mode::STEP:
+    case ofxLoopin::clock::Frame::Mode::STEP:
       engine->setSpeed(0);
       if ( clock.frame.delta && !sendSyncEvent ) {
         // cerr << "next Frame " << endl;
@@ -80,17 +80,17 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
       }
     break;
 
-    case ofxLoopinFrame::Mode::TIME:
+    case ofxLoopin::clock::Frame::Mode::TIME:
       engine->setSpeed( clock.frame.speed );
     break;
 
-    case ofxLoopinFrame::Mode::FRAME:
+    case ofxLoopin::clock::Frame::Mode::FRAME:
       engine->setSpeed(0);
       engine->nextFrame();
     break;
 
     default:
-    case ofxLoopinFrame::Mode::STOP:
+    case ofxLoopin::clock::Frame::Mode::STOP:
       engine->setSpeed(0);
     break;
   }
@@ -187,7 +187,7 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 //   bool shouldDispatch = false;
 
 //   switch( clock.mode.getEnumValue() ) {
-//     case ofxLoopinFrame::Mode::STEP:
+//     case ofxLoopin::clock::Frame::Mode::STEP:
 //       engine->setSpeed(0);
 //       // engine->update();
 
@@ -201,8 +201,8 @@ void ofxLoopin::video::Video::renderBuffer( ofxLoopinBuffer * buffer ) {
 
 //     break;
 
-//     case ofxLoopinFrame::Mode::TIME:
-//     case ofxLoopinFrame::Mode::FRAME:
+//     case ofxLoopin::clock::Frame::Mode::TIME:
+//     case ofxLoopin::clock::Frame::Mode::FRAME:
 
 //       // engine->setSpeed( clock.frame.speed );
 

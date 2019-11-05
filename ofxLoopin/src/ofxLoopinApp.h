@@ -1,35 +1,35 @@
 #pragma once
 
 
-#include "ofxLoopinBuffer.h"
-#include "ofxLoopinClock.h"
-#include "ofxLoopinInput.h"
-#include "ofxLoopinFrame.h"
-#include "ofxLoopinMap.h"
-#include "ofxLoopinRef.h"
-#include "ofxLoopinRoot.h"
-#include "ofxLoopinReader.h"
-#include "ofxLoopinStdio.h"
+#include "./base/Buffer.hpp"
+#include "./clock/Clock.hpp"
+#include "./clock/Frame.hpp"
+#include "./base/Input.hpp"
+#include "./control/Map.hpp"
+#include "./control/Reference.hpp"
+#include "./base/Root.hpp"
+#include "./base/Reader.hpp"
+#include "./base/Stdio.hpp"
 
 // #include "ofxLoopinAudioAnalyzer.h"
-#include "image/Image.hpp"
-#include "ofxLoopinCamera.h"
-#include "ofxLoopinInfo.h"
-#include "kinect/Kinect.hpp"
-#include "ofxLoopinLayer.h"
-#include "ofxLoopinMesh.h"
-#include "ofxLoopinOSD.h"
-#include "ofxLoopinRender.h"
-#include "ofxLoopinSaver.h"
-#include "ofxLoopinShaders.h"
-#include "show/show.hpp"
-#include "ofxLoopinText.h"
-#include "video/Video.hpp"
-#include "pixels/main.hpp"
-#include "render/waveform.hpp"
-#include "ofxLoopinWindow.h"
-#include "ofxLoopinSyphon.h"
-#include "grabber/Grabber.hpp"
+#include "./image/Image.hpp"
+#include "./render/Camera.hpp"
+#include "./base/Info.hpp"
+#include "./kinect/Kinect.hpp"
+#include "./render/Layer.hpp"
+#include "./mesh/Mesh.hpp"
+#include "./window/OSD.hpp"
+#include "./render/Render.hpp"
+#include "./image/Saver.hpp"
+#include "./shader/Shaders.hpp"
+#include "./window/Show.hpp"
+#include "./misc/Text.hpp"
+#include "./video/Video.hpp"
+#include "./pixels/main.hpp"
+#include "./audio/waveform.hpp"
+#include "./window/Window.hpp"
+#include "./misc/Syphon.hpp"
+#include "./grabber/Grabber.hpp"
 
 
 #include "ofMain.h"
@@ -40,11 +40,11 @@
 
 class ofxLoopinApp :
   public ofBaseApp,
-  public ofxLoopinRoot,
-  public ofxLoopinHasShaders,
-  public ofxLoopinHasMeshes,
-  public ofxLoopinHasCameras,
-  public ofxLoopinHasUniforms
+  public ofxLoopin::base::Root,
+  public ofxLoopin::shader::HasShaders,
+  public ofxLoopin::mesh::HasMeshes,
+  public ofxLoopin::render::HasCameras,
+  public ofxLoopin::shader::HasUniforms
 {
 public:
   ofxLoopinApp();
@@ -64,58 +64,55 @@ public:
   /** loopin/root/show
     type: show
   */
-  ofxLoopin::Show show;
+  ofxLoopin::window::Show show;
 
   // clock/ - Clock parameters
   /** loopin/root/clock
     type: clock
   */
-  ofxLoopinClock clock;
-
-  // camera/ - Virtual cameras for 3D transforms
-  // ofxLoopinCameras cameras; // defined in ofxLoopinCamera
+  ofxLoopin::clock::Clock clock;
 
   // input/ - Input parameters
   /** loopin/root/input
     type: input
   */
-  ofxLoopinInput input;
+  ofxLoopin::base::Input input;
 
   // window/ - Window parameters such as fullscreen
   /** loopin/root/window
     type: window
   */
-  ofxLoopinWindow window;
+  ofxLoopin::window::Window window;
 
   // image/:buffer - Load image files
   /** loopin/root/image
     map: image
   */
-  ofxLoopinRenders<ofxLoopinImage> images;
+  ofxLoopin::render::Renders<ofxLoopin::image::Image> images;
 
   // kinect/:buffer - Kinect 1
   /** loopin/root/kinect
     map: kinect
   */
-  ofxLoopinRenders<ofxLoopin::kinect::Kinect> kinects;
+  ofxLoopin::render::Renders<ofxLoopin::kinect::Kinect> kinects;
 
   // text/:buffer
   /** loopin/root/text
     map: text
   */
-  ofxLoopinRenders<ofxLoopinText> texts;
+  ofxLoopin::render::Renders<ofxLoopin::misc::Text> texts;
 
   // save/:buffer - saves buffers to image files
   /** loopin/root/save
     map: save
   */
-  ofxLoopinRenders<ofxLoopinSaver> savers;
+  ofxLoopin::render::Renders<ofxLoopin::image::Saver> savers;
 
   // render/:buffer - renders
   /** loopin/root/kinect
     map: kinect
   */
-  ofxLoopinOrderedRenders<ofxLoopinLayer> renders;
+  ofxLoopin::render::OrderedRenders<ofxLoopin::render::Layer> renders;
 
   // pixels/:buffer - pixels
   /** loopin/root/pixels
@@ -128,7 +125,7 @@ public:
   /** loopin/root/video
     map: video
   */
-  ofxLoopinRenders<ofxLoopin::video::Video> videos;
+  ofxLoopin::render::Renders<ofxLoopin::video::Video> videos;
 
   // waveform/:buffer - waveform input ( experimental )
   /** loopin/root/waveform
@@ -140,22 +137,22 @@ public:
   /** loopin/root/fft
     map: fft
   */
-  // ofxLoopinRenders<ofxLoopinFft> fft;
+  // ofxLoopin::render::Renders<ofxLoopinFft> fft;
 
   // osd/ - on-screen display
   /** loopin/root/osd
     type: osd
   */
-  ofxLoopinOSD osd;
+  ofxLoopin::window::OSD osd;
   
   #ifdef LOOPIN_SYPHON
-  ofxLoopinSyphonRoot syphon;
+  ofxLoopin::misc::SyphonRoot syphon;
   #endif
 
   ofxLoopin::grabber::GrabberList grabbers;
 
 
-  ofxLoopinInfo info;
+  ofxLoopin::base::Info info;
   // openFrameWorks master overrides.
   void setup ();
   void draw ();
@@ -164,8 +161,8 @@ public:
   void render ();
 
   // Master event dispatcher.
-  // Called by ofxLoopinControl::dispatch
-  void dispatch( ofxLoopinEvent & event );
+  // Called by ofxLoopin::control::Control::dispatch
+  void dispatch( ofxLoopin::control::Event & event );
 
   void update();
 
@@ -238,10 +235,10 @@ protected:
   }
 
   // Utility for reading from stdio
-  ofxLoopinStdio stdio;
+  ofxLoopin::base::Stdio stdio;
 
   // Utility for reading to stdio
-  ofxLoopinReader reader;
+  ofxLoopin::base::Reader reader;
 
   void keyPressed(int key) {
     // std::cerr << "keyPressed " << key << endl;
@@ -257,10 +254,10 @@ protected:
     }
   }
 
-  static ofxLoopinShader shaderDefault; 
+  static ofxLoopin::shader::Shader shaderDefault; 
 
 private:
   int exitAfterFrames = 0;
 
-  std::vector<ofxLoopinRenderList *> renderLists;
+  std::vector<ofxLoopin::render::RenderList *> renderLists;
 };

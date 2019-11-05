@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./VideoClock.hpp"
-#include "../ofxLoopinBuffer.h"
+#include "../base/Buffer.hpp"
 
 namespace ofxLoopin { namespace video {
 
@@ -37,7 +37,6 @@ public:
   bool getIsMovieDone() const { return player.getIsMovieDone(); };
   void nextFrame();
   void setFrame(int frame);
-  void drawToBuffer( ofxLoopinBuffer * buffer );
   void update() { player.update(); };
   void draw(float x, float y, float w, float h) { player.draw( x,y,w,h ); };
 

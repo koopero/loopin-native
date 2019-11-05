@@ -1,11 +1,10 @@
 #include "./main.hpp"
-#include "ofxLoopinFile.h"
 
-ofxLoopinShader ofxLoopin::pixels::Render::shader = ofxLoopinShader(
+ofxLoopin::shader::Shader ofxLoopin::pixels::Render::shader = ofxLoopin::shader::Shader(
 // name
 "solidRGBA",
 // frag
-#ifndef TARGET_OPENGLES:
+#ifndef TARGET_OPENGLES
 "#version 150 \n\
 uniform float red; \n\
 uniform float green; \n\
@@ -41,26 +40,26 @@ void ofxLoopin::pixels::Render::addSubControls() {
 
   addSubControl("buffer", &buffer );
 
-  format.setEnumKey( "hex", FORMAT_HEX );
-  format.setEnumKey( "hex2", FORMAT_HEX2 );
-  format.setEnumKey( "float", FORMAT_FLOAT );
-  format.setEnumKey( "percent", FORMAT_PERCENT );
-  format.setEnumKey( "decimal", FORMAT_DECIMAL );
-  format.setEnumKey( "base64", FORMAT_BASE64 );
+  format.enumAddOption( "hex", FORMAT_HEX );
+  format.enumAddOption( "hex2", FORMAT_HEX2 );
+  format.enumAddOption( "float", FORMAT_FLOAT );
+  format.enumAddOption( "percent", FORMAT_PERCENT );
+  format.enumAddOption( "decimal", FORMAT_DECIMAL );
+  format.enumAddOption( "base64", FORMAT_BASE64 );
   addSubControl("format", &format );
 
-  input.setEnumKey( "change", INPUT_CHANGE );
-  input.setEnumKey( "always", INPUT_ALWAYS );
-  input.setEnumKey( "none", INPUT_NONE );
+  input.enumAddOption( "change", INPUT_CHANGE );
+  input.enumAddOption( "always", INPUT_ALWAYS );
+  input.enumAddOption( "none", INPUT_NONE );
   addSubControl("input", &input );
 
-  output.setEnumKey( "none", OUTPUT_NONE );
-  output.setEnumKey( "always", OUTPUT_ALWAYS );
-  output.setEnumKey( "once", OUTPUT_ONCE );
+  output.enumAddOption( "none", OUTPUT_NONE );
+  output.enumAddOption( "always", OUTPUT_ALWAYS );
+  output.enumAddOption( "once", OUTPUT_ONCE );
   addSubControl("output", &output );
 
-  addSubControl("channels", new ofxLoopinControlValue( &channels ) );
-  addSubControl("data", new ofxLoopinControlValue( &data ) );
+  addSubControl("channels", new ofxLoopin::control::Value( &channels ) );
+  addSubControl("data", new ofxLoopin::control::Value( &data ) );
 
 };
 
@@ -87,7 +86,7 @@ void ofxLoopin::pixels::Render::updateLocal( ) {
 
 }
 
-void ofxLoopin::pixels::Render::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   maybeOutputBuffer( buffer );
 
   bool inputIsFresh = decodeInput();
@@ -162,7 +161,7 @@ ofRectangle ofxLoopin::pixels::Render::getBounds() {
   return ofRectangle( box.getAxis(0), box.getAxis(1), width, height );
 }
 
-void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer->begin() ) {
     return;
   }
@@ -235,7 +234,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopinBuffer * buffer ) {
 
 
 
-void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     return;
@@ -252,7 +251,7 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopinBuffer * buffer ) {
   dispatchData();
 }
 
-void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopinBuffer * buffer ) {
+void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopin::base::Buffer * buffer ) {
   #ifndef TARGET_OPENGLES
     ofFloatPixels pixels;
   #else
@@ -294,7 +293,7 @@ void ofxLoopin::pixels::Render::bufferToFloats( ofxLoopinBuffer * buffer ) {
 }
 
 void ofxLoopin::pixels::Render::dispatchData() {
-  ofxLoopinEvent event;
+  ofxLoopin::control::Event event;
   ofRectangle bounds = getBounds();
   event.type = "pixels";
   event.data["width"] = readWidth ? readWidth : (int) bounds.getWidth();

@@ -3,21 +3,21 @@
 #include "ofImage.h"
 #include "ofThread.h"
 
-#include "ofxLoopinControlEnum.h"
-#include "ofxLoopinRender.h"
-#include "ofxLoopinFrame.h"
-#include "ofxLoopinMap.h"
-#include "ofxLoopinShader.h"
-#include "../type/Box.hpp"
+#include "./control/Enum.hpp"
+#include "../render/Render.hpp"
+#include "../clock/Frame.hpp"
+#include "./control/Map.hpp"
+#include "../shader/Shader.hpp"
+#include "../control/Box.hpp"
 
 
 namespace ofxLoopin { namespace pixels {
 
 class Render;
 
-class Map : public ofxLoopinRenders<Render> {};
+class Map : public ofxLoopin::render::Renders<Render> {};
 
-class Render : public ofxLoopinRender {
+class Render : public ofxLoopin::render::Render {
 public:
   enum Format {
     FORMAT_HEX,
@@ -28,7 +28,7 @@ public:
     FORMAT_PERCENT
   };
 
-  ofxLoopinControlEnum<Format, FORMAT_BASE64> format;
+  ofxLoopin::control::Enum<Format, FORMAT_BASE64> format;
 
   enum Input {
     INPUT_CHANGE,
@@ -36,7 +36,7 @@ public:
     INPUT_ALWAYS
   };
 
-  ofxLoopinControlEnum<Input, INPUT_CHANGE> input;
+  ofxLoopin::control::Enum<Input, INPUT_CHANGE> input;
 
   enum Output {
     OUTPUT_NONE,
@@ -44,29 +44,29 @@ public:
     OUTPUT_ONCE
   };
 
-  ofxLoopinControlEnum<Output, OUTPUT_NONE> output;
+  ofxLoopin::control::Enum<Output, OUTPUT_NONE> output;
 
   string channels = "rgb";
 
-  // ofxLoopinControlInt width = 0;
-  // ofxLoopinControlInt height = 0;
+  // ofxLoopin::control::Int width = 0;
+  // ofxLoopin::control::Int height = 0;
 
-  ofxLoopin::type::Box box;
-  ofxLoopinControlBool replace;
+  ofxLoopin::control::Box box;
+  ofxLoopin::control::Bool replace;
 
 
   string data;
   std::vector<float> floats;
 
-  void bufferToFloats( ofxLoopinBuffer * buffer );
+  void bufferToFloats( ofxLoopin::base::Buffer * buffer );
 
 
   ofRectangle getBounds();
   GLint getFormat();
-  void renderBuffer( ofxLoopinBuffer * buffer );
-  void renderFloats( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderFloats( ofxLoopin::base::Buffer * buffer );
 
-  void outputPixels( ofxLoopinBuffer * buffer );
+  void outputPixels( ofxLoopin::base::Buffer * buffer );
 
 protected:
   string _lastPixels;
@@ -94,10 +94,10 @@ protected:
 
   void dispatchData();
 
-  void maybeOutputBuffer( ofxLoopinBuffer * buffer );
+  void maybeOutputBuffer( ofxLoopin::base::Buffer * buffer );
   void addSubControls();
 
-  static ofxLoopinShader shader;
+  static ofxLoopin::shader::Shader shader;
 };
 
 

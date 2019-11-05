@@ -2,10 +2,10 @@
 
 #include "ofMain.h"
 
-#include "ofxLoopinControlBool.h"
-#include "ofxLoopinRender.h"
-#include "ofxLoopinShader.h"
-#include "../type/Enable.hpp"
+#include "../control/Bool.hpp"
+#include "../render/Render.hpp"
+#include "../shader/Shader.hpp"
+#include "../control/Enable.hpp"
 
 
 #include "ofxKinect.h"
@@ -41,9 +41,9 @@ subs/infrared:
 **/
 
 namespace ofxLoopin { namespace kinect {
-class Kinect : public ofxLoopinRender {
+class Kinect : public ofxLoopin::render::Render {
 public:
-  ofxLoopin::type::Enable enable;
+  ofxLoopin::control::Enable enable;
 
   int deviceId = -1;
   int fill = 0;
@@ -55,12 +55,12 @@ public:
     OUTPUT_ALPHA
   };
 
-  ofxLoopinControlEnum<ofxKinect::LedMode, ofxKinect::LedMode::LED_DEFAULT> led;
-  ofxLoopinControlEnum<Output, OUTPUT_BOTH> output;
-  ofxLoopinControlBool infrared;
-  ofxLoopinControlBool registration;
+  ofxLoopin::control::Enum<ofxKinect::LedMode, ofxKinect::LedMode::LED_DEFAULT> led;
+  ofxLoopin::control::Enum<Output, OUTPUT_BOTH> output;
+  ofxLoopin::control::Bool infrared;
+  ofxLoopin::control::Bool registration;
 
-  ofxLoopinControlNumber tilt;
+  ofxLoopin::control::Number tilt;
 
   void updateTilt() {
     float tilt = ofxLoopin::kinect::Kinect::tilt;
@@ -77,7 +77,7 @@ public:
     }
   }
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 
 protected:
@@ -88,7 +88,7 @@ protected:
 
 private:
   ofxKinect * kinect;
-  ofxLoopinBuffer * renderDepth();
+  ofxLoopin::base::Buffer * renderDepth();
 
   bool status;
 
@@ -99,7 +99,7 @@ private:
   int _modeTilt = 0;
   float _triedOpening = -100; // From ofGetElapsedTimef()
 
-  void renderBufferParams( ofxLoopinBuffer * buffer );
+  void renderBufferParams( ofxLoopin::base::Buffer * buffer );
 
   void drawVideo( const ofRectangle & crop, const ofRectangle & area );
   void drawDepth( const ofRectangle & crop, const ofRectangle & area );
@@ -107,7 +107,7 @@ private:
 
   void closeKinect();
 
-  static ofxLoopinShader _bothShader;
+  static ofxLoopin::shader::Shader _bothShader;
 
 };
 }};

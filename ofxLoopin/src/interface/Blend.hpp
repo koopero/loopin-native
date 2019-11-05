@@ -1,22 +1,22 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
-#include "../type/Colour.hpp"
+#include "../control/Control.hpp"
+#include "../control/Colour.hpp"
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
 
 namespace ofxLoopin { namespace interface {
-class Blend : public ofxLoopinControl {
+class Blend : public ofxLoopin::control::Control {
 public:
-  type::Colour colour;
+  control::Colour colour;
   options::BlendEquation equation;
   options::BlendFunc srcRGB;
   options::BlendFunc dstRGB;
   options::BlendFunc srcAlpha;
   options::BlendFunc dstAlpha;
 
-  void addSubControls() {
+  void addSubControls() override {
     addSubControl("colour", &colour );
     addSubControl("equation", &equation );
     addSubControl("srcRGB", &srcRGB );

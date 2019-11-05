@@ -1,9 +1,9 @@
 #pragma once
 
-#include "ofxLoopinBuffer.h"
-#include "ofxLoopinClock.h"
-#include "ofxLoopinFile.h"
-#include "ofxLoopinRender.h"
+#include "../base/Buffer.hpp"
+#include "../clock/Clock.hpp"
+#include "../base/File.hpp"
+#include "../render/Render.hpp"
 
 #include "ofVideoPlayer.h"
 
@@ -15,25 +15,25 @@ namespace ofxLoopin { namespace video {
 
 typedef Engine<ofVideoPlayer> VideoEngine; 
 
-class Video : public ofxLoopinRender {
+class Video : public ofxLoopin::render::Render {
 public:
-  ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
+  ofxLoopin::control::Enum<ofLoopType, OF_LOOP_NONE> loop;
   VideoClock clock;
 
 protected:
   void patchLocal( const ofJson & value );
   void patchString( string value );
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   void readLocal( ofJson & value ) {
     value["position"] = engine->getPosition();
     value["frame"] = engine->getCurrentFrame();
   };
 
   void addSubControls() {
-    loop.setEnumKey( "none", OF_LOOP_NONE );
-    loop.setEnumKey( "loop", OF_LOOP_NORMAL );
-    loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
+    loop.enumAddOption( "none", OF_LOOP_NONE );
+    loop.enumAddOption( "loop", OF_LOOP_NORMAL );
+    loop.enumAddOption( "palindrome", OF_LOOP_PALINDROME );
 
     addSubControl( "loop", &loop );
 

@@ -1,7 +1,7 @@
 #include "ofxLoopinFft.h"
 
 
-void ofxLoopinFft::renderBuffer( ofxLoopinBuffer * buffer ) {
+void ofxLoopinFft::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   // Ensure the soundstream is running
   if ( !fftLive ) {
     fftLive = new ofxEasyFft();
