@@ -21,11 +21,18 @@ void ofxLoopin::blobs::Blobs::renderBuffer( ofxLoopin::base::Buffer * buffer  ) 
   contourFinder.findContours(cvImage, 5, (340*240)/4, 4, false, true);
 
   event.type = "blobs";
-  event.data["num"] = contourFinder.nBlobs;
-  event.data["width"] = cvImage.getWidth();
-  event.data["pwidth"] = pixels.getWidth();
-  event.data["pchan"] = pixels.getBytesPerPixel();
-  event.data["cchan"] = cvImage.getPixels().getBytesPerPixel();
+  for ( int index = 0; index < contourFinder.nBlobs; index ++ ) {
+    ofJson blob;
+
+    blob["cx"] = contourFinder.blobs[index].centroid.x;
+    blob["cy"] = contourFinder.blobs[index].centroid.y;
+    blob["bx"] = contourFinder.blobs[index].boundingRect.x;
+    blob["by"] = contourFinder.blobs[index].boundingRect.y;
+    blob["bw"] = contourFinder.blobs[index].boundingRect.width;
+    blob["bh"] = contourFinder.blobs[index].boundingRect.height;
+
+    event.data["blobs"][index] = blob;
+  }
 
   dispatch( event );
 
