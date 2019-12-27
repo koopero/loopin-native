@@ -27,6 +27,9 @@ addons:
   ofxKinect:
     enable: true
 
+  ofxOpenCv:
+    enable: true
+
   # ofxOsc:
   #  enable: true
 

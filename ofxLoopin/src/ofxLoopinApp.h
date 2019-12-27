@@ -30,6 +30,8 @@
 #include "./window/Window.hpp"
 #include "./misc/Syphon.hpp"
 #include "./grabber/Grabber.hpp"
+#include "./blobs/Blobs.hpp"
+
 
 
 #include "ofMain.h"
@@ -107,6 +109,8 @@ public:
     map: save
   */
   ofxLoopin::render::Renders<ofxLoopin::image::Saver> savers;
+  
+  ofxLoopin::render::Renders<ofxLoopin::blobs::Blobs> blobs;
 
   // render/:buffer - renders
   /** loopin/root/kinect
@@ -209,6 +213,7 @@ protected:
     #endif
 
     addSubControl( "save", &savers );
+    addSubControl( "blobs", &blobs );
     addSubControl( "show", &show );
 
     addSubControl( "osd", &osd );
@@ -224,8 +229,8 @@ protected:
     renderLists.push_back( &kinects );
     renderLists.push_back( &videos );
     renderLists.push_back( &grabbers );
-
     renderLists.push_back( &renders );
+    renderLists.push_back( &blobs );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );
 
