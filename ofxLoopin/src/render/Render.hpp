@@ -15,7 +15,7 @@
 */
 
 namespace ofxLoopin { namespace render {
-class Render : public ofxLoopin::control::Control {
+class Render : virtual public ofxLoopin::control::Control {
 public:
   ofxLoopin::control::Reference<ofxLoopin::base::Buffer,ofxLoopin::base::HasBuffers> buffer;
 

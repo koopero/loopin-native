@@ -25,7 +25,7 @@
 #include "./window/Show.hpp"
 #include "./misc/Text.hpp"
 #include "./video/Video.hpp"
-#include "./pixels/main.hpp"
+#include "./pixels/Render.hpp"
 #include "./audio/waveform.hpp"
 #include "./window/Window.hpp"
 #include "./misc/Syphon.hpp"

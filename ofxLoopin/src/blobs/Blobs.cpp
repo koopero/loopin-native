@@ -1,6 +1,10 @@
 #include "./Blobs.hpp"
 
 void ofxLoopin::blobs::Blobs::renderBuffer( ofxLoopin::base::Buffer * buffer  ) {
+  if ( !enable.isEnabledOnce() ) {
+    return;
+  }
+
   ofxLoopin::control::Event event;
   if ( !buffer || !buffer->isAllocated() ) {
     event.type = "error";
@@ -15,29 +19,38 @@ void ofxLoopin::blobs::Blobs::renderBuffer( ofxLoopin::base::Buffer * buffer  ) 
   fbo.readToPixels( pixels );
   pixels.setImageType( OF_IMAGE_GRAYSCALE );
   cvImage.setFromPixels( pixels );
-  // cvGrayImage.setFromColorImage( cvImage );
-  // cvGrayImage.threshold( 30 );
-
-  contourFinder.findContours(cvImage, 5, (340*240)/4, 4, false, true);
+  contourFinder.findContours(cvImage, minArea, maxArea, count, holes, approx );
 
   event.type = "blobs";
   for ( int index = 0; index < contourFinder.nBlobs; index ++ ) {
-    ofJson blob;
+    ofJson blobJ;
+    const ofxCvBlob &blob = contourFinder.blobs[index];
 
-    blob["cx"] = contourFinder.blobs[index].centroid.x;
-    blob["cy"] = contourFinder.blobs[index].centroid.y;
-    blob["bx"] = contourFinder.blobs[index].boundingRect.x;
-    blob["by"] = contourFinder.blobs[index].boundingRect.y;
-    blob["bw"] = contourFinder.blobs[index].boundingRect.width;
-    blob["bh"] = contourFinder.blobs[index].boundingRect.height;
-
-    event.data["blobs"][index] = blob;
+    blobJ["a"] = blob.area;
+    blobJ["cx"] = blob.centroid.x;
+    blobJ["cy"] = blob.centroid.y;
+    blobJ["bx"] = blob.boundingRect.x;
+    blobJ["by"] = blob.boundingRect.y;
+    blobJ["bw"] = blob.boundingRect.width;
+    blobJ["bh"] = blob.boundingRect.height;
+    blobJ["nPts"] = blob.nPts;
+    event.data["blobs"][index] = blobJ;
   }
 
   dispatch( event );
 
+  ofFloatPixels data;
+  // data.allocate( 16, 16 );
+
+  if ( !show.isEnabledOnce() ) {
+    return;
+  }
+
   buffer->begin();
-  cvImage.draw( 0, 0 );
   contourFinder.draw();
   buffer->end();
+};
+
+void ofxLoopin::blobs::Blobs::renderBlobData() {
+
 };
