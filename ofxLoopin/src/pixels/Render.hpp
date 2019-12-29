@@ -22,13 +22,16 @@ public:
   ofRectangle getBounds();
 
   void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderFloats( ofxLoopin::base::Buffer * buffer );
 
 protected:
   bool _isDirty = false;
+  int readWidth = -1;
+  int readHeight = -1;
 
-  void updateLocal();
-  void patchLocal( const ofJson & value );
-  void patchString( string value );
+  // void updateLocal();
+  // void patchLocal( const ofJson & value );
+  // void patchString( string value );
   void dispatchData();
 
   void maybeOutputBuffer( ofxLoopin::base::Buffer * buffer );

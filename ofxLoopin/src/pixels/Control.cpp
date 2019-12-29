@@ -1,7 +1,7 @@
-
+#include "./Control.hpp"
 
 void ofxLoopin::pixels::Control::patchLocal( const ofJson & value ) {
-  box.patch( value );
+  // box.patch( value );
   
   if (
    value.is_object() && (

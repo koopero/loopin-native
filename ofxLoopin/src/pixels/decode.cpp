@@ -2,34 +2,34 @@
 #include "lib/base64.h"
 
 
-bool ofxLoopin::pixels::Data::decodeInput() {
+bool ofxLoopin::pixels::Data::dataToFloats() {
 
   if ( !_isDirty )
     return false;
 
 
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
+  switch( encoding.getEnumValue() ) {
+    case ENCODING_BASE64:
       decodeBinary( base64_decode( data ) );
     break;
 
-    case FORMAT_HEX:
+    case ENCODING_HEX:
       decodeHex();
     break;
 
-    case FORMAT_HEX2:
+    case ENCODING_HEX2:
       decodeHex( 1 );
     break;
 
-    case FORMAT_FLOAT:
+    case ENCODING_FLOAT:
       decodeNumeric( 1 );
     break;
 
-    case FORMAT_PERCENT:
+    case ENCODING_PERCENT:
       decodeNumeric( 100 );
     break;
 
-    case FORMAT_DECIMAL:
+    case ENCODING_DECIMAL:
       decodeNumeric( 255 );
     break;
   }

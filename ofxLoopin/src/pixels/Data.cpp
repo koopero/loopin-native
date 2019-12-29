@@ -27,18 +27,9 @@ GLint ofxLoopin::pixels::Data::getGLFormat() {
   #endif
 }
 
-void ofxLoopin::pixels::Data::bufferToFloats( ofxLoopin::base::Buffer * buffer ) {
-  #ifndef TARGET_OPENGLES
-    ofFloatPixels pixels;
-  #else
-    ofPixels pixels;
-  #endif
-
-  ofFbo &fbo = buffer->getFbo();
-  fbo.readToPixels( pixels );
-
-  readWidth = pixels.getWidth();
-  readHeight = pixels.getHeight();
+void ofxLoopin::pixels::Data::pixelsToFloats( const ofFloatPixels & pixels ) {
+  // readWidth = pixels.getWidth();
+  // readHeight = pixels.getHeight();
 
   int numChannels = channels.size();
   int numPixels = pixels.getWidth() * pixels.getHeight();

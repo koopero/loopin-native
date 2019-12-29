@@ -2,30 +2,30 @@
 #include "lib/base64.h"
 
 void ofxLoopin::pixels::Data::encode() {
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
+  switch( encoding.getEnumValue() ) {
+    case ENCODING_BASE64:
       encodeBinary();
       data = base64_encode( (const unsigned char *) data.c_str(), data.size() );
       return;
     break;
 
-    case FORMAT_HEX:
+    case ENCODING_HEX:
       return encodeHex( 2 );
     break;
 
-    case FORMAT_HEX2:
+    case ENCODING_HEX2:
       return encodeHex( 1 );
     break;
 
-    case FORMAT_FLOAT:
+    case ENCODING_FLOAT:
       return encodeNumeric( 1 );
     break;
 
-    case FORMAT_PERCENT:
+    case ENCODING_PERCENT:
       return encodeNumeric( 100 );
     break;
 
-    case FORMAT_DECIMAL:
+    case ENCODING_DECIMAL:
       return encodeNumeric( 255 );
     break;
   }

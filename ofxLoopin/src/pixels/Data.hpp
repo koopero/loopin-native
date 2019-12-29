@@ -24,8 +24,11 @@ public:
   ofFloatPixels pixels;
 
   GLint getGLFormat();
-  void dataToPixels();
-  void pixelsToFloats();
+  bool dataToFloats();
+  void floatsToPixels();
+  void pixelsToFloats( const ofFloatPixels & pixels );
+  void pixelsToFloats() { pixelsToFloats( pixels ); };
+
   void setFloat( int index, float value );
 
 protected:

@@ -58,7 +58,7 @@ ofRectangle ofxLoopin::pixels::Render::getBounds() {
 void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer ) {
   maybeOutputBuffer( buffer );
 
-  bool inputIsFresh = decodeInput();
+  bool inputIsFresh = dataToFloats();
 
   if ( input.isEnabledOnce( inputIsFresh ) )
     return;
@@ -90,22 +90,9 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buf
   if ( !output.isEnabledOnce( outputIsFresh ) )
     return;
 
-  #ifndef TARGET_OPENGLES
-    ofFloatPixels pixels;
-  #else
-    ofPixels pixels;
-  #endif
-
   ofFbo &fbo = buffer->getFbo();
   fbo.readToPixels( pixels );
-
-  if ( output.getEnumValue() == OUTPUT_NONE ) {
-    return;
-  } else if ( output.getEnumValue() == OUTPUT_ONCE ) {
-    output.setEnumValue( OUTPUT_NONE );
-  }
-
-  pixelsToFloats( pixels );
+  pixelsToFloats();
   encode();
   dispatchData();
 }
@@ -117,7 +104,7 @@ void ofxLoopin::pixels::Render::dispatchData() {
   event.type = "pixels";
   event.data["width"] = readWidth ? readWidth : (int) bounds.getWidth();
   event.data["height"] = readHeight ? readHeight : (int) bounds.getHeight();
-  event.data["format"] = format.getKey();
+  event.data["encoding"] = encoding.getKey();
   event.data["frame"] = renderingFrame.index;
   event.data["data"] = data;
   event.data["channels"] = channels;
@@ -126,7 +113,7 @@ void ofxLoopin::pixels::Render::dispatchData() {
 }
 
 
-void ofxLoopin::pixels::Data::renderFloats( ofxLoopin::base::Buffer * buffer ) {
+void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer->begin() ) {
     return;
   }
