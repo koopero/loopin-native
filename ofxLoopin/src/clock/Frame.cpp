@@ -6,6 +6,7 @@ ofxLoopin::control::Event ofxLoopin::clock::Frame::asEvent () {
   event.data["time"] = time;
   event.data["delta"] = delta;
   event.data["speed"] = speed;
+  event.data["rate"] = rate;
 
   return event;
 }

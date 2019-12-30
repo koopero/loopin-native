@@ -22,7 +22,6 @@ async function deps( build ) {
 
 
   let distro = await getos() 
-  console.log('distro', distro)
   distro = distro['dist'].toLowerCase()
   distro = distro.split(/[^\w]/)
   distro = distro[0]
