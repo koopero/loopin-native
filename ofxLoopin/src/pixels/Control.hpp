@@ -3,12 +3,15 @@
 #include "./Data.hpp"
 #include "../control/Control.hpp"
 #include "../control/Enum.hpp"
+#include "../control/Box.hpp"
 #include "../control/Value.hpp"
 
 
 namespace ofxLoopin { namespace pixels {
 class Control : virtual public ofxLoopin::control::Control, public Data {
 public:
+  ofxLoopin::control::Box box;
+
 
 protected:
   void updateLocal();
@@ -28,6 +31,8 @@ protected:
     addSubControl("encoding", &encoding );
     addSubControl("channels", new ofxLoopin::control::Value( &channels ) );
     addSubControl("data", new ofxLoopin::control::Value( &data ) );
+    // addSubControl("width", new ofxLoopin::control::Value( &width ) );
+    // addSubControl("height", new ofxLoopin::control::Value( &height ) );
   }
 };
 // end of namespace

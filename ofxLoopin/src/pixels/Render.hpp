@@ -16,7 +16,6 @@ class Render : public ofxLoopin::render::Render, virtual public Control  {
 public:
   ofxLoopin::control::Enable input;
   ofxLoopin::control::Enable output;
-  ofxLoopin::control::Box box;
   ofxLoopin::control::Bool replace;
 
   ofRectangle getBounds();
@@ -38,6 +37,7 @@ protected:
   void addSubControls() {
     addPixelDataSubControls();
     addSubControl("input", &input );
+    output.setEnumValue( control::ENABLE_NO );
     addSubControl("output", &output );
     addSubControl("box", &box );
     addSubControl("shader", &shader );

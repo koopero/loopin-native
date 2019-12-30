@@ -60,8 +60,13 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer )
 
   bool inputIsFresh = dataToFloats();
 
-  if ( input.isEnabledOnce( inputIsFresh ) )
+
+
+  if ( !input.isEnabledOnce( inputIsFresh ) )
     return;
+
+  // cerr << "renderBuffer " << inputIsFresh << endl;
+
 
   ofRectangle bounds = getBounds();
 
@@ -76,6 +81,78 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer )
 
   renderFloats( buffer );
 }
+
+void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer ) {
+  if ( !buffer->begin() ) {
+    return;
+  }
+  
+  shader.begin();
+  glDisable( GL_CULL_FACE );
+  ofDisableBlendMode( );
+  ofDisableDepthTest();
+
+
+  ofRectangle bounds = getBounds();
+
+  int numChannels = channels.size();
+  int numPixels = data.size() / numChannels;
+  int bufferWidth = buffer->getWidth();
+  int bufferHeight = buffer->getHeight();
+  int x = bounds.getX();
+  int y = bounds.getY();
+  int i = 0;
+
+  // cerr << "RenderFloats " << bounds << endl;
+  // ofFill();
+  for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
+
+    ofFloatColor pixel( 0,0,0,1.0 );
+
+    for ( int channelIndex = 0; channelIndex < numChannels && i < floats.size(); channelIndex ++ ) {
+      char channelKey = channels[channelIndex];
+      float channelValue = floats[i++] * pixel.limit();
+      switch ( channelKey ) {
+        case 'r': pixel.r = channelValue;     break;
+        case 'g': pixel.g = channelValue;     break;
+        case 'b': pixel.b = channelValue;     break;
+        case 'a': pixel.a = channelValue;     break;
+
+        // Temp until real HSV support
+        case 'l':
+        case 'v':
+          pixel.r = channelValue;
+          pixel.g = channelValue;
+          pixel.b = channelValue;
+        break;
+      }
+    }
+
+    shader.shader.setUniform1f( "red", (float) pixel.r / pixel.limit() );
+    shader.shader.setUniform1f( "green", (float) pixel.g / pixel.limit() );
+    shader.shader.setUniform1f( "blue", (float) pixel.b / pixel.limit() );
+    shader.shader.setUniform1f( "alpha", (float) pixel.a / pixel.limit() );
+
+
+    ofDrawRectangle( x,y,1,1);
+    // ofDrawTriangle( x,y,x,y,x,y);
+    cerr << "RenderFloats " << x << ", " << y << " " << pixel.b << endl;
+
+
+    x ++;
+    if ( x >= bounds.getWidth() + bounds.getX() ) {
+      x = bounds.getX();
+      y ++;
+    }
+
+    if ( y >= bounds.getHeight() + bounds.getY() )
+      break;
+  }
+
+  shader.end();
+  buffer->end();
+}
+
 
 
 
@@ -113,73 +190,3 @@ void ofxLoopin::pixels::Render::dispatchData() {
 }
 
 
-void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer ) {
-  if ( !buffer->begin() ) {
-    return;
-  }
-  
-  shader.begin();
-  glDisable( GL_CULL_FACE );
-  ofDisableBlendMode( );
-  ofDisableDepthTest();
-
-
-  ofRectangle bounds = getBounds();
-
-  int numChannels = channels.size();
-  int numPixels = data.size() / numChannels;
-  int bufferWidth = buffer->getWidth();
-  int bufferHeight = buffer->getHeight();
-  int x = bounds.getX();
-  int y = bounds.getY();
-  int i = 0;
-
-  // cerr << "RenderFloats " << bounds << endl;
-  // ofFill();
-  for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
-
-    ofFloatColor pixel( 0,0,0,0.5 );
-
-    for ( int channelIndex = 0; channelIndex < numChannels && i < floats.size(); channelIndex ++ ) {
-      char channelKey = channels[channelIndex];
-      float channelValue = floats[i++] * pixel.limit();
-      switch ( channelKey ) {
-        case 'r': pixel.r = channelValue;     break;
-        case 'g': pixel.g = channelValue;     break;
-        case 'b': pixel.b = channelValue;     break;
-        case 'a': pixel.a = channelValue;     break;
-
-        // Temp until real HSV support
-        case 'l':
-        case 'v':
-          pixel.r = channelValue;
-          pixel.g = channelValue;
-          pixel.b = channelValue;
-        break;
-      }
-    }
-
-    shader.shader.setUniform1f( "red", (float) pixel.r / pixel.limit() );
-    shader.shader.setUniform1f( "green", (float) pixel.g / pixel.limit() );
-    shader.shader.setUniform1f( "blue", (float) pixel.b / pixel.limit() );
-    shader.shader.setUniform1f( "alpha", (float) pixel.a / pixel.limit() );
-
-
-    ofDrawRectangle( x,y,1,1);
-    // ofDrawTriangle( x,y,x,y,x,y);
-    // cerr << "RenderFloats " << x << ", " << y << " " << pixel.b << endl;
-
-
-    x ++;
-    if ( x >= bounds.getWidth() + bounds.getX() ) {
-      x = bounds.getX();
-      y ++;
-    }
-
-    if ( y >= bounds.getHeight() + bounds.getY() )
-      break;
-  }
-
-  shader.end();
-  buffer->end();
-}

@@ -45,6 +45,7 @@ void ofxLoopin::pixels::Data::encodeBinary() {
 
 
 void ofxLoopin::pixels::Data::encodeNumeric( float divider ) {
+  // std::cerr << "encodeNumeric " << divider << std::endl;
   int numChannels = channels.size();
   int channel = 0;
   stringstream result;
