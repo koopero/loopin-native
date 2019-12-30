@@ -2,17 +2,17 @@
 
 const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
   // This should work... 
-  // { "none", {
-  //   { "equation", "none" },
-  // } },
-  // This isn't as good, but it will work...
   { "none", {
-    { "equation", "GL_FUNC_ADD" },
-    { "srcRGB", "GL_ONE" },
-    { "srcAlpha", "GL_ONE" },
-    { "dstRGB", "GL_ZERO" },
-    { "dstAlpha", "GL_ZERO" },
-  } },  
+    { "equation", "none" },
+  } },
+  // This isn't as good, but it will work...
+  // { "none", {
+  //   { "equation", "GL_FUNC_ADD" },
+  //   { "srcRGB", "GL_ONE" },
+  //   { "srcAlpha", "GL_ONE" },
+  //   { "dstRGB", "GL_ZERO" },
+  //   { "dstAlpha", "GL_ZERO" },
+  // } },  
   { "alpha", {
     { "equation", "GL_FUNC_ADD" },
     { "srcRGB", "GL_SRC_ALPHA" },
@@ -65,11 +65,3 @@ const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
         - multiply
         - screen
     */
-
-
-    // blend.enumAddOption("none", OF_BLENDMODE_DISABLED );
-    // blend.enumAddOption("alpha", OF_BLENDMODE_ALPHA );
-    // blend.enumAddOption("add", OF_BLENDMODE_ADD );
-    // blend.enumAddOption("subtract", OF_BLENDMODE_SUBTRACT );
-    // blend.enumAddOption("multiply", OF_BLENDMODE_MULTIPLY );
-    // blend.enumAddOption("screen", OF_BLENDMODE_SCREEN );

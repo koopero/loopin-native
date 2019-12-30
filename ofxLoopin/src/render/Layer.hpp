@@ -61,14 +61,11 @@ public:
   ofxLoopin::control::Reference<ofxLoopin::mesh::Mesh,ofxLoopin::mesh::HasMeshes> mesh;
 
   ofxLoopin::render::OrderedRenders<Layer> layers;
-  ofxLoopin::interface::Blend blend;
   ofxLoopin::control::Enum<GLenum,0> face;
 
 protected:
   void addSubControls() {
     ofxLoopin::render::Blit::addSubControls();
-
-    bool isTop = true;
     addSubControl( "mesh", &mesh );
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
@@ -109,8 +106,6 @@ protected:
   void resetStyle();
   void resetUniforms();
 
-  ofxLoopin::base::Buffer * _buffer = nullptr;
-  ofxLoopin::shader::Shader * _shader = nullptr;
   ofxLoopin::mesh::Mesh * _mesh = nullptr;
   ofxLoopin::render::Camera * _camera = nullptr;
 

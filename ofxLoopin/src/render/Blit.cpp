@@ -34,6 +34,8 @@ void ofxLoopin::render::Blit::renderBuffer( ofxLoopin::base::Buffer * buffer )  
 }
 
 void ofxLoopin::render::Blit::renderClear()  {
+  if ( !_buffer ) return;
+  
   if ( clear.shouldClear( _buffer->bufferIsNew ) ) {
     _buffer->begin();
     clear.renderClear();
@@ -43,6 +45,8 @@ void ofxLoopin::render::Blit::renderClear()  {
 }
 
 void ofxLoopin::render::Blit::renderUniforms() {
+  if ( !_shader ) return;
+
   _shader->applyUniformsDefaults();
   _shader->applyUniformsGlobalClock();
   _shader->applyUniformsBuffer( _buffer );

@@ -4,6 +4,8 @@
 
 
 void ofxLoopin::render::Layer::renderSelf( )  {
+  if ( !_buffer ) return;
+
   _buffer->begin();
   _shader->begin();
 
@@ -50,14 +52,8 @@ bool ofxLoopin::render::Layer::renderSetup() {
 void ofxLoopin::render::Layer::renderUniforms() {
   ofxLoopin::render::Blit::renderUniforms();
 
-  _shader->applyUniformsDefaults();
-  _shader->applyUniformsGlobalClock();
   _shader->applyUniformPointSize( pointSize );
-  _shader->applyUniformsBuffer( _buffer );
   _shader->applyUniformsMesh( _mesh );
-  clockControl.applyUniforms( _shader->shader );
-  uniforms.bindToShader( _shader );
-
   //
   // Set Aspects
   //

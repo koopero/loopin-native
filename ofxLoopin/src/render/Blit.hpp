@@ -41,7 +41,7 @@ aspect:
 */
 
 namespace ofxLoopin { namespace render {
-class Blit : public Render {
+class Blit : virtual public Render {
 public:
   ofxLoopin::clock::Clock clockControl;
   ofxLoopin::control::Enable enable;
@@ -59,6 +59,7 @@ protected:
     addSubControl( "enable", &enable );
     addSubControl( "clear", &clear );
     addSubControl( "box", &box );
+    advance.setEnumValue( control::ENABLE_NO );
     addSubControl( "advance", &advance );
     addSubControl( "shader", &shader );
     addSubControl( "clock", &clockControl );
@@ -67,7 +68,7 @@ protected:
 
   virtual void renderClear();
   virtual bool renderSetup();
-  virtual void renderSelf() {} ;
+  virtual void renderSelf() {};
   virtual void renderUniforms();
 
   ofxLoopin::base::Buffer * _buffer = nullptr;

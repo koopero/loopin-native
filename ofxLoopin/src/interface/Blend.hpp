@@ -7,7 +7,7 @@
 
 
 namespace ofxLoopin { namespace interface {
-class Blend : public ofxLoopin::control::Control {
+class Blend : virtual public ofxLoopin::control::Control {
 public:
   control::Colour colour;
   options::BlendEquation equation;
@@ -51,6 +51,7 @@ protected:
   };
 
   void patchPreset( string str ) {
+
     std::string presetKey = str; 
     std::transform(presetKey.begin(), presetKey.end(), presetKey.begin(), ::tolower);
 

@@ -8,7 +8,10 @@ namespace ofxLoopin { namespace control {
 template <int LENGTH>
 class Vector : public Control {
 public:
-  Vector() {};
+  Vector() {
+    for ( int axis = 0; axis < LENGTH; axis ++ )
+      component[axis] = 0.;
+  };
   ofxLoopin::control::Number component[LENGTH];
 
   float getAxis( int axis = 0, float defaultValue = 0.0 ) {
