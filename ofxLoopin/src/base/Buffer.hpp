@@ -146,7 +146,6 @@ protected:
     #endif
     addSubControl( "format", &format );
 
-
     addSubControl( "depth", &useDepth );
 
     addSubControl( "width", &_width );

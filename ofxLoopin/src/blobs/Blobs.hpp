@@ -39,7 +39,15 @@ private:
   ofxCvGrayscaleImage cvImage;
   ofxCvContourFinder contourFinder;
 
-  void renderBlobData();
+  float _normWidth;
+  float _normHeight;
+  float _normMinArea;
+  float _normMaxArea;
+
+  ofFloatColor normalizeBlob0( const ofxCvBlob & blob );
+  ofFloatColor normalizeBlob1( const ofxCvBlob & blob );
+  void renderBlobData( ofxLoopin::base::Buffer * buffer );
+  void _dispatchBlobs();
 };
 
 }}; //namespace ofxLoopin:blobs
