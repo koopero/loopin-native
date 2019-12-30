@@ -56,8 +56,7 @@ void ofxLoopinApp::updateLocal() {
   clock.advance();
   frame = clock.frame;
 
-  osd.setFrame( frame );
-
+  window.osd.setFrame( frame );
   window.update();
 
   render();
@@ -66,17 +65,7 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
-  ofClear( 12,0,16,255);
-
-  shaderDefault.begin();
-
-  show.draw();
-
-  osd.show = show.getBufferDescription();
-  osd.draw();
-
-  shaderDefault.end();
-
+  window.render();
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {

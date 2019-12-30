@@ -7,7 +7,7 @@
 #include "../control/Bool.hpp"
 #include "../clock/Clock.hpp"
 #include "../mesh/Mesh.hpp"
-#include "../render/Render.hpp"
+#include "../render/Blit.hpp"
 #include "../shader/Texture.hpp"
 #include "./Transform2D.hpp"
 
@@ -44,23 +44,10 @@ aspect:
 */
 
 namespace ofxLoopin { namespace render {
-class Layer : public Render {
+class Layer : virtual public Blit {
 public:
-  ofxLoopin::clock::Clock clockControl;
   ofxLoopin::control::Number pointSize;
   ofxLoopin::control::Number order;
-  ofxLoopin::control::Enable enable;
-
-
-  enum Clear {
-    NONE,
-    RGBA,
-    DEPTH,
-    BOTH
-  };
-
-  ofxLoopin::control::Enum<Clear,NONE> clear;
-  ofxLoopin::control::Bool advance = false;
   ofxLoopin::control::Bool passAdvance = false;
   ofxLoopin::control::Bool depthTest = false;
   ofxLoopin::control::Int  passes = 1;
@@ -77,29 +64,14 @@ public:
   ofxLoopin::interface::Blend blend;
   ofxLoopin::control::Enum<GLenum,0> face;
 
-
-  void renderBuffer( ofxLoopin::base::Buffer * buffer );
-
 protected:
   void addSubControls() {
-    ofxLoopin::render::Render::addSubControls();
+    ofxLoopin::render::Blit::addSubControls();
 
     bool isTop = true;
-
-    // Find if we're the top layer by checking
-    // path length
-    // 7 == strlen('render/')
-    if ( path.size() > key.size() + 7 )
-      isTop = false;
-
-    advance = isTop;
-    addSubControl( "advance", &advance );
-    addSubControl( "shader", &shader );
-    addSubControl( "clock", &clockControl );
     addSubControl( "mesh", &mesh );
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
-
 
     src = uniforms.tex.getByKey("src", true );
     addSubControl( "src", src );
@@ -123,22 +95,11 @@ protected:
     addSubControl( "passes", &passes );
     addSubControl( "pointSize", &pointSize );
 
-    clear.enumAddOption("none",  NONE  );
-    clear.enumAddOption("depth", DEPTH );
-    clear.enumAddOption("rgba",  RGBA  );
-    clear.enumAddOption("both",  BOTH  );
-    clear.enumAddOptionBool( true,   "both" );
-    clear.enumAddOptionBool( false,  "none" );
-    addSubControl( "clear", &clear );
-
     addSubControl( "depth", &depthTest );
-    addSubControl( "blend", &blend );
     addSubControl( "aspect", &aspect );
     addSubControl( "order", &order );
-    addSubControl( "enable", &enable );
   }
 
-  void renderClear();
   bool renderSetup();
   void renderSelf();
   void renderUniforms();

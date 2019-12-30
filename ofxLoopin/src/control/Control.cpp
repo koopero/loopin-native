@@ -57,6 +57,15 @@ void ofxLoopin::control::Control::patch ( const ofJson & val ) {
   if ( val.is_object() && !val.empty() && !val.is_array() ) {
     typedef map<string, ofxLoopin::control::Control *>::iterator it_type;
 
+    for ( it_type it = aliases.begin(); it != aliases.end(); it ++ ) {
+      string key = it->first;
+
+      if ( val.count( key ) ) {
+        ofxLoopin::control::Control * sub = it->second;
+        sub->patch( val[ key ] );
+      }
+    }
+
     for ( it_type it = subs.begin(); it != subs.end(); it ++ ) {
       string key = it->first;
 
@@ -112,6 +121,12 @@ void ofxLoopin::control::Control::addSubControl( string key, ofxLoopin::control:
     subsUnkeyed.push_back( control );
   }
 }
+
+void ofxLoopin::control::Control::addSubControlAlias( string key, ofxLoopin::control::Control * control ) {
+  aliases[key] = control;
+}
+
+
 
 ofxLoopin::control::Control * ofxLoopin::control::Control::walk( const string & path ) {
   if ( !path.size() )

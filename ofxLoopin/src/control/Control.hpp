@@ -57,6 +57,7 @@ protected:
 
   void addSubControl( Control * control );
   void addSubControl( string key, Control * control );
+  void addSubControlAlias( string key, Control * control );
 
   virtual void addSubControls() {};
 
@@ -64,6 +65,8 @@ private:
 
   std::vector <Control *> subsUnkeyed;
   std::map< string, Control *> subs;
+  std::map< string, Control *> aliases;
+
 
 
 public:

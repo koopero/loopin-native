@@ -2,74 +2,6 @@
 
 #include <assert.h>
 
-void ofxLoopin::render::Layer::renderBuffer( ofxLoopin::base::Buffer * buffer )  {
-  if ( !enable.isEnabledOnce() )
-    return;
-
-  if ( !buffer ) {
-    buffer = getBuffer( true );
-  }
-
-  assert( buffer != nullptr );
-
-  clockControl.advance( renderingFrame );
-  renderingFrame = clockControl.frame;
-
-  if ( advance ) {
-    buffer->flip();
-  }
-
-  buffer->defaultSize();
-
-  if ( !buffer->ready() ) {
-    ofxLoopin::control::Event e = ofxLoopin::control::Event("bufferFault");
-    dispatch( e );
-    return;
-  }
-
-  _buffer = buffer;
-
-  renderClear();
-
-  if ( passes > 0 && renderSetup() )
-    renderSelf();
-
-  layers.render( renderingFrame, buffer );
-
-}
-
-void ofxLoopin::render::Layer::renderClear()  {
-  if ( clear.getEnumValue() == NONE )
-    return;
-
-  _buffer->begin();
-  ofDisableBlendMode();
-
-  switch( clear.getEnumValue() ) {
-    case BOTH:
-      ofClear( 0, 0, 0, 0 );
-      #ifndef TARGET_OPENGLES
-        glClearDepth(1000);
-      #endif
-    break;
-
-    case RGBA:
-      ofClear( 0, 0, 0, 0 );
-    break;
-
-    case DEPTH:
-      #ifndef TARGET_OPENGLES
-        glClearDepth(1000);
-      #endif
-    break;
-
-    case NONE:
-    break;
-  }
-
-  _buffer->end();
-}
-
 
 void ofxLoopin::render::Layer::renderSelf( )  {
   _buffer->begin();
@@ -99,14 +31,16 @@ void ofxLoopin::render::Layer::renderSelf( )  {
   resetStyle();
   resetUniforms();
 
+  layers.render( renderingFrame, _buffer );
 };
 
 bool ofxLoopin::render::Layer::renderSetup() {
-  _shader = ofxLoopin::render::Layer::shader.getPointer();
+  if ( !ofxLoopin::render::Blit::renderSetup() )
+    return false; 
+
   _mesh = ofxLoopin::render::Layer::mesh.getPointer();
   _camera = ofxLoopin::render::Layer::camera.getPointer();
 
-  if ( !_shader ) { dispatch("shaderFault"); return false; }
   if ( !_mesh ) { dispatch("meshFault"); return false; }
   if ( !_camera ) { dispatch("cameraFault"); return false; }
 
@@ -114,6 +48,8 @@ bool ofxLoopin::render::Layer::renderSetup() {
 }
 
 void ofxLoopin::render::Layer::renderUniforms() {
+  ofxLoopin::render::Blit::renderUniforms();
+
   _shader->applyUniformsDefaults();
   _shader->applyUniformsGlobalClock();
   _shader->applyUniformPointSize( pointSize );

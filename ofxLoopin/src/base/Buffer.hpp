@@ -48,6 +48,17 @@ format:
 **/
 
 namespace ofxLoopin { namespace base {
+
+class BufferSettings {
+public:
+  int width;
+  int height;
+  GLint format;
+  int cols;
+  int rows;
+};
+
+
 class Buffer : public ofxLoopin::control::Control {
 public:
   int boundIndex = -1;
@@ -122,6 +133,8 @@ public:
 
   size_t getReadIndex();
   size_t getWriteIndex();
+
+  bool bufferIsNew = true;
 
 protected:
   void addSubControls() {

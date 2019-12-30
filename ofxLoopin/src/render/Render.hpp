@@ -22,6 +22,10 @@ public:
   int iterations = 1;
   bool clear = true;
 
+  virtual void renderReset() {
+    
+  };
+
   virtual void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) {
     if ( frame == lastFrame )
       return;

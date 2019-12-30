@@ -18,11 +18,9 @@
 #include "./kinect/Kinect.hpp"
 #include "./render/Layer.hpp"
 #include "./mesh/Mesh.hpp"
-#include "./window/OSD.hpp"
 #include "./render/Render.hpp"
 #include "./image/Saver.hpp"
 #include "./shader/Shaders.hpp"
-#include "./window/Show.hpp"
 #include "./misc/Text.hpp"
 #include "./video/Video.hpp"
 #include "./pixels/Render.hpp"
@@ -62,11 +60,6 @@ public:
   // Root elements, accessible as controls.
   //
 
-  // show/ ( string ) - Which buffer to show on screen
-  /** loopin/root/show
-    type: show
-  */
-  ofxLoopin::window::Show show;
 
   // clock/ - Clock parameters
   /** loopin/root/clock
@@ -143,11 +136,6 @@ public:
   */
   // ofxLoopin::render::Renders<ofxLoopinFft> fft;
 
-  // osd/ - on-screen display
-  /** loopin/root/osd
-    type: osd
-  */
-  ofxLoopin::window::OSD osd;
   
   #ifdef LOOPIN_SYPHON
   ofxLoopin::misc::SyphonRoot syphon;
@@ -181,7 +169,6 @@ protected:
 
     buffers.defaultKey = "output";
 
-
     addSubControl( "shader", &shaders );
     shaders.getByKey( "blank", true );
     shaders.defaultKey = "blank";
@@ -214,9 +201,9 @@ protected:
 
     addSubControl( "save", &savers );
     addSubControl( "blobs", &blobs );
-    addSubControl( "show", &show );
 
-    addSubControl( "osd", &osd );
+    addSubControl( "show", &(window.show) );
+    addSubControl( "osd", &(window.osd) );
     addSubControl( "window", &window );
 
     window.setAppBaseWindow( ofGetWindowPtr() );
@@ -250,11 +237,11 @@ protected:
 
     switch ( key ) {
       case OF_KEY_LEFT:
-        show.buffer.prev();
+        window.show.buffer.prev();
       break;
 
       case OF_KEY_RIGHT:
-        show.buffer.next();
+        window.show.buffer.next();
       break;
     }
   }

@@ -1,9 +1,10 @@
 #pragma once
 #include "ofMain.h"
 
-#include "../control/Control.hpp"
+#include "../render/Blit.hpp"
 #include "../base/HasInfo.hpp"
-
+#include "./OSD.hpp"
+#include "./Show.hpp"
 #include "../util/ofxLoopinJSON.hpp"
 
 
@@ -31,99 +32,54 @@ sub/height:
 */
 
 namespace ofxLoopin { namespace window {
-class Window : public ofxLoopin::control::Control, public ofxLoopin::base::HasInfo {
+class Window : 
+  virtual public ofxLoopin::render::Blit, 
+  virtual public ofxLoopin::base::HasInfo 
+{
 public:
   int width = 0;
   int height = 0;
 
+  // show/ ( string ) - Which buffer to show on screen
+  /** loopin/root/show
+    type: show
+  */
+  Show show;
+  // osd/ - on-screen display
+  /** loopin/root/osd
+    type: osd
+  */
+  OSD osd;
+
   void setAppBaseWindow( ofAppBaseWindow * window );
   void update();
+
+  void render() {
+    // cerr << "renderMain" << endl;
+    renderReset();
+    ofClear( 12,0,16,255);
+    // shader.begin();
+    show.draw();
+    // shader.end();
+    osd.show = show.getBufferDescription();
+    osd.draw();
+  };
 
   ofJson infoGet();
 
 protected:
   void patchKey( string key, ofJson & val ) {};
-  void patchLocal( const ofJson & value ) {
-
-    ofxLoopin::control::Event event = ofxLoopin::control::Event("debug");
-
-    event.data["_window"] = 3;
-
-    ofPoint position = _window->getWindowPosition();
-
-    if ( !value.is_object() )
-      return;
-
-    if ( !_window )
-      return;
-
-    if ( value.count("fullscreen") ) {
-      _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
-    }
-
-    if ( value.count("cursor") ) {
-      if ( ofxLoopinJSONToBool( value["cursor"] ) ) {
-        _window->showCursor();
-      } else {
-        _window->hideCursor();
-      }
-    }
-
-    #ifndef TARGET_OPENGLES
-      if ( value.count("title")
-        && value["title"].is_string()
-      ) {
-        _window->setWindowTitle( value["title"].get<std::string>() );
-      }
-    #endif
-
-    bool setSize = false;
-    bool setPosition = false;
-
-
-    if ( value.count("width")
-      && value["width"].is_number()
-      && value["width"].get<int>()
-    ) {
-      setSize = true;
-      width = value["width"].get<int>();
-    }
-
-    if ( value.count("height")
-      && value["height"].is_number()
-      && value["height"].get<int>()
-    ) {
-      setSize = true;
-      height = value["height"].get<int>();
-    }
-
-    if ( value.count("x")
-      && value["x"].is_number()
-    ) {
-      setPosition = true;
-      position.x = value["x"].get<int>();
-    }
-
-    if ( value.count("y")
-      && value["y"].is_number()
-    ) {
-      setPosition = true;
-      position.y = value["y"].get<int>();
-    }
-
-    if ( setSize ) {
-      _window->setWindowShape( width, height );
-    }
-
-    if ( setPosition ) {
-      _window->setWindowPosition( position.x, position.y );
-    }
-  };
+  void patchLocal( const ofJson & value );
 
   void readLocal( ofJson & value );
 
 
-  void addSubControls() {};
+  void addSubControls() {
+    ofxLoopin::render::Blit::addSubControls();
+
+    addSubControl( "osd", &osd );
+    addSubControl( "show", &show );
+  };
 
 protected:
   ofAppBaseWindow * _window;

@@ -120,11 +120,7 @@ bool ofxLoopin::base::Buffer::allocate( int index ) {
     || !ofxLoopin::base::BufferCompareSettings( settings, _bufferSettings[index] )
   ) {
     buffer.allocate( settings );
-
-    buffer.begin();
-    ofClear( 0, 0 );
-    buffer.end();
-
+    bufferIsNew = true;
     _bufferSettings[index] = settings;
   }
 
