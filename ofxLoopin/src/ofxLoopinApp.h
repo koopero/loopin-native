@@ -25,7 +25,7 @@
 #include "./video/Video.hpp"
 #include "./pixels/Render.hpp"
 #include "./audio/waveform.hpp"
-#include "./window/Window.hpp"
+#include "./window/Windows.hpp"
 #include "./misc/Syphon.hpp"
 #include "./grabber/Grabber.hpp"
 #include "./blobs/Blobs.hpp"
@@ -78,6 +78,7 @@ public:
     type: window
   */
   ofxLoopin::window::Window window;
+  ofxLoopin::window::Windows windows;
 
   // image/:buffer - Load image files
   /** loopin/root/image
@@ -205,6 +206,8 @@ protected:
     addSubControl( "show", &(window.show) );
     addSubControl( "osd", &(window.osd) );
     addSubControl( "window", &window );
+    addSubControl( "windows", &windows );
+
 
     window.setAppBaseWindow( ofGetWindowPtr() );
   }
@@ -217,6 +220,7 @@ protected:
     renderLists.push_back( &videos );
     renderLists.push_back( &grabbers );
     renderLists.push_back( &renders );
+    renderLists.push_back( &windows );
     renderLists.push_back( &blobs );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );

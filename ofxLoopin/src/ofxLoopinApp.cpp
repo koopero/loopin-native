@@ -65,7 +65,7 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
-  window.render();
+  window.renderWindow();
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {

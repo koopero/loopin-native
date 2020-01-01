@@ -1,6 +1,9 @@
 #pragma once
 #include "ofMain.h"
 
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
+
 #include "../render/Blit.hpp"
 #include "../base/HasInfo.hpp"
 #include "./OSD.hpp"
@@ -54,7 +57,11 @@ public:
   void setAppBaseWindow( ofAppBaseWindow * window );
   void update();
 
-  void render() {
+  void renderBuffer( ofxLoopin::base::Buffer * buffer ) {
+
+  }
+
+  void renderWindow() {
     // cerr << "renderMain" << endl;
     renderReset();
     ofClear( 12,0,16,255);
