@@ -57,20 +57,44 @@ public:
   void setAppBaseWindow( ofAppBaseWindow * window );
   void update();
 
-  void renderBuffer( ofxLoopin::base::Buffer * buffer ) {
+  void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) {
+    // cerr << "Window::render" << endl;
 
-  }
+    bool enabled = enable.isEnabledOnce( true );
+    if ( !_window && enabled ) {
+      createWindow();
+    } else if ( _window && !enabled ) {
+      destroyWindow();
+    }
+
+    if ( _window ) {
+      // shared_ptr<ofMainLoop> mainLoop = ofGetMainLoop();
+      // if(mainLoop){
+      //   mainLoop->setCurrentWindow(_window);
+      // }
+      // _window->makeCurrent();
+      // _window->startRender();
+      // renderWindow();
+      // _window->finishRender();
+      // _window->update();
+    }
+  };
 
   void renderWindow() {
-    // cerr << "renderMain" << endl;
+    cerr << "renderWindow::" << path << " " << _window << endl;
     renderReset();
-    ofClear( 12,0,16,255);
+    ofClear( 12,0,64,255);
     // shader.begin();
     show.draw();
     // shader.end();
     osd.show = show.getBufferDescription();
     osd.draw();
   };
+
+  void drawWindow(ofEventArgs & args) {
+    cerr << "drawWindow" << endl;
+    renderWindow();
+  }
 
   ofJson infoGet();
 
@@ -88,8 +112,39 @@ protected:
     addSubControl( "show", &show );
   };
 
-protected:
-  ofAppBaseWindow * _window;
+  void createWindow() {
+    if ( _window )
+      destroyWindow();
+
+    ofGLFWWindowSettings settings;
+    shared_ptr<ofAppBaseWindow> mainWindow = shared_ptr<ofAppBaseWindow>( ofGetWindowPtr() );
+
+    cerr << "Make Window " << mainWindow << endl;
+
+    settings.setGLVersion( root->_glVersionMajor, root->_glVersionMinor );
+    settings.setSize( 600, 600 );
+    settings.resizable = true;
+    settings.shareContextWith = mainWindow;
+
+    cerr << "Make Window" << endl;
+    shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
+    _window = window.get();
+    ofAddListener(_window->events().draw, this, &Window::drawWindow );
+  };
+
+  void destroyWindow() {
+
+  };
+
+  void windowToControls() {
+
+  };
+
+  void controlsToWindow() {
+
+  };
+
+  ofAppBaseWindow * _window = nullptr;
   ofPoint _position;
 
   void sizeFromWindow();

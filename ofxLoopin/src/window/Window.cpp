@@ -1,78 +1,77 @@
 #include "./Window.hpp"
 
 void ofxLoopin::window::Window::patchLocal( const ofJson & value ) {
+  // if ( !value.is_object() )
+  //   return;
 
-  ofxLoopin::control::Event event = ofxLoopin::control::Event("debug");
-  event.data["_window"] = 3;
-  ofPoint position = _window->getWindowPosition();
+  // if ( !_window )
+  //   return;
 
-  if ( !value.is_object() )
-    return;
+  // // ofxLoopin::control::Event event = ofxLoopin::control::Event("debug");
+  // // event.data["_window"] = 3;
+  // ofPoint position = _window->getWindowPosition();
 
-  if ( !_window )
-    return;
+  // if ( value.count("fullscreen") ) {
+  //   _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
+  // }
 
-  if ( value.count("fullscreen") ) {
-    _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
-  }
+  // if ( value.count("cursor") ) {
+  //   if ( ofxLoopinJSONToBool( value["cursor"] ) ) {
+  //     _window->showCursor();
+  //   } else {
+  //     _window->hideCursor();
+  //   }
+  // }
 
-  if ( value.count("cursor") ) {
-    if ( ofxLoopinJSONToBool( value["cursor"] ) ) {
-      _window->showCursor();
-    } else {
-      _window->hideCursor();
-    }
-  }
+  // #ifndef TARGET_OPENGLES
+  //   if ( value.count("title")
+  //     && value["title"].is_string()
+  //   ) {
+  //     _window->setWindowTitle( value["title"].get<std::string>() );
+  //   }
+  // #endif
 
-  #ifndef TARGET_OPENGLES
-    if ( value.count("title")
-      && value["title"].is_string()
-    ) {
-      _window->setWindowTitle( value["title"].get<std::string>() );
-    }
-  #endif
-
-  bool setSize = false;
-  bool setPosition = false;
+  // bool setSize = false;
+  // bool setPosition = false;
 
 
-  if ( value.count("width")
-    && value["width"].is_number()
-    && value["width"].get<int>()
-  ) {
-    setSize = true;
-    width = value["width"].get<int>();
-  }
+  // if ( value.count("width")
+  //   && value["width"].is_number()
+  //   && value["width"].get<int>()
+  // ) {
+  //   setSize = true;
+  //   width = value["width"].get<int>();
+  // }
 
-  if ( value.count("height")
-    && value["height"].is_number()
-    && value["height"].get<int>()
-  ) {
-    setSize = true;
-    height = value["height"].get<int>();
-  }
+  // if ( value.count("height")
+  //   && value["height"].is_number()
+  //   && value["height"].get<int>()
+  // ) {
+  //   setSize = true;
+  //   height = value["height"].get<int>();
+  // }
 
-  if ( value.count("x")
-    && value["x"].is_number()
-  ) {
-    setPosition = true;
-    position.x = value["x"].get<int>();
-  }
+  // if ( value.count("x")
+  //   && value["x"].is_number()
+  // ) {
+  //   setPosition = true;
+  //   position.x = value["x"].get<int>();
+  // }
 
-  if ( value.count("y")
-    && value["y"].is_number()
-  ) {
-    setPosition = true;
-    position.y = value["y"].get<int>();
-  }
+  // if ( value.count("y")
+  //   && value["y"].is_number()
+  // ) {
+  //   setPosition = true;
+  //   position.y = value["y"].get<int>();
+  // }
 
-  if ( setSize ) {
-    _window->setWindowShape( width, height );
-  }
+  // if ( setSize ) {
+  //   _window->setWindowShape( width, height );
+  // }
 
-  if ( setPosition ) {
-    _window->setWindowPosition( position.x, position.y );
-  }
+  // if ( setPosition ) {
+  //   _window->setWindowPosition( position.x, position.y );
+  // }
 };
 
 ofJson ofxLoopin::window::Window::infoGet() {
@@ -103,14 +102,13 @@ void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
 }
 
 void ofxLoopin::window::Window::readLocal( ofJson & value ) {
-  if ( _window ) {
-    value["fullscreen"] = (bool) _window->getWindowMode();
-    value["width"] = width;
-    value["height"] = height;
-    value["x"] = _position.x;
-    value["y"] = _position.y;
-
-  }
+  // if ( _window ) {
+  //   value["fullscreen"] = (bool) _window->getWindowMode();
+  //   value["width"] = width;
+  //   value["height"] = height;
+  //   value["x"] = _position.x;
+  //   value["y"] = _position.y;
+  // }
 };
 
 void ofxLoopin::window::Window::sizeFromWindow() {

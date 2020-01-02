@@ -27,6 +27,8 @@ public:
   };
 
   virtual void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) {
+    // cerr << "render::" << path << endl;
+
     if ( frame == lastFrame )
       return;
 
@@ -99,7 +101,10 @@ public:
 
 
 template <class Render>
-class Renders : public ofxLoopin::control::Map<Render>, public RenderList {
+class Renders : 
+  virtual public ofxLoopin::control::Map<Render>, 
+  virtual public RenderList 
+{
 public:
   void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) {
     for( auto it = ofxLoopin::control::Map<Render>::_map.begin(); it != ofxLoopin::control::Map<Render>::_map.end(); it++) {

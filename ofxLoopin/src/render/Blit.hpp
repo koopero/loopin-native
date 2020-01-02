@@ -59,11 +59,18 @@ protected:
     addSubControl( "enable", &enable );
     addSubControl( "clear", &clear );
     addSubControl( "box", &box );
-    advance.setEnumValue( control::ENABLE_NO );
-    addSubControl( "advance", &advance );
     addSubControl( "shader", &shader );
-    addSubControl( "clock", &clockControl );
+
     addSubControl( "blend", &blend );
+
+    if ( _needAdvance ) {
+      advance.setEnumValue( control::ENABLE_NO );
+      addSubControl( "advance", &advance );
+    }
+
+    if ( _needClock ) {
+      addSubControl( "clock", &clockControl );
+    }
   }
 
   virtual void renderClear();
@@ -73,6 +80,10 @@ protected:
 
   ofxLoopin::base::Buffer * _buffer = nullptr;
   ofxLoopin::shader::Shader * _shader = nullptr;
+
+  bool _needAdvance = false;
+  bool _needClock = false;
+
 
 private:
 };

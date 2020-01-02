@@ -165,11 +165,9 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buf
 
   bool outputIsFresh = true;
 
-
-
-
   if ( !output.isEnabledOnce( outputIsFresh ) )
     return;
+    
   ofFbo &fbo = buffer->getFbo();
   fbo.readToPixels( pixels );
   readWidth = pixels.getWidth();

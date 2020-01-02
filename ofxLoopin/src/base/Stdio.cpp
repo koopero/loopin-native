@@ -5,7 +5,7 @@ void ofxLoopin::base::Stdio::start () {
 }
 
 bool EndsWith(const string& a, const string& b) {
-    if (b.size() > a.size()) return false;
+  if (b.size() > a.size()) return false;
     return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
 }
 

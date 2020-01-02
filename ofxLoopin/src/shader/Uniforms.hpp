@@ -65,7 +65,7 @@ protected:
     addSubControl( "texture", &tex );
 
     // TODO: Deprecate or at least squelch read
-    addSubControl( "tex", &tex );
+    addSubControlAlias( "tex", &tex );
   }
 
 

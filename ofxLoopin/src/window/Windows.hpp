@@ -28,18 +28,23 @@ public:
       glfwGetMonitorPos(monitor,&x,&y);
       glfwGetMonitorContentScale(monitor,&xscale,&yscale);
       auto mode = glfwGetVideoMode( monitor );
+      ofJson monitorJ;
+      monitorJ["name"] = glfwGetMonitorName(monitor);
+      monitorJ["xscale"] = xscale;
+      monitorJ["yscale"] = yscale;
+      monitorJ["x"] = x;
+      monitorJ["y"] = y;
+      monitorJ["widthMM"] = w;
+      monitorJ["heightMM"] = h;
+      monitorJ["width"] = mode->width;
+      monitorJ["height"] = mode->height;
+      monitorJ["redBits"] = mode->redBits;
+      monitorJ["greenBits"] = mode->greenBits;
+      monitorJ["blueBits"] = mode->blueBits;
+      monitorJ["refreshRate"] = mode->refreshRate;
 
-      ofLogNotice() << i << ": " << glfwGetMonitorName(monitor) << ", physical size: " << w << "x" << h << "mm at " << x << ", " << y;
-      result["monitors"][i]["name"] = glfwGetMonitorName(monitor);
-      result["monitors"][i]["xscale"] = xscale;
-      result["monitors"][i]["yscale"] = yscale;
-      result["monitors"][i]["x"] = x;
-      result["monitors"][i]["y"] = y;
-      result["monitors"][i]["widthMM"] = w;
-      result["monitors"][i]["heightMM"] = h;
-      result["monitors"][i]["width"] = mode->width;
-      result["monitors"][i]["height"] = mode->height;
-      
+      result["monitors"][i] = monitorJ;
+
     }
 
     return result;

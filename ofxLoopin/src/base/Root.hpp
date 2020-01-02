@@ -10,6 +10,8 @@ public:
   // string resolveFilePath( string path );
   ofxLoopin::clock::Frame frame;
 
+  int _glVersionMajor = 3;
+  int _glVersionMinor = 2;
 
 protected:
   void addRootControls();
