@@ -13,6 +13,8 @@ public:
   control::Enable depth;
 
   void addSubControls() override {
+    colour.setColor( ofFloatColor( 0.1, 0.1, 0.7 ) );
+
     addSubControl("colour", &colour );
     addSubControlAlias("color", &colour );
 
@@ -44,10 +46,17 @@ public:
       #endif
     }
   };
+
 private:
   bool _clearColour = false;
   bool _clearDepth = false;
 
+
+protected:
+  void patchLocal( const ofJson & val ) override {
+    if ( val.is_boolean() )
+      enable.patch( val );
+  };
 
 };
 } }

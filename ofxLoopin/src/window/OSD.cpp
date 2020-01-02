@@ -22,7 +22,6 @@ void ofxLoopin::window::OSD::draw() {
   ofColor foreground = ofColor( 255,255,255 );
 
   ofEnableBlendMode( OF_BLENDMODE_ALPHA );
-  glDisable( GL_CULL_FACE );
   ofDrawBitmapStringHighlight( str, position, background, foreground );
 }
 

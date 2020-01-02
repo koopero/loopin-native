@@ -25,22 +25,32 @@ void ofxLoopin::render::Blit::renderBuffer( ofxLoopin::base::Buffer * buffer )  
     return;
   }
 
+  if ( !renderSetup() )
+    return;
+
+
   _buffer = buffer;
+  _buffer->begin();
+  renderClear( _buffer->bufferIsNew );
+  _shader->begin();
+  _buffer->bufferIsNew = false;
+  renderUniforms();
+  renderStyle();
+  renderSelf();
 
-  renderClear();
+  _buffer->end();
+  _shader->end();
 
-  if ( renderSetup() )
-    renderSelf();
+  resetStyle();
+  resetUniforms();
+
+  renderAfter();
 }
 
-void ofxLoopin::render::Blit::renderClear()  {
-  if ( !_buffer ) return;
-  
-  if ( clear.shouldClear( _buffer->bufferIsNew ) ) {
-    _buffer->begin();
+void ofxLoopin::render::Blit::renderClear( bool bufferIsNew )  {
+  if ( clear.shouldClear( bufferIsNew ) ) {
+    resetStyle();
     clear.renderClear();
-    _buffer->end();
-    _buffer->bufferIsNew = false;
   }
 }
 
@@ -52,6 +62,23 @@ void ofxLoopin::render::Blit::renderUniforms() {
   _shader->applyUniformsBuffer( _buffer );
   clockControl.applyUniforms( _shader->shader );
   uniforms.bindToShader( _shader );
+}
+
+
+void ofxLoopin::render::Blit::renderStyle() {
+  blend.apply();
+}
+
+
+void ofxLoopin::render::Blit::resetStyle() {
+  glDisable( GL_CULL_FACE );
+  ofDisablePointSprites();
+  ofSetDepthTest( false );
+  glDisable( GL_BLEND );
+}
+
+void ofxLoopin::render::Blit::resetUniforms() {
+  uniforms.unbind();
 }
 
 

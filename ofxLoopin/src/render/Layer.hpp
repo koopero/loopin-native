@@ -64,7 +64,7 @@ public:
   ofxLoopin::control::Enum<GLenum,0> face;
 
 protected:
-  void addSubControls() {
+  void addSubControls() override {
     ofxLoopin::render::Blit::addSubControls();
     addSubControl( "mesh", &mesh );
     addSubControl( "camera", &camera );
@@ -97,14 +97,14 @@ protected:
     addSubControl( "order", &order );
   }
 
-  bool renderSetup();
-  void renderSelf();
-  void renderUniforms();
-  void renderStyle();
+  bool renderSetup() override;
+  void renderSelf() override;
+  void renderUniforms() override;
+  void renderStyle() override ;
   void renderUniformsPerPass( int pass );
-
-  void resetStyle();
-  void resetUniforms();
+  void renderAfter() override {
+    layers.render( renderingFrame, _buffer );
+  };
 
   ofxLoopin::mesh::Mesh * _mesh = nullptr;
   ofxLoopin::render::Camera * _camera = nullptr;

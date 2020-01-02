@@ -73,10 +73,22 @@ protected:
     }
   }
 
-  virtual void renderClear();
+  virtual void renderClear( bool bufferIsNew = false );
   virtual bool renderSetup();
-  virtual void renderSelf() {};
+  virtual void renderSelf() {
+    renderTexture();
+  };
+  virtual void renderStyle();
+
+  virtual void renderBounds() {
+    
+  };
+  virtual void renderAfter() {};
+
+  virtual ofTexture * textureToRender() { return nullptr; };
   virtual void renderUniforms();
+  void resetStyle();
+  void resetUniforms();
 
   ofxLoopin::base::Buffer * _buffer = nullptr;
   ofxLoopin::shader::Shader * _shader = nullptr;

@@ -81,18 +81,18 @@ public:
   };
 
   void renderWindow() {
-    cerr << "renderWindow::" << path << " " << _window << endl;
     renderReset();
-    ofClear( 12,0,64,255);
-    // shader.begin();
-    show.draw();
-    // shader.end();
+    renderClear();
+    renderTexture();
     osd.show = show.getBufferDescription();
     osd.draw();
   };
 
+  // ofTexture * textureToRender() override {
+  //   return show.textureToRender();
+  // };
+
   void drawWindow(ofEventArgs & args) {
-    cerr << "drawWindow" << endl;
     renderWindow();
   }
 

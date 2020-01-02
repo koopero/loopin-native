@@ -64,7 +64,6 @@ ofFloatColor ofxLoopin::blobs::Blobs::normalizeBlob1( const ofxCvBlob & blob ) {
 void ofxLoopin::blobs::Blobs::renderBlobData( ofxLoopin::base::Buffer * buffer ) {
   int nBlobs = contourFinder.nBlobs;
 
-
   float xNorm = 0.0;
   float yNorm = 0.0;
 
@@ -101,7 +100,6 @@ void ofxLoopin::blobs::Blobs::renderBlobData( ofxLoopin::base::Buffer * buffer )
     data.setColor( 0, 0, ofFloatColor( 0,0,0,0 ) );
     data.setColor( 1, 0, ofFloatColor( 0,0,0,0 ) );
   }
-
 
   ofTexture tex;
   tex.allocate( data );

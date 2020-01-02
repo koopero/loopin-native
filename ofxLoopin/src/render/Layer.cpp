@@ -4,14 +4,6 @@
 
 
 void ofxLoopin::render::Layer::renderSelf( )  {
-  if ( !_buffer ) return;
-
-  _buffer->begin();
-  _shader->begin();
-
-  renderStyle();
-  renderUniforms();
-
   for ( int pass = 0; pass < passes; pass ++ ) {
     if ( pass > 0 ) {
       if ( passAdvance ) {
@@ -26,14 +18,6 @@ void ofxLoopin::render::Layer::renderSelf( )  {
     _camera->loadMatrixes();
     _mesh->draw();
   }
-
-  _buffer->end();
-  _shader->end();
-
-  resetStyle();
-  resetUniforms();
-
-  layers.render( renderingFrame, _buffer );
 };
 
 bool ofxLoopin::render::Layer::renderSetup() {
@@ -88,17 +72,6 @@ void ofxLoopin::render::Layer::renderStyle() {
   } else {
     glDisable( GL_CULL_FACE );
   }
-}
-
-void ofxLoopin::render::Layer::resetStyle() {
-  glDisable( GL_CULL_FACE );
-  ofDisablePointSprites();
-  ofSetDepthTest( false );
-}
-
-void ofxLoopin::render::Layer::resetUniforms() {
-  uniforms.unbind();
-
 }
 
 void ofxLoopin::render::Layer::renderUniformsPerPass( int pass ) {
