@@ -25,6 +25,7 @@
 #include "./video/Video.hpp"
 #include "./pixels/Render.hpp"
 #include "./audio/waveform.hpp"
+#include "./window/MainWindow.hpp"
 #include "./window/Windows.hpp"
 #include "./misc/Syphon.hpp"
 #include "./grabber/Grabber.hpp"
@@ -77,7 +78,7 @@ public:
   /** loopin/root/window
     type: window
   */
-  ofxLoopin::window::Window window;
+  ofxLoopin::window::MainWindow window;
   ofxLoopin::window::Windows windows;
 
   // image/:buffer - Load image files
