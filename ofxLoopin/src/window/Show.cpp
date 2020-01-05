@@ -75,65 +75,64 @@ void ofxLoopin::window::Show::addSubControls() {
 }
 
 
-void ofxLoopin::window::Show::draw() {
-  stringstream description;
+// void ofxLoopin::window::Show::draw() {
+//   stringstream description;
 
-  description << buffer.key;
+//   description << buffer.key;
 
-  if ( !hasTexture() ) {
-    description << " NOT RENDERED";
-    _bufferDescription = description.str();
-    return;
-  }
+//   if ( !hasTexture() ) {
+//     description << " NOT RENDERED";
+//     _bufferDescription = description.str();
+//     return;
+//   }
 
-  ofRectangle area = ofRectangle( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
+//   ofRectangle area = ofRectangle( 0, 0, ofGetWindowWidth(), ofGetWindowHeight() );
 
-  ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
-  ofTexture * texture = bufferP->getTexture();
+//   ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
+//   ofTexture * texture = bufferP->getTexture();
 
-  if ( !texture || !texture->isAllocated() ) {
-    description << " NOT ALLOCATED?!!";
-    _bufferDescription = description.str();
+//   if ( !texture || !texture->isAllocated() ) {
+//     description << " NOT ALLOCATED?!!";
+//     _bufferDescription = description.str();
 
-    return;
-  }
+//     return;
+//   }
 
+//   description << " ( " << texture->getWidth() << "x" << texture->getHeight();
+//   description << " " << bufferP->format.getKey();
+//   description << " alpha: " << alpha.getKey();
+//   description << " )";
+//   _bufferDescription = description.str();
 
-  description << " ( " << texture->getWidth() << "x" << texture->getHeight();
-  description << " " << bufferP->format.getKey();
-  description << " alpha: " << alpha.getKey();
-  description << " )";
-  _bufferDescription = description.str();
-  texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
-  texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
+//   texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
+//   texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
 
-  switch( alpha.getEnumValue() ) {
-    case IGNOREX:
-      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
-      texture->draw( area );
-    break;
+//   switch( alpha.getEnumValue() ) {
+//     case IGNOREX:
+//       ofEnableBlendMode( OF_BLENDMODE_DISABLED );
+//       texture->draw( area );
+//     break;
 
-    case MULTIPLY:
-      ofClear( 0, 0, 0, 0 );
-      ofEnableBlendMode( OF_BLENDMODE_ALPHA );
-      texture->draw( area );
-    break;
+//     case MULTIPLY:
+//       ofClear( 0, 0, 0, 0 );
+//       ofEnableBlendMode( OF_BLENDMODE_ALPHA );
+//       texture->draw( area );
+//     break;
 
-    case DIVIDE:
-      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
-      alphaDivideShader.begin();
-      bindSpecific( &alphaDivideShader, "src", 0 );
-      texture->draw( area );
-      alphaDivideShader.end();
-    break;
+//     case DIVIDE:
+//       ofEnableBlendMode( OF_BLENDMODE_DISABLED );
+//       alphaDivideShader.begin();
+//       bindSpecific( &alphaDivideShader, "src", 0 );
+//       texture->draw( area );
+//       alphaDivideShader.end();
+//     break;
 
-    case SHOW:
-      ofEnableBlendMode( OF_BLENDMODE_DISABLED );
-      alphaShowShader.begin();
-      bindSpecific( &alphaShowShader, "src", 0 );
-      texture->draw( area );
-      alphaShowShader.end();
-    break;
-  }
-
-}
+//     case SHOW:
+//       ofEnableBlendMode( OF_BLENDMODE_DISABLED );
+//       alphaShowShader.begin();
+//       bindSpecific( &alphaShowShader, "src", 0 );
+//       texture->draw( area );
+//       alphaShowShader.end();
+//     break;
+//   }
+// }

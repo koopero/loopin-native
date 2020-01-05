@@ -18,7 +18,7 @@ public:
 
   ofxLoopin::control::Enum<Alpha,IGNOREX> alpha;
 
-  void draw();
+  // void draw();
 
   string getBufferDescription() {
     return _bufferDescription;
@@ -29,9 +29,6 @@ protected:
   static ofxLoopin::shader::Shader alphaDivideShader;
   static ofxLoopin::shader::Shader alphaShowShader;
 
-
-private:
-  string _bufferDescription;
 };
 // end namespace
 }};

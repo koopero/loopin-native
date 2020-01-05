@@ -70,7 +70,7 @@ protected:
     addSubControl( "camera", &camera );
     addSubControl( "transform", &transform );
 
-    src = uniforms.tex.getByKey("src", true );
+    src = uniforms.textures.getByKey("src", true );
     addSubControl( "src", src );
 
     /** loopin/type/layer/sub/layer

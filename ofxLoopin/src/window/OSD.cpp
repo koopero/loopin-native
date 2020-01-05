@@ -1,5 +1,21 @@
 #include "./OSD.hpp"
 
+void ofxLoopin::window::OSD::addSubControls() {
+  addSubControl( "enabled", new ofxLoopin::control::Value( &enabled ) );
+  addSubControl( "text", new ofxLoopin::control::Value( &text ) );
+  addSubControl( "client", new ofxLoopin::control::Value( &client ) );
+  addSubControl( "colour", &colour );
+  addSubControl( "background", &background );
+  addSubControl( "position", &position );
+
+  // Get hostname now, since this only happens once.
+  char buf[256];
+  gethostname( buf, 255 );
+
+  hostname = buf;
+};
+
+
 void ofxLoopin::window::OSD::setFrame( const ofxLoopin::clock::Frame & frame ) {
   _frame = frame;
 }
@@ -14,7 +30,7 @@ void ofxLoopin::window::OSD::draw() {
   templatize( str, "show", show );
   templatize( str, "hostname", hostname );
   templatize( str, "client", client );
-  templatize( str, "window", ofToString( ofGetWindowWidth() ) + "x" + ofToString( ofGetWindowHeight() ));
+  templatize( str, "window", window );
 
 
   ofPoint position = ofPoint( 16, 24 );
@@ -25,17 +41,7 @@ void ofxLoopin::window::OSD::draw() {
   ofDrawBitmapStringHighlight( str, position, background, foreground );
 }
 
-void ofxLoopin::window::OSD::addSubControls() {
-  addSubControl( "enabled", new ofxLoopin::control::Value( &enabled ) );
-  addSubControl( "text", new ofxLoopin::control::Value( &text ) );
-  addSubControl( "client", new ofxLoopin::control::Value( &client ) );
 
-  // Get hostname now, since this only happens once.
-  char buf[256];
-  gethostname( buf, 255 );
-
-  hostname = buf;
-};
 
 void ofxLoopin::window::OSD::templatize( string & str, const string & key, float value ) {
   string valueStr = ofToString( value, 4 );

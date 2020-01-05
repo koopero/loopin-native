@@ -1,7 +1,9 @@
 #pragma once
 
-#include "./control/Control.hpp"
-#include "./control/Value.hpp"
+#include "../control/Control.hpp"
+#include "../control/Colour.hpp"
+#include "../control/Value.hpp"
+#include "../control/Vector.hpp"
 #include "../base/File.hpp"
 #include "../clock/Frame.hpp"
 
@@ -21,6 +23,10 @@ class OSD : public ofxLoopin::control::Control {
 public:
   bool enabled = true;
 
+  control::Colour colour;
+  control::Colour background;
+  control::Vector<2> position;
+
   string defaultString = {
     "   fps: %fps\n"
     "  show: %show\n"
@@ -28,6 +34,7 @@ public:
     "  host: %hostname"
   };
 
+  string window;
   string text;
   string show;
   string hostname;

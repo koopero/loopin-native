@@ -10,7 +10,7 @@
 
 void ofxLoopin::shader::Texture::patchString( string value ) {
   const string bufferName = value; 
-  buffer.patch( ofJson( bufferName  ) );
+  buffer.patch( ofJson( bufferName ) );
 };
 
 void ofxLoopin::shader::Texture::patchLocal( const ofJson & value ) {
@@ -27,30 +27,88 @@ void ofxLoopin::shader::Texture::patchLocal( const ofJson & value ) {
   }
 }
 
+bool ofxLoopin::shader::Texture::hasTexture() {
+  ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
+  if ( bufferP ) {
+    return bufferP->isAllocated();
+  }
 
-void ofxLoopin::shader::Texture::bindToShader( ofxLoopin::shader::Shader * shader ) {
-  bindSpecific( shader, key, shader->_textureLocation++ );
+  return false;
 }
 
-void ofxLoopin::shader::Texture::bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location ) {
-  ofMatrix4x4 matrix;
-  shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
 
-  if ( !hasTexture() )
-    return;
+ofTexture * ofxLoopin::shader::Texture::getTexture() {
+  stringstream description;
+  description << buffer.key;
 
-  _boundLocation = location;
+  if ( !hasTexture() ) {
+    description << " NOT RENDERED";
+    _bufferDescription = description.str();
+    return nullptr;
+  }
 
   ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
-
-  if ( !bufferP )
-    return;
-
-  shader->shader.setUniform1i( key + "Rows", bufferP->rows );
-  shader->shader.setUniform1i( key + "Cols", bufferP->cols );
-
   ofTexture * texture = bufferP->getTexture();
 
+  if ( !texture || !texture->isAllocated() ) {
+    description << " NOT ALLOCATED?!!";
+    _bufferDescription = description.str();
+
+    return nullptr;
+  }
+
+  description << " ( " << texture->getWidth() << "x" << texture->getHeight();
+  description << " " << bufferP->format.getKey();
+  description << " )";
+  _bufferDescription = description.str();
+
+  texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
+  texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
+
+  return texture;
+}
+
+
+void ofxLoopin::shader::Texture::bindToShader( ofxLoopin::shader::Shader * shader ) {
+  _shader = shader;
+  _boundLocation = shader->_textureLocation++;
+  // cerr << "bindToShader " << shader << " " << shader->_textureLocation << endl;
+
+  bindTexture( getTexture() );
+}
+
+
+void ofxLoopin::shader::Texture::renderTexture( ofxLoopin::shader::Shader * shader, const ofRectangle & bounds ) {
+  ofTexture * texture = getTexture();
+  if ( texture ) {
+    bindToShader( shader );
+    // ofDrawRectangle( 10, 10, 140, 100 );
+    texture->draw( bounds.x, bounds.y, bounds.width, bounds.height );
+  }
+}
+
+// void ofxLoopin::shader::Texture::bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location ) {
+//   // ofMatrix4x4 matrix;
+//   // shader->shader.setUniformMatrix4f( key + "Matrix", matrix );
+
+//   if ( !hasTexture() )
+//     return;
+
+//   _boundLocation = location;
+
+//   ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
+
+//   if ( !bufferP )
+//     return;
+
+//   shader->shader.setUniform1i( key + "Rows", bufferP->rows );
+//   shader->shader.setUniform1i( key + "Cols", bufferP->cols );
+
+//   ofTexture * texture = getTexture();
+//   bindTexture( shader, texture );
+// }
+
+void ofxLoopin::shader::Texture::bindTexture( ofTexture * texture ) {
   if ( !texture || !texture->isAllocated() )
     return;
 
@@ -58,23 +116,18 @@ void ofxLoopin::shader::Texture::bindSpecific( ofxLoopin::shader::Shader * shade
   texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
   texture->bind( _boundLocation );
 
-  shader->shader.setUniformTexture( key + "Sampler", *texture, _boundLocation );
-  shader->shader.setUniform1i( key + "Width", texture->getWidth() );
-  shader->shader.setUniform1i( key + "Height", texture->getHeight() );
-}
+  // cerr << "bindTexture!? " << texture->getWidth() << "?" << endl;
+
+
+  if ( _shader ) {
+    _shader->shader.setUniformTexture( key + "Sampler", *texture, _boundLocation );
+    _shader->shader.setUniform1i( key + "Width", texture->getWidth() );
+    _shader->shader.setUniform1i( key + "Height", texture->getHeight() );
+  }
+};
 
 void ofxLoopin::shader::Texture::unbind() {
   if ( _boundLocation != -1 ) {
     _boundLocation = -1;
-
-    ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
-
-    if ( !bufferP )
-      return;
-
-    ofTexture * texture = bufferP->getTexture();
-
-    if ( !texture || !texture->isAllocated() )
-      return;
   }
 }

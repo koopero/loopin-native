@@ -26,9 +26,9 @@ protected:
   void patchLocalAfter( const ofJson & value ) override;
   void patchString( string value ) override;
 
-  void renderBuffer( base::Buffer * buffer );
+  void renderBuffer( base::Buffer * buffer ) override;
 
-  void addSubControls() {
+  void addSubControls() override {
     addSubControl( "buffer", &buffer );
     addSubControl( "file", &file );
     addSubControl( "clock", &clock );

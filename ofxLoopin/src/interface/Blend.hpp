@@ -5,6 +5,8 @@
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
+#include "ofMain.h"
+
 
 namespace ofxLoopin { namespace interface {
 class Blend : virtual public ofxLoopin::control::Control {
@@ -26,11 +28,16 @@ public:
   };
 
   void apply() {
+
     if ( (GLenum) equation == GL_NONE ) {
+      // std::cerr << "blendApply-none" << std::endl;
+      ofDisableBlendMode();
       glDisable( GL_BLEND );
     } else {
       glEnable( GL_BLEND );
       glBlendEquation( equation );
+      // std::cerr << "blendApply " << equation << std::endl;
+
       glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
       glBlendColor( colour.getAxis(0), colour.getAxis(1), colour.getAxis(2), colour.getAxis(3) );
       // std::cerr << "apply colour " << colour.getAxis(0) << "," << colour.getAxis(1) << "," << colour.getAxis(2) << "," << colour.getAxis(3) << std::endl;

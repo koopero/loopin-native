@@ -36,57 +36,28 @@ sub/height:
 
 namespace ofxLoopin { namespace window {
 class Window : 
-  virtual public ofxLoopin::render::Blit, 
-  virtual public ofxLoopin::base::HasInfo 
+  virtual public ofxLoopin::render::Blit
 {
 public:
-  int width = 0;
-  int height = 0;
-
-  // show/ ( string ) - Which buffer to show on screen
-  /** loopin/root/show
-    type: show
-  */
   Show show;
-  // osd/ - on-screen display
-  /** loopin/root/osd
-    type: osd
-  */
   OSD osd;
+  control::Int fullscreen = 0;
+  control::Bool cursor = true;
+  string title;
+
 
   void setAppBaseWindow( ofAppBaseWindow * window );
-  void update();
+  void update() override;
 
-  void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) {
-    // cerr << "Window::render" << endl;
+  void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) override;
 
-    bool enabled = enable.isEnabledOnce( true );
-    if ( !_window && enabled ) {
-      createWindow();
-    } else if ( _window && !enabled ) {
-      destroyWindow();
-    }
-
-    if ( _window ) {
-      // shared_ptr<ofMainLoop> mainLoop = ofGetMainLoop();
-      // if(mainLoop){
-      //   mainLoop->setCurrentWindow(_window);
-      // }
-      // _window->makeCurrent();
-      // _window->startRender();
-      // renderWindow();
-      // _window->finishRender();
-      // _window->update();
-    }
+  virtual ofTexture * textureToRender() override {
+    return nullptr;
   };
 
-  void renderWindow() {
-    renderReset();
-    renderClear();
-    renderTexture();
-    osd.show = show.getBufferDescription();
-    osd.draw();
-  };
+  void renderWindow();
+
+  string getWindowDescription();
 
   // ofTexture * textureToRender() override {
   //   return show.textureToRender();
@@ -96,59 +67,30 @@ public:
     renderWindow();
   }
 
-  ofJson infoGet();
+  virtual ofRectangle getBounds() override {
+    if ( !_window )
+      return ofRectangle(0,0,0,0);
+
+    return ofRectangle(0,0,_window->getWidth(), _window->getHeight() );
+  };
+
 
 protected:
-  void patchKey( string key, ofJson & val ) {};
-  void patchLocal( const ofJson & value );
+  void addSubControls() override;
 
-  void readLocal( ofJson & value );
+  void patchLocal( const ofJson & value ) override;
+  void readLocal( ofJson & value ) override;
 
+  void createWindow();
+  void showWindow();
+  void hideWindow();
+  void destroyWindow();
 
-  void addSubControls() {
-    ofxLoopin::render::Blit::addSubControls();
+  void windowToControls();
+  void controlsToWindow();
 
-    addSubControl( "osd", &osd );
-    addSubControl( "show", &show );
-  };
-
-  void createWindow() {
-    if ( _window )
-      destroyWindow();
-
-    ofGLFWWindowSettings settings;
-    shared_ptr<ofAppBaseWindow> mainWindow = shared_ptr<ofAppBaseWindow>( ofGetWindowPtr() );
-
-    cerr << "Make Window " << mainWindow << endl;
-
-    settings.setGLVersion( root->_glVersionMajor, root->_glVersionMinor );
-    settings.setSize( 600, 600 );
-    settings.resizable = true;
-    settings.shareContextWith = mainWindow;
-
-    cerr << "Make Window" << endl;
-    shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
-    _window = window.get();
-    ofAddListener(_window->events().draw, this, &Window::drawWindow );
-  };
-
-  void destroyWindow() {
-
-  };
-
-  void windowToControls() {
-
-  };
-
-  void controlsToWindow() {
-
-  };
-
-  ofAppBaseWindow * _window = nullptr;
+  shared_ptr<ofAppGLFWWindow> _window;
   ofPoint _position;
-
-  void sizeFromWindow();
-  void sizeToWindow();
 
 };
 }};

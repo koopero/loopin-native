@@ -54,5 +54,7 @@ const string ofxLoopin::shader::ShaderDefaults::GL_FRAG = "\
   { \n\
     vec4 c = texture(srcSampler, srcCoord); \n\
     outputColour = vec4( c.r, c.g, c.b, c.a ); \n\
+    // outputColour.r = srcCoord.x; \n\
+    // outputColour.g = srcCoord.y; \n\
   } \n\
 ";

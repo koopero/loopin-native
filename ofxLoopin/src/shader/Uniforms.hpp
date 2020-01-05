@@ -30,14 +30,24 @@ public:
       uniform.unbind();
     }
   }
+};
 
+class Textures : public Uniforms<Texture> {
+public:
+  void bindDefaultTextures( ofTexture * src, ofTexture * dst ) {
+    if ( src )
+      getByKey( "src", true )->bindTexture( src );
+
+    if ( dst )
+      getByKey( "dst", true )->bindTexture( dst );
+  };
 };
 
 class UniformSet : public ofxLoopin::control::Control {
 public:
   void bindToShader( ofxLoopin::shader::Shader * shader ) {
     floats.bindToShader( shader );
-    tex.bindToShader( shader );
+    textures.bindToShader( shader );
     ints.bindToShader( shader );
     vec2s.bindToShader( shader );
     vec3s.bindToShader( shader );
@@ -45,7 +55,7 @@ public:
   }
 
   void unbind() {
-    tex.unbind();
+    textures.unbind();
   }
 
   Uniforms<UniformFloat> floats;
@@ -53,7 +63,7 @@ public:
   Uniforms<UniformVec2> vec2s;
   Uniforms<UniformVec3> vec3s;
   Uniforms<UniformVec4> vec4s;
-  Uniforms<Texture> tex;
+  Textures textures;
 
 protected:
   void addSubControls() {
@@ -62,10 +72,10 @@ protected:
     addSubControl( "vec2", &vec2s );
     addSubControl( "vec3", &vec3s );
     addSubControl( "vec4", &vec4s );
-    addSubControl( "texture", &tex );
+    addSubControl( "texture", &textures );
 
     // TODO: Deprecate or at least squelch read
-    addSubControlAlias( "tex", &tex );
+    addSubControlAlias( "tex", &textures );
   }
 
 

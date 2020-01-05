@@ -16,6 +16,14 @@ public:
   ofJson infoGet() {
     ofJson result;
 
+    infoGetMonitors( result );
+    infoGetGLVersion( result );
+
+
+    return result;
+  };
+  
+  void infoGetMonitors( ofJson & result ) {
     glfwInit();
     int count;
     const auto monitors = glfwGetMonitors(&count);
@@ -44,11 +52,23 @@ public:
       monitorJ["refreshRate"] = mode->refreshRate;
 
       result["monitors"][i] = monitorJ;
+    }    
+  }
 
-    }
+  void infoGetGLVersion( ofJson & result ) {
+    shared_ptr<ofBaseGLRenderer> renderer = dynamic_pointer_cast<ofBaseGLRenderer>( ofGetCurrentRenderer() );
+    if ( !renderer )
+      return;
 
-    return result;
-  };
+    bool es = false;
 
+    #ifdef TARGET_OPENGLES
+      es = true;
+    #endif
+
+    result["gl"]["ES"] = es;
+    result["gl"]["VersionMajor"] = renderer->getGLVersionMajor();
+    result["gl"]["VersionMinor"] = renderer->getGLVersionMinor();
+  }
 };
 }};

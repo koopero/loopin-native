@@ -54,34 +54,36 @@ public:
   void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 protected:
-  void addSubControls() {
-    ofxLoopin::render::Render::addSubControls();
-    addSubControl( "enable", &enable );
-    addSubControl( "clear", &clear );
-    addSubControl( "box", &box );
-    addSubControl( "shader", &shader );
-
-    addSubControl( "blend", &blend );
-
-    if ( _needAdvance ) {
-      advance.setEnumValue( control::ENABLE_NO );
-      addSubControl( "advance", &advance );
-    }
-
-    if ( _needClock ) {
-      addSubControl( "clock", &clockControl );
-    }
-  }
-
+  void addSubControls();
   virtual void renderClear( bool bufferIsNew = false );
   virtual bool renderSetup();
   virtual void renderSelf() {
-    renderTexture();
+    // renderTexture();
   };
   virtual void renderStyle();
 
   virtual void renderBounds() {
-    
+
+  };
+  
+  virtual void renderTexture() {
+    ofRectangle bounds = getBounds();
+
+    ofTexture * src = textureToRender();
+    ofTexture * dst = nullptr;
+
+    uniforms.textures.bindDefaultTextures( src, dst );
+
+    if ( src ) {
+      src->draw( bounds.x, bounds.y, bounds.width, bounds.height );
+    } else {
+      ofDrawPlane( 
+        bounds.x + bounds.width / 2.0, 
+        bounds.y + bounds.height / 2.0, 
+        bounds.width, 
+        bounds.height 
+      );
+    }
   };
   virtual void renderAfter() {};
 

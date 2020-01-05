@@ -1,5 +1,24 @@
 #include "./Blit.hpp"
 
+void ofxLoopin::render::Blit::addSubControls() {
+  ofxLoopin::render::Render::addSubControls();
+  addSubControl( "enable", &enable );
+  addSubControl( "clear", &clear );
+  addSubControl( "box", &box );
+  addSubControl( "shader", &shader );
+
+  addSubControl( "blend", &blend );
+
+  advance.setEnumValue( control::ENABLE_NO );
+  if ( _needAdvance ) {
+    addSubControl( "advance", &advance );
+  }
+
+  if ( _needClock ) {
+    addSubControl( "clock", &clockControl );
+  }
+}
+
 void ofxLoopin::render::Blit::renderBuffer( ofxLoopin::base::Buffer * buffer )  {
   if ( !enable.isEnabledOnce( true ) )
     return;
@@ -59,7 +78,8 @@ void ofxLoopin::render::Blit::renderUniforms() {
 
   _shader->applyUniformsDefaults();
   _shader->applyUniformsGlobalClock();
-  _shader->applyUniformsBuffer( _buffer );
+  if ( _buffer )
+    _shader->applyUniformsBuffer( _buffer );
   clockControl.applyUniforms( _shader->shader );
   uniforms.bindToShader( _shader );
 }

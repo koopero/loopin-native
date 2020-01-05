@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../base/Buffer.hpp"
-#include "./control/Control.hpp"
-#include "./control/Reference.hpp"
-#include "./options/Filter.hpp"
-#include "./options/Wrap.hpp"
-#include "./shader/Shader.hpp"
+#include "../control/Control.hpp"
+#include "../control/Reference.hpp"
+#include "../options/Filter.hpp"
+#include "../options/Wrap.hpp"
+#include "../shader/Shader.hpp"
 #include "./Uniform.hpp"
 
 namespace ofxLoopin { namespace shader {
@@ -20,27 +20,25 @@ public:
   options::Wrap wrapH;
   options::Wrap wrapV;
 
+  bool hasTexture();
+  ofTexture * getTexture();
 
-  bool hasTexture() {
-    ofxLoopin::base::Buffer * bufferP = buffer.getPointer();
-    if ( bufferP ) {
-      return bufferP->isAllocated();
-    }
-
-    return false;
-  }
 
   void bindToShader( ofxLoopin::shader::Shader * shader ) override;
-  void bindSpecific( ofxLoopin::shader::Shader * shader, string key, int location );
-  void unbind() override;
+  void renderTexture( ofxLoopin::shader::Shader * shader, const ofRectangle & bounds );
 
+  void unbind() override;
+  void bindTexture( ofTexture * texture );
 
 protected:
   virtual void patchString( string value ) override;
   virtual void patchLocal( const ofJson & value ) override;
 
-  virtual void addSubControls();
+  virtual void addSubControls() override;
 
   int _boundLocation = -1;
+  string _bufferDescription;
+  ofxLoopin::shader::Shader * _shader = nullptr;
+  ofTexture * _texture = nullptr;
 };
 }};
