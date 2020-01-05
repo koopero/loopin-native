@@ -60,6 +60,8 @@ ofTexture * ofxLoopin::shader::Texture::getTexture() {
   description << " ( " << texture->getWidth() << "x" << texture->getHeight();
   description << " " << bufferP->format.getKey();
   description << " )";
+  description << " " << ( bufferP->getReadIndex() );
+
   _bufferDescription = description.str();
 
   texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
@@ -112,14 +114,15 @@ void ofxLoopin::shader::Texture::bindTexture( ofTexture * texture ) {
   if ( !texture || !texture->isAllocated() )
     return;
 
-  texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
-  texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
-  texture->bind( _boundLocation );
+  _texture = texture;
 
-  // cerr << "bindTexture!? " << texture->getWidth() << "?" << endl;
-
+  _texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
+  _texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
+  _texture->bind( _boundLocation );
 
   if ( _shader ) {
+    // cerr << "bindTexture " << path << " " << key << " " << _shader << " " << texture->getWidth() << "x" << texture->getHeight() << endl;
+
     _shader->shader.setUniformTexture( key + "Sampler", *texture, _boundLocation );
     _shader->shader.setUniform1i( key + "Width", texture->getWidth() );
     _shader->shader.setUniform1i( key + "Height", texture->getHeight() );
@@ -129,5 +132,9 @@ void ofxLoopin::shader::Texture::bindTexture( ofTexture * texture ) {
 void ofxLoopin::shader::Texture::unbind() {
   if ( _boundLocation != -1 ) {
     _boundLocation = -1;
+    // if ( _texture ) {
+    //   _texture->unbind();
+    //   _texture = nullptr;
+    // }
   }
 }

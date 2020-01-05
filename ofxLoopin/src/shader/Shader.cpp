@@ -29,7 +29,6 @@ void ofxLoopin::shader::Shader::refresh( bool sendNeedEvent ) {
 
   if ( vert.isDataReady() && frag.isDataReady() ) {
     if ( vert.dataIsNew || frag.dataIsNew ) {
-
       vert.dataIsNew = false;
       frag.dataIsNew = false;
 

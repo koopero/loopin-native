@@ -64,39 +64,7 @@ public:
   ofxLoopin::control::Enum<GLenum,0> face;
 
 protected:
-  void addSubControls() override {
-    ofxLoopin::render::Blit::addSubControls();
-    addSubControl( "mesh", &mesh );
-    addSubControl( "camera", &camera );
-    addSubControl( "transform", &transform );
-
-    src = uniforms.textures.getByKey("src", true );
-    addSubControl( "src", src );
-
-    /** loopin/type/layer/sub/layer
-      map: layer
-    */
-    addSubControl( "layer", &layers );
-
-    /** loopin/type/layer/sub/face
-      options:
-        - both
-        - front
-        - back
-    */
-    face.enumAddOption("both", 0 );
-    face.enumAddOption("front", GL_FRONT );
-    face.enumAddOption("back", GL_BACK );
-    addSubControl( "face", &face );
-
-    addSubControl( "passes", &passes );
-    addSubControl( "pointSize", &pointSize );
-
-    addSubControl( "depth", &depthTest );
-    addSubControl( "aspect", &aspect );
-    addSubControl( "order", &order );
-  }
-
+  void addSubControls() override;
   bool renderSetup() override;
   void renderSelf() override;
   void renderUniforms() override;

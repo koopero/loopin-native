@@ -57,12 +57,12 @@ void ofxLoopin::render::Blit::renderBuffer( ofxLoopin::base::Buffer * buffer )  
   renderStyle();
   renderSelf();
 
-  _buffer->end();
+
   _shader->end();
+  _buffer->end();
 
   resetStyle();
   resetUniforms();
-
   renderAfter();
 }
 

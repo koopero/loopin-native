@@ -48,6 +48,8 @@ private:
   ofFloatColor normalizeBlob1( const ofxCvBlob & blob );
   void renderBlobData( ofxLoopin::base::Buffer * buffer );
   void _dispatchBlobs();
+
+  bool _hasRenderedBlobs = false;
 };
 
 }}; //namespace ofxLoopin:blobs

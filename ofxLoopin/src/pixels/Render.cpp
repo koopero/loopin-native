@@ -159,7 +159,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer )
 void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
-    std::cerr << "bufferFalout" << std::endl;
+    // std::cerr << "bufferFalout" << std::endl;
     return;
   }
 
