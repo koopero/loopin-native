@@ -7,6 +7,11 @@ void ofxLoopin::window::Window::addSubControls() {
   addSubControl( "show", &show );
 };
 
+void ofxLoopin::window::Window::patchLocalAfter( const ofJson & value ) {
+  controlsToState();
+  cerr << "Window::patchLocalAfter " << _state.size.x << endl;
+};
+
 void ofxLoopin::window::Window::createWindow() {
   if ( _window )
     destroyWindow(); 
@@ -14,16 +19,21 @@ void ofxLoopin::window::Window::createWindow() {
   ofGLFWWindowSettings settings;
   shared_ptr<ofAppBaseWindow> mainWindow = shared_ptr<ofAppBaseWindow>( ofGetWindowPtr() );
 
-  cerr << "Make Window " << mainWindow << endl;
-
   settings.setGLVersion( root->_glVersionMajor, root->_glVersionMinor );
-  settings.setSize( 600, 600 );
+
+  if ( box.positionIsSet ) 
+    settings.setPosition( box.getValueVec2() );
+
+  ofRectangle bounds = getBounds();
+  settings.setSize( bounds.width, bounds.height );
+
   settings.resizable = true;
   settings.shareContextWith = mainWindow;
 
   shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
   _window = std::dynamic_pointer_cast<ofAppGLFWWindow>( window );
   ofAddListener(_window->events().draw, this, &Window::drawWindow );
+  _windowFresh = true;
 };
 
 void ofxLoopin::window::Window::showWindow() {
@@ -41,9 +51,6 @@ void ofxLoopin::window::Window::destroyWindow() {
   if ( _window ) {
     
     ofRemoveListener(_window->events().draw, this, &Window::drawWindow );
-
-    // _window->close();
-
     GLFWwindow* windowP = _window->getGLFWWindow();
 
     glfwSetMouseButtonCallback( windowP, nullptr );
@@ -75,41 +82,9 @@ void ofxLoopin::window::Window::destroyWindow() {
 };
 
 
-void ofxLoopin::window::Window::patchLocal( const ofJson & value ) {
-  // if ( !value.is_object() )
-  //   return;
-
-  // if ( !_window )
-  //   return;
-
-  // ofPoint position = _window->getWindowPosition();
-
-  // if ( value.count("fullscreen") ) {
-  //   _window->setFullscreen( ofxLoopinJSONToBool( value["fullscreen"] ) );
-  // }
-
-  // if ( value.count("cursor") ) {
-  //   if ( ofxLoopinJSONToBool( value["cursor"] ) ) {
-  //     _window->showCursor();
-  //   } else {
-  //     _window->hideCursor();
-  //   }
-  // }
-
-  // #ifndef TARGET_OPENGLES
-  //   if ( value.count("title")
-  //     && value["title"].is_string()
-  //   ) {
-  //     _window->setWindowTitle( value["title"].get<std::string>() );
-  //   }
-  // #endif
-};
-
 void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
   _window = std::dynamic_pointer_cast<ofAppGLFWWindow>( shared_ptr<ofAppBaseWindow>( window ) );
-  if ( _window ) {
-    controlsToWindow();
-  }
+  _windowFresh = true;
 }
 
 void ofxLoopin::window::Window::render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer ) {
@@ -128,6 +103,10 @@ void ofxLoopin::window::Window::renderWindow() {
   if ( !renderSetup() )
     return;
 
+  stateToWindow();
+  checkMove();
+  _windowFresh = false;
+
   ofRectangle bounds = ofRectangle( 0,0, ofGetWindowWidth(), ofGetWindowHeight() );
 
   renderClear();
@@ -136,7 +115,6 @@ void ofxLoopin::window::Window::renderWindow() {
   renderUniforms();
   renderStyle();
   show.renderTexture( _shader, bounds );
-  // renderSelf();
   resetStyle();
   resetUniforms();
   _shader->end();
@@ -155,83 +133,78 @@ string ofxLoopin::window::Window::getWindowDescription() {
   return desc.str();
 };  
 
+void ofxLoopin::window::Window::controlsToState() {
+  if ( box.positionIsSet )
+    _state.position = box.getXY();
 
-void ofxLoopin::window::Window::readLocal( ofJson & value ) {
-  // if ( _window ) {
-  //   value["fullscreen"] = (bool) _window->getWindowMode();
-  //   value["width"] = width;
-  //   value["height"] = height;
-  //   value["x"] = _position.x;
-  //   value["y"] = _position.y;
-  // }
-};
-
-// void ofxLoopin::window::Window::sizeFromWindow() {
-//   ofPoint size = _window->getWindowSize();
-//   width = size.x;
-//   height = size.y;
-// }
-
-// void ofxLoopin::window::Window::sizeToWindow() {
-//   ofPoint size = _window->getWindowSize();
-
-//   int width = ofxLoopin::window::Window::width;
-//   int height = ofxLoopin::window::Window::height;
-
-//   width = width <= 0 ? size.x : width;
-//   height = height <= 0 ? size.y : height;
-
-//   _window->setWindowShape( width, height );
-// }
-
-void ofxLoopin::window::Window::windowToControls() {
-
+  _state.size = box.getZW();
+  _state.fullscreen = fullscreen;
+  _state.title = title;
+  _state.vsync = vsync;
 }
 
-void ofxLoopin::window::Window::controlsToWindow() {
-  bool setSize = false;
-  bool setPosition = false;
-
-  float x = box.getX();
-  float y = box.getY();
-  int width = box.getWidth();
-  int height = box.getHeight();
-
-  if ( width && height ) {
-    setSize = true;
-  }
-  // if ( value.count("x")
-  //   && value["x"].is_number()
-  // ) {
-  //   setPosition = true;
-  //   position.x = value["x"].get<int>();
-  // }
-
-  // if ( value.count("y")
-  //   && value["y"].is_number()
-  // ) {
-  //   setPosition = true;
-  //   position.y = value["y"].get<int>();
-  // }
-
-  if ( setSize ) {
-    _window->setWindowShape( width, height );
+void ofxLoopin::window::Window::stateToWindow() {
+  if ( _state.position != _windowState.position ) {
+    _window->setWindowPosition( _state.position.x, _state.position.y );
+    _windowState.position = _state.position;
   }
 
-  if ( setPosition ) {
-    _window->setWindowPosition( x, y );
+  // cerr << "stateToWindow::size " << path << " " << _state.size << endl;
+
+  if ( _state.size != _windowState.size && _state.size.x >= 1 && _state.size.y >= 1 ) {
+    _window->setWindowShape( _state.size.x, _state.size.y );
+    _windowState.size = _state.size;
+  }
+
+  if ( _state.cursor != _windowState.cursor ) {
+    if ( _state.cursor ) {
+      _window->showCursor();
+    } else {
+      _window->hideCursor();
+    }
+    _windowState.cursor = _state.cursor;
+  }
+
+  if ( _state.fullscreen != _windowState.fullscreen ) {
+    _window->setFullscreen( _state.fullscreen );
+    _windowState.fullscreen = _state.fullscreen;
+  }
+
+  if ( _state.vsync != _windowState.vsync ) {
+    _window->setVerticalSync( _state.vsync );
+    _windowState.vsync = _state.vsync;
+  }
+
+  if ( _state.title != _windowState.title ) {
+    _window->setWindowTitle( _windowState.title );
+    _windowState.title = _state.title;
   }
 }
 
-void ofxLoopin::window::Window::update() {
-  ofPoint pos = _window->getWindowPosition();
-  ofPoint size = _window->getWindowSize();
+void ofxLoopin::window::Window::stateToControls() {
+  box.setXY( _state.position );
+  box.setZW( _state.size );
+}
 
-  // if ( pos != _position || size.x != width || size.y != height ) {
-  //   _position = pos;
-  //   sizeFromWindow();
-  //   ofxLoopin::control::Event event = ofxLoopin::control::Event("move");
-  //   readLocal( event.data );
-  //   dispatch( event );
-  // }
+void ofxLoopin::window::Window::checkMove() {
+  if ( !_window )
+    return;
+
+  _windowState.setFromWindow( _window.get() );
+
+  if ( _windowState.hasChangedFrom( _state ) ) {
+    _state.setChanged( _windowState );
+    stateToControls();
+    dispatchMove();
+  }
+
+  controlsToState();
+}
+void ofxLoopin::window::Window::dispatchMove() {
+  ofxLoopin::control::Event event = ofxLoopin::control::Event("move");
+  event.data["x"] = _state.position.x;
+  event.data["y"] = _state.position.y;
+  event.data["w"] = _state.size.x;
+  event.data["h"] = _state.size.y;
+  dispatch( event );
 }

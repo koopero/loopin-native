@@ -35,6 +35,38 @@ sub/height:
 */
 
 namespace ofxLoopin { namespace window {
+
+class WindowState {
+public:
+  ofVec2f position;
+  ofVec2f size;
+  string title;
+  int fullscreen = 0;
+  bool cursor = false;
+  bool vsync = false;
+
+  void setFromWindow( ofAppBaseWindow * window ) {
+    position = window->getWindowPosition();
+    size = window->getWindowSize();
+  }
+
+  bool hasChangedFrom( const WindowState & other ) {
+    if ( other.size != size )
+      return true;
+
+    if ( other.position != position )
+      return true;
+
+    return false;
+  }
+
+  void setChanged( const WindowState & other ) {
+    position = other.position;
+    size = other.size;
+    fullscreen = other.fullscreen;
+  }
+};
+
 class Window : 
   virtual public ofxLoopin::render::Blit
 {
@@ -43,11 +75,14 @@ public:
   OSD osd;
   control::Int fullscreen = 0;
   control::Bool cursor = true;
+  control::Bool vsync = true;
+
   string title;
 
 
   void setAppBaseWindow( ofAppBaseWindow * window );
-  void update() override;
+  // void update() override;
+
 
   void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) override;
 
@@ -68,29 +103,37 @@ public:
   }
 
   virtual ofRectangle getBounds() override {
-    if ( !_window )
-      return ofRectangle(0,0,0,0);
+    ofRectangle bounds = ofRectangle(0,0,1024,768);
+    bounds = box.getFittedRectangle( bounds );
 
-    return ofRectangle(0,0,_window->getWidth(), _window->getHeight() );
+    return bounds;
   };
 
 
 protected:
   void addSubControls() override;
 
-  void patchLocal( const ofJson & value ) override;
-  void readLocal( ofJson & value ) override;
+  void patchLocalAfter( const ofJson & value ) override;
+  // void readLocal( ofJson & value ) override;
+  void checkMove();
+  void dispatchMove();
+
 
   void createWindow();
   void showWindow();
   void hideWindow();
   void destroyWindow();
 
-  void windowToControls();
-  void controlsToWindow();
+  void controlsToState();
+  void stateToWindow();
+
+  void stateToControls();
 
   shared_ptr<ofAppGLFWWindow> _window;
   ofPoint _position;
+  WindowState _state;
+  WindowState _windowState;
+  bool _windowFresh = true;
 
 };
 }};

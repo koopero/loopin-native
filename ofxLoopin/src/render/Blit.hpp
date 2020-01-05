@@ -54,7 +54,11 @@ public:
   void renderBuffer( ofxLoopin::base::Buffer * buffer );
 
 protected:
-  void addSubControls();
+  void addSubControls() override;
+  void patchLocal( const ofJson & value ) override {
+    box.patch( value );
+  }
+
   virtual void renderClear( bool bufferIsNew = false );
   virtual bool renderSetup();
   virtual void renderSelf() {

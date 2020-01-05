@@ -21,8 +21,16 @@ public:
     return component[axis].getValueFloat();
   };
 
-  ofVec3f getValueVec2() {
+  ofVec2f getValueVec2() {
     return ofVec2f( getAxis(0), getAxis(1) );
+  };
+
+  ofVec2f getXY() {
+    return ofVec2f( getAxis(0), getAxis(1) );
+  };
+
+  ofVec2f getZW() {
+    return ofVec2f( getAxis(2), getAxis(3) );
   };
 
   ofVec3f getValueVec3() {
@@ -33,18 +41,33 @@ public:
     return ofVec4f( getAxis(0), getAxis(1), getAxis(2), getAxis(3) );
   };
 
-
   void setAxis( int axis, float value ) {
     if ( axis >= 0 && axis < LENGTH ) {
+      if ( axis < 2 ) 
+        positionIsSet = true;
       component[axis].setValue( value );
     }
   }
 
+  void setXY( const ofVec2f & vec ) {
+    setAxis( 0, vec.x );
+    setAxis( 1, vec.y );
+  }
+
+  void setZW( const ofVec2f & vec ) {
+    setAxis( 2, vec.x );
+    setAxis( 3, vec.y );
+  }
+
   void setAxis( int axis, ofJson & val ) {
     if ( axis >= 0 && axis < LENGTH ) {
+      if ( axis < 2 ) 
+        positionIsSet = true;
       component[axis].patch( val );
     }
   }
+
+  bool positionIsSet = false;
 
 protected:
   void updateLocal() {};
