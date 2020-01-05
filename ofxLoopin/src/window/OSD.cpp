@@ -1,7 +1,8 @@
 #include "./OSD.hpp"
 
 void ofxLoopin::window::OSD::addSubControls() {
-  addSubControl( "enabled", new ofxLoopin::control::Value( &enabled ) );
+  addSubControl( "enable", &enable );
+  addSubControlAlias( "enabled", &enable );
   addSubControl( "text", new ofxLoopin::control::Value( &text ) );
   addSubControl( "client", new ofxLoopin::control::Value( &client ) );
   addSubControl( "colour", &colour );
@@ -15,13 +16,18 @@ void ofxLoopin::window::OSD::addSubControls() {
   hostname = buf;
 };
 
+void ofxLoopin::window::OSD::patchLocal( const ofJson & val ) {
+  if ( val.is_boolean() ) {
+    enable.patch( val );
+  }
+}
 
 void ofxLoopin::window::OSD::setFrame( const ofxLoopin::clock::Frame & frame ) {
   _frame = frame;
 }
 
 void ofxLoopin::window::OSD::draw() {
-  if ( !enabled )
+  if ( !enable.isEnabledOnce( false ) )
     return;
 
   string str = text.size() ? text : defaultString;

@@ -2,6 +2,7 @@
 
 #include "../control/Control.hpp"
 #include "../control/Colour.hpp"
+#include "../control/Enable.hpp"
 #include "../control/Value.hpp"
 #include "../control/Vector.hpp"
 #include "../base/File.hpp"
@@ -21,8 +22,7 @@ namespace ofxLoopin { namespace window {
 
 class OSD : public ofxLoopin::control::Control {
 public:
-  bool enabled = true;
-
+  control::Enable enable;
   control::Colour colour;
   control::Colour background;
   control::Vector<2> position;
@@ -48,6 +48,7 @@ protected:
   ofxLoopin::clock::Frame _frame;
 
   void addSubControls() override;
+  void patchLocal( const ofJson & val ) override;
 
 private:
   void templatize( string & str, const string & key, float value );
