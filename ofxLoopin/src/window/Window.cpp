@@ -9,7 +9,6 @@ void ofxLoopin::window::Window::addSubControls() {
 
 void ofxLoopin::window::Window::patchLocalAfter( const ofJson & value ) {
   controlsToState();
-  cerr << "Window::patchLocalAfter " << _state.size.x << endl;
 };
 
 void ofxLoopin::window::Window::createWindow() {

@@ -51,7 +51,7 @@ public:
   ofxLoopin::interface::Blend blend;
 
 
-  void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer ) override;
 
 protected:
   void addSubControls() override;
