@@ -75,7 +75,6 @@ void ofxLoopin::shader::Texture::bindToShader( ofxLoopin::shader::Shader * shade
   _shader = shader;
   _boundLocation = shader->_textureLocation++;
   // cerr << "bindToShader " << shader << " " << shader->_textureLocation << endl;
-
   bindTexture( getTexture() );
 }
 
@@ -83,8 +82,9 @@ void ofxLoopin::shader::Texture::bindToShader( ofxLoopin::shader::Shader * shade
 void ofxLoopin::shader::Texture::renderTexture( ofxLoopin::shader::Shader * shader, const ofRectangle & bounds ) {
   ofTexture * texture = getTexture();
   if ( texture ) {
-    bindToShader( shader );
-    // ofDrawRectangle( 10, 10, 140, 100 );
+    _shader = shader;
+    _boundLocation = shader->_textureLocation++;
+    bindTexture( texture );
     texture->draw( bounds.x, bounds.y, bounds.width, bounds.height );
   }
 }

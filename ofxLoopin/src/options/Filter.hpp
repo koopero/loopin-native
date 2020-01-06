@@ -8,9 +8,11 @@
   */
   
 namespace ofxLoopin { namespace options {
-class Filter : public ofxLoopin::control::GLEnum {
+class Filter : public control::Enum<GLenum,GL_NEAREST>  {
 protected: void enumAddOptions() {
+  enumAddOption("nearest", GL_NEAREST);
   EnumGLIntAddOption(GL_NEAREST);
+  enumAddOption("linear", GL_LINEAR);
   EnumGLIntAddOption(GL_LINEAR);
 };
 };
