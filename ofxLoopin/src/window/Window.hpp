@@ -43,7 +43,7 @@ public:
   string title;
   int fullscreen = 0;
   bool cursor = false;
-  bool vsync = false;
+  bool vsync = true;
 
   void setFromWindow( ofAppBaseWindow * window ) {
     position = window->getWindowPosition();
@@ -129,7 +129,7 @@ protected:
 
   void stateToControls();
 
-  shared_ptr<ofAppGLFWWindow> _window;
+  ofAppGLFWWindow * _window;
   ofPoint _position;
   WindowState _state;
   WindowState _windowState;
