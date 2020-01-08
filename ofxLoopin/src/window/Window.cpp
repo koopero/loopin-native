@@ -3,6 +3,7 @@
 void ofxLoopin::window::Window::addSubControls() {
   ofxLoopin::render::Blit::addSubControls();
 
+  addSubControl( "title", new ofxLoopin::control::Value( &title ) );
   addSubControl( "osd", &osd );
   addSubControl( "show", &show );
 };
@@ -175,7 +176,7 @@ void ofxLoopin::window::Window::stateToWindow() {
   }
 
   if ( _state.title != _windowState.title ) {
-    _window->setWindowTitle( _windowState.title );
+    _window->setWindowTitle( _state.title );
     _windowState.title = _state.title;
   }
 }
