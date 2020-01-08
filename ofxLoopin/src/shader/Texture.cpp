@@ -57,10 +57,9 @@ ofTexture * ofxLoopin::shader::Texture::getTexture() {
     return nullptr;
   }
 
-  description << " ( " << texture->getWidth() << "x" << texture->getHeight();
+  description << " " << texture->getWidth() << "x" << texture->getHeight();
   description << " " << bufferP->format.getKey();
-  description << " )";
-  description << " " << ( bufferP->getReadIndex() );
+  description << " " << (char) ( 'A' + bufferP->getReadIndex() );
 
   _bufferDescription = description.str();
 
