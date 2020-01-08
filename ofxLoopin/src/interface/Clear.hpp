@@ -13,8 +13,6 @@ public:
   control::Enable depth;
 
   void addSubControls() override {
-    colour.setColor( ofFloatColor( 0.1, 0.1, 0.7 ) );
-
     addSubControl("colour", &colour );
     addSubControlAlias("color", &colour );
 

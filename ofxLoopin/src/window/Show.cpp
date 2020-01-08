@@ -74,7 +74,6 @@ void ofxLoopin::window::Show::addSubControls() {
   addSubControl("alpha", &alpha );
 }
 
-
 // void ofxLoopin::window::Show::draw() {
 //   stringstream description;
 
