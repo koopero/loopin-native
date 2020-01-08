@@ -5,7 +5,13 @@ void ofxLoopin::window::OSD::addSubControls() {
   addSubControlAlias( "enabled", &enable );
   addSubControl( "text", new ofxLoopin::control::Value( &text ) );
   addSubControl( "client", new ofxLoopin::control::Value( &client ) );
+
+  colour.setColor( ofFloatColor( 1, 1, 0.8, 1 ) );
+  background.setColor( ofFloatColor( 0.1, 0.1, 0.4, 0.6 ) );
+
+
   addSubControl( "colour", &colour );
+  addSubControlAlias( "color", &colour );
   addSubControl( "background", &background );
   addSubControl( "position", &position );
 
@@ -40,11 +46,14 @@ void ofxLoopin::window::OSD::draw() {
 
 
   ofPoint position = ofPoint( 16, 24 );
-  ofColor background = ofColor( 0,0,0, 192 );
-  ofColor foreground = ofColor( 255,255,255 );
 
   ofEnableBlendMode( OF_BLENDMODE_ALPHA );
-  ofDrawBitmapStringHighlight( str, position, background, foreground );
+  ofDrawBitmapStringHighlight( 
+    str, 
+    position, 
+    background.asFloatColor(), 
+    colour.asFloatColor()
+  );
 }
 
 
