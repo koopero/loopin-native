@@ -129,7 +129,7 @@ protected:
 
   void stateToControls();
 
-  shared_ptr<ofAppGLFWWindow> _window;
+  ofAppGLFWWindow * _window;
   ofPoint _position;
   WindowState _state;
   WindowState _windowState;

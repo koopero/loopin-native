@@ -30,7 +30,7 @@ void ofxLoopin::window::Window::createWindow() {
   settings.shareContextWith = mainWindow;
 
   shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
-  _window = std::dynamic_pointer_cast<ofAppGLFWWindow>( window );
+  _window = dynamic_cast<ofAppGLFWWindow*>( window.get() );
   ofAddListener(_window->events().draw, this, &Window::drawWindow );
   _windowFresh = true;
 };
@@ -82,7 +82,7 @@ void ofxLoopin::window::Window::destroyWindow() {
 
 
 void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
-  _window = std::dynamic_pointer_cast<ofAppGLFWWindow>( shared_ptr<ofAppBaseWindow>( window ) );
+  _window = dynamic_cast<ofAppGLFWWindow *>( window );
   _windowFresh = true;
 }
 
@@ -189,7 +189,7 @@ void ofxLoopin::window::Window::checkMove() {
   if ( !_window )
     return;
 
-  _windowState.setFromWindow( _window.get() );
+  _windowState.setFromWindow( _window );
 
   if ( _windowState.hasChangedFrom( _state ) ) {
     _state.setChanged( _windowState );
