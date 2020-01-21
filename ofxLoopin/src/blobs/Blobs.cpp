@@ -36,11 +36,11 @@ void ofxLoopin::blobs::Blobs::renderBuffer( ofxLoopin::base::Buffer * buffer  ) 
   if ( pixelBuffer )
     renderBlobData( pixelBuffer );
 
-  // if ( show.isEnabledOnce( true ) ) {
-  //   buffer->begin();
-  //   contourFinder.draw();
-  //   buffer->end();
-  // }
+  if ( show.isEnabledOnce( true ) ) {
+    buffer->begin();
+    contourFinder.draw();
+    buffer->end();
+  }
 };
 
 ofFloatColor ofxLoopin::blobs::Blobs::normalizeBlob0( const ofxCvBlob & blob ) {

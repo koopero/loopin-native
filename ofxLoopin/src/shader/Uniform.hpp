@@ -62,4 +62,14 @@ public:
     shader->applyUniformVec4( key, getValueVec4() );
   };
 };
+
+class UniformMat4 :
+  public Uniform,
+  public ofxLoopin::control::Vector<16>
+{
+public:
+  void bindToShader( ofxLoopin::shader::Shader * shader ) {
+    shader->shader.setUniformMatrix4f( key, getValueMat4() );
+  };
+};
 }};

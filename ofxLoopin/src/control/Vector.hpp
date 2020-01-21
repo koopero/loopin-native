@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ofMain.h"
 #include "./Control.hpp"
 #include "./Number.hpp"
 
@@ -41,6 +42,16 @@ public:
     return ofVec4f( getAxis(0), getAxis(1), getAxis(2), getAxis(3) );
   };
 
+  ofMatrix4x4 getValueMat4() {
+    float val[LENGTH];
+    for ( int axis = 0; axis < LENGTH; axis ++ )
+      val[axis] = component[axis].getValueFloat();  
+    
+    auto matrix = ofMatrix4x4( val );
+
+    return matrix;
+  };
+
   void setAxis( int axis, float value ) {
     if ( axis >= 0 && axis < LENGTH ) {
       if ( axis < 2 ) 
@@ -80,11 +91,9 @@ protected:
 
     if ( val.is_array() ) {
       for ( unsigned int valIndex = 0; valIndex < val.size(); valIndex ++ ) {
-        setAxis( valIndex, val[ valIndex ]);
+        setAxis( valIndex, val[ valIndex ] );
       }
-    }
-
-    if ( val.is_object() ) {
+    } else if ( val.is_object() ) {
       ofJson ob = val;
       for( ofJson::iterator it = ob.begin(); it != ob.end() ; it++) {
         int axis = keyToAxis( it.key() );
@@ -94,15 +103,28 @@ protected:
   };
 
   virtual int keyToAxis( const string & key ) {
-    if ( key == "x" || key == "0" ) return 0;
-    if ( key == "y" || key == "1" ) return 1;
-    if ( key == "z" || key == "2" ) return 2;
-    if ( key == "w" || key == "3" ) return 3;
+    char *endptr;
+    long value = strtol(key.c_str(), &endptr, 10);
+
+    if ( endptr != key.c_str() )
+    {
+      return value;
+    }
+
+    if ( key == "x" ) return 0;
+    if ( key == "y" ) return 1;
+    if ( key == "z" ) return 2;
+    if ( key == "w" ) return 3;
 
     if ( key == "r" || key == "red" ) return 0;
     if ( key == "g" || key == "green" ) return 1;
     if ( key == "b" || key == "blue" ) return 2;
     if ( key == "a" || key == "alpha" ) return 3;
+
+    if ( key == "u" ) return 0;
+    if ( key == "v" ) return 1;
+    if ( key == "s" ) return 2;
+    if ( key == "t" ) return 3;
 
     return -1;
   }

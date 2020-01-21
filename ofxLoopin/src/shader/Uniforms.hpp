@@ -52,6 +52,7 @@ public:
     vec2s.bindToShader( shader );
     vec3s.bindToShader( shader );
     vec4s.bindToShader( shader );
+    mat4s.bindToShader( shader );
   }
 
   void unbind() {
@@ -63,6 +64,7 @@ public:
   Uniforms<UniformVec2> vec2s;
   Uniforms<UniformVec3> vec3s;
   Uniforms<UniformVec4> vec4s;
+  Uniforms<UniformMat4> mat4s;
   Textures textures;
 
 protected:
@@ -72,9 +74,9 @@ protected:
     addSubControl( "vec2", &vec2s );
     addSubControl( "vec3", &vec3s );
     addSubControl( "vec4", &vec4s );
+    addSubControl( "mat4", &mat4s );
     addSubControl( "texture", &textures );
 
-    // TODO: Deprecate or at least squelch read
     addSubControlAlias( "tex", &textures );
   }
 
