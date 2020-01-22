@@ -29,6 +29,8 @@
 #include "./window/Windows.hpp"
 #include "./misc/Syphon.hpp"
 #include "./grabber/Grabber.hpp"
+#include "./grabber/PS3Eye.hpp"
+
 #include "./blobs/Blobs.hpp"
 
 
@@ -144,6 +146,8 @@ public:
   #endif
 
   ofxLoopin::grabber::GrabberList grabbers;
+  ofxLoopin::grabber::PS3EyeList ps3eyes;
+
 
 
   ofxLoopin::base::Info info;
@@ -195,6 +199,7 @@ protected:
     addSubControl( "pixels", &pixels );
     addSubControl( "waveform", &waveforms );
     addSubControl( "grabber", &grabbers );
+    addSubControl( "ps3eye", &ps3eyes );
 
 
     #ifdef LOOPIN_SYPHON
@@ -220,6 +225,7 @@ protected:
     renderLists.push_back( &kinects );
     renderLists.push_back( &videos );
     renderLists.push_back( &grabbers );
+    renderLists.push_back( &ps3eyes );
     renderLists.push_back( &renders );
     renderLists.push_back( &windows );
     renderLists.push_back( &blobs );

@@ -15,7 +15,7 @@ public:
   control::Int width    = 640;
   control::Int height   = 480;
 
-  void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer ) override;
   ofRectangle getBounds();
 
 protected:

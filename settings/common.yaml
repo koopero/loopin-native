@@ -30,11 +30,9 @@ addons:
   ofxOpenCv:
     enable: true
 
+  ofxPS3EyeGrabber:
+    git: https://github.com/bakercp/ofxPS3EyeGrabber/
+
   # ofxOsc:
   #  enable: true
 
-  # ofxJSON:
-  #  git: https://github.com/jeffcrouse/ofxJSON
-
-  # ofxGStreamer:
-  #   git: https://github.com/koopero/ofxGStreamer
