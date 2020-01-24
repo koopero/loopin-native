@@ -13,10 +13,11 @@ class PS3EyeSettings {
 public:
   int deviceID = -1;
   int rate = 60;
+  ofPixelFormat format = OF_PIXELS_RGB;
   bool half = false;
   bool autoGain = false;
   bool autoWhiteBalance = false;
-  uint8_t gain = 0;
+  uint8_t gain = 1;
   uint8_t exposure = 0;
   uint8_t sharpness = 0;
   uint8_t contrast = 0;
@@ -35,15 +36,17 @@ public:
 class PS3Eye : public render::Blit {
 public:
   control::Int deviceID = 0;
-  control::Bool autoGain;
+  control::Int rate = 60;
+  control::Bool autoGain = true;
   control::Bool autoWhiteBalance;
   control::Bool flipVertical;
   control::Bool flipHorizontal;
-  control::Number gain = 0;
-  control::Number exposure = 0;
-  control::Number sharpness = 0;
-  control::Number contrast = 0;
-  control::Number brightness = 0;
+  control::Bool half = false;
+  control::Number gain = 1.0;
+  control::Number exposure = 1.0;
+  control::Number sharpness = 0.5;
+  control::Number contrast = 0.5;
+  control::Number brightness = 1.0;
   control::Number hue = 0;
   control::Colour balance;
   // control::Enum demosaic;
@@ -62,6 +65,19 @@ protected:
   void addSubControls() override {
     ofxLoopin::render::Blit::addSubControls();
     addSubControl( "deviceID", &deviceID );
+    addSubControl( "rate", &rate );
+    addSubControl( "autoGain", &autoGain );
+    addSubControl( "autoWhiteBalance", &autoWhiteBalance );
+    addSubControl( "flipVertical", &flipVertical );
+    addSubControl( "flipHorizontal", &flipHorizontal );
+    addSubControl( "half", &half );
+    addSubControl( "gain", &gain );
+    addSubControl( "exposure", &exposure );
+    addSubControl( "sharpness", &sharpness );
+    addSubControl( "contrast", &contrast );
+    addSubControl( "brightness", &brightness );
+    addSubControl( "hue", &hue );
+    addSubControl( "balance", &balance );
   }
 
   void controlsToSettings( PS3EyeSettings & settings );
@@ -71,6 +87,7 @@ protected:
   bool _init = false;
 
   ofVideoGrabber grabber;
+  uint8_t settingsRange( float val, uint8_t max = 255 );
 };
 
 class PS3EyeList : public ofxLoopin::render::Renders<PS3Eye>, public ofxLoopin::base::HasInfo {
