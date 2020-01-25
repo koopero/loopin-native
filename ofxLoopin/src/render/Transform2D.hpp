@@ -37,7 +37,7 @@ public:
     // std::cerr << "transform2D::bufferAspect " << bufferAspect << endl;
 
     ofMatrix4x4 mat;
-    float ourAspect = aspect;
+    // float ourAspect = aspect;
     float scale = Transform2D::scale;
 
     switch ( mode.getEnumValue() ) {

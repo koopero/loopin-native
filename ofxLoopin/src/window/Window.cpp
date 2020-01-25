@@ -6,6 +6,8 @@ void ofxLoopin::window::Window::addSubControls() {
   addSubControl( "title", new ofxLoopin::control::Value( &title ) );
   addSubControl( "osd", &osd );
   addSubControl( "show", &show );
+  addSubControl( "fullscreen", &fullscreen );
+  addSubControl( "cursor", &cursor );
 };
 
 void ofxLoopin::window::Window::patchLocalAfter( const ofJson & value ) {
@@ -166,7 +168,7 @@ void ofxLoopin::window::Window::stateToWindow() {
   }
 
   if ( _state.fullscreen != _windowState.fullscreen ) {
-    _window->setFullscreen( _state.fullscreen );
+    setFullscreen( _state.fullscreen );
     _windowState.fullscreen = _state.fullscreen;
   }
 
@@ -179,6 +181,34 @@ void ofxLoopin::window::Window::stateToWindow() {
     _window->setWindowTitle( _state.title );
     _windowState.title = _state.title;
   }
+}
+
+void ofxLoopin::window::Window::setFullscreen( int monitorIndex ) {
+  GLFWwindow* window = _window->getGLFWWindow();
+
+
+  if ( !window ) {
+    cerr << "Window fault!" <<endl;
+    return;
+  }
+
+  int monitorCount;
+  const auto monitors = glfwGetMonitors(&monitorCount);
+
+  if ( monitorIndex > monitorCount ) {
+    // TODO Error Event
+    monitorIndex = 0;
+  }
+
+  if ( monitorIndex <= 0 ) {
+    glfwSetWindowMonitor(window, NULL, _state.position.x, _state.position.y, _state.size.x, _state.size.x, 0);
+  } else {
+    auto monitor = monitors[monitorIndex - 1];
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+    
+    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+  }
+
 }
 
 void ofxLoopin::window::Window::stateToControls() {

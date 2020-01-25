@@ -129,6 +129,8 @@ protected:
 
   void stateToControls();
 
+  void setFullscreen( int index );
+
   ofAppGLFWWindow * _window;
   ofPoint _position;
   WindowState _state;
