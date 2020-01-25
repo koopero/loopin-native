@@ -16,11 +16,15 @@ void ofxLoopin::window::MainWindow::infoGetMonitors( ofJson & result ) {
   for(int i = 0; i<count; i++){
     auto monitor = monitors[i];
     int w,h,x,y;
-    float xscale, yscale;
+    float xscale = 1, yscale = 1;
 
     glfwGetMonitorPhysicalSize(monitor,&w,&h);
     glfwGetMonitorPos(monitor,&x,&y);
-    glfwGetMonitorContentScale(monitor,&xscale,&yscale);
+
+    #if GLFW_VERSION_MAJOR >= 3 && GLFW_VERSION_MINOR >= 3
+      glfwGetMonitorContentScale(monitor,&xscale,&yscale);
+    #endif
+
     auto mode = glfwGetVideoMode( monitor );
     ofJson monitorJ;
     monitorJ["name"] = glfwGetMonitorName(monitor);
