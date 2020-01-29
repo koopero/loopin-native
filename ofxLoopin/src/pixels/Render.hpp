@@ -20,7 +20,7 @@ public:
 
   ofRectangle getBounds();
 
-  void renderBuffer( ofxLoopin::base::Buffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer ) override;
   void renderFloats( ofxLoopin::base::Buffer * buffer );
 
 protected:
@@ -36,6 +36,7 @@ protected:
   void maybeOutputBuffer( ofxLoopin::base::Buffer * buffer );
   void addSubControls() {
     addPixelDataSubControls();
+    input.setEnumValue( control::ENABLE_AUTO );
     addSubControl("input", &input );
     output.setEnumValue( control::ENABLE_NO );
     addSubControl("output", &output );

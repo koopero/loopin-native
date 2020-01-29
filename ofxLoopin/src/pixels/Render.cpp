@@ -86,7 +86,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer )
   if ( !buffer->begin() ) {
     return;
   }
-  
+
   shader.begin();
   glDisable( GL_CULL_FACE );
   ofDisableBlendMode( );
@@ -103,7 +103,7 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer )
   int y = bounds.getY();
   int i = 0;
 
-  // cerr << "RenderFloats " << bounds << endl;
+  // cerr << "RenderFloats " << floats.size() << endl;
   // ofFill();
   for ( int pixelIndex = 0; pixelIndex < numPixels && i < floats.size(); pixelIndex++ ) {
 

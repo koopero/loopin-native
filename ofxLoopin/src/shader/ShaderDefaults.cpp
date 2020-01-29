@@ -46,15 +46,15 @@ void main()\n\
 
 
 const string ofxLoopin::shader::ShaderDefaults::GL_FRAG = "\
-  #version 150 \n\
-  uniform sampler2D srcSampler; \n\
-  in vec2 srcCoord; \n\
-  out vec4 outputColour; \n\
-  void main() \n\
-  { \n\
-    vec4 c = texture(srcSampler, srcCoord); \n\
-    outputColour = vec4( c.r, c.g, c.b, c.a ); \n\
-    // outputColour.r = srcCoord.x; \n\
-    // outputColour.g = srcCoord.y; \n\
-  } \n\
+#version 150 \n\
+uniform sampler2D srcSampler; \n\
+in vec2 srcCoord; \n\
+out vec4 outputColour; \n\
+void main() \n\
+{ \n\
+  vec4 c = texture(srcSampler, srcCoord); \n\
+  outputColour = vec4( c.r, c.g, c.b, c.a ); \n\
+  // outputColour.r = srcCoord.x; \n\
+  // outputColour.g = srcCoord.y; \n\
+} \n\
 ";
