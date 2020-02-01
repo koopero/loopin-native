@@ -40,7 +40,7 @@ public:
 
     if ( _clearDepth ) {
       #ifndef TARGET_OPENGLES
-        glClearDepth( 0 );
+        glClearDepth( 1 );
       #endif
     }
   };
