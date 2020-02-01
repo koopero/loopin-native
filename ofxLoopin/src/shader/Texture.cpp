@@ -66,6 +66,11 @@ ofTexture * ofxLoopin::shader::Texture::getTexture() {
   texture->setTextureWrap( wrapH.getEnumValue(), wrapV.getEnumValue() );
   texture->setTextureMinMagFilter( minFilter.getEnumValue(), magFilter.getEnumValue() );
 
+  if ( _shader ) {
+    _shader->shader.setUniform1i( key + "Rows", bufferP->rows );
+    _shader->shader.setUniform1i( key + "Cols", bufferP->cols );
+  }
+  
   return texture;
 }
 
@@ -102,8 +107,7 @@ void ofxLoopin::shader::Texture::renderTexture( ofxLoopin::shader::Shader * shad
 //   if ( !bufferP )
 //     return;
 
-//   shader->shader.setUniform1i( key + "Rows", bufferP->rows );
-//   shader->shader.setUniform1i( key + "Cols", bufferP->cols );
+
 
 //   ofTexture * texture = getTexture();
 //   bindTexture( shader, texture );

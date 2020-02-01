@@ -85,6 +85,9 @@ void ofxLoopin::render::Layer::renderUniforms() {
 
 void ofxLoopin::render::Layer::renderStyle() {
   float pointSize = ofxLoopin::render::Layer::pointSize;
+
+  // cerr << "Layer::renderStyle:: " << path << " " << pointSize << endl;
+
   if ( pointSize > 0.0 ) {
     ofEnablePointSprites();
     glPointSize( pointSize );
