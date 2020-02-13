@@ -164,8 +164,11 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buf
   }
 
   bool outputIsFresh = true;
+  bool enabled = output.isEnabledOnce( outputIsFresh );
 
-  if ( !output.isEnabledOnce( outputIsFresh ) )
+  // std::cerr << "Render::maybeOutputBuffer " << path << " " << enabled << std::endl;
+
+  if ( !enabled )
     return;
     
   ofFbo &fbo = buffer->getFbo();

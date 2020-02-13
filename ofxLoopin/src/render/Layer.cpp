@@ -4,6 +4,7 @@
 
 void ofxLoopin::render::Layer::addSubControls() {
   _needAdvance = true;
+  _needClock = true;
   ofxLoopin::render::Blit::addSubControls();
   addSubControl( "mesh", &mesh );
   addSubControl( "camera", &camera );
