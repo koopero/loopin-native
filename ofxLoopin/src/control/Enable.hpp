@@ -16,6 +16,7 @@ public:
   Enable() {
     enumAddOption("yes", ENABLE_YES );
     enumAddOption("true", ENABLE_YES );
+    enumAddOption("always", ENABLE_YES );
     enumAddOption("no", ENABLE_NO );
     enumAddOption("false", ENABLE_NO );
     enumAddOption("auto", ENABLE_AUTO );
