@@ -1,5 +1,5 @@
 #pragma once
-#include "../control/GLEnum.hpp"
+#include "../control/Enum.hpp"
 
 /** loopin/type/textureWrap:
   type: options
@@ -10,7 +10,7 @@
 */
 
 namespace ofxLoopin { namespace options {
-class Wrap : public ofxLoopin::control::GLEnum {
+class Wrap : public ofxLoopin::control::Enum<GLenum,GL_REPEAT> {
 protected: void enumAddOptions() {
   EnumGLIntAddOption(GL_REPEAT);
   enumAddOption("repeat", GL_REPEAT);
