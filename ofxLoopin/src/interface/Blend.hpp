@@ -1,22 +1,24 @@
 #pragma once
 
-#include "../ofxLoopinControl.h"
-#include "../type/Colour.hpp"
+#include "../control/Control.hpp"
+#include "../control/Colour.hpp"
 #include "../options/BlendEquation.hpp"
 #include "../options/BlendFunc.hpp"
 
+#include "ofMain.h"
+
 
 namespace ofxLoopin { namespace interface {
-class Blend : public ofxLoopinControl {
+class Blend : virtual public ofxLoopin::control::Control {
 public:
-  type::Colour colour;
+  control::Colour colour;
   options::BlendEquation equation;
   options::BlendFunc srcRGB;
   options::BlendFunc dstRGB;
   options::BlendFunc srcAlpha;
   options::BlendFunc dstAlpha;
 
-  void addSubControls() {
+  void addSubControls() override {
     addSubControl("colour", &colour );
     addSubControl("equation", &equation );
     addSubControl("srcRGB", &srcRGB );
@@ -26,11 +28,16 @@ public:
   };
 
   void apply() {
+
     if ( (GLenum) equation == GL_NONE ) {
+      // std::cerr << "blendApply-none" << std::endl;
+      ofDisableBlendMode();
       glDisable( GL_BLEND );
     } else {
       glEnable( GL_BLEND );
       glBlendEquation( equation );
+      // std::cerr << "blendApply " << equation << std::endl;
+
       glBlendFuncSeparate( srcRGB, dstRGB, srcAlpha, dstAlpha );
       glBlendColor( colour.getAxis(0), colour.getAxis(1), colour.getAxis(2), colour.getAxis(3) );
       // std::cerr << "apply colour " << colour.getAxis(0) << "," << colour.getAxis(1) << "," << colour.getAxis(2) << "," << colour.getAxis(3) << std::endl;
@@ -51,6 +58,7 @@ protected:
   };
 
   void patchPreset( string str ) {
+
     std::string presetKey = str; 
     std::transform(presetKey.begin(), presetKey.end(), presetKey.begin(), ::tolower);
 

@@ -1,13 +1,13 @@
 #include "ofxLoopinApp.h"
 
-ofxLoopinShader ofxLoopinApp::shaderDefault = ofxLoopinShader("shaderDefault") ;
+ofxLoopin::shader::Shader ofxLoopinApp::shaderDefault = ofxLoopin::shader::Shader("shaderDefault") ;
 
 
 ofxLoopinApp::ofxLoopinApp () {
 
 }
 
-void ofxLoopinApp::dispatch ( ofxLoopinEvent & event ) {
+void ofxLoopinApp::dispatch ( ofxLoopin::control::Event & event ) {
   stdio.dispatch( event );
 }
 
@@ -22,8 +22,8 @@ ofxLoopinApp::ofxLoopinApp ( int argc, char* argv[] ) {
 }
 
 void ofxLoopinApp::startFromArgs( int argc, char* argv[] ) {
-  ofxLoopinFile::addPath( getcwd_string() );
-  ofxLoopinFile::addPath( ofToDataPath("ofxLoopin/", true ) );
+  ofxLoopin::base::File::addPath( getcwd_string() );
+  ofxLoopin::base::File::addPath( ofToDataPath("ofxLoopin/", true ) );
 }
 
 
@@ -46,7 +46,7 @@ void ofxLoopinApp::setup () {
 }
 
 void ofxLoopinApp::update() {
-  ofxLoopinControl::update();
+  ofxLoopin::control::Control::update();
 }
 
 void ofxLoopinApp::updateLocal() {
@@ -56,8 +56,7 @@ void ofxLoopinApp::updateLocal() {
   clock.advance();
   frame = clock.frame;
 
-  osd.setFrame( frame );
-
+  window.osd.setFrame( frame );
   window.update();
 
   render();
@@ -66,17 +65,7 @@ void ofxLoopinApp::updateLocal() {
 
 
 void ofxLoopinApp::draw() {
-  ofClear( 12,0,16,255);
-
-  shaderDefault.begin();
-
-  show.draw();
-
-  osd.show = show.getBufferDescription();
-  osd.draw();
-
-  shaderDefault.end();
-
+  window.renderWindow();
 
   exitAfterFrames --;
   if ( !exitAfterFrames ) {
@@ -86,7 +75,7 @@ void ofxLoopinApp::draw() {
 
 
 void ofxLoopinApp::render() {
-  ofxLoopinEvent frameEvent = frame.asEvent();
+  ofxLoopin::control::Event frameEvent = frame.asEvent();
   dispatch( frameEvent );
 
   for( auto it = renderLists.begin(); it != renderLists.end(); it ++ ) {

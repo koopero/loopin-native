@@ -3,12 +3,12 @@
 #include "ofImage.h"
 #include "ofTexture.h"
 
-#include "ofxLoopinControl.h"
-#include "ofxLoopinControlBool.h"
-// #include "ofxLoopinLoader.h"
-#include "ofxLoopinRender.h"
-#include "ofxLoopinMap.h"
-#include "../type/Box.hpp"
+#include "../control/Control.hpp"
+#include "../control/Bool.hpp"
+#include "../control/Value.hpp"
+#include "../control/Map.hpp"
+#include "../control/Box.hpp"
+#include "../render/Render.hpp"
 
 /** loopin/type/image:
   trigger: true
@@ -19,18 +19,19 @@
         - image/png
 */
 
-class ofxLoopinImage : public ofxLoopinRender {
+namespace ofxLoopin { namespace image {
+class Image : public ofxLoopin::render::Render {
 public:
-  ofxLoopinImage() {
+  Image() {
     _createBuffer = false;
   }
   string src;
 
-  ofxLoopin::type::Box box;
-  ofxLoopin::type::Box crop;
-  ofxLoopinControlBool replace;
+  ofxLoopin::control::Box box;
+  ofxLoopin::control::Box crop;
+  ofxLoopin::control::Bool replace;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
+  void renderBuffer( ofxLoopin::base::Buffer * buffer );
   void load( string filePath );
 
 protected:
@@ -46,7 +47,7 @@ protected:
     addSubControl("crop", &crop );
     addSubControl("replace", &replace );
 
-    addSubControl("src", new ofxLoopinControlValue( &src ) );
+    addSubControl("src", new ofxLoopin::control::Value( &src ) );
   };
 
 private:
@@ -56,3 +57,4 @@ private:
   string _loaded;
 
 };
+}};

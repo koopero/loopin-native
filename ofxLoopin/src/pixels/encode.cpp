@@ -1,38 +1,38 @@
-#include "./main.hpp"
+#include "./Data.hpp"
 #include "lib/base64.h"
 
-void ofxLoopin::pixels::Render::encode() {
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
+void ofxLoopin::pixels::Data::encode() {
+  switch( encoding.getEnumValue() ) {
+    case ENCODING_BASE64:
       encodeBinary();
       data = base64_encode( (const unsigned char *) data.c_str(), data.size() );
       return;
     break;
 
-    case FORMAT_HEX:
+    case ENCODING_HEX:
       return encodeHex( 2 );
     break;
 
-    case FORMAT_HEX2:
+    case ENCODING_HEX2:
       return encodeHex( 1 );
     break;
 
-    case FORMAT_FLOAT:
+    case ENCODING_FLOAT:
       return encodeNumeric( 1 );
     break;
 
-    case FORMAT_PERCENT:
+    case ENCODING_PERCENT:
       return encodeNumeric( 100 );
     break;
 
-    case FORMAT_DECIMAL:
+    case ENCODING_DECIMAL:
       return encodeNumeric( 255 );
     break;
   }
 
 }
 
-void ofxLoopin::pixels::Render::encodeBinary() {
+void ofxLoopin::pixels::Data::encodeBinary() {
   data.resize( floats.size() );
 
   for ( int i = 0; i < floats.size(); i ++ ) {
@@ -44,7 +44,8 @@ void ofxLoopin::pixels::Render::encodeBinary() {
 }
 
 
-void ofxLoopin::pixels::Render::encodeNumeric( float divider ) {
+void ofxLoopin::pixels::Data::encodeNumeric( float divider ) {
+  // std::cerr << "encodeNumeric " << divider << std::endl;
   int numChannels = channels.size();
   int channel = 0;
   stringstream result;
@@ -60,7 +61,7 @@ void ofxLoopin::pixels::Render::encodeNumeric( float divider ) {
   data = result.str();
 }
 
-void ofxLoopin::pixels::Render::encodeHex( int digits ) {
+void ofxLoopin::pixels::Data::encodeHex( int digits ) {
   char charset[] = "0123456789abcdef";
   data.resize( floats.size() * digits );
 

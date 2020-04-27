@@ -1,57 +1,38 @@
 #pragma once
 
-#include "ofxLoopinBuffer.h"
-#include "ofxLoopinClock.h"
-#include "ofxLoopinFile.h"
-#include "ofxLoopinRender.h"
+#include "../base/Buffer.hpp"
+#include "../clock/Clock.hpp"
+#include "../control/Filename.hpp"
 
+#include "../base/File.hpp"
+#include "../render/Render.hpp"
 
 #include "ofVideoPlayer.h"
-// #include "ofGstVideoPlayer.h"
 
 
-// #include "./Engine.cpp"
-// #include "engine/GstVideoPlayer.h"
-// #include "ofxHAPAVPlayer.h"
-// #include "ofVideoPlayer.h"
-// #include "ofxThreadedVideo.h"
-
+#include "./VideoClock.hpp"
+#include "./Engine.hpp"
 
 namespace ofxLoopin { namespace video {
 
-// typedef Engine<ofxHAPAVPlayer> VideoEngine; 
-// typedef Engine<ofGstVideoPlayer> VideoEngine; 
-typedef ofVideoPlayer VideoEngine; 
+typedef Engine<ofVideoPlayer> VideoEngine; 
 
-// typedef Engine<ofAVFoundationPlayer> VideoEngine; 
-
-
-
-class Video : public ofxLoopinRender {
+class Video : public ofxLoopin::render::Render {
 public:
-  ofxLoopinControlEnum<ofLoopType, OF_LOOP_NONE> loop;
-  ofxLoopinClock clock;
+  control::Filename file;
+  VideoClock clock;
 
 protected:
-  void patchLocal( const ofJson & value );
-  void patchString( string value );
+  void patchLocalAfter( const ofJson & value ) override;
+  void patchString( string value ) override;
 
-  void renderBuffer( ofxLoopinBuffer * buffer );
-  void readLocal( ofJson & value ) {
-    value["position"] = engine->getPosition();
-    value["frame"] = engine->getCurrentFrame();
-  };
+  void renderBuffer( base::Buffer * buffer ) override;
 
-  void addSubControls() {
-    loop.setEnumKey( "none", OF_LOOP_NONE );
-    loop.setEnumKey( "loop", OF_LOOP_NORMAL );
-    loop.setEnumKey( "palindrome", OF_LOOP_PALINDROME );
-
-    addSubControl( "loop", &loop );
-
+  void addSubControls() override {
+    addSubControl( "buffer", &buffer );
+    addSubControl( "file", &file );
     addSubControl( "clock", &clock );
     clock.mode.setKey("time");
-
   }
 
   bool videoSync();
@@ -59,5 +40,10 @@ protected:
 private:
   VideoEngine * engine = new VideoEngine();
   bool wasLoaded = false;
+  bool sendSyncEvent = false;
+  void loadFile();
+  void setEngine() {
+  };
+  void onLoaded();
 };
 }};

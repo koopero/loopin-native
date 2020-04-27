@@ -1,35 +1,35 @@
-#include "./main.hpp"
+#include "./Data.hpp"
 #include "lib/base64.h"
 
 
-bool ofxLoopin::pixels::Render::decodeInput() {
+bool ofxLoopin::pixels::Data::dataToFloats() {
 
   if ( !_isDirty )
     return false;
 
 
-  switch( format.getEnumValue() ) {
-    case FORMAT_BASE64:
+  switch( encoding.getEnumValue() ) {
+    case ENCODING_BASE64:
       decodeBinary( base64_decode( data ) );
     break;
 
-    case FORMAT_HEX:
+    case ENCODING_HEX:
       decodeHex();
     break;
 
-    case FORMAT_HEX2:
+    case ENCODING_HEX2:
       decodeHex( 1 );
     break;
 
-    case FORMAT_FLOAT:
+    case ENCODING_FLOAT:
       decodeNumeric( 1 );
     break;
 
-    case FORMAT_PERCENT:
+    case ENCODING_PERCENT:
       decodeNumeric( 100 );
     break;
 
-    case FORMAT_DECIMAL:
+    case ENCODING_DECIMAL:
       decodeNumeric( 255 );
     break;
   }
@@ -41,7 +41,7 @@ bool ofxLoopin::pixels::Render::decodeInput() {
 
 
 
-void ofxLoopin::pixels::Render::decodeHex( int digits ) {
+void ofxLoopin::pixels::Data::decodeHex( int digits ) {
   floats.resize(0);
 
   int i = 0;
@@ -78,7 +78,7 @@ void ofxLoopin::pixels::Render::decodeHex( int digits ) {
   }
 }
 
-void ofxLoopin::pixels::Render::decodeBinary( const string &data ) {
+void ofxLoopin::pixels::Data::decodeBinary( const string &data ) {
   floats.resize( data.size() );
   for ( int index = 0; index < data.size(); index ++ ) {
     unsigned char valueC = data[ index ];
@@ -87,7 +87,7 @@ void ofxLoopin::pixels::Render::decodeBinary( const string &data ) {
   }
 }
 
-void ofxLoopin::pixels::Render::decodeNumeric( float divider ) {
+void ofxLoopin::pixels::Data::decodeNumeric( float divider ) {
   floats.resize( 0 );
 
   size_t index = 0;
