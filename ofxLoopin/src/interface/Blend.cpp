@@ -1,18 +1,13 @@
 #include "./Blend.hpp"
 
 const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
-  // This should work... 
   { "none", {
-    { "equation", "none" },
-  } },
-  // This isn't as good, but it will work...
-  // { "none", {
-  //   { "equation", "GL_FUNC_ADD" },
-  //   { "srcRGB", "GL_ONE" },
-  //   { "srcAlpha", "GL_ONE" },
-  //   { "dstRGB", "GL_ZERO" },
-  //   { "dstAlpha", "GL_ZERO" },
-  // } },  
+    { "equation", "GL_NONE" },
+    { "srcRGB", "GL_ONE" },
+    { "srcAlpha", "GL_ONE" },
+    { "dstRGB", "GL_ZERO" },
+    { "dstAlpha", "GL_ZERO" },
+  } },  
   { "alpha", {
     { "equation", "GL_FUNC_ADD" },
     { "srcRGB", "GL_SRC_ALPHA" },
@@ -55,13 +50,11 @@ const ofJson ofxLoopin::interface::Blend::BLEND_PRESETS = {
     { "dstRGB", "GL_ONE_MINUS_CONSTANT_COLOR" },
     { "dstAlpha", "GL_ONE_MINUS_CONSTANT_ALPHA" },
   } },
+  { "over", {
+    { "equation", "GL_FUNC_ADD" },
+    { "srcRGB", "GL_ONE" },
+    { "srcAlpha", "GL_ONE" },
+    { "dstRGB", "GL_ONE_MINUS_SRC_ALPHA" },
+    { "dstAlpha", "GL_ONE_MINUS_SRC_ALPHA" },
+  } },
 };
-    /** loopin/type/layer/sub/blend
-      options:
-        - none
-        - alpha
-        - add
-        - subtract
-        - multiply
-        - screen
-    */
