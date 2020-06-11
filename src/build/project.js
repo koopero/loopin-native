@@ -3,7 +3,7 @@ module.exports = project
 const _ = require('lodash')
     , Promise = require('bluebird')
     , path = require('path')
-    , fs = Promise.promisifyAll( require('fs-extra'))
+    , fs = require('fs-extra')
 
 
 function project( build ) {
@@ -11,10 +11,11 @@ function project( build ) {
   if ( exists() )
     return Promise.resolve( build )
 
-  return buildGenerator()
-    .then( replaceMain )
-    .then( generate )
-    .then( symlinkData )
+  return require('./devEnv')( build )
+  .then( buildGenerator )
+  .then( replaceMain )   
+  .then( generate )
+  .then( symlinkData )
 
 
   function exists() {
@@ -69,11 +70,18 @@ function project( build ) {
     const appSrcPath = build.resolve( build.project.root, 'src' )
         , files = [ 'main.cpp', 'ofApp.h', 'ofApp.cpp']
 
-    await Promise.all( _.map( files, ( file ) => {
+    await Promise.all( _.map( files, async ( file ) => {
+      build.log( '#replaceMain', file )
+
       const appMain = build.resolve( appSrcPath, file )
       const replacementMain = build.resolve( build.addons.ofxLoopin.dest, 'replace', file )
-      return fs.copyAsync( replacementMain, appMain )
-    } ))
+      build.log( '#replaceMain', file, appMain, replacementMain )
+      await fs.copy( replacementMain, appMain )
+      build.log( '#replaceMain done', file )
+    } ) )
+
+    build.log( '#replaceMain', 'done' )
+
   }
 
   function copyData() {

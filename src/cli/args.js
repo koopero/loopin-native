@@ -25,6 +25,14 @@ parser.addArgument(
   }
 )
 
+parser.addArgument(
+  ['--project'],
+  {
+    help: 'Just create project, then exit.',
+    action: 'storeTrue'
+  }
+)
+
 
 parser.addArgument(
   ['-e', '--env'],
