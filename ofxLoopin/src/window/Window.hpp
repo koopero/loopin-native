@@ -1,8 +1,10 @@
 #pragma once
-#include "ofMain.h"
 
-#define GLFW_INCLUDE_NONE
-#include "GLFW/glfw3.h"
+#if !defined( TARGET_OF_IOS ) & !defined(TARGET_ANDROID) & !defined(TARGET_EMSCRIPTEN) & !defined(TARGET_RASPBERRY_PI)
+#define LOOPIN_MULTI_WINDOW 1 
+#endif
+
+#include "ofMain.h"
 
 #include "../render/Blit.hpp"
 #include "../base/HasInfo.hpp"
@@ -80,11 +82,9 @@ public:
   string title;
 
 
-  void setAppBaseWindow( ofAppBaseWindow * window );
-  // void update() override;
-
-
-  void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) override;
+  virtual void setAppBaseWindow( ofAppBaseWindow * window );
+  
+  virtual void render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer = nullptr ) override;
 
   virtual ofTexture * textureToRender() override {
     return nullptr;
@@ -93,14 +93,6 @@ public:
   void renderWindow();
 
   string getWindowDescription();
-
-  // ofTexture * textureToRender() override {
-  //   return show.textureToRender();
-  // };
-
-  void drawWindow(ofEventArgs & args) {
-    renderWindow();
-  }
 
   virtual ofRectangle getBounds() override {
     ofRectangle bounds = ofRectangle(0,0,1024,768);
@@ -118,24 +110,17 @@ protected:
   void checkMove();
   void dispatchMove();
 
-
-  void createWindow();
-  void showWindow();
-  void hideWindow();
-  void destroyWindow();
-
   void controlsToState();
   void stateToWindow();
 
   void stateToControls();
 
-  void setFullscreen( int index );
+  virtual void setFullscreen( int index );
 
-  ofAppGLFWWindow * _window;
   ofPoint _position;
   WindowState _state;
   WindowState _windowState;
   bool _windowFresh = true;
-
+  ofAppBaseWindow * _window;
 };
 }};
