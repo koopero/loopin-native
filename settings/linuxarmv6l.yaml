@@ -1,1 +1,3 @@
-# Nothing here 
+openframeworks:
+  patches:
+    - ofw-raspi-egl.diff

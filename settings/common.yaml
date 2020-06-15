@@ -18,6 +18,7 @@ openframeworks:
   releaseURL: https://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
   zipPath: download/${settings.openframeworks.zipName}
   root: lib/of_v${settings.openframeworks.version}_${settings.platform}_release
+  patches: {}
 
 
 addons:
