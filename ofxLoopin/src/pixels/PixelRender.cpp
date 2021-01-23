@@ -1,4 +1,4 @@
-#include "./Render.hpp"
+#include "./PixelRender.hpp"
 
 ofxLoopin::shader::Shader ofxLoopin::pixels::Render::shader = ofxLoopin::shader::Shader(
 // name

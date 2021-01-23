@@ -12,6 +12,10 @@
 
 #include <unistd.h>
 
+#if defined(TARGET_WIN32)
+#include <winsock.h>
+#endif
+
 /** loopin/type/osd:
   sub/enabled/type: bool
   sub/text/type: string
