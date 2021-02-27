@@ -17,7 +17,8 @@ void main() \n\
 } \n\
 "
 #else
-"uniform float red; \n\
+"precision highp float; \n\
+uniform float red; \n\
 uniform float green; \n\
 uniform float blue; \n\
 uniform float alpha; \n\
