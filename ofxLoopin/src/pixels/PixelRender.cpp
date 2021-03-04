@@ -61,8 +61,6 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer )
 
   bool inputIsFresh = dataToFloats();
 
-
-
   if ( !input.isEnabledOnce( inputIsFresh ) )
     return;
 
@@ -158,21 +156,22 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer )
 
 
 void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
+  bool outputIsFresh = true;
+
+  if ( !output.isEnabledOnce( outputIsFresh ) )
+    return;
+
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     // std::cerr << "bufferFalout" << std::endl;
     return;
   }
 
-  bool outputIsFresh = true;
-
-  if ( !output.isEnabledOnce( outputIsFresh ) )
-    return;
-    
   ofFbo &fbo = buffer->getFbo();
   fbo.readToPixels( pixels );
   readWidth = pixels.getWidth();
   readHeight = pixels.getHeight();
+
   pixelsToFloats();
   encode();
   dispatchData();
