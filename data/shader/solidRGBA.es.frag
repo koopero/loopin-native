@@ -1,3 +1,4 @@
+precision highp float;
 uniform float red;
 uniform float green;
 uniform float blue;

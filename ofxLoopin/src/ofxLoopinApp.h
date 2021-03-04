@@ -23,7 +23,7 @@
 #include "./shader/Shaders.hpp"
 #include "./misc/Text.hpp"
 #include "./video/Video.hpp"
-#include "./pixels/Render.hpp"
+#include "./pixels/PixelRender.hpp"
 #include "./audio/waveform.hpp"
 #include "./window/MainWindow.hpp"
 #include "./window/Windows.hpp"

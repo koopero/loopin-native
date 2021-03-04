@@ -3,7 +3,7 @@
 #include "../render/Render.hpp"
 #include "../control/Enable.hpp"
 #include "../control/Box.hpp"
-#include "./Control.hpp"
+#include "./PixelControl.hpp"
 
 
 namespace ofxLoopin { namespace pixels {
