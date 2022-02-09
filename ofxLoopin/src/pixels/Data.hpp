@@ -4,6 +4,15 @@
 #include "../control/Enum.hpp"
 
 namespace ofxLoopin { namespace pixels {
+
+// typedef ofFloatPixels ofxLoopinPixelsType;
+// typedef ofFloatColor ofxLoopinColorType;
+
+
+typedef ofPixels ofxLoopinPixelsType;
+typedef ofColor ofxLoopinColorType;
+
+
 class Data {
 public:
   enum Encoding {
@@ -21,12 +30,13 @@ public:
   string channels = "rgb";
   string data;
   vector<float> floats;
-  ofFloatPixels pixels;
+  // ofFloatPixels pixels;
+  ofxLoopinPixelsType pixels;
 
   GLint getGLFormat();
   bool dataToFloats();
   void floatsToPixels();
-  void pixelsToFloats( const ofFloatPixels & pixels );
+  void pixelsToFloats( const ofxLoopinPixelsType & pixels );
   void pixelsToFloats() { pixelsToFloats( pixels ); };
 
   void setFloat( int index, float value );

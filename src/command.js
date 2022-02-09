@@ -23,7 +23,7 @@ function command( cmd, args, opt ) {
 
   return Promise.fromCallback( function ( cb ) {
     const proc = spawn( cmd, args, opt )
-    build.log( cmd, { args: args.join(' '), opt } )
+    build.log( cmd, args.join(' ') )
 
     if ( !build.verbose ) {
       proc.stderr && proc.stderr.on('data', (d) => build.warn( String( d ) ) )

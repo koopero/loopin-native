@@ -18,6 +18,8 @@ function openframeworks( build ) {
     await ensureZip()
     await unpack()
     await patchOF()
+    await patchOFQTC()
+    
 
     if ( !exists() )
       throw new Error('Failed to download and unpack openFrameworks')
@@ -69,7 +71,7 @@ function openframeworks( build ) {
     await Decompress( source, dest, { strip: 1 } )
   }
 
-  function patchOF() {
+  function patchOFQTC() {
     if ( os.platform() != 'linux' )
       return
 
@@ -80,6 +82,13 @@ function openframeworks( build ) {
       build.log('cp', src, dest )
       return fs.copyAsync( src, dest )
     } )
+  }
+
+  async function patchOF() {
+    const patches = build.openframeworks.patches
+    const dir = build.resolve( build.openframeworks.root )
+
+    await require('../patch')( build, { patches, dir } )
   }
 }
 

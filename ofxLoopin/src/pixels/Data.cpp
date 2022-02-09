@@ -27,7 +27,7 @@ GLint ofxLoopin::pixels::Data::getGLFormat() {
   #endif
 }
 
-void ofxLoopin::pixels::Data::pixelsToFloats( const ofFloatPixels & pixels ) {
+void ofxLoopin::pixels::Data::pixelsToFloats( const ofxLoopinPixelsType & pixels ) {
   // readWidth = pixels.getWidth();
   // readHeight = pixels.getHeight();
 
@@ -38,18 +38,23 @@ void ofxLoopin::pixels::Data::pixelsToFloats( const ofFloatPixels & pixels ) {
   floats.resize( dataSize );
 
   int i = 0;
+  #ifndef TARGET_OPENGLES
+  const float div = 1.0;
+  #else
+  const float div = 255.0;
+  #endif
 
   for ( int y = 0; y < pixels.getHeight(); y++ )
   for ( int x = 0; x < pixels.getWidth(); x++ )
   {
-    ofFloatColor pixel = pixels.getColor( x, y );
+    ofxLoopinColorType pixel = pixels.getColor( x, y );
 
     for ( int channelIndex = 0; channelIndex < numChannels; channelIndex ++ ) {
       switch ( channels[channelIndex] ) {
-        case 'r': floats[i++] = pixel.r;  break;
-        case 'g': floats[i++] = pixel.g;  break;
-        case 'b': floats[i++] = pixel.b;  break;
-        case 'a': floats[i++] = pixel.a;  break;
+        case 'r': floats[i++] = float(pixel.r) / div;  break;
+        case 'g': floats[i++] = float(pixel.g) / div;  break;
+        case 'b': floats[i++] = float(pixel.b) / div;  break;
+        case 'a': floats[i++] = float(pixel.a) / div;  break;
         case 'h': floats[i++] = pixel.getHue();  break;
 
         case '1': floats[i++] = 1.0; break;

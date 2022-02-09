@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./Window.hpp"
-#include "GLFW/glfw3.h"
+
 
 
 namespace ofxLoopin { namespace window {
@@ -14,7 +14,6 @@ public:
   ofJson infoGet();
 
 protected:
-  void infoGetMonitors( ofJson & result );
   void infoGetGLVersion( ofJson & result );
 };
 }};

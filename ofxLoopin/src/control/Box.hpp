@@ -28,7 +28,6 @@ public:
   float getWidth() { return getAxis( 2 ); }
   float getHeight() { return getAxis( 3 ); }
 
-
 protected:
   int keyToAxis( const string & key ) {
     if ( key == "x" || key == "0" ) return 0;

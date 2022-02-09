@@ -8,5 +8,4 @@ meta:
 common:
 	ADDON_DEPENDENCIES = ofxJSON
 	ADDON_INCLUDES = src
-	ADDON_DATA = bin/data/passthru.vert.glsl
 	ADDON_SOURCES_EXCLUDE = src/ofxLoopinAudioAnalyzer.cpp

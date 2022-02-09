@@ -133,7 +133,12 @@ void ofxLoopin::blobs::Blobs::renderBlobData( ofxLoopin::base::Buffer * buffer )
   ofTexture tex;
   tex.allocate( data );
   tex.loadData( data );
-  buffer->setSize( 2, count + 1, GL_RGBA32F_ARB );
+  #ifdef TARGET_OPENGLES
+    buffer->setSize( 2, count + 1, GL_RGBA );
+  #else
+    buffer->setSize( 2, count + 1, GL_RGBA32F_ARB );
+  #endif
+
   buffer->begin();
 
   glDisable( GL_CULL_FACE );

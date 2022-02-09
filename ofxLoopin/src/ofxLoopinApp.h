@@ -23,7 +23,7 @@
 #include "./shader/Shaders.hpp"
 #include "./misc/Text.hpp"
 #include "./video/Video.hpp"
-#include "./pixels/Render.hpp"
+#include "./pixels/PixelRender.hpp"
 #include "./audio/waveform.hpp"
 #include "./window/MainWindow.hpp"
 #include "./window/Windows.hpp"
@@ -79,7 +79,11 @@ public:
     type: window
   */
   ofxLoopin::window::MainWindow window;
+
+
+  #ifdef LOOPIN_MULTI_WINDOW
   ofxLoopin::window::Windows windows;
+  #endif
 
   // image/:buffer - Load image files
   /** loopin/root/image
@@ -198,7 +202,7 @@ protected:
 
 
     #ifdef LOOPIN_SYPHON
-    addSubControl( "syphon", &syphon );
+      addSubControl( "syphon", &syphon );
     #endif
 
     addSubControl( "save", &savers );
@@ -207,7 +211,10 @@ protected:
     addSubControl( "show", &(window.show) );
     addSubControl( "osd", &(window.osd) );
     addSubControl( "window", &window );
-    addSubControl( "windows", &windows );
+
+    #ifdef LOOPIN_MULTI_WINDOW
+      addSubControl( "windows", &windows );
+    #endif
 
 
     window.setAppBaseWindow( ofGetWindowPtr() );
@@ -221,7 +228,9 @@ protected:
     renderLists.push_back( &videos );
     renderLists.push_back( &grabbers );
     renderLists.push_back( &renders );
-    renderLists.push_back( &windows );
+    #ifdef LOOPIN_MULTI_WINDOW
+      renderLists.push_back( &windows );
+    #endif
     renderLists.push_back( &blobs );
     renderLists.push_back( &savers );
     renderLists.push_back( &pixels );

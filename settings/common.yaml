@@ -14,10 +14,11 @@ ofxLoopin:
   releaseURL: https://github.com/koopero/loopin-native/releases/download/${version}/${project.zipName}
 
 openframeworks:
-  version: 0.10.1
+  version: 0.11.0
   releaseURL: https://openframeworks.cc/versions/v${openframeworks.version}/${openframeworks.zipName}
   zipPath: download/${settings.openframeworks.zipName}
   root: lib/of_v${settings.openframeworks.version}_${settings.platform}_release
+  patches: {}
 
 
 addons:
@@ -32,9 +33,6 @@ addons:
 
   # ofxOsc:
   #  enable: true
-
-  # ofxJSON:
-  #  git: https://github.com/jeffcrouse/ofxJSON
 
   # ofxGStreamer:
   #   git: https://github.com/koopero/ofxGStreamer

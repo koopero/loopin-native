@@ -1,5 +1,11 @@
 #include "./Window.hpp"
 
+void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
+  _window = window;
+  _windowFresh = true;
+}
+
+
 void ofxLoopin::window::Window::addSubControls() {
   ofxLoopin::render::Blit::addSubControls();
 
@@ -14,91 +20,8 @@ void ofxLoopin::window::Window::patchLocalAfter( const ofJson & value ) {
   controlsToState();
 };
 
-void ofxLoopin::window::Window::createWindow() {
-  if ( _window )
-    destroyWindow(); 
-
-  ofGLFWWindowSettings settings;
-  shared_ptr<ofAppBaseWindow> mainWindow = shared_ptr<ofAppBaseWindow>( ofGetWindowPtr() );
-
-  settings.setGLVersion( root->_glVersionMajor, root->_glVersionMinor );
-
-  if ( box.positionIsSet ) 
-    settings.setPosition( box.getValueVec2() );
-
-  ofRectangle bounds = getBounds();
-  settings.setSize( bounds.width, bounds.height );
-
-  settings.resizable = true;
-  settings.shareContextWith = mainWindow;
-
-  shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
-  _window = dynamic_cast<ofAppGLFWWindow*>( window.get() );
-  ofAddListener(_window->events().draw, this, &Window::drawWindow );
-  _windowFresh = true;
-};
-
-void ofxLoopin::window::Window::showWindow() {
-  GLFWwindow* windowP = _window->getGLFWWindow();
-  glfwShowWindow(windowP);
-};
-
-void ofxLoopin::window::Window::hideWindow() {
-  GLFWwindow* windowP = _window->getGLFWWindow();
-  glfwHideWindow(windowP);
-};
-
-// TODO: Crashes!!
-void ofxLoopin::window::Window::destroyWindow() {
-  if ( _window ) {
-    
-    ofRemoveListener(_window->events().draw, this, &Window::drawWindow );
-    GLFWwindow* windowP = _window->getGLFWWindow();
-
-    glfwSetMouseButtonCallback( windowP, nullptr );
-    glfwSetCursorPosCallback( windowP, nullptr );
-    glfwSetCursorEnterCallback( windowP, nullptr );
-    glfwSetKeyCallback( windowP, nullptr );
-    glfwSetWindowSizeCallback( windowP, nullptr );
-    glfwSetFramebufferSizeCallback( windowP, nullptr);
-    glfwSetWindowCloseCallback( windowP, nullptr );
-    glfwSetScrollCallback( windowP, nullptr );
-#if GLFW_VERSION_MAJOR>3 || GLFW_VERSION_MINOR>=1
-    glfwSetDropCallback( windowP, nullptr );
-#endif
-    //hide the window before we destroy it stops a flicker on OS X on exit.
-    glfwHideWindow(windowP);
-
-    // We must ensure renderer is destroyed *before* glfw destroys the window in glfwDestroyWindow,
-    // as `glfwDestroyWindow` at least on Windows has the effect of unloading OpenGL, making all
-    // calls to OpenGL illegal.
-    // currentRenderer.reset();
-
-    glfwDestroyWindow(windowP);
-    windowP = nullptr;
-    _window->events().disable();
-    // bWindowNeedsShowing = true;
-
-    _window = nullptr;
-  }
-};
-
-
-void ofxLoopin::window::Window::setAppBaseWindow( ofAppBaseWindow * window ) {
-  _window = dynamic_cast<ofAppGLFWWindow *>( window );
-  _windowFresh = true;
-}
-
 void ofxLoopin::window::Window::render( const ofxLoopin::clock::Frame & frame, ofxLoopin::base::Buffer * _buffer ) {
   // cerr << "Window::render" << endl;
-
-  bool enabled = enable.isEnabledOnce( true );
-  if ( !_window && enabled ) {
-    createWindow();
-  } else if ( _window && !enabled ) {
-    hideWindow();
-  }
-
 };
 
 void ofxLoopin::window::Window::renderWindow() {
@@ -151,8 +74,6 @@ void ofxLoopin::window::Window::stateToWindow() {
     _windowState.position = _state.position;
   }
 
-  // cerr << "stateToWindow::size " << path << " " << _state.size << endl;
-
   if ( _state.size != _windowState.size && _state.size.x >= 1 && _state.size.y >= 1 ) {
     _window->setWindowShape( _state.size.x, _state.size.y );
     _windowState.size = _state.size;
@@ -183,33 +104,6 @@ void ofxLoopin::window::Window::stateToWindow() {
   }
 }
 
-void ofxLoopin::window::Window::setFullscreen( int monitorIndex ) {
-  GLFWwindow* window = _window->getGLFWWindow();
-
-
-  if ( !window ) {
-    cerr << "Window fault!" <<endl;
-    return;
-  }
-
-  int monitorCount;
-  const auto monitors = glfwGetMonitors(&monitorCount);
-
-  if ( monitorIndex > monitorCount ) {
-    // TODO Error Event
-    monitorIndex = 0;
-  }
-
-  if ( monitorIndex <= 0 ) {
-    glfwSetWindowMonitor(window, NULL, _state.position.x, _state.position.y, _state.size.x, _state.size.x, 0);
-  } else {
-    auto monitor = monitors[monitorIndex - 1];
-    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    
-    glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
-  }
-
-}
 
 void ofxLoopin::window::Window::stateToControls() {
   box.setXY( _state.position );
@@ -230,6 +124,7 @@ void ofxLoopin::window::Window::checkMove() {
 
   controlsToState();
 }
+
 void ofxLoopin::window::Window::dispatchMove() {
   ofxLoopin::control::Event event = ofxLoopin::control::Event("move");
   event.data["x"] = _state.position.x;
@@ -237,4 +132,9 @@ void ofxLoopin::window::Window::dispatchMove() {
   event.data["w"] = _state.size.x;
   event.data["h"] = _state.size.y;
   dispatch( event );
+}
+
+
+void ofxLoopin::window::Window::setFullscreen( int monitorIndex ) {
+  _window->setFullscreen( monitorIndex > 0 );
 }

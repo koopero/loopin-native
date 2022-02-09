@@ -1,4 +1,4 @@
-#include "./Render.hpp"
+#include "./PixelRender.hpp"
 
 ofxLoopin::shader::Shader ofxLoopin::pixels::Render::shader = ofxLoopin::shader::Shader(
 // name
@@ -17,7 +17,8 @@ void main() \n\
 } \n\
 "
 #else
-"uniform float red; \n\
+"precision highp float; \n\
+uniform float red; \n\
 uniform float green; \n\
 uniform float blue; \n\
 uniform float alpha; \n\
@@ -59,8 +60,6 @@ void ofxLoopin::pixels::Render::renderBuffer( ofxLoopin::base::Buffer * buffer )
   maybeOutputBuffer( buffer );
 
   bool inputIsFresh = dataToFloats();
-
-
 
   if ( !input.isEnabledOnce( inputIsFresh ) )
     return;
@@ -157,6 +156,11 @@ void ofxLoopin::pixels::Render::renderFloats( ofxLoopin::base::Buffer * buffer )
 
 
 void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buffer ) {
+  bool outputIsFresh = true;
+
+  if ( !output.isEnabledOnce( outputIsFresh ) )
+    return;
+
   if ( !buffer || !buffer->isAllocated() ) {
     // TODO: Error
     // std::cerr << "bufferFalout" << std::endl;
@@ -166,15 +170,14 @@ void ofxLoopin::pixels::Render::maybeOutputBuffer( ofxLoopin::base::Buffer * buf
   bool outputIsFresh = true;
   bool enabled = output.isEnabledOnce( outputIsFresh );
 
-  // std::cerr << "Render::maybeOutputBuffer " << path << " " << enabled << std::endl;
-
   if ( !enabled )
     return;
-    
+
   ofFbo &fbo = buffer->getFbo();
   fbo.readToPixels( pixels );
   readWidth = pixels.getWidth();
   readHeight = pixels.getHeight();
+
   pixelsToFloats();
   encode();
   dispatchData();

@@ -1,0 +1,46 @@
+--- libs/openFrameworksCompiled/project/linuxarmv6l/config.linuxarmv6l.default.mk	2020-06-15 06:48:12.693854844 +0100
++++ libs/openFrameworksCompiled/project/linuxarmv6l/config.linuxarmv6l.default.mk	2020-06-15 06:48:12.693854844 +0100
+@@ -47,21 +47,6 @@
+ # If detection fails comment USE_PI_LEGACY = 1 to use the newer system
+ USE_PI_LEGACY = 1
+ 
+-VER_ID = 0
+-
+-#if we have this file lets see if we are Stretch or Newer
+-#then grab the Debian version ( 9 = Stretch, 10 = Buster )
+-ifneq (,$(wildcard $(RPI_ROOT)/etc/os-release))
+-	VER_ID = $(shell grep -oP '(?<=^VERSION_ID=).+' $(RPI_ROOT)/etc/os-release | tr -d '"')
+-endif
+-
+-#check if we are newer than 8 and use the new system
+-ifeq ($(shell expr $(VER_ID) \>= 9), 1)
+-	USE_PI_LEGACY = 0
+-endif
+-
+-$(info VER ID IS $(VER_ID)) 
+-
+ # defines used inside openFrameworks libs.
+ PLATFORM_DEFINES += TARGET_RASPBERRY_PI
+ 
+@@ -71,8 +56,8 @@
+ else
+ 	# comment this for older EGL windowing. Has no effect if USE_PI_LEGACY is enabled
+ 	# GLFW seems to provide a more robust window on newer Raspbian releases
+-	USE_GLFW_WINDOW = 1
+-    $(info using newer build and GLFW window)
++	# USE_GLFW_WINDOW = 1
++  #   $(info using newer build and GLFW window)
+ endif
+ 
+ ifdef USE_GLFW_WINDOW
+@@ -184,9 +169,7 @@
+ 
+ PLATFORM_LDFLAGS += -pthread
+ 
+-ifeq ($(USE_PI_LEGACY), 0)
+-	PLATFORM_LDFLAGS += -latomic
+-endif 
++PLATFORM_LDFLAGS += -latomic
+ 
+ ################################################################################
+ # PLATFORM HEADER SEARCH PATHS

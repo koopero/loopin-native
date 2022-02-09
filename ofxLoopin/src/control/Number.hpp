@@ -63,7 +63,7 @@ protected:
 
   void patchLocal( const ofJson & jsonValue ) {
     if ( jsonValue.is_number() ) {
-      value = jsonValue;
+      value = jsonValue.get<double>();
     }
 
     if ( jsonValue.is_string() ) {

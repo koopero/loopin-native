@@ -1,4 +1,4 @@
-#include "./Control.hpp"
+#include "./PixelControl.hpp"
 
 void ofxLoopin::pixels::Control::patchLocal( const ofJson & value ) {
   box.patch( value );
