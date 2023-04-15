@@ -14,9 +14,8 @@ env:
 make: xcodebuild
 
 addons:
-  ofxSyphon:
+  ofxSyphon: 
     git: https://github.com/astellato/ofxSyphon.git
-    commit: OpenFrameworks-0.10
 
   # Has huge dependensy tree.. 
   # ofxGstRTP:
