@@ -40,7 +40,8 @@ void ofxLoopin::window::WindowGLFW::createWindow() {
   settings.shareContextWith = mainWindow;
 
   shared_ptr<ofAppBaseWindow> window = ofCreateWindow( settings );
-  _windowFW = dynamic_cast<ofAppGLFWWindow*>( window.get() );
+  _window = window.get();
+  _windowFW = dynamic_cast<ofAppGLFWWindow*>( _window );
   ofAddListener( _windowFW->events().draw, this, &WindowGLFW::onDrawWindow );
   _windowFresh = true;
 };

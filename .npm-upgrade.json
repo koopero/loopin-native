@@ -1,0 +1,8 @@
+{
+  "ignore": {
+    "loopin": {
+      "versions": "0.9.3",
+      "reason": ""
+    }
+  }
+}

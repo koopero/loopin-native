@@ -101,8 +101,8 @@ protected:
   void addSubControls() override {
     clock::Clock::addSubControls();
     loop.enumAddOption( "none", OF_LOOP_NONE );
-    loop.enumAddOption( "loop", OF_LOOP_NORMAL );
     loop.enumAddOption( "normal", OF_LOOP_NORMAL );
+    loop.enumAddOption( "loop", OF_LOOP_NORMAL );
     loop.enumAddOption( "palindrome", OF_LOOP_PALINDROME );
     addSubControl( "loop", &loop );
   }

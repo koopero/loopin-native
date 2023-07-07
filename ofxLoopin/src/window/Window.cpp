@@ -69,12 +69,12 @@ void ofxLoopin::window::Window::controlsToState() {
 }
 
 void ofxLoopin::window::Window::stateToWindow() {
-  if ( _state.position != _windowState.position ) {
+  if ( _window && _state.position != _windowState.position ) {
     _window->setWindowPosition( _state.position.x, _state.position.y );
     _windowState.position = _state.position;
   }
 
-  if ( _state.size != _windowState.size && _state.size.x >= 1 && _state.size.y >= 1 ) {
+  if ( _window && _state.size != _windowState.size && _state.size.x >= 1 && _state.size.y >= 1 ) {
     _window->setWindowShape( _state.size.x, _state.size.y );
     _windowState.size = _state.size;
   }
